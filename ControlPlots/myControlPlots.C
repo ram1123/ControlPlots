@@ -52,7 +52,7 @@ SampleInfo_t;
 #include "controlplotvars_Nminus1plot.h"
 #include "controlplotvars_CHS_signal.h"
 #include "controlplotvars_CHS_signal_2lep.h"
-#include "controlplotvars_UpDn.h"
+//#include "controlplotvars_UpDn.h"
 
 
 
@@ -135,7 +135,8 @@ public:
     info_ = sinfo;
     tree_ = 0;
     //cout << "sample = " << name_ << endl;
-    TFile *f = new TFile (sinfo.treefilename, "READ"); if (!f) { cerr << "Couldn't find file " << sinfo.treefilename << endl; return; }
+    //TFile *f = new TFile (sinfo.treefilename, "READ"); if (!f) { cerr << "Couldn't find file " << sinfo.treefilename << endl; return; }
+    TFile *f =  TFile::Open("root://cmsxrootd.fnal.gov/"+sinfo.treefilename, "READ"); if (!f) { cerr << "Couldn't find file " << sinfo.treefilename << endl; return; }
     tree_ =  (TTree *)f->Get("otree"); if (!tree_) { cerr << "Couldn't find tree otree in file " << sinfo.treefilename << endl; return; }
   }
   ~Sample() { if (tree_) delete tree_; }
@@ -352,7 +353,7 @@ void myControlPlots(const char *cuttablefilename,
 	h = s->Draw(pvnosmear, TCut(blinddatacutstring), nullcut); // effwt*puwt==1 for data! -- NO IT DOESN'T NECESSARILY!
       }
       else if (s->name().EqualTo("aQGCX100")){
-	h = s->Draw(pv, the_cut*"(100.0*LHEWeight[992]/LHEWeight[0])", the_cut*"(100.0*LHEWeight[992]/LHEWeight[0])");
+	h = s->Draw(pv, the_cut*"(100.0*LHEWeight[993]/LHEWeight[0])", the_cut*"(100.0*LHEWeight[993]/LHEWeight[0])");
 	if (s->stackit()) {
 	  totevents += h->Integral(1,h->GetNbinsX()+1);
 	} 
@@ -434,9 +435,9 @@ void myControlPlots(const char *cuttablefilename,
 
     // Set up the legend
 
-    //float  legX0=0.65, legX1=0.99, legY0=0.4, legY1=0.88;
+    float  legX0=0.65, legX1=0.99, legY0=0.54, legY1=0.88;
     //float  legX0=0.17, legX1=0.95, legY0=0.7, legY1=0.88;
-     float  legX0=0.52, legX1=0.89, legY0=0.54, legY1=0.88;
+    // float  legX0=0.52, legX1=0.89, legY0=0.54, legY1=0.88;
     // float  legX0=0.18, legX1=0.52, legY0=0.4, legY1=0.88;
     TLegend * Leg = new TLegend( legX0, legY0, legX1, legY1);
     Leg->SetFillColor(0);
@@ -513,6 +514,7 @@ void myControlPlots(const char *cuttablefilename,
       maxval = std::max(maxval,h->GetBinContent(maxbin));
 
       oldsamplename=s->name();
+      h->Write();
     }
 
     cout << "maxval " <<maxval <<endl;
@@ -685,9 +687,11 @@ void myControlPlots(const char *cuttablefilename,
 	      h->Draw("histsame");
 	      //h->Draw("e1same");
 	    }
+  h->Write();
 	}
       }
       oldsamplename=s->name();
+
     }
 
     //cmspre(intLUMIinvpb/1000.0);   
@@ -786,9 +790,10 @@ void myControlPlots(const char *cuttablefilename,
     c1->Update();
     c1->SaveAs(outfile+".pdf"); 
 #endif
+  c1->Write();
   } // var loop
 
-  f.Write();
+  //f.Write();
 
 }                                                                // myControlPlots
 

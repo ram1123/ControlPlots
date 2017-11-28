@@ -135,8 +135,8 @@ public:
     info_ = sinfo;
     tree_ = 0;
     //cout << "sample = " << name_ << endl;
-    TFile *f = new TFile (sinfo.treefilename, "READ"); if (!f) { cerr << "Couldn't find file " << sinfo.treefilename << endl; return; }
-    //TFile *f =  TFile::Open("root://cmsxrootd.fnal.gov/"+sinfo.treefilename, "READ"); if (!f) { cerr << "Couldn't find file " << sinfo.treefilename << endl; return; }
+    //TFile *f = new TFile (sinfo.treefilename, "READ"); if (!f) { cerr << "Couldn't find file " << sinfo.treefilename << endl; return; }
+    TFile *f =  TFile::Open("root://cmsxrootd.fnal.gov/"+sinfo.treefilename, "READ"); if (!f) { cerr << "Couldn't find file " << sinfo.treefilename << endl; return; }
     tree_ =  (TTree *)f->Get("otree"); if (!tree_) { cerr << "Couldn't find tree otree in file " << sinfo.treefilename << endl; return; }
   }
   ~Sample() { if (tree_) delete tree_; }
@@ -164,8 +164,8 @@ public:
 
     if (info_.nMCevents) {
       //cout<<"\n===> Evetns = "<<info_.xsecpblumi<<"\t"<<info_.nMCevents<<"\t"<<info_.MCnegEvent<<"\t"<<info_.colorcode<<endl;
-      histo->Scale((info_.xsecpblumi*info_.otherscale)/(info_.nMCevents - info_.MCnegEvent));
-      cout << ", " <<histo->IntegralAndError(1,histo->GetNbinsX(),tmp) << " " <<tmp<< " " << (histo->Integral(1,histo->GetNbinsX()+1)*info_.xsecpblumi*info_.otherscale)/(info_.nMCevents - info_.MCnegEvent) << " " << " scaled events in window";
+      histo->Scale((info_.xsecpblumi*info_.otherscale)/(info_.nMCevents - 2*info_.MCnegEvent));
+      cout << ", " <<histo->IntegralAndError(1,histo->GetNbinsX(),tmp) << " " <<tmp<< " " << (histo->Integral(1,histo->GetNbinsX()+1)*info_.xsecpblumi*info_.otherscale)/(info_.nMCevents - 2*info_.MCnegEvent) << " " << " scaled events in window";
     }
     cout << endl;
 
@@ -242,7 +242,9 @@ void loadSamples(const char *filename,vector<Sample *>& samples)
 
 void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
 		    const char *samplefilename,
-		    const plotVar_t plotvars[] = commonplotvars  )
+		    const plotVar_t plotvars[] = commonplotvars,
+		    const string OutRootFile = "testrk.root"
+		    )
 {
   ofstream Logfile;
 
@@ -264,7 +266,8 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
   loadSamples(samplefilename,samples);
 
 
-  TFile f("plotvar_histo.root", "RECREATE");
+  //TFile f("plotvar_histo.root", "RECREATE");
+  TFile f(OutRootFile.c_str(), "RECREATE");
 
   //============================================================
   //  VARIABLE LOOP
@@ -321,7 +324,7 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
 	h = s->Draw(pvnosmear, TCut(blinddatacutstring), nullcut); // effwt*puwt==1 for data! -- NO IT DOESN'T NECESSARILY!
       }
       else if (s->name().EqualTo("aQGCX100")){
-	h = s->Draw(pv, the_cut*"(100.0*LHEWeight[992]/LHEWeight[0])", the_cut*"(100.0*LHEWeight[992]/LHEWeight[0])");
+	h = s->Draw(pv, the_cut*"(100.0*LHEWeight[993]/LHEWeight[0])", the_cut*"(100.0*LHEWeight[993]/LHEWeight[0])");
 	if (s->stackit()) {
 	  totevents += h->Integral(1,h->GetNbinsX()+1);
 	} 
@@ -392,9 +395,9 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
 
     // Set up the legend
 
-    //float  legX0=0.65, legX1=0.99, legY0=0.4, legY1=0.88;
+    float  legX0=0.65, legX1=0.99, legY0=0.54, legY1=0.88;
     //float  legX0=0.17, legX1=0.95, legY0=0.7, legY1=0.88;
-     float  legX0=0.52, legX1=0.89, legY0=0.54, legY1=0.88;
+    // float  legX0=0.52, legX1=0.89, legY0=0.54, legY1=0.88;
     // float  legX0=0.18, legX1=0.52, legY0=0.4, legY1=0.88;
     TLegend * Leg = new TLegend( legX0, legY0, legX1, legY1);
     Leg->SetFillColor(0);
@@ -461,6 +464,7 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
       }
 
       oldsamplename=s->name();
+      h->Write();
     }
 
     cout << "maxval " <<maxval <<endl;
@@ -499,7 +503,7 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
 
     //tdrStyle->SetLegendBorderSize(0);
 
-    TCanvas* c1 = new TCanvas(pv.plotvar,pv.plotvar,10,10, 800, 600);
+    TCanvas* c1 = new TCanvas(pv.plotvar,pv.plotvar,10,10, 800, 800);
     TPad *d1, *d2;
     
     c1->SetFillColor      (0);
@@ -569,8 +573,8 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
     }
 
 //    th1totempty->SetMaximum(2.5*maxval);
-    th1totempty->SetMaximum(1.8*maxval);
-    if(pv.slog==1) th1totempty->SetMaximum(1.8*maxval);
+    th1totempty->SetMaximum(1.6*maxval);
+    if(pv.slog==1) th1totempty->SetMaximum(1.6*maxval);
     th1totempty->GetXaxis()->SetTitle(pv.xlabel);
 
     // Draw it all
@@ -627,6 +631,7 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
 	      h->Draw("histsame");
 	      //h->Draw("e1same");
 	    }
+  h->Write();
 	}
       }
       oldsamplename=s->name();
@@ -651,9 +656,10 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
     c1->Update();
     c1->SaveAs(outfile+".pdf"); 
 #endif
+  c1->Write();
   } // var loop
 
-  f.Write();
+  //f.Write();
 
 }                                                                // myControlPlots_SignalBkg_Comparison
 
