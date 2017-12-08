@@ -1,0 +1,39 @@
+#  Name                     Cut string
+#"type=ele(1),muon(0)
+#
+#	MANDATORY CUTS
+#
+"El or Mu"		"((type==1) || (type==0))"
+"1 lepton"		"(l_pt2<0)"
+#
+#	PRE SELECTION
+#
+"Good Muon"		"((l_pt1>30.) && (abs(l_eta1)<2.5))"
+"Good FatJet"		"((ungroomed_PuppiAK8_jet_pt>200)&&(abs(ungroomed_PuppiAK8_jet_eta)<2.4))"
+"VBF jet pts > 30"	"((vbf_maxpt_j1_pt>30) && (vbf_maxpt_j2_pt>30))"
+"VBF Mjj > 500"         "(vbf_maxpt_jj_m>500)"
+#
+#	Final Selection
+#
+"Loose b-tag Veto"	"(nBTagJet_loose==0)"
+"pfMET_Corr>50"		"(pfMET_Corr>50)"
+"Tau2/1"		"((PuppiAK8_jet_tau2tau1<0.55))"
+"m_{J}<65 && m_{J}>105"	"((PuppiAK8_jet_mass_so>40 && PuppiAK8_jet_mass_so<65) || (PuppiAK8_jet_mass_so>105 && PuppiAK8_jet_mass_so<150))"
+"VBF jet deta > 4.0"    "(abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta)>4.0)"
+"VBF Mjj > 800"         "(vbf_maxpt_jj_m>800)"
+"BosonCentrality>1.0"	"(BosonCentrality_type0>1.0)"
+"ZeppenfeldWL<0.3"	"(abs(ZeppenfeldWL_type0/vbf_maxpt_jj_Deta)<0.3)"
+"Zeppenfeldh<x"         "(abs(ZeppenfeldWH/vbf_maxpt_jj_Deta)<0.3)"
+#
+#
+###">=0 Medium b-tag AK4"	"(nBTagJet_medium>0)"
+###"W p_{T}>200"		"(v_pt_type0>200.)"
+#####"HF Exclusion"		"(abs(vbf_maxpt_j1_eta)<3.0)"
+#####"HF Exclusion"		"(abs(vbf_maxpt_j2_eta)<3.0)"
+#"VBF Mjj > 800"         "(vbf_maxpt_jj_m>800)"
+###"Diboson Topology"	"(issignal_PuppiAK8==1)"
+##"PtBalance_type0<0.3"		"(PtBalance_type0<0.3)"
+####"HT>500"			"(ungroomed_PuppiAK8_jet_pt+vbf_maxpt_j1_pt+vbf_maxpt_j2_pt > 500)"
+####"costheta2_type0>0.5"		"(costheta2_type0>0.5)"
+##"deltaphi_METPuppiak8jet>2.5"	"(deltaphi_METPuppiak8jet>2.5)"
+##"mass_lvj_type0>600"		"(mass_lvj_type0>600)"

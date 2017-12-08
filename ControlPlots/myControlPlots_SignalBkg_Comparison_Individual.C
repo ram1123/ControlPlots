@@ -164,7 +164,11 @@ public:
 
     if (info_.nMCevents) {
       //cout<<"\n===> Evetns = "<<info_.xsecpblumi<<"\t"<<info_.nMCevents<<"\t"<<info_.MCnegEvent<<"\t"<<info_.colorcode<<endl;
-      histo->Scale((info_.xsecpblumi*info_.otherscale)/(info_.nMCevents - 2*info_.MCnegEvent));
+      //histo->Scale((info_.xsecpblumi*info_.otherscale)/(info_.nMCevents - 2*info_.MCnegEvent));
+      if (histo->Integral(1,histo->GetNbinsX()+1) != 0)
+      	histo->Scale(1.0/histo->Integral(1,histo->GetNbinsX()+1));  // Normalize to Unity considering the overflow bin.
+      else 
+      	histo->Scale(1.0);  // Normalize to Unity considering the overflow bin.
       cout << ", " <<histo->IntegralAndError(1,histo->GetNbinsX(),tmp) << " " <<tmp<< " " << (histo->Integral(1,histo->GetNbinsX()+1)*info_.xsecpblumi*info_.otherscale)/(info_.nMCevents - 2*info_.MCnegEvent) << " " << " scaled events in window";
     }
     cout << endl;
@@ -240,7 +244,7 @@ void loadSamples(const char *filename,vector<Sample *>& samples)
 
 //======================================================================
 
-void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
+void myControlPlots_SignalBkg_Comparison_Individual(const char *cuttablefilename,
 		    const char *samplefilename,
 		    const plotVar_t plotvars[] = commonplotvars,
 		    const string OutRootFile = "testrk.root"
@@ -323,7 +327,7 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
 	plotVar_t pvnosmear = pv;
 	h = s->Draw(pvnosmear, TCut(blinddatacutstring), nullcut); // effwt*puwt==1 for data! -- NO IT DOESN'T NECESSARILY!
       }
-      else if (s->name().EqualTo("aQGCX100")){
+      else if (s->name().EqualTo("aQGC")){
 	h = s->Draw(pv, the_cut*"(LHEWeight[993]/LHEWeight[0])", the_cut*"(LHEWeight[993]/LHEWeight[0])");
 	if (s->stackit()) {
 	  totevents += h->Integral(1,h->GetNbinsX()+1);
@@ -346,31 +350,43 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
 	  if (s->name().EqualTo("W+jets"))
 	    {
 	      h->SetLineColor(TColor::GetColor(222,90,106));
-	      h->SetFillColor(TColor::GetColor(222,90,106));
+//	      h->SetFillColor(TColor::GetColor(222,90,106));
 	      h->SetLineWidth(0);
 	    }
 	  else if(s->name().EqualTo("top"))
 	    {
 	      h->SetLineColor(TColor::GetColor(155,152,204));
-	      h->SetFillColor(TColor::GetColor(155,152,204));	
+//	      h->SetFillColor(TColor::GetColor(155,152,204));	
+	      h->SetLineWidth(0);
+	    }
+	  else if(s->name().EqualTo("TTbar"))
+	    {
+	      h->SetLineColor(TColor::GetColor(155,152,204));
+//	      h->SetFillColor(TColor::GetColor(155,152,204));	
+	      h->SetLineWidth(0);
+	    }
+	  else if(s->name().EqualTo("SingleTop"))
+	    {
+	      h->SetLineColor(TColor::GetColor(0,84,159));
+//	      h->SetFillColor(TColor::GetColor(0,84,159));	
 	      h->SetLineWidth(0);
 	    }
 	  else if(s->name().EqualTo("Z+jets"))
 	    {
 	      h->SetLineColor(TColor::GetColor(248,206,104));
-	      h->SetFillColor(TColor::GetColor(248,206,104));	
+//	      h->SetFillColor(TColor::GetColor(248,206,104));	
 	      h->SetLineWidth(0);
 	    }
 	  else if(s->name().EqualTo("Diboson"))
 	    {
 	      h->SetLineColor(TColor::GetColor(250,202,255));
-	      h->SetFillColor(TColor::GetColor(250,202,255));	
+//	      h->SetFillColor(TColor::GetColor(250,202,255));	
 	      h->SetLineWidth(0);
 	    }
 	  else
 	    {
 	      h->SetLineColor(s->colorcode());
-	      h->SetFillColor(s->colorcode());
+//	      h->SetFillColor(s->colorcode());
 	      h->SetLineWidth(0);
 	    }
 	}
@@ -457,7 +473,7 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
       
       // Added this if to ignore the maximum range of aQGC distribution
       // Since if we take it then the histogram rescale very bad so that we can't see other histos
-      if (h && s->name()!="aQGCX100") 
+      if (h && s->name()!="aQGC") 
       {
       int maxbin = h->GetMaximumBin();
       maxval = std::max(maxval,h->GetBinContent(maxbin));
@@ -475,10 +491,10 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
 	 rit != v_legentries.rend();
 	 rit++)
       {
-	if(rit->first=="aQGCX100" || rit->first=="WV(EWK)X100")
+	if(rit->first=="aQGC" || rit->first=="WV(EWK)")
 	  Leg->AddEntry(rit->second, rit->first, "L" ); // "F");
 	else
-	  Leg->AddEntry(rit->second, rit->first, "F" ); // "F");
+	  Leg->AddEntry(rit->second, rit->first, "L" ); // "F");
       }
     //cout<<" Debug.... 1" << endl;
     TH1D* th1totClone = ( TH1D*) th1tot->Clone("th1totClone");
@@ -541,8 +557,8 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
 
     gPad->SetLogy(0);
 
-    if (th1tot->GetEntries())
-      Leg->AddEntry(th1tot,  "Stat. Uncertainty",  "f");
+//    if (th1tot->GetEntries())
+//      Leg->AddEntry(th1tot,  "Stat. Uncertainty",  "f");
 
     Leg->SetFillColor(0);
 
@@ -584,11 +600,11 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
 
 
     //hs->SetMaximum(400.0);
-    hs->Draw("samehist");
+    hs->Draw("samehist nostack");
     hs->GetXaxis()->SetTitle(pv.xlabel);
     if (pv.drawleg ==1)  Leg->Draw();  
 
-    th1tot->Draw("e2same");
+    //th1tot->Draw("e2same");
 
     //if(aqgc)
     //  aqgc->Draw("same");
@@ -607,27 +623,29 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
 	if (mit != m_histos.end()) {
 	  TH1 *h = mit->second;
 	  //if (h) h->Draw("histsame");	// To get line for data...
-	  if (h && s->name()=="WV(EWK)X100") 
+	  if (h && s->name()=="WV(EWK)") 
 	    {
 	      h->SetFillStyle(0.);
 	      //aqgc->SetLineStyle(11);
 	      h->SetLineWidth(3.);
-	      h->SetLineColor(kBlue+3);
+	      h->SetLineColor(kRed);
+	      //h->SetLineColor(kBlue+3);
       	      Logfile << "Significance (SM EWK)	= " << (h->Integral(1,h->GetNbinsX()+1)/100.)/sqrt((h->Integral(1,h->GetNbinsX()+1)/100.)+totevents) << endl;
       	      cout << "Significance (SM EWK) = " << (h->Integral(1,h->GetNbinsX()+1)/100.)/sqrt((h->Integral(1,h->GetNbinsX()+1)/100.)+totevents) << endl;
-	      h->Scale(th1tot->Integral(1,th1tot->GetNbinsX()+1)/h->Integral(1,h->GetNbinsX()+1));
+	      //h->Scale(th1tot->Integral(1,th1tot->GetNbinsX()+1)/h->Integral(1,h->GetNbinsX()+1));
 	      h->Draw("histsame");
  
 	    }
-	  if (h && s->name()=="aQGCX100") 
+	  if (h && s->name()=="aQGC") 
 	    {
 	      h->SetFillStyle(0.);
 	      //aqgc->SetLineStyle(11);
 	      h->SetLineWidth(3.);
-	      h->SetLineColor(kRed+3);
+	      h->SetLineColor(kBlack);
+	      //h->SetLineColor(kRed+5);
       	      cout << "Significance (aQGC)	= " << (h->Integral(1,h->GetNbinsX()+1))/sqrt((h->Integral(1,h->GetNbinsX()+1))+totevents) << endl;
       	      Logfile << "Significance (aQGC)	= " << (h->Integral(1,h->GetNbinsX()+1))/sqrt((h->Integral(1,h->GetNbinsX()+1))+totevents) << endl;
-	      h->Scale(th1tot->Integral(1,th1tot->GetNbinsX()+1)/h->Integral(1,h->GetNbinsX()+1));
+	      //h->Scale(th1tot->Integral(1,th1tot->GetNbinsX()+1)/h->Integral(1,h->GetNbinsX()+1));
 	      h->Draw("histsame");
 	      //h->Draw("e1same");
 	    }
@@ -661,13 +679,13 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
 
   //f.Write();
 
-}                                                                // myControlPlots_SignalBkg_Comparison
+}                                                                // myControlPlots_SignalBkg_Comparison_Individual
 
 //================================================================================
 
 void dibresNobtagElplots()
 {
-  myControlPlots_SignalBkg_Comparison("DibosonResolvedElCuts.txt",
+  myControlPlots_SignalBkg_Comparison_Individual("DibosonResolvedElCuts.txt",
 		 "DibosonResolvedElSamples13TeV.txt",
 		 commonplotvars);
 }
@@ -677,19 +695,19 @@ void dibresNobtagElplots()
 
 void Nminus1_plots_met()
 {
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedElCuts13TeV_WjetControlRegion_tight.txt",
+  myControlPlots_SignalBkg_Comparison_Individual("DibosonBoostedElCuts13TeV_WjetControlRegion_tight.txt",
   		 "DibosonBoostedElSamples13TeV.txt",
 		 met
 		 );
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedMuCuts13TeV_WjetControlRegion_tight.txt",
+  myControlPlots_SignalBkg_Comparison_Individual("DibosonBoostedMuCuts13TeV_WjetControlRegion_tight.txt",
   		 "DibosonBoostedMuSamples13TeV.txt",
 		 met
 		 );
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedElCuts13TeV_TTBarControlRegion.txt",
+  myControlPlots_SignalBkg_Comparison_Individual("DibosonBoostedElCuts13TeV_TTBarControlRegion.txt",
   		 "DibosonBoostedElSamples13TeV.txt",
 		 met
 		 );
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedMuCuts13TeV_TTBarControlRegion.txt",
+  myControlPlots_SignalBkg_Comparison_Individual("DibosonBoostedMuCuts13TeV_TTBarControlRegion.txt",
   		 "DibosonBoostedMuSamples13TeV.txt",
 		 met
 		 );
@@ -697,19 +715,19 @@ void Nminus1_plots_met()
 
 void Nminus1_plots_fat_jet()
 {
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedElCuts13TeV_WjetControlRegion_tight.txt",
+  myControlPlots_SignalBkg_Comparison_Individual("DibosonBoostedElCuts13TeV_WjetControlRegion_tight.txt",
   		 "DibosonBoostedElSamples13TeV.txt",
 		 fat_jet
 		 );
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedMuCuts13TeV_WjetControlRegion_tight.txt",
+  myControlPlots_SignalBkg_Comparison_Individual("DibosonBoostedMuCuts13TeV_WjetControlRegion_tight.txt",
   		 "DibosonBoostedMuSamples13TeV.txt",
 		 fat_jet
 		 );
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedElCuts13TeV_TTBarControlRegion.txt",
+  myControlPlots_SignalBkg_Comparison_Individual("DibosonBoostedElCuts13TeV_TTBarControlRegion.txt",
   		 "DibosonBoostedElSamples13TeV.txt",
 		 fat_jet
 		 );
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedMuCuts13TeV_TTBarControlRegion.txt",
+  myControlPlots_SignalBkg_Comparison_Individual("DibosonBoostedMuCuts13TeV_TTBarControlRegion.txt",
   		 "DibosonBoostedMuSamples13TeV.txt",
 		 fat_jet
 		 );
@@ -717,19 +735,19 @@ void Nminus1_plots_fat_jet()
 
 void Nminus1_plots_vbfmjj()
 {
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedElCuts13TeV_WjetControlRegion_tight.txt",
+  myControlPlots_SignalBkg_Comparison_Individual("DibosonBoostedElCuts13TeV_WjetControlRegion_tight.txt",
   		 "DibosonBoostedElSamples13TeV.txt",
 		 vbfmjj
 		 );
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedMuCuts13TeV_WjetControlRegion_tight.txt",
+  myControlPlots_SignalBkg_Comparison_Individual("DibosonBoostedMuCuts13TeV_WjetControlRegion_tight.txt",
   		 "DibosonBoostedMuSamples13TeV.txt",
 		 vbfmjj
 		 );
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedElCuts13TeV_TTBarControlRegion.txt",
+  myControlPlots_SignalBkg_Comparison_Individual("DibosonBoostedElCuts13TeV_TTBarControlRegion.txt",
   		 "DibosonBoostedElSamples13TeV.txt",
 		 vbfmjj
 		 );
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedMuCuts13TeV_TTBarControlRegion.txt",
+  myControlPlots_SignalBkg_Comparison_Individual("DibosonBoostedMuCuts13TeV_TTBarControlRegion.txt",
   		 "DibosonBoostedMuSamples13TeV.txt",
 		 vbfmjj
 		 );
@@ -737,19 +755,19 @@ void Nminus1_plots_vbfmjj()
 
 void Nminus1_plots_vbfdEta()
 {
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedElCuts13TeV_WjetControlRegion_tight.txt",
+  myControlPlots_SignalBkg_Comparison_Individual("DibosonBoostedElCuts13TeV_WjetControlRegion_tight.txt",
   		 "DibosonBoostedElSamples13TeV.txt",
 		 vbfdEta
 		 );
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedMuCuts13TeV_WjetControlRegion_tight.txt",
+  myControlPlots_SignalBkg_Comparison_Individual("DibosonBoostedMuCuts13TeV_WjetControlRegion_tight.txt",
   		 "DibosonBoostedMuSamples13TeV.txt",
 		 vbfdEta
 		 );
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedElCuts13TeV_TTBarControlRegion.txt",
+  myControlPlots_SignalBkg_Comparison_Individual("DibosonBoostedElCuts13TeV_TTBarControlRegion.txt",
   		 "DibosonBoostedElSamples13TeV.txt",
 		 vbfdEta
 		 );
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedMuCuts13TeV_TTBarControlRegion.txt",
+  myControlPlots_SignalBkg_Comparison_Individual("DibosonBoostedMuCuts13TeV_TTBarControlRegion.txt",
   		 "DibosonBoostedMuSamples13TeV.txt",
 		 vbfdEta
 		 );
@@ -757,11 +775,11 @@ void Nminus1_plots_vbfdEta()
 
 void Nminus1_plots_nbtag()
 {
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedElCuts13TeV_TTBarControlRegion.txt",
+  myControlPlots_SignalBkg_Comparison_Individual("DibosonBoostedElCuts13TeV_TTBarControlRegion.txt",
   		 "DibosonBoostedElSamples13TeV.txt",
 		 nbtag
 		 );
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedMuCuts13TeV_TTBarControlRegion.txt",
+  myControlPlots_SignalBkg_Comparison_Individual("DibosonBoostedMuCuts13TeV_TTBarControlRegion.txt",
   		 "DibosonBoostedMuSamples13TeV.txt",
 		 nbtag
 		 );
@@ -769,53 +787,53 @@ void Nminus1_plots_nbtag()
 
 void Wjet_loose()
 {
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedElCuts13TeV_WjetControlRegion_loose.txt",
+  myControlPlots_SignalBkg_Comparison_Individual("DibosonBoostedElCuts13TeV_WjetControlRegion_loose.txt",
   		 "DibosonBoostedElSamples13TeV.txt"
 		 );
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedMuCuts13TeV_WjetControlRegion_loose.txt",
+  myControlPlots_SignalBkg_Comparison_Individual("DibosonBoostedMuCuts13TeV_WjetControlRegion_loose.txt",
   		 "DibosonBoostedMuSamples13TeV.txt"
 		 );
 }
 
 void Wjet_tight()
 {
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedElCuts13TeV_WjetControlRegion_tight.txt",
+  myControlPlots_SignalBkg_Comparison_Individual("DibosonBoostedElCuts13TeV_WjetControlRegion_tight.txt",
   		 "DibosonBoostedElSamples13TeV.txt"
 		 );
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedMuCuts13TeV_WjetControlRegion_tight.txt",
+  myControlPlots_SignalBkg_Comparison_Individual("DibosonBoostedMuCuts13TeV_WjetControlRegion_tight.txt",
   		 "DibosonBoostedMuSamples13TeV.txt"
 		 );
 }
 
 void TopControl()
 {
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedElCuts13TeV_TTBarControlRegion.txt",
+  myControlPlots_SignalBkg_Comparison_Individual("DibosonBoostedElCuts13TeV_TTBarControlRegion.txt",
   		 "DibosonBoostedElSamples13TeV.txt"
 		 );
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedMuCuts13TeV_TTBarControlRegion.txt",
+  myControlPlots_SignalBkg_Comparison_Individual("DibosonBoostedMuCuts13TeV_TTBarControlRegion.txt",
   		 "DibosonBoostedMuSamples13TeV.txt"
 		 );
 }
 
 void Wjet_tighter()
 {
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedElCuts13TeV_WjetControlRegion_Tighter.txt",
+  myControlPlots_SignalBkg_Comparison_Individual("DibosonBoostedElCuts13TeV_WjetControlRegion_Tighter.txt",
   		 "DibosonBoostedElSamples13TeV.txt",
 		 commonplotvars_chs );
-  //myControlPlots_SignalBkg_Comparison("DibosonBoostedMuCuts13TeV_WjetControlRegion_Tighter.txt",
+  //myControlPlots_SignalBkg_Comparison_Individual("DibosonBoostedMuCuts13TeV_WjetControlRegion_Tighter.txt",
   //		 "DibosonBoostedMuSamples13TeV.txt",
   //		 commonplotvars_chs );
 }
 void dibresabtagElplots()
 {
-  myControlPlots_SignalBkg_Comparison("DibosonResolvedElCuts.txt",
+  myControlPlots_SignalBkg_Comparison_Individual("DibosonResolvedElCuts.txt",
 		 "DibosonResolvedElSamples13TeV.txt",
 		 commonplotvars);
 }
 
 void dibresabtagMuplots()
 {
-  myControlPlots_SignalBkg_Comparison("DibosonResolvedMuCuts.txt",
+  myControlPlots_SignalBkg_Comparison_Individual("DibosonResolvedMuCuts.txt",
 		 "DibosonResolvedMuSamples13TeV.txt");
 }
 
@@ -824,7 +842,7 @@ void dibresabtagMuplots()
 void dibbooElplots(const char *cuttablefilename = "DibosonBoostedElCuts13TeV.txt",
 		   const char *samplefilename = "DibosonBoostedElSamples13TeV.txt")
 {
-  myControlPlots_SignalBkg_Comparison(cuttablefilename,
+  myControlPlots_SignalBkg_Comparison_Individual(cuttablefilename,
 		 samplefilename,
 		 boostedplotvars);
 }
@@ -832,7 +850,7 @@ void dibbooElplots(const char *cuttablefilename = "DibosonBoostedElCuts13TeV.txt
 void dibbooMuplots(const char *cuttablefilename = "DibosonBoostedMuCuts13TeV.txt",
 		   const char *samplefilename = "DibosonBoostedMuSamples13TeV.txt")
 {
-  myControlPlots_SignalBkg_Comparison(cuttablefilename,
+  myControlPlots_SignalBkg_Comparison_Individual(cuttablefilename,
 		 samplefilename,
 		 boostedplotvars);
 }
@@ -842,7 +860,7 @@ void dibbooMuplots(const char *cuttablefilename = "DibosonBoostedMuCuts13TeV.txt
 void dibbooElVBFplots(const char *cuttablefilename = "DibosonBoostedElCuts13TeV.txt",
 		      const char *samplefilename = "DibosonBoostedElSamples13TeV.txt")
 {
-  myControlPlots_SignalBkg_Comparison(cuttablefilename,
+  myControlPlots_SignalBkg_Comparison_Individual(cuttablefilename,
 		 samplefilename,
 		 vbfplotvars);
 }
@@ -850,7 +868,7 @@ void dibbooElVBFplots(const char *cuttablefilename = "DibosonBoostedElCuts13TeV.
 void dibbooMuVBFplots(const char *cuttablefilename = "DibosonBoostedMuCuts13TeV.txt",
 		      const char *samplefilename = "DibosonBoostedMuSamples13TeV.txt")
 {
-  myControlPlots_SignalBkg_Comparison(cuttablefilename,
+  myControlPlots_SignalBkg_Comparison_Individual(cuttablefilename,
 		 samplefilename,
 		 vbfplotvars);
 }
@@ -860,7 +878,7 @@ void dibbooMuVBFplots(const char *cuttablefilename = "DibosonBoostedMuCuts13TeV.
 void dibbooElMVAplots(const char *cuttablefilename = "DibosonBoostedElCuts13TeV.txt",
 		      const char *samplefilename = "DibosonBoostedElSamples13TeV.txt")
 {
-  myControlPlots_SignalBkg_Comparison(cuttablefilename,
+  myControlPlots_SignalBkg_Comparison_Individual(cuttablefilename,
 		 samplefilename,
 		 mvaplotvars);
 }
@@ -868,7 +886,7 @@ void dibbooElMVAplots(const char *cuttablefilename = "DibosonBoostedElCuts13TeV.
 void dibbooMuMVAplots(const char *cuttablefilename = "DibosonBoostedMuCuts13TeV.txt",
 		      const char *samplefilename = "DibosonBoostedMuSamples13TeV.txt")
 {
-  myControlPlots_SignalBkg_Comparison(cuttablefilename,
+  myControlPlots_SignalBkg_Comparison_Individual(cuttablefilename,
 		 samplefilename,
 		 mvaplotvars);
 }

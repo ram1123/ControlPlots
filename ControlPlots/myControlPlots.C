@@ -146,7 +146,7 @@ public:
   bool stackit() const { return (info_.stackit != 0); }
   int colorcode() const { return info_.colorcode; }
   double otherscale() const { return info_.otherscale; }
-  TH1 *Draw(const plotVar_t& pv, const TCut& cut, const TCut& cutSQ ) {
+  TH1F *Draw(const plotVar_t& pv, const TCut& cut, const TCut& cutSQ ) {
     if (!tree_) {
       cerr << "No tree to draw from." << endl;
       return 0;
@@ -154,7 +154,7 @@ public:
     double tmp = 0;
     cout << "\tDrawing " << pv.plotvar << " for sample = " << info_.samplename << " ... ";
     TString hname = TString("th1")+ pv.outfile + Form("%d",info_.index);
-    TH1 *histo = new TH1D(hname, hname, pv.NBINS, pv.MINRange, pv.MAXRange);
+    TH1F *histo = new TH1F(hname, hname, pv.NBINS, pv.MINRange, pv.MAXRange);
     assert(histo);
     histo->Sumw2();
     cout << tree_->Draw(pv.plotvar+TString(">>")+hname, cut, "goff") << " entries, ";
@@ -165,7 +165,7 @@ public:
 #if 0
     if (strlen((const char *)cutSQ)) {
       hname = TString("th1") + pv.outfile + Form("%d",info_.index) + TString("SQ");
-      TH1 *histoSQ = new TH1D(hname, hname, pv.NBINS, pv.MINRange, pv.MAXRange);
+      TH1F *histoSQ = new TH1F(hname, hname, pv.NBINS, pv.MINRange, pv.MAXRange);
       tree_->Draw(pv.plotvar+TString(">>")+hname, cutSQ, "goff");
       for(int hi=1;hi<=pv.NBINS;hi++) {
 	histo->SetBinError(hi,sqrt(histoSQ->GetBinContent(hi)));
@@ -175,8 +175,8 @@ public:
 #endif
     if (info_.nMCevents) {
       //cout<<"\n===> Evetns = "<<info_.xsecpblumi<<"\t"<<info_.nMCevents<<"\t"<<info_.MCnegEvent<<"\t"<<info_.colorcode<<endl;
-      histo->Scale((info_.xsecpblumi*info_.otherscale)/(info_.nMCevents - info_.MCnegEvent));
-      cout << ", " <<histo->IntegralAndError(1,histo->GetNbinsX(),tmp) << " " <<tmp<< " " << (histo->Integral(1,histo->GetNbinsX()+1)*info_.xsecpblumi*info_.otherscale)/(info_.nMCevents - info_.MCnegEvent) << " " << " scaled events in window";
+      histo->Scale((info_.xsecpblumi*info_.otherscale)/(info_.nMCevents - 2*info_.MCnegEvent));
+      cout << ", " <<histo->IntegralAndError(1,histo->GetNbinsX(),tmp) << " " <<tmp<< " " << (histo->Integral(1,histo->GetNbinsX()+1)*info_.xsecpblumi*info_.otherscale)/(info_.nMCevents - 2*info_.MCnegEvent) << " " << " scaled events in window";
     }
     cout << endl;
 
@@ -254,14 +254,22 @@ void loadSamples(const char *filename,vector<Sample *>& samples)
 void myControlPlots(const char *cuttablefilename,
 		    const char *samplefilename,
 		    const plotVar_t plotvars[] = commonplotvars,
-		    const string OutRootFile = "testrk.root"
+		    const string OutRootFile = "testrk.root",
+		    const int ScaleSignal = 0
 		    )
 //		    const plotVar_t plotvars[] = boostedplotvars )
 {
   //gROOT->ProcessLine(".L tdrstyle.C");
+  if (int(ScaleSignal) != 1 && int(ScaleSignal) != 0)
+  {
+	std::cout << "=========================================\n\n" << endl;
+  	std::cerr << "Error: Scale Signal values should be  1 or 0.\n" << endl;
+	exit(-1);
+  }
+
   ofstream Logfile;
 
-  TH1::SetDefaultSumw2(1);
+  TH1F::SetDefaultSumw2(1);
  
   //TFile *outDC = new TFile("htt_mt_inputs.root","RECREATE");
 
@@ -331,7 +339,7 @@ void myControlPlots(const char *cuttablefilename,
 
     const double BINWIDTH = ((pv.MAXRange-pv.MINRange)/pv.NBINS);
 
-    map<TString, TH1 *> m_histos;
+    map<TString, TH1F *> m_histos;
     map<TString, bool> m_stacked;
 
     double totevents = 0.;
@@ -345,18 +353,34 @@ void myControlPlots(const char *cuttablefilename,
 
       m_stacked[s->name()] = false;
 
-      TH1 *h;
+      TH1F *h;
 
       if (s->name().EqualTo("data")) {
 	plotVar_t pvnosmear = pv;
 	//pvnosmear.plotvar.ReplaceAll("_smeared",""); // no smearing for data!
 	h = s->Draw(pvnosmear, TCut(blinddatacutstring), nullcut); // effwt*puwt==1 for data! -- NO IT DOESN'T NECESSARILY!
       }
-      else if (s->name().EqualTo("aQGCX100")){
-	h = s->Draw(pv, the_cut*"(100.0*LHEWeight[993]/LHEWeight[0])", the_cut*"(100.0*LHEWeight[993]/LHEWeight[0])");
+      //else if (s->name().EqualTo("aQGCX100")){
+      else if (s->name().EqualTo("aQGC")){
+	if (int(ScaleSignal) == 1)
+	{	h = s->Draw(pv, the_cut*"100.0"*"(LHEWeight[993]/LHEWeight[0])", the_cut*"100.0"*"(LHEWeight[993]/LHEWeight[0])");
+		cout<<"====> Scale Signal = " << ScaleSignal << endl;
+	}
+	else
+		h = s->Draw(pv, the_cut*"(LHEWeight[993]/LHEWeight[0])", the_cut*"(LHEWeight[993]/LHEWeight[0])");
 	if (s->stackit()) {
 	  totevents += h->Integral(1,h->GetNbinsX()+1);
 	} 
+      }
+      //else if (s->name().EqualTo("WV(EWK)X100")){
+      else if (s->name().EqualTo("WV(EWK)")){
+	if (int(ScaleSignal) == 1)
+		h = s->Draw(pv, the_cut*"100.0", the_cut*"100.0");
+	else
+		h = s->Draw(pv, the_cut, the_cut);
+	if (s->stackit()) {
+	  totevents += h->Integral(1,h->GetNbinsX()+1);
+	}
       }
       else {
 	h = s->Draw(pv, the_cut, the_cut);
@@ -367,7 +391,7 @@ void myControlPlots(const char *cuttablefilename,
       
       if (!h) continue;
 
-      map<TString, TH1 *>::iterator mit = m_histos.find(s->name());
+      map<TString, TH1F *>::iterator mit = m_histos.find(s->name());
       if (mit == m_histos.end()) {
 	h->SetName(s->name());
 	h->SetTitle(s->name());
@@ -378,10 +402,16 @@ void myControlPlots(const char *cuttablefilename,
 	      h->SetFillColor(TColor::GetColor(222,90,106));
 	      h->SetLineWidth(0);
 	    }
-	  else if(s->name().EqualTo("top"))
+	  else if(s->name().EqualTo("TTbar"))
 	    {
 	      h->SetLineColor(TColor::GetColor(155,152,204));
 	      h->SetFillColor(TColor::GetColor(155,152,204));	
+	      h->SetLineWidth(0);
+	    }
+	  else if(s->name().EqualTo("SingleTop"))
+	    {
+	      h->SetLineColor(TColor::GetColor(0,84,159));
+	      h->SetFillColor(TColor::GetColor(0,84,159));	
 	      h->SetLineWidth(0);
 	    }
 	  else if(s->name().EqualTo("Z+jets"))
@@ -413,8 +443,8 @@ void myControlPlots(const char *cuttablefilename,
     // COUNT EVENTS, RENORM TO DATA, CONSTRUCT THE TSTACK & LEGEND
     //============================================================
 
-    TH1 *th1data = m_histos["data"];
-    //TH1 *aqgc = m_histos["aQGC"];
+    TH1F *th1data = m_histos["data"];
+    //TH1F *aqgc = m_histos["aQGC"];
 
     double ndata=1., renorm=1.;
     if (th1data) {
@@ -431,7 +461,7 @@ void myControlPlots(const char *cuttablefilename,
 
     // Setup the stack and total
     THStack* hs = new THStack("hs","MC contribution");
-    TH1D *th1tot = new TH1D("th1tot", "th1tot", pv.NBINS, pv.MINRange, pv.MAXRange);
+    TH1F *th1tot = new TH1F("th1tot", "th1tot", pv.NBINS, pv.MINRange, pv.MAXRange);
 
     // Set up the legend
 
@@ -455,7 +485,7 @@ void myControlPlots(const char *cuttablefilename,
 
     vector<double> binErrSQ(pv.NBINS,0.);
 
-    vector<pair<TString, TH1 *> > v_legentries;
+    vector<pair<TString, TH1F *> > v_legentries;
 
     TString oldsamplename;
     double maxval = -9e99;
@@ -464,8 +494,8 @@ void myControlPlots(const char *cuttablefilename,
       Sample *s = samples[isamp];
       if (s->name()==oldsamplename) continue;
 
-      map<TString, TH1 *>::iterator mit = m_histos.find(s->name());
-      TH1 *h = mit->second;
+      map<TString, TH1F *>::iterator mit = m_histos.find(s->name());
+      TH1F *h = mit->second;
       //h->SetLineColor(kBlack);
       h->SetLineWidth(    3.);
       //h->SetFillColor(color );
@@ -520,18 +550,23 @@ void myControlPlots(const char *cuttablefilename,
     cout << "maxval " <<maxval <<endl;
 
     // Reverse the order for the legend
-    for (vector<pair<TString, TH1 *> >::reverse_iterator
+    for (vector<pair<TString, TH1F *> >::reverse_iterator
 	   rit = v_legentries.rbegin();
 	 rit != v_legentries.rend();
 	 rit++)
       {
-	//if(rit->first=="aQGC" || rit->first=="WV(EWK)")
-	if(rit->first=="aQGCX100" || rit->first=="WV(EWK)X100")
+	if(rit->first=="aQGC" || rit->first=="WV(EWK)")
+	{
+	if (int(ScaleSignal) == 1)
+	  Leg->AddEntry(rit->second, rit->first+TString("X100"), "L" ); // "F");
+	else
 	  Leg->AddEntry(rit->second, rit->first, "L" ); // "F");
+	//if(rit->first=="aQGCX100" || rit->first=="WV(EWK)X100")
+	}
 	else
 	  Leg->AddEntry(rit->second, rit->first, "F" ); // "F");
       }
-    TH1D* th1totClone = ( TH1D*) th1tot->Clone("th1totClone");
+    TH1F* th1totClone = ( TH1F*) th1tot->Clone("th1totClone");
     th1totClone->SetMarkerStyle(0);
     th1totClone->SetFillStyle(3003);
     th1totClone->SetFillColor(11);
@@ -595,7 +630,7 @@ void myControlPlots(const char *cuttablefilename,
 
     Leg->SetFillColor(0);
 
-    TH1* th1totempty = new TH1D("th1totempty", "th1totempty", pv.ANBINS, pv.AMINRange, pv.AMAXRange);
+    TH1F* th1totempty = new TH1F("th1totempty", "th1totempty", pv.ANBINS, pv.AMINRange, pv.AMAXRange);
     if (th1data) {
       th1data->SetMarkerStyle(20);
       th1data->SetLineColor(kBlack);
@@ -628,8 +663,8 @@ void myControlPlots(const char *cuttablefilename,
     }
 
 //    th1totempty->SetMaximum(2.5*maxval);
-    th1totempty->SetMaximum(1.6*maxval);
-    if(pv.slog==1) th1totempty->SetMaximum(1.6*maxval);
+    th1totempty->SetMaximum(2.5*maxval);
+    if(pv.slog==9) th1totempty->SetMaximum(1.1*maxval);
 
     // Draw it all
 
@@ -637,7 +672,7 @@ void myControlPlots(const char *cuttablefilename,
 
     if (th1data) {
       th1data->SetMinimum(0.1);
-      th1data->SetBinErrorOption(TH1::kPoisson);
+      th1data->SetBinErrorOption(TH1F::kPoisson);
       th1data->Draw("e0same");
     }
 
@@ -656,38 +691,50 @@ void myControlPlots(const char *cuttablefilename,
 
     // draw unstacked histos separately.
     oldsamplename.Clear();
+    TH1F *h1 = new TH1F("h1","",100,0,100);
+    TH1F *h2 = new TH1F("h2","",100,0,100);
     for (size_t isamp=0; isamp<samples.size(); isamp++) {
       Sample *s = samples[isamp]; assert (s);
       if (s->name()==oldsamplename) continue;
       if (!s->stackit()) {
-	map<TString, TH1 *>::iterator mit = m_histos.find(s->name());
+	map<TString, TH1F *>::iterator mit = m_histos.find(s->name());
 	if (mit != m_histos.end()) {
-	  TH1 *h = mit->second;
-	  //if (h) h->Draw("histsame");	// To get line for data...
-	  //if (h && s->name()=="WV(EWK)") 
-	  if (h && s->name()=="WV(EWK)X100") 
+	  TH1F *h = mit->second;
+	  if (h && s->name()=="WV(EWK)") 
+	  //if (h && s->name()=="WV(EWK)X100") 
 	    {
 	      h->SetFillStyle(0.);
 	      //aqgc->SetLineStyle(11);
 	      h->SetLineWidth(3.);
 	      h->SetLineColor(kBlue+3);
-	      cout << "Significance (SM EWK) = " << (h->Integral(1,h->GetNbinsX()+1)/100.0)/sqrt((h->Integral(1,h->GetNbinsX()+1)/100.0)+totevents) << endl;
-	      Logfile << "Significance (SM EWK) = " << (h->Integral(1,h->GetNbinsX()+1)/100.0)/sqrt((h->Integral(1,h->GetNbinsX()+1)/100.0)+totevents) << endl;
+	      if (int(ScaleSignal) == 1){
+	      	cout << "Significance (SM EWK) = " << (h->Integral(1,h->GetNbinsX()+1)/100.0)/sqrt((h->Integral(1,h->GetNbinsX()+1)/100.0)+totevents) << endl;
+	        Logfile << "Significance (SM EWK) = " << (h->Integral(1,h->GetNbinsX()+1)/100.0)/sqrt((h->Integral(1,h->GetNbinsX()+1)/100.0)+totevents) << endl;
+	      }
+	      else{
+	      	cout << "Significance (SM EWK) = " << (h->Integral(1,h->GetNbinsX()+1))/sqrt((h->Integral(1,h->GetNbinsX()+1))+totevents) << endl;
+	      	Logfile << "Significance (SM EWK) = " << (h->Integral(1,h->GetNbinsX()+1))/sqrt((h->Integral(1,h->GetNbinsX()+1))+totevents) << endl;
+	      }
 	      h->Draw("histsame");
+	      h1 = (TH1F*) h->Clone();
  
 	    }
-	  if (h && s->name()=="aQGCX100") 
+	  if (h && s->name()=="aQGC") 
+	  //if (h && s->name()=="aQGCX100") 
 	    {
 	      h->SetFillStyle(0.);
 	      //aqgc->SetLineStyle(11);
 	      h->SetLineWidth(3.);
 	      h->SetLineColor(kRed+3);
-	      cout << "Significance (aQGC)   = " << (h->Integral(1,h->GetNbinsX()+1)/100.0)/sqrt((h->Integral(1,h->GetNbinsX()+1)/100.0)+totevents) << endl;
-	      Logfile << "Significance (aQGC)   = " << (h->Integral(1,h->GetNbinsX()+1)/100.0)/sqrt((h->Integral(1,h->GetNbinsX()+1)/100.0)+totevents) << endl;
+	      cout << "Significance (aQGC)   = " << (h->Integral(1,h->GetNbinsX()+1))/sqrt((h->Integral(1,h->GetNbinsX()+1))+totevents) << endl;
+	      //cout << "Significance (aQGC)   = " << (h->Integral(1,h->GetNbinsX()+1)/100.0)/sqrt((h->Integral(1,h->GetNbinsX()+1)/100.0)+totevents) << endl;
+	      Logfile << "Significance (aQGC)   = " << (h->Integral(1,h->GetNbinsX()+1))/sqrt((h->Integral(1,h->GetNbinsX()+1))+totevents) << endl;
+	      //Logfile << "Significance (aQGC)   = " << (h->Integral(1,h->GetNbinsX()+1)/100.0)/sqrt((h->Integral(1,h->GetNbinsX()+1)/100.0)+totevents) << endl;
 	      h->Draw("histsame");
+	      h2 = (TH1F*) h->Clone();
 	      //h->Draw("e1same");
 	    }
-  h->Write();
+  	h->Write();
 	}
       }
       oldsamplename=s->name();
@@ -698,10 +745,14 @@ void myControlPlots(const char *cuttablefilename,
     CMS_lumi( d1, 4, 10 ); 
     // th1data->Draw("Axissame");
     gPad->RedrawAxis();
+    TH1F * hhratio;
+    TH1F *th1emptyclone;
+    TBox *errbox;
 
     if (th1data) {
       d2->cd();
-      TH1F    * hhratio    = (TH1F*) th1data->Clone("hhratio")  ;
+      //TH1F    * hhratio    = (TH1F*) th1data->Clone("hhratio")  ;
+      hhratio    = (TH1F*) th1data->Clone("hhratio")  ;
       hhratio->Sumw2();
       hhratio->SetStats(0);
 
@@ -736,7 +787,7 @@ void myControlPlots(const char *cuttablefilename,
 	binError = sqrt(binError*binError + mcerror*mcerror);
 	hhratio->SetBinError(i, binError);
       }
-      TH1D *th1emptyclone = new TH1D("th1emptyclone", "th1emptyclone", pv.ANBINS, pv.AMINRange, pv.AMAXRange);
+      th1emptyclone = new TH1F("th1emptyclone", "th1emptyclone", pv.ANBINS, pv.AMINRange, pv.AMAXRange);
       th1emptyclone->GetYaxis()->SetRangeUser(0.6,1.3999);
       th1emptyclone->GetXaxis()->SetTitle(pv.xlabel);
       th1emptyclone->GetXaxis()->SetTitleOffset(0.9);
@@ -751,7 +802,8 @@ void myControlPlots(const char *cuttablefilename,
       th1emptyclone->GetYaxis()->SetLabelSize(0.1);
       th1emptyclone->Draw();
 
-      TBox *errbox = new TBox(pv.AMINRange,0.974,pv.AMAXRange,1.026); // lumi systematic uncertainty
+      //TBox *errbox = new TBox(pv.AMINRange,0.974,pv.AMAXRange,1.026); // lumi systematic uncertainty
+      errbox = new TBox(pv.AMINRange,0.974,pv.AMAXRange,1.026); // lumi systematic uncertainty
       errbox->SetFillColor(kGray);
       errbox->Draw();
 
@@ -782,6 +834,91 @@ void myControlPlots(const char *cuttablefilename,
 
     c1->Print(outfile+".pdf");
     c1->Print(outfile+".png");
+    c1->Print(outfile+".C");
+    c1->Print(outfile+".tex");
+    //-----------------------------------------------------------------
+    //	Save log plot
+    //-----------------------------------------------------------------
+    TCanvas *c2 = new TCanvas("c2","c2",800,800);
+    TPad *d3, *d4;
+    
+    c2->SetFillColor      (0);
+    c2->SetBorderMode     (0);
+    c2->SetBorderSize     (10);
+    // Set margins to reasonable defaults
+    c2->SetLeftMargin     (0.18);
+    c2->SetRightMargin    (0.05);
+    c2->SetTopMargin      (0.08);
+    c2->SetBottomMargin   (0.15);
+    // Setup a frame which makes sense
+    c2->SetFrameFillStyle (0);
+    c2->SetFrameLineStyle (0);
+    c2->SetFrameBorderMode(0);
+    c2->SetFrameBorderSize(10);
+    c2->SetFrameFillStyle (0);
+    c2->SetFrameLineStyle (0);
+    c2->SetFrameBorderMode(0);
+    c2->SetFrameBorderSize(10);
+
+    c2->Divide(1,2);
+    d3 = (TPad*)c2->GetPad(1);
+    d3->SetPad(0.01,0.30,0.95,0.99);
+    //c1->cd();
+    d4 = (TPad*)c2->GetPad(2);
+    d4->SetPad(0.01,0.02,0.95,0.30);
+    d3->cd();
+    gPad->SetBottomMargin(0.0);
+
+    gPad->SetTopMargin(0.1);
+    gPad->SetRightMargin(0.05);
+    gPad->SetLeftMargin(0.14);
+
+    gPad->SetLogy(1);
+
+    th1totempty->Draw();
+
+    if (th1data) {
+      th1data->SetMinimum(0.1);
+      th1data->SetBinErrorOption(TH1F::kPoisson);
+      th1data->Draw("e0same");
+    }
+
+    th1tot->Draw("e2same");
+
+    hs->SetMinimum(0.1);
+    hs->Draw("samehist");
+    if (pv.drawleg ==1)  Leg->Draw();  
+
+    th1tot->Draw("e2same");
+    if (h1->GetEntries()>0)	h1->Draw("histsame");
+    if (h2->GetEntries()>0)	h2->Draw("histsame");
+    if (th1data)
+      th1data->Draw("e1same");
+
+    CMS_lumi( d3, 4, 10 ); 
+    gPad->RedrawAxis();
+    d4->cd();
+    gPad->SetLeftMargin(0.14);
+    gPad->SetTopMargin(0);
+    gPad->SetRightMargin(0.05);
+    gPad->SetFrameBorderSize(0);
+    gPad->SetBottomMargin(0.3);
+    gPad->SetTickx();
+    th1emptyclone->Draw();
+    errbox->Draw();
+
+    hhratio->Draw("esame");
+    TLine *line; line = new TLine(pv.AMINRange,1.0,pv.AMAXRange,1.0);
+    line->SetLineStyle(1);
+    line->SetLineWidth(1);
+    line->SetLineColor(1);
+    line->Draw();
+
+    c2->Print(outfile+"_log.png");
+    //-----------------------------------------------------------------
+    //	END:	Save log plot
+    //-----------------------------------------------------------------
+
     Logfile.close();
 #if 0
     c1->Print(outfile+".C");
