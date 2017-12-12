@@ -1,3 +1,13 @@
+<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+
+- [Set-up instructions](#set-up-instructions)
+- [Control Plot Instructions](#control-plot-instructions)
+	- [Manual Run Code](#manual-run-code)
+	- [Run with scripts](#run-with-scripts)
+		- [For Limits](#for-limits)
+- [Condor Job submission](#condor-job-submission)
+
+<!-- /TOC -->
 # Set-up instructions
 
 	cmsrel CMSSW_9_0_1
@@ -5,46 +15,59 @@
 	git clone git@github.com:osWW-VBS/ControlPlots.git
 	cd ControlPlots
 
-* Prepare "InData" and "OutDir" directories; e.g., 
-	
+* Prepare "InData" and "OutDir" directories; e.g.,
+
 		ln -s <Path_of_InputData> InData_v2
 		mkdir OutDir
 
 * Add all signal, background and data samples in file **DibosonBoostedMuSamples13TeV.txt** (for electrons), **DibosonBoostedElSamples13TeV.txt** (for muons)
 
 ## Control Plot Instructions
- Run the macro **RunMacro.C** to get the control plots
+There exists main three macros.
 
-	root -l -b -q RunMacro.C
-	RunMacro.C
-	myControlPlots.C
-	DibosonBoostedMuCuts13TeV_WjetControlRegion_Tighter_CHS.txt
-	DibosonBoostedElCuts13TeV_WjetControlRegion_Tighter_CHS.txt
-	DibosonBoostedMuCuts13TeV_TTBarControlRegion.txt
-	DibosonBoostedElCuts13TeV_TTBarControlRegion.txt
-	DibosonBoostedMuSamples13TeV_InData_11Oct_OnlyCHS.txt
-	DibosonBoostedElSamples13TeV_InData_11Oct_OnlyCHS.txt
+1. For control plots:`myControlPlots.C`
+2. For signal background comparison
+	1. Add all background together and normalize signal to number of events in background then plot: `myControlPlots_SignalBkg_Comparison.C`
+	2. Normalize all background to unity and compare all using sames: `myControlPlots_SignalBkg_Comparison_Individual.C`
 
-## Signal Background Comparison
+### Manual Run Code
 
-	RunMacro_SigBkgComparison.C
-	myControlPlots_SignalBkg_Comparison.C
-	DibosonBoostedElCuts13TeV_Signal_CHS.txt
-	DibosonBoostedMuCuts13TeV_Signal_CHS.txt
-	controlplotvars_CHS_signal.h
-	DibosonBoostedMuSamples13TeV_InData_11Oct_OnlyCHS.txt
-	DibosonBoostedElSamples13TeV_InData_11Oct_OnlyCHS.txt
+To run any one of them follow the following steps:
 
-## Macros for generating files for Limit Calculation
+	$root -l
+	[0].L myControlPlots.C+
+	[1]myControlPlots("DibosonBoostedElMuCuts13TeV_WjetControlRegion_Tighter_CHS.txt", "DibosonBoostedElMuSamples13TeV_2017-11-26_OnlyCHS_BDT_limit_Trial1.txt", commonplotvars_chs , "WjetControlRegion.root", 1)
+For all macro list of input arguments is as follows:
+1. First argument: name of cut txt files
+2. Second argument: Name of txt file contaning sample information.
+3. function name that contains list of variables to plot, its available in \*.h files
+4. Fourth argument : name of output root files
+5. bool 0 or 1: if 1 then signal is scaled by 100 else not scaled.
+6. Sixth argument (`RECREATE` or `UPDATE`): This will either append output root file or create a new one.
 
-	ScanCutsForLimit.py	# This script to run for simple cut
-	ScanCutsForLimit_2D.py	# Thsi should be run for window like cuts
-	CutScan.yaml		# Cut scan list
-	myControlPlots.C	# Main code
-	controlplotvars_CHS_signal.h	# Observable 
-	DibosonBoostedElSamples13TeV_InData_11Oct_OnlyCHS_limit.txt	# List of all signal and bkg
-	Template_El_Cuts_Limit.txt	# Template file used by script
-	Templet_RunMacro_limit.C	# Template file used by script
+
+### Run with scripts
+
+* There exits several `RunMacro_*.C` scripts that one should use corresponding to the purpose like wjet CR or TTbar CR or signal-background comparison, etc.
+* For Example if we need W+jet control plots. We will run :
+	* ` root -l -b -q RunMacro_Wjet.C`
+	* Before running above command please check few input files. Like:
+	 	* cut txt file
+		* input variable txt file
+		* input data txt file. Here you might need to modify the path.
+		* if working file local files then comment this line ([link](https://github.com/osWW-VBS/PlottingCodes/blob/a0a1590b5620bdffb7f5e36ac589c8049bbf6bb3/ControlPlots/myControlPlots.C#L139)) and uncomment the line just above it.
+
+#### For Limits
+
+* There exits a script `RunMacro_Limits.C`. Just add lines correaponding to each case inside this macro. And it will generate one single file using `UPDATE` option.
+
+
+## Condor Job submission
+
+1. There exits a script `Submit_lpc_CondorJob.py`. Jut one need to choose the available option 0-4 for each case and run it.
+2. Check option here [link](https://github.com/osWW-VBS/PlottingCodes/blob/a0a1590b5620bdffb7f5e36ac589c8049bbf6bb3/ControlPlots/Submit_lpc_CondorJob.py#L17-L19)
+3. Before submitting check the corresponding, txt files if its the updated one.
+4. Also, you can add or modify a new category by appropriatly modifying [this](https://github.com/osWW-VBS/PlottingCodes/blob/a0a1590b5620bdffb7f5e36ac589c8049bbf6bb3/ControlPlots/Submit_lpc_CondorJob.py#L24-L28) block.
 
 ### Color codes
 

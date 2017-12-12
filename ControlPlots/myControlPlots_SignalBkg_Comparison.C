@@ -43,14 +43,14 @@ typedef struct {
 }
 SampleInfo_t;
 
-#include "controlplotvars_boosted.h"
-#include "controlplotvars_common.h"
+//#include "controlplotvars_boosted.h"
+//#include "controlplotvars_common.h"
 #include "controlplotvars_CHS.h"
-#include "controlplotvars_Puppi.h"
-#include "controlplotvars_vbf.h"
-#include "controlplotvars_mva.h"
-#include "controlplotvars_Nminus1plot.h"
-#include "controlplotvars_CHS_signal.h"
+//#include "controlplotvars_Puppi.h"
+//#include "controlplotvars_vbf.h"
+//#include "controlplotvars_mva.h"
+//#include "controlplotvars_Nminus1plot.h"
+//#include "controlplotvars_CHS_signal.h"
 
 
 
@@ -242,7 +242,7 @@ void loadSamples(const char *filename,vector<Sample *>& samples)
 
 void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
 		    const char *samplefilename,
-		    const plotVar_t plotvars[] = commonplotvars,
+		    const plotVar_t plotvars[] = commonplotvars_chs,
 		    const string OutRootFile = "testrk.root",
 		    const int ScaleSignal = 0
 		    )
@@ -657,7 +657,7 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
 	      h->Draw("histsame");
 	      //h->Draw("e1same");
 	    }
-  h->Write();
+  	//h->Write();
 	}
       }
       oldsamplename=s->name();
@@ -686,215 +686,6 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
   } // var loop
 
   //f.Write();
+  f.Close();
 
 }                                                                // myControlPlots_SignalBkg_Comparison
-
-//================================================================================
-
-void dibresNobtagElplots()
-{
-  myControlPlots_SignalBkg_Comparison("DibosonResolvedElCuts.txt",
-		 "DibosonResolvedElSamples13TeV.txt",
-		 commonplotvars);
-}
-
-//================================================================================
-
-
-void Nminus1_plots_met()
-{
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedElCuts13TeV_WjetControlRegion_tight.txt",
-  		 "DibosonBoostedElSamples13TeV.txt",
-		 met
-		 );
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedMuCuts13TeV_WjetControlRegion_tight.txt",
-  		 "DibosonBoostedMuSamples13TeV.txt",
-		 met
-		 );
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedElCuts13TeV_TTBarControlRegion.txt",
-  		 "DibosonBoostedElSamples13TeV.txt",
-		 met
-		 );
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedMuCuts13TeV_TTBarControlRegion.txt",
-  		 "DibosonBoostedMuSamples13TeV.txt",
-		 met
-		 );
-}
-
-void Nminus1_plots_fat_jet()
-{
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedElCuts13TeV_WjetControlRegion_tight.txt",
-  		 "DibosonBoostedElSamples13TeV.txt",
-		 fat_jet
-		 );
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedMuCuts13TeV_WjetControlRegion_tight.txt",
-  		 "DibosonBoostedMuSamples13TeV.txt",
-		 fat_jet
-		 );
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedElCuts13TeV_TTBarControlRegion.txt",
-  		 "DibosonBoostedElSamples13TeV.txt",
-		 fat_jet
-		 );
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedMuCuts13TeV_TTBarControlRegion.txt",
-  		 "DibosonBoostedMuSamples13TeV.txt",
-		 fat_jet
-		 );
-}
-
-void Nminus1_plots_vbfmjj()
-{
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedElCuts13TeV_WjetControlRegion_tight.txt",
-  		 "DibosonBoostedElSamples13TeV.txt",
-		 vbfmjj
-		 );
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedMuCuts13TeV_WjetControlRegion_tight.txt",
-  		 "DibosonBoostedMuSamples13TeV.txt",
-		 vbfmjj
-		 );
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedElCuts13TeV_TTBarControlRegion.txt",
-  		 "DibosonBoostedElSamples13TeV.txt",
-		 vbfmjj
-		 );
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedMuCuts13TeV_TTBarControlRegion.txt",
-  		 "DibosonBoostedMuSamples13TeV.txt",
-		 vbfmjj
-		 );
-}
-
-void Nminus1_plots_vbfdEta()
-{
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedElCuts13TeV_WjetControlRegion_tight.txt",
-  		 "DibosonBoostedElSamples13TeV.txt",
-		 vbfdEta
-		 );
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedMuCuts13TeV_WjetControlRegion_tight.txt",
-  		 "DibosonBoostedMuSamples13TeV.txt",
-		 vbfdEta
-		 );
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedElCuts13TeV_TTBarControlRegion.txt",
-  		 "DibosonBoostedElSamples13TeV.txt",
-		 vbfdEta
-		 );
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedMuCuts13TeV_TTBarControlRegion.txt",
-  		 "DibosonBoostedMuSamples13TeV.txt",
-		 vbfdEta
-		 );
-}
-
-void Nminus1_plots_nbtag()
-{
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedElCuts13TeV_TTBarControlRegion.txt",
-  		 "DibosonBoostedElSamples13TeV.txt",
-		 nbtag
-		 );
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedMuCuts13TeV_TTBarControlRegion.txt",
-  		 "DibosonBoostedMuSamples13TeV.txt",
-		 nbtag
-		 );
-}
-
-void Wjet_loose()
-{
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedElCuts13TeV_WjetControlRegion_loose.txt",
-  		 "DibosonBoostedElSamples13TeV.txt"
-		 );
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedMuCuts13TeV_WjetControlRegion_loose.txt",
-  		 "DibosonBoostedMuSamples13TeV.txt"
-		 );
-}
-
-void Wjet_tight()
-{
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedElCuts13TeV_WjetControlRegion_tight.txt",
-  		 "DibosonBoostedElSamples13TeV.txt"
-		 );
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedMuCuts13TeV_WjetControlRegion_tight.txt",
-  		 "DibosonBoostedMuSamples13TeV.txt"
-		 );
-}
-
-void TopControl()
-{
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedElCuts13TeV_TTBarControlRegion.txt",
-  		 "DibosonBoostedElSamples13TeV.txt"
-		 );
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedMuCuts13TeV_TTBarControlRegion.txt",
-  		 "DibosonBoostedMuSamples13TeV.txt"
-		 );
-}
-
-void Wjet_tighter()
-{
-  myControlPlots_SignalBkg_Comparison("DibosonBoostedElCuts13TeV_WjetControlRegion_Tighter.txt",
-  		 "DibosonBoostedElSamples13TeV.txt",
-		 commonplotvars_chs );
-  //myControlPlots_SignalBkg_Comparison("DibosonBoostedMuCuts13TeV_WjetControlRegion_Tighter.txt",
-  //		 "DibosonBoostedMuSamples13TeV.txt",
-  //		 commonplotvars_chs );
-}
-void dibresabtagElplots()
-{
-  myControlPlots_SignalBkg_Comparison("DibosonResolvedElCuts.txt",
-		 "DibosonResolvedElSamples13TeV.txt",
-		 commonplotvars);
-}
-
-void dibresabtagMuplots()
-{
-  myControlPlots_SignalBkg_Comparison("DibosonResolvedMuCuts.txt",
-		 "DibosonResolvedMuSamples13TeV.txt");
-}
-
-//================================================================================
-
-void dibbooElplots(const char *cuttablefilename = "DibosonBoostedElCuts13TeV.txt",
-		   const char *samplefilename = "DibosonBoostedElSamples13TeV.txt")
-{
-  myControlPlots_SignalBkg_Comparison(cuttablefilename,
-		 samplefilename,
-		 boostedplotvars);
-}
-
-void dibbooMuplots(const char *cuttablefilename = "DibosonBoostedMuCuts13TeV.txt",
-		   const char *samplefilename = "DibosonBoostedMuSamples13TeV.txt")
-{
-  myControlPlots_SignalBkg_Comparison(cuttablefilename,
-		 samplefilename,
-		 boostedplotvars);
-}
-
-//================================================================================
-
-void dibbooElVBFplots(const char *cuttablefilename = "DibosonBoostedElCuts13TeV.txt",
-		      const char *samplefilename = "DibosonBoostedElSamples13TeV.txt")
-{
-  myControlPlots_SignalBkg_Comparison(cuttablefilename,
-		 samplefilename,
-		 vbfplotvars);
-}
-
-void dibbooMuVBFplots(const char *cuttablefilename = "DibosonBoostedMuCuts13TeV.txt",
-		      const char *samplefilename = "DibosonBoostedMuSamples13TeV.txt")
-{
-  myControlPlots_SignalBkg_Comparison(cuttablefilename,
-		 samplefilename,
-		 vbfplotvars);
-}
-
-//================================================================================
-
-void dibbooElMVAplots(const char *cuttablefilename = "DibosonBoostedElCuts13TeV.txt",
-		      const char *samplefilename = "DibosonBoostedElSamples13TeV.txt")
-{
-  myControlPlots_SignalBkg_Comparison(cuttablefilename,
-		 samplefilename,
-		 mvaplotvars);
-}
-
-void dibbooMuMVAplots(const char *cuttablefilename = "DibosonBoostedMuCuts13TeV.txt",
-		      const char *samplefilename = "DibosonBoostedMuSamples13TeV.txt")
-{
-  myControlPlots_SignalBkg_Comparison(cuttablefilename,
-		 samplefilename,
-		 mvaplotvars);
-}

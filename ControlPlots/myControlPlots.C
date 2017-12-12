@@ -43,15 +43,15 @@ typedef struct {
 }
 SampleInfo_t;
 
-#include "controlplotvars_boosted.h"
-#include "controlplotvars_common.h"
+//#include "controlplotvars_boosted.h"
+//#include "controlplotvars_common.h"
 #include "controlplotvars_CHS.h"
-#include "controlplotvars_Puppi.h"
-#include "controlplotvars_vbf.h"
-#include "controlplotvars_mva.h"
-#include "controlplotvars_Nminus1plot.h"
-#include "controlplotvars_CHS_signal.h"
-#include "controlplotvars_CHS_signal_2lep.h"
+//#include "controlplotvars_Puppi.h"
+//#include "controlplotvars_vbf.h"
+//#include "controlplotvars_mva.h"
+//#include "controlplotvars_Nminus1plot.h"
+//#include "controlplotvars_CHS_signal.h"
+//#include "controlplotvars_CHS_signal_2lep.h"
 //#include "controlplotvars_UpDn.h"
 
 
@@ -253,9 +253,10 @@ void loadSamples(const char *filename,vector<Sample *>& samples)
 
 void myControlPlots(const char *cuttablefilename,
 		    const char *samplefilename,
-		    const plotVar_t plotvars[] = commonplotvars,
+		    const plotVar_t plotvars[] = commonplotvars_chs,
 		    const string OutRootFile = "testrk.root",
-		    const int ScaleSignal = 0
+		    const int ScaleSignal = 0,
+		    const string RecreateAppend = "RECREATE"
 		    )
 //		    const plotVar_t plotvars[] = boostedplotvars )
 {
@@ -294,8 +295,23 @@ void myControlPlots(const char *cuttablefilename,
 
   if (sdata->Tree())
     cout << "ndata =" << sdata->Tree()->GetEntries() <<endl;
+  TFile *f;
 
-  TFile f(OutRootFile.c_str(), "RECREATE");
+  if ( strcmp(RecreateAppend.c_str(), "RECREATE") == 0)
+  {
+  	f = new TFile(OutRootFile.c_str(), "RECREATE");
+	cout<<"RECREATE file " << OutRootFile.c_str() <<endl;
+  }
+  else if ( strcmp(RecreateAppend.c_str(), "UPDATE") == 0)
+  {
+  	f = new TFile(OutRootFile.c_str(), "UPDATE");
+	cout<<"UPDATE file " << OutRootFile.c_str() <<endl;
+  }
+  else {
+  	std::cout << "=========================================\n\n" << endl;
+	std::cerr << "Error: Root file option can either be RECREATE or UPDATE...\n" << endl;
+	exit(-1);
+  }
   //TFile f("plotvar_histo.root", "RECREATE");
 
   //============================================================
@@ -734,7 +750,7 @@ void myControlPlots(const char *cuttablefilename,
 	      h2 = (TH1F*) h->Clone();
 	      //h->Draw("e1same");
 	    }
-  	h->Write();
+  	//h->Write();
 	}
       }
       oldsamplename=s->name();
@@ -931,6 +947,7 @@ void myControlPlots(const char *cuttablefilename,
   } // var loop
 
   //f.Write();
+  f->Close();
 
 }                                                                // myControlPlots
 
@@ -964,183 +981,5 @@ void Nminus1_plots_met()
   		 "DibosonBoostedMuSamples13TeV.txt",
 		 met
 		 );
-}
-
-void Nminus1_plots_fat_jet()
-{
-  myControlPlots("DibosonBoostedElCuts13TeV_WjetControlRegion_tight.txt",
-  		 "DibosonBoostedElSamples13TeV.txt",
-		 fat_jet
-		 );
-  myControlPlots("DibosonBoostedMuCuts13TeV_WjetControlRegion_tight.txt",
-  		 "DibosonBoostedMuSamples13TeV.txt",
-		 fat_jet
-		 );
-  myControlPlots("DibosonBoostedElCuts13TeV_TTBarControlRegion.txt",
-  		 "DibosonBoostedElSamples13TeV.txt",
-		 fat_jet
-		 );
-  myControlPlots("DibosonBoostedMuCuts13TeV_TTBarControlRegion.txt",
-  		 "DibosonBoostedMuSamples13TeV.txt",
-		 fat_jet
-		 );
-}
-
-void Nminus1_plots_vbfmjj()
-{
-  myControlPlots("DibosonBoostedElCuts13TeV_WjetControlRegion_tight.txt",
-  		 "DibosonBoostedElSamples13TeV.txt",
-		 vbfmjj
-		 );
-  myControlPlots("DibosonBoostedMuCuts13TeV_WjetControlRegion_tight.txt",
-  		 "DibosonBoostedMuSamples13TeV.txt",
-		 vbfmjj
-		 );
-  myControlPlots("DibosonBoostedElCuts13TeV_TTBarControlRegion.txt",
-  		 "DibosonBoostedElSamples13TeV.txt",
-		 vbfmjj
-		 );
-  myControlPlots("DibosonBoostedMuCuts13TeV_TTBarControlRegion.txt",
-  		 "DibosonBoostedMuSamples13TeV.txt",
-		 vbfmjj
-		 );
-}
-
-void Nminus1_plots_vbfdEta()
-{
-  myControlPlots("DibosonBoostedElCuts13TeV_WjetControlRegion_tight.txt",
-  		 "DibosonBoostedElSamples13TeV.txt",
-		 vbfdEta
-		 );
-  myControlPlots("DibosonBoostedMuCuts13TeV_WjetControlRegion_tight.txt",
-  		 "DibosonBoostedMuSamples13TeV.txt",
-		 vbfdEta
-		 );
-  myControlPlots("DibosonBoostedElCuts13TeV_TTBarControlRegion.txt",
-  		 "DibosonBoostedElSamples13TeV.txt",
-		 vbfdEta
-		 );
-  myControlPlots("DibosonBoostedMuCuts13TeV_TTBarControlRegion.txt",
-  		 "DibosonBoostedMuSamples13TeV.txt",
-		 vbfdEta
-		 );
-}
-
-void Nminus1_plots_nbtag()
-{
-  myControlPlots("DibosonBoostedElCuts13TeV_TTBarControlRegion.txt",
-  		 "DibosonBoostedElSamples13TeV.txt",
-		 nbtag
-		 );
-  myControlPlots("DibosonBoostedMuCuts13TeV_TTBarControlRegion.txt",
-  		 "DibosonBoostedMuSamples13TeV.txt",
-		 nbtag
-		 );
-}
-
-void Wjet_loose()
-{
-  myControlPlots("DibosonBoostedElCuts13TeV_WjetControlRegion_loose.txt",
-  		 "DibosonBoostedElSamples13TeV.txt"
-		 );
-  myControlPlots("DibosonBoostedMuCuts13TeV_WjetControlRegion_loose.txt",
-  		 "DibosonBoostedMuSamples13TeV.txt"
-		 );
-}
-
-void Wjet_tight()
-{
-  myControlPlots("DibosonBoostedElCuts13TeV_WjetControlRegion_tight.txt",
-  		 "DibosonBoostedElSamples13TeV.txt"
-		 );
-  myControlPlots("DibosonBoostedMuCuts13TeV_WjetControlRegion_tight.txt",
-  		 "DibosonBoostedMuSamples13TeV.txt"
-		 );
-}
-
-void TopControl()
-{
-  myControlPlots("DibosonBoostedElCuts13TeV_TTBarControlRegion.txt",
-  		 "DibosonBoostedElSamples13TeV.txt"
-		 );
-  myControlPlots("DibosonBoostedMuCuts13TeV_TTBarControlRegion.txt",
-  		 "DibosonBoostedMuSamples13TeV.txt"
-		 );
-}
-
-void Wjet_tighter()
-{
-  myControlPlots("DibosonBoostedElCuts13TeV_WjetControlRegion_Tighter.txt",
-  		 "DibosonBoostedElSamples13TeV.txt",
-		 commonplotvars_chs );
-  //myControlPlots("DibosonBoostedMuCuts13TeV_WjetControlRegion_Tighter.txt",
-  //		 "DibosonBoostedMuSamples13TeV.txt",
-  //		 commonplotvars_chs );
-}
-void dibresabtagElplots()
-{
-  myControlPlots("DibosonResolvedElCuts.txt",
-		 "DibosonResolvedElSamples13TeV.txt",
-		 commonplotvars);
-}
-
-void dibresabtagMuplots()
-{
-  myControlPlots("DibosonResolvedMuCuts.txt",
-		 "DibosonResolvedMuSamples13TeV.txt");
-}
-
-//================================================================================
-
-void dibbooElplots(const char *cuttablefilename = "DibosonBoostedElCuts13TeV.txt",
-		   const char *samplefilename = "DibosonBoostedElSamples13TeV.txt")
-{
-  myControlPlots(cuttablefilename,
-		 samplefilename,
-		 boostedplotvars);
-}
-
-void dibbooMuplots(const char *cuttablefilename = "DibosonBoostedMuCuts13TeV.txt",
-		   const char *samplefilename = "DibosonBoostedMuSamples13TeV.txt")
-{
-  myControlPlots(cuttablefilename,
-		 samplefilename,
-		 boostedplotvars);
-}
-
-//================================================================================
-
-void dibbooElVBFplots(const char *cuttablefilename = "DibosonBoostedElCuts13TeV.txt",
-		      const char *samplefilename = "DibosonBoostedElSamples13TeV.txt")
-{
-  myControlPlots(cuttablefilename,
-		 samplefilename,
-		 vbfplotvars);
-}
-
-void dibbooMuVBFplots(const char *cuttablefilename = "DibosonBoostedMuCuts13TeV.txt",
-		      const char *samplefilename = "DibosonBoostedMuSamples13TeV.txt")
-{
-  myControlPlots(cuttablefilename,
-		 samplefilename,
-		 vbfplotvars);
-}
-
-//================================================================================
-
-void dibbooElMVAplots(const char *cuttablefilename = "DibosonBoostedElCuts13TeV.txt",
-		      const char *samplefilename = "DibosonBoostedElSamples13TeV.txt")
-{
-  myControlPlots(cuttablefilename,
-		 samplefilename,
-		 mvaplotvars);
-}
-
-void dibbooMuMVAplots(const char *cuttablefilename = "DibosonBoostedMuCuts13TeV.txt",
-		      const char *samplefilename = "DibosonBoostedMuSamples13TeV.txt")
-{
-  myControlPlots(cuttablefilename,
-		 samplefilename,
-		 mvaplotvars);
 }
 */

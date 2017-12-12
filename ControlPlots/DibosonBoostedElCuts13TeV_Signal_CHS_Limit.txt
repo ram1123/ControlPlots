@@ -1,5 +1,0 @@
-#  Name                     Cut string
-#"type=ele(1),muon(0)
-"Ele"			"(type==1)"
-"1 lepton"		"(l_pt2<0)"
-"AK8jet_mass_so" 		 "( ( AK8jet_mass_so>45.0 ) && ( AK8jet_mass_so<80.0 ))"

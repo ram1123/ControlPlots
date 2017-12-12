@@ -7,9 +7,9 @@ const plotVar_t commonplotvars_chs[] = {
 //    plotvar	MINRange  MAXRange  NBINS  slog xlabel outfile AMINRange  AMAXRange ANBINS drawleg
 //
 //    LEPTONS
-  { "BDT_response", -1.0,1.0,20,1, "BDT Response",  "BDT_response", -1.0, 1.0, 20, 1},
+//  { "BDT_response", -1.0,1.0,20,1, "BDT Response",  "BDT_response", -1.0, 1.0, 20, 1},
 // { "vbf_maxpt_jj_m", 	500, 2500, 20, 1,		"m_{jj} (VBF) GeV",	"vbf_maxpt_jj_m",  500, 2500, 20, 1},
-// { "mass_lvj_type0", 	0, 2400, 8, 1, "WW invariant mass (GeV)",		"mass_lvj_type0",    0, 2400, 8, 1},
+ { "mass_lvj_type0", 	0, 2400, 8, 1, "WW invariant mass (GeV)",		"mass_lvj_type0",    0, 2400, 8, 1},
 // { "mass_lvj_type0_met_jes_up", 	0, 2400, 8, 1, "WW invariant mass (GeV)",		"mass_lvj_type0",    0, 2400, 8, 1},
 // { "mass_lvj_type0_met_jes_dn", 	0, 2400, 8, 1, "WW invariant mass (GeV)",		"mass_lvj_type0",    0, 2400, 8, 1},
 // { "PuppiAK8jet_e3_sdb1/(PuppiAK8jet_e2_sdb1*PuppiAK8jet_e2_sdb1*PuppiAK8jet_e2_sdb1)", 	0.05,3.5,25, 1, "D2",	"d2_ECF", 0.05,3.5,25, 1},

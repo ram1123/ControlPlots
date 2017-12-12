@@ -1,3 +1,0 @@
-"BDT_response"		"(BDT_response>-0.3)"
-"El or Mu"			"((type==1) || (type==0))"
-"1 lepton"		"(l_pt2<0)"
