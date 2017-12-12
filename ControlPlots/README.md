@@ -46,3 +46,6 @@
 	Template_El_Cuts_Limit.txt	# Template file used by script
 	Templet_RunMacro_limit.C	# Template file used by script
 
+### Color codes
+
+https://github.com/bkargoll/TriggerStudies/blob/7d41d560bd4c554eac4b8405484e5cbfdf858106/plotting/colors.h

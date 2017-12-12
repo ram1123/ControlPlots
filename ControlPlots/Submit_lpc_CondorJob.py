@@ -17,7 +17,7 @@ TestRun = 0
 # 0 => Signal,	1 => TTbar
 # 2 => Wjet,	3 => mjj
 # 4 => Limit
-WhichJob = 3
+WhichJob = 2
 #
 #	Signal/bkg comparison
 #
@@ -176,3 +176,4 @@ os.system("chmod 777 runstep2condor.sh");
 print "===> Set Proxy Using:";
 print "\tvoms-proxy-init --voms cms --valid 168:00";
 print "\"condor_submit runstep2condor.jdl\" to submit";
+os.system("condor_submit runstep2condor.jdl")

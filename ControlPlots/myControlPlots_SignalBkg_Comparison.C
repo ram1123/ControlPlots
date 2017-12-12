@@ -243,9 +243,16 @@ void loadSamples(const char *filename,vector<Sample *>& samples)
 void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
 		    const char *samplefilename,
 		    const plotVar_t plotvars[] = commonplotvars,
-		    const string OutRootFile = "testrk.root"
+		    const string OutRootFile = "testrk.root",
+		    const int ScaleSignal = 0
 		    )
 {
+  if (int(ScaleSignal) != 1 && int(ScaleSignal) != 0)
+  {
+	std::cout << "=========================================\n\n" << endl;
+  	std::cerr << "Error: Scale Signal values should be  1 or 0.\n" << endl;
+	exit(-1);
+  }
   ofstream Logfile;
 
   TH1::SetDefaultSumw2(1);
@@ -323,11 +330,25 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
 	plotVar_t pvnosmear = pv;
 	h = s->Draw(pvnosmear, TCut(blinddatacutstring), nullcut); // effwt*puwt==1 for data! -- NO IT DOESN'T NECESSARILY!
       }
-      else if (s->name().EqualTo("aQGCX100")){
+      else if (s->name().EqualTo("aQGC")){
+	if (int(ScaleSignal) == 1)
+	{
+	h = s->Draw(pv, the_cut*"100*(LHEWeight[993]/LHEWeight[0])", the_cut*"100*(LHEWeight[993]/LHEWeight[0])");
+	}
+	else
 	h = s->Draw(pv, the_cut*"(LHEWeight[993]/LHEWeight[0])", the_cut*"(LHEWeight[993]/LHEWeight[0])");
 	if (s->stackit()) {
 	  totevents += h->Integral(1,h->GetNbinsX()+1);
 	} 
+      }
+      else if (s->name().EqualTo("WV(EWK)")){
+	if (int(ScaleSignal) == 1)
+		h = s->Draw(pv, the_cut*"100.0", the_cut*"100.0");
+	else
+		h = s->Draw(pv, the_cut, the_cut);
+	if (s->stackit()) {
+	  totevents += h->Integral(1,h->GetNbinsX()+1);
+	}
       }
       else {
 	h = s->Draw(pv, the_cut, the_cut);
@@ -457,7 +478,7 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
       
       // Added this if to ignore the maximum range of aQGC distribution
       // Since if we take it then the histogram rescale very bad so that we can't see other histos
-      if (h && s->name()!="aQGCX100") 
+      if (h && s->name()!="aQGC") 
       {
       int maxbin = h->GetMaximumBin();
       maxval = std::max(maxval,h->GetBinContent(maxbin));
@@ -475,8 +496,13 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
 	 rit != v_legentries.rend();
 	 rit++)
       {
-	if(rit->first=="aQGCX100" || rit->first=="WV(EWK)X100")
+	if(rit->first=="aQGC" || rit->first=="WV(EWK)")
+	{
+	if (int(ScaleSignal) == 1)
+	  Leg->AddEntry(rit->second, rit->first+TString("*100"), "L" ); // "F");
+	else
 	  Leg->AddEntry(rit->second, rit->first, "L" ); // "F");
+	}
 	else
 	  Leg->AddEntry(rit->second, rit->first, "F" ); // "F");
       }
@@ -607,7 +633,7 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
 	if (mit != m_histos.end()) {
 	  TH1 *h = mit->second;
 	  //if (h) h->Draw("histsame");	// To get line for data...
-	  if (h && s->name()=="WV(EWK)X100") 
+	  if (h && s->name()=="WV(EWK)") 
 	    {
 	      h->SetFillStyle(0.);
 	      //aqgc->SetLineStyle(11);
@@ -619,7 +645,7 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
 	      h->Draw("histsame");
  
 	    }
-	  if (h && s->name()=="aQGCX100") 
+	  if (h && s->name()=="aQGC") 
 	    {
 	      h->SetFillStyle(0.);
 	      //aqgc->SetLineStyle(11);

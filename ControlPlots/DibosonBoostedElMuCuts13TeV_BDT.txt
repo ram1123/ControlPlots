@@ -3,7 +3,7 @@
 #
 #	MANDATORY CUTS
 #
-"El or Mu"		"((type==1) || (type==0))"
+"El or Mu"			"((type==1) || (type==0))"
 "1 lepton"		"(l_pt2<0)"
 #
 #	PRE SELECTION
@@ -17,13 +17,19 @@
 #
 "Loose b-tag Veto"	"(nBTagJet_loose==0)"
 "pfMET_Corr>50"		"(pfMET_Corr>50)"
-#"Tau2/1"		"((PuppiAK8_jet_tau2tau1<0.55))"
-"m_{J}>65 && m_{J}<105"	"((PuppiAK8_jet_mass_so>65) && (PuppiAK8_jet_mass_so<105))"
+"Tau2/1"		"((PuppiAK8_jet_tau2tau1<0.55))"
+# BDT Trial 1 AK8 mass
+#"m_{J}<40 && m_{J}>150"	"((PuppiAK8_jet_mass_so>40) || (PuppiAK8_jet_mass_so<150))"
+# BDT Trial 2 AK8 mass
+"m_{J}<65 && m_{J}>105"	"((PuppiAK8_jet_mass_so>65) && (PuppiAK8_jet_mass_so<105))"
+#"ZeppenfeldWL_type0<0.3"	"(abs(ZeppenfeldWL_type0/vbf_maxpt_jj_Deta)<1.0)"
+#"Zeppenfeldh<0.3"           "(abs(ZeppenfeldWH/vbf_maxpt_j2_eta-vbf_maxpt_j1_eta)<1.0)"
+"BDT_response"		"(BDT_response>-0.3)"
 "VBF jet deta > 4.0"    "(abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta)>4.0)"
 "VBF Mjj > 800"         "(vbf_maxpt_jj_m>800)"
-#"BosonCentrality>1.0"	"(BosonCentrality_type0>1.0)"
-#"ZeppenfeldWL<0.3"	"(abs(ZeppenfeldWL_type0/vbf_maxpt_jj_Deta)<0.3)"
-#"Zeppenfeldh<x"         "(abs(ZeppenfeldWH/vbf_maxpt_jj_Deta)<0.3)"
+"BosonCentrality_type0>1.0"	"(BosonCentrality_type0>1.0)"
+"-0.3<ZeppenfeldWL_type0<0.3"	"(abs(ZeppenfeldWL_type0/vbf_maxpt_jj_Deta)<0.3)"
+"Zeppenfeldh<x"           "(abs(ZeppenfeldWH/vbf_maxpt_j2_eta-vbf_maxpt_j1_eta)<0.3)"
 #
 #
 ###">=0 Medium b-tag AK4"	"(nBTagJet_medium>0)"

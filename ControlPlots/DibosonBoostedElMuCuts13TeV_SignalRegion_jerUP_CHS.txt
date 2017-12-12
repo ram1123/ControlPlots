@@ -18,7 +18,7 @@
 "Loose b-tag Veto"	"(nBTagJet_loose==0)"
 "pfMET_Corr>50"		"(pfMET_Corr_jerup>50)"
 "Tau2/1"		"((PuppiAK8_jet_tau2tau1<0.55))"
-"m_{J}>65 && m_{J}<105"	"((ungroomed_AK8jet_mass_jes_up>65) && (ungroomed_AK8jet_mass_jes_up<105))"
+"m_{J}>65 && m_{J}<105"	"((ungroomed_PuppiAK8_jet_mass_jes_up>65) && (ungroomed_PuppiAK8_jet_mass_jes_up<105))"
 "VBF jet deta > 4.0"    "(abs(vbf_maxpt_j2_eta_jes_up-vbf_maxpt_j1_eta_jes_up)>4.0)"
 "VBF Mjj > 800"         "(vbf_maxpt_jj_m_jes_up>800)"
 "BosonCentrality>1.0"	"(BosonCentrality_type0>1.0)"
