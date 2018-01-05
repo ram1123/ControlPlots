@@ -9,7 +9,7 @@ void RunMacro_SigBkgComparison()
 //
 //	cut file,	sample file,	variable file,	OutputRootfileName,	0/1 if 1 then scale signal by 100,  RECREATE root file or UPDATE
 //
-    gROOT->ProcessLine("myControlPlots_SignalBkg_Comparison(\"DibosonBoostedElMuCuts13TeV_SignalRegion_CHS.txt\", \"DibosonBoostedElMuSamples13TeV_2017-11-26_OnlyCHS_BDT_limit_Trial1.txt\", commonplotvars_chs , \"SignalBackground_Comparison.root\", 1 ) ");
+    gROOT->ProcessLine("myControlPlots_SignalBkg_Comparison(\"DibosonBoostedElMuCuts13TeV_SignalRegion_CHS.txt\", \"DibosonBoostedElMuSamples13TeV.txt\", commonplotvars_chs , \"SignalBackground_Comparison.root\", 1 ) ");
 //-------------------------------------
    
 //-------------------------------------

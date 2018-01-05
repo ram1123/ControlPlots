@@ -17,7 +17,7 @@ TestRun = 0
 # 0 => Signal,	1 => TTbar
 # 2 => Wjet,	3 => mjj
 # 4 => Limit
-WhichJob = 2
+WhichJob = 0
 #
 #	Signal/bkg comparison
 #
@@ -25,7 +25,7 @@ if WhichJob == 0:
 	OUTDIR = 'SignalBkgComparison'
 	RunFile = 'RunMacro_SigBkgComparison_Individual.C'
 	JobName = 'SignalBkgComparison'
-	CopyFiles = ['RunMacro_SigBkgComparison_Individual.C', 'DibosonBoostedElMuCuts13TeV_SignalRegion_CHS.txt', 'DibosonBoostedElMuSamples13TeV_2017-11-26_OnlyCHS_BDT_limit_Trial1.txt','SignalBKg_Comp_Individual.root']
+	CopyFiles = ['RunMacro_SigBkgComparison_Individual.C', 'DibosonBoostedElMuCuts13TeV_SignalRegion_CHS.txt', 'DibosonBoostedElMuSamples13TeV.txt','SignalBKg_Comp_Individual.root']
 
 #
 #	TTbar Control Region
@@ -34,7 +34,7 @@ if WhichJob == 1:
 	OUTDIR = 'ControlPlots/TTbar'
 	RunFile = 'RunMacro_TTbar.C'
 	JobName = 'TTbar'
-	CopyFiles = ['RunMacro_TTbar.C', 'DibosonBoostedElMuCuts13TeV_TTBarControlRegion_CHS.txt', 'DibosonBoostedElMuSamples13TeV_2017-11-26_OnlyCHS_BDT_limit_Trial1.txt', 'myControlPlots.C', 'controlplotvars_CHS.h' , 'TTbarControlRegion.root']
+	CopyFiles = ['RunMacro_TTbar.C', 'DibosonBoostedElMuCuts13TeV_TTBarControlRegion_CHS.txt', 'DibosonBoostedElMuSamples13TeV.txt', 'myControlPlots.C', 'controlplotvars_CHS.h' , 'TTbarControlRegion.root']
 
 #
 #	Wjet Control Region
@@ -43,7 +43,7 @@ if WhichJob == 2:
 	OUTDIR = 'ControlPlots/Wjets'
 	RunFile = 'RunMacro_Wjet.C'
 	JobName = 'Wjets'
-	CopyFiles = ['RunMacro_Wjet.C', 'DibosonBoostedElMuCuts13TeV_WjetControlRegion_Tighter_CHS.txt', 'DibosonBoostedElMuSamples13TeV_2017-11-26_OnlyCHS_BDT_limit_Trial1.txt', 'myControlPlots.C', 'controlplotvars_CHS.h', 'WjetControlRegion.root']
+	CopyFiles = ['RunMacro_Wjet.C', 'DibosonBoostedElMuCuts13TeV_WjetControlRegion_Tighter_CHS.txt', 'DibosonBoostedElMuSamples13TeV.txt', 'myControlPlots.C', 'controlplotvars_CHS.h', 'WjetControlRegion.root']
 #
 #	mjj Control Region
 #
@@ -51,7 +51,7 @@ if WhichJob == 3:
 	OUTDIR = 'ControlPlots/mjjdetajj'
 	RunFile = 'RunMacro_mjj.C'
 	JobName = 'mjjdetajj'
-	CopyFiles = ['RunMacro_mjj.C', 'DibosonBoostedElMuCuts13TeV_MjjDetaControlRegion_CHS.txt', 'DibosonBoostedElMuSamples13TeV_2017-11-26_OnlyCHS_BDT_limit_Trial1.txt', 'myControlPlots.C', 'controlplotvars_CHS.h', 'mjjDetajjControlRegion.root']
+	CopyFiles = ['RunMacro_mjj.C', 'DibosonBoostedElMuCuts13TeV_MjjDetaControlRegion_CHS.txt', 'DibosonBoostedElMuSamples13TeV.txt', 'myControlPlots.C', 'controlplotvars_CHS.h', 'mjjDetajjControlRegion.root']
 #
 #	Limits Control Region
 #
@@ -59,17 +59,17 @@ if WhichJob == 4:
 	OUTDIR = 'Limits'
 	RunFile = 'RunMacro_Limits.C'
 	JobName = 'Limits'
-	CopyFiles = ['RunMacro_Limits.C', 'DibosonBoostedElMuCuts13TeV_SignalRegion_CHS.txt','DibosonBoostedElMuCuts13TeV_SignalRegion_jesUP_CHS.txt', 'DibosonBoostedElMuCuts13TeV_SignalRegion_jerUP_CHS.txt', 'DibosonBoostedElMuCuts13TeV_SignalRegion_jerDOWN_CHS.txt', 'DibosonBoostedElMuCuts13TeV_SignalRegion_jesDOWN_CHS.txt', 'DibosonBoostedElMuSamples13TeV_2017-11-26_OnlyCHS_BDT_limit_Trial1.txt', 'myControlPlots.C', 'controlplotvars_CHS.h']
+	CopyFiles = ['RunMacro_Limits.C', 'DibosonBoostedElMuCuts13TeV_SignalRegion_CHS.txt','DibosonBoostedElMuCuts13TeV_SignalRegion_jesUP_CHS.txt', 'DibosonBoostedElMuCuts13TeV_SignalRegion_jerUP_CHS.txt', 'DibosonBoostedElMuCuts13TeV_SignalRegion_jerDOWN_CHS.txt', 'DibosonBoostedElMuCuts13TeV_SignalRegion_jesDOWN_CHS.txt', 'DibosonBoostedElMuSamples13TeV.txt', 'myControlPlots.C', 'controlplotvars_CHS.h']
 
 
 # Get date and time for output directory
 ## ADD "test" IN OUTPUT FOLDER IF YOU ARE TESTING SO THAT LATER YOU REMEMBER TO WHICH DIRECTORY YOU HAVE TO REMOVE FROM EOS
 if TestRun:
 	outputFolder = "/store/user/rasharma/ThirdStep_Distributions/"+OUTDIR+'/'+datetime.datetime.now().strftime('%Y_%m_%d_%Hh%M')+"_TEST/";
-	OutputLogPath = "OutPut_Logs/"+JobName+'/' + datetime.datetime.now().strftime('%Y_%m_%d_%Hh%M') + "_TEST";
+	OutputLogPath = "Logs/"+JobName+'/' + datetime.datetime.now().strftime('%Y_%m_%d_%Hh%M') + "_TEST";
 else:
 	outputFolder = "/store/user/rasharma/ThirdStep_Distributions/"+OUTDIR+'/'+datetime.datetime.now().strftime('%Y_%m_%d_%Hh%M');
-	OutputLogPath = "OutPut_Logs/"+JobName+'/' + datetime.datetime.now().strftime('%Y_%m_%d_%Hh%M');
+	OutputLogPath = "Logs/"+JobName+'/' + datetime.datetime.now().strftime('%Y_%m_%d_%Hh%M');
 
 
 print "Name of output dir: ",outputFolder

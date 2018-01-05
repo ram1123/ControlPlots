@@ -6,7 +6,7 @@ void RunMacro_SigBkgComparison_Individual()
 //-------------------------------------
 //	FOR Signal Region 
 //-------------------------------------
-    gROOT->ProcessLine("myControlPlots_SignalBkg_Comparison_Individual(\"DibosonBoostedElMuCuts13TeV_SignalRegion_CHS.txt\", \"DibosonBoostedElMuSamples13TeV_2017-11-26_OnlyCHS_BDT_limit_Trial1.txt\", commonplotvars_chs , \"SignalBKg_Comp_Individual.root\" ) ");
+    gROOT->ProcessLine("myControlPlots_SignalBkg_Comparison_Individual(\"DibosonBoostedElMuCuts13TeV_SignalRegion_CHS.txt\", \"DibosonBoostedElMuSamples13TeV.txt\", commonplotvars_chs , \"SignalBKg_Comp_Individual.root\" ) ");
     
    
 //-------------------------------------

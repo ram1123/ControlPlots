@@ -151,7 +151,7 @@ public:
       cerr << "No tree to draw from." << endl;
       return 0;
     }
-    double tmp = 0;
+    double tmp = 0.;
     cout << "\tDrawing " << pv.plotvar << " for sample = " << info_.samplename << " ... ";
     TString hname = TString("th1")+ pv.outfile + Form("%d",info_.index);
     TH1F *histo = new TH1F(hname, hname, pv.NBINS, pv.MINRange, pv.MAXRange);
@@ -256,7 +256,8 @@ void myControlPlots(const char *cuttablefilename,
 		    const plotVar_t plotvars[] = commonplotvars_chs,
 		    const string OutRootFile = "testrk.root",
 		    const int ScaleSignal = 0,
-		    const string RecreateAppend = "RECREATE"
+		    const string RecreateAppend = "RECREATE",
+		    const int isData = 1
 		    )
 //		    const plotVar_t plotvars[] = boostedplotvars )
 {
@@ -345,6 +346,7 @@ void myControlPlots(const char *cuttablefilename,
       }
 
     //TCut the_cut(TString("genWeight*trig_eff_Weight*id_eff_Weight*(")+unwtcutstring+TString(")"));
+    //TCut the_cut(TString("genWeight*trig_eff_Weight*id_eff_Weight*(")+unwtcutstring+TString(")"));
     TCut the_cut(TString("genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*(")+unwtcutstring+TString(")"));
     //TCut the_cut(unwtcutstring);
     //TCut the_cutE(TString("effwt*puwt*puwt*(")+unwtcutstring+TString(")"));
@@ -388,8 +390,8 @@ void myControlPlots(const char *cuttablefilename,
 	  totevents += h->Integral(1,h->GetNbinsX()+1);
 	} 
       }
-      //else if (s->name().EqualTo("WV(EWK)X100")){
-      else if (s->name().EqualTo("WV(EWK)")){
+      //else if (s->name().EqualTo("WV_EWKX100")){
+      else if (s->name().EqualTo("WV_EWK")){
 	if (int(ScaleSignal) == 1)
 		h = s->Draw(pv, the_cut*"100.0", the_cut*"100.0");
 	else
@@ -571,13 +573,13 @@ void myControlPlots(const char *cuttablefilename,
 	 rit != v_legentries.rend();
 	 rit++)
       {
-	if(rit->first=="aQGC" || rit->first=="WV(EWK)")
+	if(rit->first=="aQGC" || rit->first=="WV_EWK")
 	{
 	if (int(ScaleSignal) == 1)
 	  Leg->AddEntry(rit->second, rit->first+TString("X100"), "L" ); // "F");
 	else
 	  Leg->AddEntry(rit->second, rit->first, "L" ); // "F");
-	//if(rit->first=="aQGCX100" || rit->first=="WV(EWK)X100")
+	//if(rit->first=="aQGCX100" || rit->first=="WV_EWKX100")
 	}
 	else
 	  Leg->AddEntry(rit->second, rit->first, "F" ); // "F");
@@ -716,8 +718,8 @@ void myControlPlots(const char *cuttablefilename,
 	map<TString, TH1F *>::iterator mit = m_histos.find(s->name());
 	if (mit != m_histos.end()) {
 	  TH1F *h = mit->second;
-	  if (h && s->name()=="WV(EWK)") 
-	  //if (h && s->name()=="WV(EWK)X100") 
+	  if (h && s->name()=="WV_EWK") 
+	  //if (h && s->name()=="WV_EWKX100") 
 	    {
 	      h->SetFillStyle(0.);
 	      //aqgc->SetLineStyle(11);
@@ -750,7 +752,7 @@ void myControlPlots(const char *cuttablefilename,
 	      h2 = (TH1F*) h->Clone();
 	      //h->Draw("e1same");
 	    }
-  	//h->Write();
+	    if (isData)	h->Write();
 	}
       }
       oldsamplename=s->name();
