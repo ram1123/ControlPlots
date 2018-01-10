@@ -145,7 +145,7 @@ for i,suffix in enumerate(["_met_jes_up","_met_jes_dn", "_met_jer_up", "_met_jer
 #	for PU
 ##################
 
-weights = {"pu_Weight_up":["pu_Weight","CMS_puUp"], "pu_Weight_down":["pu_Weight","CMS_puDown"], "btag0WgtUpHF*pu_Weight":["pu_Weight","CMS_btagHFUp"], "btag0WgtDownHF*pu_Weight":["pu_Weight","CMS_btagHFDown"], "btag0WgtUpLF*pu_Weight":["pu_Weight","CMS_btagLFUp"], "btag0WgtDownLF*pu_Weight":["pu_Weight","CMS_btagLFDown"]}
+weights = {"pu_Weight_up":["pu_Weight","CMS_puUp"], "pu_Weight_down":["pu_Weight","CMS_puDown"], "btag0WgtUpHF":["btag0Wgt","CMS_btagHFUp"], "btag0WgtDownHF":["btag0Wgt","CMS_btagHFDown"], "btag0WgtUpLF":["btag0Wgt","CMS_btagLFUp"], "btag0WgtDownLF":["btag0Wgt","CMS_btagLFDown"]}
 
 for i,key in enumerate(weights):
 	print "\n\n","**"*40,"\n*\n","*\t\t Running for ",key,"\t",weights[key][0],"\n*\n","**"*40

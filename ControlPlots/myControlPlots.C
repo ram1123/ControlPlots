@@ -347,7 +347,7 @@ void myControlPlots(const char *cuttablefilename,
 
     //TCut the_cut(TString("genWeight*trig_eff_Weight*id_eff_Weight*(")+unwtcutstring+TString(")"));
     //TCut the_cut(TString("genWeight*trig_eff_Weight*id_eff_Weight*(")+unwtcutstring+TString(")"));
-    TCut the_cut(TString("genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*(")+unwtcutstring+TString(")"));
+    TCut the_cut(TString("btag0Wgt*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*(")+unwtcutstring+TString(")"));
     //TCut the_cut(unwtcutstring);
     //TCut the_cutE(TString("effwt*puwt*puwt*(")+unwtcutstring+TString(")"));
 
