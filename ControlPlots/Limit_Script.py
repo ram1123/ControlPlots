@@ -5,6 +5,7 @@ MainRootMacro = 'myControlPlots.C'
 SampleFile = 'DibosonBoostedElMuSamples13TeV.txt'
 CutFile = 'DibosonBoostedElMuCuts13TeV_SignalRegion_CHS.txt'
 VariableFile = 'controlplotvars_CHS_Limit.h'
+TemplateRunFIle = 'RunMacro_Limits_Templet.C'
 
 MCnameDict = [ "aQGC", "WV_EWK", "Z+jets", "Z+jets", "Diboson", "top", "W+jets", "QCD" , "VV"] 
 
