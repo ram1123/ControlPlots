@@ -17,7 +17,7 @@ TestRun = 0
 # 0 => Signal,	1 => TTbar
 # 2 => Wjet,	3 => mjj
 # 4 => Limit
-WhichJob = 0
+WhichJob = 1
 #
 #	Signal/bkg comparison
 #
@@ -31,7 +31,8 @@ if WhichJob == 0:
 #	TTbar Control Region
 #
 if WhichJob == 1:
-	OUTDIR = 'ControlPlots/TTbar'
+	OUTDIR = 'ControlPlots/TTbar_with_btagWeight'
+	#OUTDIR = 'ControlPlots/TTbar_No_btagWeight'
 	RunFile = 'RunMacro_TTbar.C'
 	JobName = 'TTbar'
 	CopyFiles = ['RunMacro_TTbar.C', 'DibosonBoostedElMuCuts13TeV_TTBarControlRegion_CHS.txt', 'DibosonBoostedElMuSamples13TeV.txt', 'myControlPlots.C', 'controlplotvars_CHS.h' , 'TTbarControlRegion.root']
@@ -40,7 +41,8 @@ if WhichJob == 1:
 #	Wjet Control Region
 #
 if WhichJob == 2:
-	OUTDIR = 'ControlPlots/Wjets'
+	OUTDIR = 'ControlPlots/Wjets_with_btagWeight'
+	#OUTDIR = 'ControlPlots/Wjets_No_btagWeight'
 	RunFile = 'RunMacro_Wjet.C'
 	JobName = 'Wjets'
 	CopyFiles = ['RunMacro_Wjet.C', 'DibosonBoostedElMuCuts13TeV_WjetControlRegion_Tighter_CHS.txt', 'DibosonBoostedElMuSamples13TeV.txt', 'myControlPlots.C', 'controlplotvars_CHS.h', 'WjetControlRegion.root']
@@ -90,7 +92,7 @@ CMSSWRel = os.path.basename(cmsswDirPath[1])
 print "CMSSW release used : ",CMSSWRel
 
 # create tarball of present working CMSSW base directory
-#os.system('rm CMSSW*.tgz')
+os.system('rm CMSSW*.tgz')
 make_tarfile(CMSSWRel+".tgz", cmsswDirPath[1])
 
 # send the created tarball to eos
@@ -102,17 +104,6 @@ os.system('xrdcp -f ' + CMSSWRel+".tgz" + ' root://cmseos.fnal.gov/'+outputFolde
 #myfile.close()
 #os.system('xrdcp -f *.txt root://cmseos.fnal.gov/' + outputFolder)
 #os.system('cp ThingsUpdated.txt ' + OutputLogPath)
-
-# User Modifiable lines
-# ------------------------------------------------------
-IfControlPlots = 0    	# 0 -> Signal & background comparison only without data.
-			# 1 -> data mc plots 
-
-OutPutRootFileName = "testRoot.root" 
-
-
-# End user edit lies
-# ------------------------------------------------------
 
 
 outJDL = open("runstep2condor.jdl","w");
@@ -145,10 +136,14 @@ outScript.write("\n"+'echo "Running on: `uname -a`"');
 outScript.write("\n"+'echo "System software: `cat /etc/redhat-release`"');
 outScript.write("\n"+'source /cvmfs/cms.cern.ch/cmsset_default.sh');
 outScript.write("\n"+'### copy the input root files if they are needed only if you require local reading');
-outScript.write("\n"+'xrdcp -s root://cmseos.fnal.gov/'+outputFolder+"/" + CMSSWRel+".tgz  .");
+outScript.write("\n"+'xrdcp -f root://cmseos.fnal.gov/'+outputFolder+"/" + CMSSWRel+".tgz  .");
 outScript.write("\n"+'tar -xf '+ CMSSWRel +'.tgz' );
 outScript.write("\n"+'rm '+ CMSSWRel +'.tgz' );
 outScript.write("\n"+'cd ' + CMSSWRel + '/src/PlottingCodes/ControlPlots' );
+outScript.write("\n"+'echo "====> PWD: " ');
+outScript.write("\n"+'pwd');
+outScript.write("\n"+'echo "====> List files : " ');
+outScript.write("\n"+'ls OutDir/');
 outScript.write("\n"+'rm OutDir/*');
 outScript.write("\n"+'echo "============================================" ');
 outScript.write("\n"+'echo "====> List output files : " ');

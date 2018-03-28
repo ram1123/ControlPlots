@@ -7,7 +7,7 @@ const plotVar_t commonplotvars_chs_limit[] = {
 //    plotvar	MINRange  MAXRange  NBINS  slog xlabel outfile AMINRange  AMAXRange ANBINS drawleg
 //
 //    LEPTONS
- { "mass_lvj_type0", 	0, 2400, 8, 1, "WW invariant mass (GeV)",		"mass_lvj_type0",    0, 2400, 8, 1},
+ { "mass_lvj_type0_PuppiAK8", 	450, 2400, 4, 1, "WW invariant mass (GeV)",		"mass_lvj_type0_PuppiAK8",    450, 2400, 4, 1},
 
  { "", 0.0,0.0,0,0,"","",0.,0.,0,0 }
 };

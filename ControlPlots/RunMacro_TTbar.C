@@ -4,7 +4,7 @@ void RunMacro_TTbar()
 //-------------------------------------
 //	FOR TTbar CR 
 //-------------------------------------
-    gROOT->ProcessLine("myControlPlots(\"DibosonBoostedElMuCuts13TeV_TTBarControlRegion_CHS.txt\", \"DibosonBoostedElMuSamples13TeV.txt\", commonplotvars_chs , \"TTbarControlRegion.root\", 1) ");
+    gROOT->ProcessLine("myControlPlots(\"DibosonBoostedElMuCuts13TeV_TTBarControlRegion_CHS.txt\", \"DibosonBoostedElMuSamples13TeV.txt\", commonplotvars_chs , \"TTbarControlRegion.root\", 0) ");
 
 
 }

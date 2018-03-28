@@ -46,6 +46,7 @@ SampleInfo_t;
 //#include "controlplotvars_boosted.h"
 //#include "controlplotvars_common.h"
 #include "controlplotvars_CHS.h"
+#include "controlplotvars_CHS_2lep.h"
 //#include "controlplotvars_Puppi.h"
 //#include "controlplotvars_vbf.h"
 //#include "controlplotvars_mva.h"
@@ -146,7 +147,7 @@ public:
   bool stackit() const { return (info_.stackit != 0); }
   int colorcode() const { return info_.colorcode; }
   double otherscale() const { return info_.otherscale; }
-  TH1F *Draw(const plotVar_t& pv, const TCut& cut, const TCut& cutSQ ) {
+  TH1D *Draw(const plotVar_t& pv, const TCut& cut, const TCut& cutSQ ) {
     if (!tree_) {
       cerr << "No tree to draw from." << endl;
       return 0;
@@ -154,7 +155,7 @@ public:
     double tmp = 0.;
     cout << "\tDrawing " << pv.plotvar << " for sample = " << info_.samplename << " ... ";
     TString hname = TString("th1")+ pv.outfile + Form("%d",info_.index);
-    TH1F *histo = new TH1F(hname, hname, pv.NBINS, pv.MINRange, pv.MAXRange);
+    TH1D *histo = new TH1D(hname, hname, pv.NBINS, pv.MINRange, pv.MAXRange);
     assert(histo);
     histo->Sumw2();
     cout << tree_->Draw(pv.plotvar+TString(">>")+hname, cut, "goff") << " entries, ";
@@ -165,7 +166,7 @@ public:
 #if 0
     if (strlen((const char *)cutSQ)) {
       hname = TString("th1") + pv.outfile + Form("%d",info_.index) + TString("SQ");
-      TH1F *histoSQ = new TH1F(hname, hname, pv.NBINS, pv.MINRange, pv.MAXRange);
+      TH1D *histoSQ = new TH1D(hname, hname, pv.NBINS, pv.MINRange, pv.MAXRange);
       tree_->Draw(pv.plotvar+TString(">>")+hname, cutSQ, "goff");
       for(int hi=1;hi<=pv.NBINS;hi++) {
 	histo->SetBinError(hi,sqrt(histoSQ->GetBinContent(hi)));
@@ -271,7 +272,7 @@ void myControlPlots(const char *cuttablefilename,
 
   ofstream Logfile;
 
-  TH1F::SetDefaultSumw2(1);
+  TH1D::SetDefaultSumw2(1);
  
   //TFile *outDC = new TFile("htt_mt_inputs.root","RECREATE");
 
@@ -280,6 +281,8 @@ void myControlPlots(const char *cuttablefilename,
   loadCutString(cuttablefilename, unwtcutstring);
 
   TString blinddatacutstring = unwtcutstring + "&&(1)";
+  //	For blinding data uncomment this
+  //TString blinddatacutstring = unwtcutstring + "&& (PuppiAK8_jet_mass_so<65 || PuppiAK8_jet_mass_so>105)&&(1)";
 
   //  const char* the_cut = "1";
   //  double BINWIDTH = ((MAXRange-MINRange)/NBINS);
@@ -345,11 +348,19 @@ void myControlPlots(const char *cuttablefilename,
 	continue;
       }
 
-    //TCut the_cut(TString("genWeight*trig_eff_Weight*id_eff_Weight*(")+unwtcutstring+TString(")"));
-    //TCut the_cut(TString("genWeight*trig_eff_Weight*id_eff_Weight*(")+unwtcutstring+TString(")"));
-    TCut the_cut(TString("btag0Wgt*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*(")+unwtcutstring+TString(")"));
-    //TCut the_cut(unwtcutstring);
-    //TCut the_cutE(TString("effwt*puwt*puwt*(")+unwtcutstring+TString(")"));
+    //
+    //	ONE LEPTON CUTS
+    //
+    //TCut the_cut(TString("btag0Wgt*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*(")+unwtcutstring+TString(")"));
+    //TCut the_cut(TString("genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*(")+unwtcutstring+TString(")"));
+    //
+    //  TWO LEPTON CASE
+    //
+    //TCut the_cut(TString("totalEventWeight_2Lep*pu_Weight*(")+unwtcutstring+TString(")"));
+    TCut the_cut(TString("btag0Wgt*totalEventWeight_2Lep*pu_Weight*(")+unwtcutstring+TString(")"));
+    //TCut the_cut(TString("genWeight*trig_eff_Weight2*id_eff_Weight2*pu_Weight*(")+unwtcutstring+TString(")"));
+    //TCut the_cut(TString("btag0Wgt*genWeight*trig_eff_Weight2*id_eff_Weight2*pu_Weight*(")+unwtcutstring+TString(")"));
+    //TCut the_cut(TString("btag1Wgt*genWeight*trig_eff_Weight2*id_eff_Weight2*pu_Weight*(")+unwtcutstring+TString(")"));
 
     TCut nullcut("");
 
@@ -357,7 +368,7 @@ void myControlPlots(const char *cuttablefilename,
 
     const double BINWIDTH = ((pv.MAXRange-pv.MINRange)/pv.NBINS);
 
-    map<TString, TH1F *> m_histos;
+    map<TString, TH1D *> m_histos;
     map<TString, bool> m_stacked;
 
     double totevents = 0.;
@@ -371,7 +382,7 @@ void myControlPlots(const char *cuttablefilename,
 
       m_stacked[s->name()] = false;
 
-      TH1F *h;
+      TH1D *h;
 
       if (s->name().EqualTo("data")) {
 	plotVar_t pvnosmear = pv;
@@ -381,11 +392,11 @@ void myControlPlots(const char *cuttablefilename,
       //else if (s->name().EqualTo("aQGCX100")){
       else if (s->name().EqualTo("aQGC")){
 	if (int(ScaleSignal) == 1)
-	{	h = s->Draw(pv, the_cut*"100.0"*"(LHEWeight[993]/LHEWeight[0])", the_cut*"100.0"*"(LHEWeight[993]/LHEWeight[0])");
+	{	h = s->Draw(pv, the_cut*"5.00"*"(LHEWeight[994]/LHEWeight[0])", the_cut*"5.00"*"(LHEWeight[994]/LHEWeight[0])");
 		cout<<"====> Scale Signal = " << ScaleSignal << endl;
 	}
 	else
-		h = s->Draw(pv, the_cut*"(LHEWeight[993]/LHEWeight[0])", the_cut*"(LHEWeight[993]/LHEWeight[0])");
+		h = s->Draw(pv, the_cut*"(LHEWeight[994]/LHEWeight[0])", the_cut*"(LHEWeight[994]/LHEWeight[0])");
 	if (s->stackit()) {
 	  totevents += h->Integral(1,h->GetNbinsX()+1);
 	} 
@@ -393,7 +404,7 @@ void myControlPlots(const char *cuttablefilename,
       //else if (s->name().EqualTo("WV_EWKX100")){
       else if (s->name().EqualTo("WV_EWK")){
 	if (int(ScaleSignal) == 1)
-		h = s->Draw(pv, the_cut*"100.0", the_cut*"100.0");
+		h = s->Draw(pv, the_cut*"5.00", the_cut*"5.00");
 	else
 		h = s->Draw(pv, the_cut, the_cut);
 	if (s->stackit()) {
@@ -409,15 +420,27 @@ void myControlPlots(const char *cuttablefilename,
       
       if (!h) continue;
 
-      map<TString, TH1F *>::iterator mit = m_histos.find(s->name());
+      map<TString, TH1D *>::iterator mit = m_histos.find(s->name());
       if (mit == m_histos.end()) {
 	h->SetName(s->name());
 	h->SetTitle(s->name());
 	if (s->stackit()) {
-	  if (s->name().EqualTo("W+jets"))
+	  if (s->name().EqualTo("V+jets"))
 	    {
 	      h->SetLineColor(TColor::GetColor(222,90,106));
 	      h->SetFillColor(TColor::GetColor(222,90,106));
+	      h->SetLineWidth(0);
+	    }
+	  else if(s->name().EqualTo("W+jets"))
+	    {
+	      h->SetLineColor(TColor::GetColor(222,90,106));
+	      h->SetFillColor(TColor::GetColor(222,90,106));
+	      h->SetLineWidth(0);
+	    }
+	  else if(s->name().EqualTo("top"))
+	    {
+	      h->SetLineColor(TColor::GetColor(155,152,204));
+	      h->SetFillColor(TColor::GetColor(155,152,204));	
 	      h->SetLineWidth(0);
 	    }
 	  else if(s->name().EqualTo("TTbar"))
@@ -461,13 +484,16 @@ void myControlPlots(const char *cuttablefilename,
     // COUNT EVENTS, RENORM TO DATA, CONSTRUCT THE TSTACK & LEGEND
     //============================================================
 
-    TH1F *th1data = m_histos["data"];
-    //TH1F *aqgc = m_histos["aQGC"];
+    TH1D *th1data = m_histos["data"];
+    //TH1D *aqgc = m_histos["aQGC"];
+    double maxval = -9e99;
 
     double ndata=1., renorm=1.;
     if (th1data) {
       ndata  = th1data->Integral(1,th1data->GetNbinsX()+1);
       renorm = ndata/totevents;
+      int maxbin = th1data->GetMaximumBin();
+      maxval = std::max(maxval,th1data->GetBinContent(maxbin));
 
       cout << "Total MC	= " << totevents << endl;
       cout << "data	= " << ndata  <<endl;
@@ -479,7 +505,7 @@ void myControlPlots(const char *cuttablefilename,
 
     // Setup the stack and total
     THStack* hs = new THStack("hs","MC contribution");
-    TH1F *th1tot = new TH1F("th1tot", "th1tot", pv.NBINS, pv.MINRange, pv.MAXRange);
+    TH1D *th1tot = new TH1D("th1tot", "th1tot", pv.NBINS, pv.MINRange, pv.MAXRange);
 
     // Set up the legend
 
@@ -503,17 +529,16 @@ void myControlPlots(const char *cuttablefilename,
 
     vector<double> binErrSQ(pv.NBINS,0.);
 
-    vector<pair<TString, TH1F *> > v_legentries;
+    vector<pair<TString, TH1D *> > v_legentries;
 
     TString oldsamplename;
-    double maxval = -9e99;
 
     for (size_t isamp=1; isamp<samples.size(); isamp++) {
       Sample *s = samples[isamp];
       if (s->name()==oldsamplename) continue;
 
-      map<TString, TH1F *>::iterator mit = m_histos.find(s->name());
-      TH1F *h = mit->second;
+      map<TString, TH1D *>::iterator mit = m_histos.find(s->name());
+      TH1D *h = mit->second;
       //h->SetLineColor(kBlack);
       h->SetLineWidth(    3.);
       //h->SetFillColor(color );
@@ -568,7 +593,7 @@ void myControlPlots(const char *cuttablefilename,
     cout << "maxval " <<maxval <<endl;
 
     // Reverse the order for the legend
-    for (vector<pair<TString, TH1F *> >::reverse_iterator
+    for (vector<pair<TString, TH1D *> >::reverse_iterator
 	   rit = v_legentries.rbegin();
 	 rit != v_legentries.rend();
 	 rit++)
@@ -576,7 +601,7 @@ void myControlPlots(const char *cuttablefilename,
 	if(rit->first=="aQGC" || rit->first=="WV_EWK")
 	{
 	if (int(ScaleSignal) == 1)
-	  Leg->AddEntry(rit->second, rit->first+TString("X100"), "L" ); // "F");
+	  Leg->AddEntry(rit->second, rit->first+TString("X5.00"), "L" ); // "F");
 	else
 	  Leg->AddEntry(rit->second, rit->first, "L" ); // "F");
 	//if(rit->first=="aQGCX100" || rit->first=="WV_EWKX100")
@@ -584,7 +609,7 @@ void myControlPlots(const char *cuttablefilename,
 	else
 	  Leg->AddEntry(rit->second, rit->first, "F" ); // "F");
       }
-    TH1F* th1totClone = ( TH1F*) th1tot->Clone("th1totClone");
+    TH1D* th1totClone = ( TH1D*) th1tot->Clone("th1totClone");
     th1totClone->SetMarkerStyle(0);
     th1totClone->SetFillStyle(3003);
     th1totClone->SetFillColor(11);
@@ -605,7 +630,7 @@ void myControlPlots(const char *cuttablefilename,
 
     //tdrStyle->SetLegendBorderSize(0);
 
-    TCanvas* c1 = new TCanvas(pv.plotvar,pv.plotvar,10,10, 800, 800);
+    TCanvas* c1 = new TCanvas(pv.plotvar,pv.plotvar,10,10, 800, 600);
     TPad *d1, *d2;
     
     c1->SetFillColor      (0);
@@ -648,7 +673,7 @@ void myControlPlots(const char *cuttablefilename,
 
     Leg->SetFillColor(0);
 
-    TH1F* th1totempty = new TH1F("th1totempty", "th1totempty", pv.ANBINS, pv.AMINRange, pv.AMAXRange);
+    TH1D* th1totempty = new TH1D("th1totempty", "th1totempty", pv.ANBINS, pv.AMINRange, pv.AMAXRange);
     if (th1data) {
       th1data->SetMarkerStyle(20);
       th1data->SetLineColor(kBlack);
@@ -664,9 +689,9 @@ void myControlPlots(const char *cuttablefilename,
 
     char tmpc[100];    sprintf(tmpc,"Events");
     if (pv.slog==1)    sprintf(tmpc,"Events/ %.1f",BINWIDTH);
-    if (pv.slog==2)    sprintf(tmpc,"Events/ %.2f",BINWIDTH);
-    if (pv.slog==3)    sprintf(tmpc,"Events/ %.0f GeV",BINWIDTH);
-    if (pv.slog==6)    sprintf(tmpc,"Events/ %.1f rad",BINWIDTH);
+    if (pv.slog==2)    sprintf(tmpc,"Events/ %.3f",BINWIDTH);
+    if (pv.slog==3)    sprintf(tmpc,"Events/ ( %.0f GeV)",BINWIDTH);
+    if (pv.slog==6)    sprintf(tmpc,"Events/ ( %.1f rad)",BINWIDTH);
     th1totempty->SetYTitle(tmpc);
     //  th1totempty->GetYaxis()->SetTitleSize(0.1);
     th1totempty->GetYaxis()->SetTitleOffset(1.2);
@@ -681,8 +706,9 @@ void myControlPlots(const char *cuttablefilename,
     }
 
 //    th1totempty->SetMaximum(2.5*maxval);
-    th1totempty->SetMaximum(2.5*maxval);
-    if(pv.slog==9) th1totempty->SetMaximum(1.1*maxval);
+    th1totempty->SetMaximum(1.5*maxval);
+    if(pv.slog==9) th1totempty->SetMaximum(1.5*maxval);
+    //th1totempty->SetMaximum(350.);
 
     // Draw it all
 
@@ -690,7 +716,7 @@ void myControlPlots(const char *cuttablefilename,
 
     if (th1data) {
       th1data->SetMinimum(0.1);
-      th1data->SetBinErrorOption(TH1F::kPoisson);
+      th1data->SetBinErrorOption(TH1D::kPoisson);
       th1data->Draw("e0same");
     }
 
@@ -709,15 +735,15 @@ void myControlPlots(const char *cuttablefilename,
 
     // draw unstacked histos separately.
     oldsamplename.Clear();
-    TH1F *h1 = new TH1F("h1","",100,0,100);
-    TH1F *h2 = new TH1F("h2","",100,0,100);
+    TH1D *h1 = new TH1D("h1","",100,0,100);
+    TH1D *h2 = new TH1D("h2","",100,0,100);
     for (size_t isamp=0; isamp<samples.size(); isamp++) {
       Sample *s = samples[isamp]; assert (s);
       if (s->name()==oldsamplename) continue;
       if (!s->stackit()) {
-	map<TString, TH1F *>::iterator mit = m_histos.find(s->name());
+	map<TString, TH1D *>::iterator mit = m_histos.find(s->name());
 	if (mit != m_histos.end()) {
-	  TH1F *h = mit->second;
+	  TH1D *h = mit->second;
 	  if (h && s->name()=="WV_EWK") 
 	  //if (h && s->name()=="WV_EWKX100") 
 	    {
@@ -726,15 +752,15 @@ void myControlPlots(const char *cuttablefilename,
 	      h->SetLineWidth(3.);
 	      h->SetLineColor(kBlue+3);
 	      if (int(ScaleSignal) == 1){
-	      	cout << "Significance (SM EWK) = " << (h->Integral(1,h->GetNbinsX()+1)/100.0)/sqrt((h->Integral(1,h->GetNbinsX()+1)/100.0)+totevents) << endl;
-	        Logfile << "Significance (SM EWK) = " << (h->Integral(1,h->GetNbinsX()+1)/100.0)/sqrt((h->Integral(1,h->GetNbinsX()+1)/100.0)+totevents) << endl;
+	      	cout << "Significance (SM EWK) = " << (h->Integral(1,h->GetNbinsX()+1)/5.00)/sqrt((h->Integral(1,h->GetNbinsX()+1)/5.00)+totevents) << endl;
+	        Logfile << "Significance (SM EWK) = " << (h->Integral(1,h->GetNbinsX()+1)/5.00)/sqrt((h->Integral(1,h->GetNbinsX()+1)/5.00)+totevents) << endl;
 	      }
 	      else{
 	      	cout << "Significance (SM EWK) = " << (h->Integral(1,h->GetNbinsX()+1))/sqrt((h->Integral(1,h->GetNbinsX()+1))+totevents) << endl;
 	      	Logfile << "Significance (SM EWK) = " << (h->Integral(1,h->GetNbinsX()+1))/sqrt((h->Integral(1,h->GetNbinsX()+1))+totevents) << endl;
 	      }
 	      h->Draw("histsame");
-	      h1 = (TH1F*) h->Clone();
+	      h1 = (TH1D*) h->Clone();
  
 	    }
 	  if (h && s->name()=="aQGC") 
@@ -745,11 +771,11 @@ void myControlPlots(const char *cuttablefilename,
 	      h->SetLineWidth(3.);
 	      h->SetLineColor(kRed+3);
 	      cout << "Significance (aQGC)   = " << (h->Integral(1,h->GetNbinsX()+1))/sqrt((h->Integral(1,h->GetNbinsX()+1))+totevents) << endl;
-	      //cout << "Significance (aQGC)   = " << (h->Integral(1,h->GetNbinsX()+1)/100.0)/sqrt((h->Integral(1,h->GetNbinsX()+1)/100.0)+totevents) << endl;
+	      //cout << "Significance (aQGC)   = " << (h->Integral(1,h->GetNbinsX()+1)/5.00)/sqrt((h->Integral(1,h->GetNbinsX()+1)/5.00)+totevents) << endl;
 	      Logfile << "Significance (aQGC)   = " << (h->Integral(1,h->GetNbinsX()+1))/sqrt((h->Integral(1,h->GetNbinsX()+1))+totevents) << endl;
-	      //Logfile << "Significance (aQGC)   = " << (h->Integral(1,h->GetNbinsX()+1)/100.0)/sqrt((h->Integral(1,h->GetNbinsX()+1)/100.0)+totevents) << endl;
+	      //Logfile << "Significance (aQGC)   = " << (h->Integral(1,h->GetNbinsX()+1)/5.00)/sqrt((h->Integral(1,h->GetNbinsX()+1)/5.00)+totevents) << endl;
 	      h->Draw("histsame");
-	      h2 = (TH1F*) h->Clone();
+	      h2 = (TH1D*) h->Clone();
 	      //h->Draw("e1same");
 	    }
 	    if (isData)	h->Write();
@@ -763,14 +789,14 @@ void myControlPlots(const char *cuttablefilename,
     CMS_lumi( d1, 4, 10 ); 
     // th1data->Draw("Axissame");
     gPad->RedrawAxis();
-    TH1F * hhratio;
-    TH1F *th1emptyclone;
+    TH1D * hhratio;
+    TH1D *th1emptyclone;
     TBox *errbox;
 
     if (th1data) {
       d2->cd();
-      //TH1F    * hhratio    = (TH1F*) th1data->Clone("hhratio")  ;
-      hhratio    = (TH1F*) th1data->Clone("hhratio")  ;
+      //TH1D    * hhratio    = (TH1D*) th1data->Clone("hhratio")  ;
+      hhratio    = (TH1D*) th1data->Clone("hhratio")  ;
       hhratio->Sumw2();
       hhratio->SetStats(0);
 
@@ -805,7 +831,7 @@ void myControlPlots(const char *cuttablefilename,
 	binError = sqrt(binError*binError + mcerror*mcerror);
 	hhratio->SetBinError(i, binError);
       }
-      th1emptyclone = new TH1F("th1emptyclone", "th1emptyclone", pv.ANBINS, pv.AMINRange, pv.AMAXRange);
+      th1emptyclone = new TH1D("th1emptyclone", "th1emptyclone", pv.ANBINS, pv.AMINRange, pv.AMAXRange);
       th1emptyclone->GetYaxis()->SetRangeUser(0.6,1.3999);
       th1emptyclone->GetXaxis()->SetTitle(pv.xlabel);
       th1emptyclone->GetXaxis()->SetTitleOffset(0.9);
@@ -853,11 +879,11 @@ void myControlPlots(const char *cuttablefilename,
     c1->Print(outfile+".pdf");
     c1->Print(outfile+".png");
     c1->Print(outfile+".C");
-    c1->Print(outfile+".tex");
+    //c1->Print(outfile+".tex");
     //-----------------------------------------------------------------
     //	Save log plot
     //-----------------------------------------------------------------
-    TCanvas *c2 = new TCanvas("c2","c2",800,800);
+    TCanvas *c2 = new TCanvas("c2","c2",800,600);
     TPad *d3, *d4;
     
     c2->SetFillColor      (0);
@@ -893,17 +919,19 @@ void myControlPlots(const char *cuttablefilename,
 
     gPad->SetLogy(1);
 
+    th1totempty->SetMaximum(100*maxval);
+    th1totempty->SetMinimum(0.001);
     th1totempty->Draw();
 
     if (th1data) {
-      th1data->SetMinimum(0.1);
-      th1data->SetBinErrorOption(TH1F::kPoisson);
+      th1data->SetMinimum(0.001);
+      th1data->SetBinErrorOption(TH1D::kPoisson);
       th1data->Draw("e0same");
     }
 
     th1tot->Draw("e2same");
 
-    hs->SetMinimum(0.1);
+    hs->SetMinimum(0.001);
     hs->Draw("samehist");
     if (pv.drawleg ==1)  Leg->Draw();  
 

@@ -7,7 +7,7 @@ CutFile = 'DibosonBoostedElMuCuts13TeV_SignalRegion_CHS.txt'
 VariableFile = 'controlplotvars_CHS_Limit.h'
 TemplateRunFIle = 'RunMacro_Limits_Templet.C'
 
-MCnameDict = [ "aQGC", "WV_EWK", "Z+jets", "Z+jets", "Diboson", "top", "W+jets", "QCD" , "VV"] 
+MCnameDict = [ "aQGC", "WV_EWK", "Z+jets", "Z+jets", "Diboson", "top", "TTbar", "SingleTop", "W+jets", "QCD" , "VV"] 
 
 CutFileDict_jes_up={"ungroomed_PuppiAK8_jet_pt"	:"ungroomed_PuppiAK8_jet_pt_jes_up",
 		"ungroomed_PuppiAK8_jet_eta"	:"ungroomed_PuppiAK8_jet_eta_jes_up",

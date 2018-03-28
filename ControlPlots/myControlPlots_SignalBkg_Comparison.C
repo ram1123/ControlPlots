@@ -319,6 +319,8 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
     //============================================================
 
     // start loop from 1 to skip data
+    TH1D *h1 = new TH1D();
+    TH1D *h2 = new TH1D();
     for (size_t isamp=1; isamp<samples.size(); isamp++) {
       Sample *s = samples[isamp];
 
@@ -341,7 +343,7 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
 	  totevents += h->Integral(1,h->GetNbinsX()+1);
 	} 
       }
-      else if (s->name().EqualTo("WV(EWK)")){
+      else if (s->name().EqualTo("WV_EWK")){
 	if (int(ScaleSignal) == 1)
 		h = s->Draw(pv, the_cut*"100.0", the_cut*"100.0");
 	else
@@ -496,7 +498,7 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
 	 rit != v_legentries.rend();
 	 rit++)
       {
-	if(rit->first=="aQGC" || rit->first=="WV(EWK)")
+	if(rit->first=="aQGC" || rit->first=="WV_EWK")
 	{
 	if (int(ScaleSignal) == 1)
 	  Leg->AddEntry(rit->second, rit->first+TString("*100"), "L" ); // "F");
@@ -599,8 +601,8 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
     }
 
 //    th1totempty->SetMaximum(2.5*maxval);
-    th1totempty->SetMaximum(1.8*maxval);
-    if(pv.slog==1) th1totempty->SetMaximum(1.8*maxval);
+    th1totempty->SetMaximum(2.8*maxval);
+    if(pv.slog==1) th1totempty->SetMaximum(2.8*maxval);
     th1totempty->GetXaxis()->SetTitle(pv.xlabel);
 
     // Draw it all
@@ -633,7 +635,7 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
 	if (mit != m_histos.end()) {
 	  TH1 *h = mit->second;
 	  //if (h) h->Draw("histsame");	// To get line for data...
-	  if (h && s->name()=="WV(EWK)") 
+	  if (h && s->name()=="WV_EWK") 
 	    {
 	      h->SetFillStyle(0.);
 	      //aqgc->SetLineStyle(11);
@@ -641,8 +643,9 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
 	      h->SetLineColor(kBlue+3);
       	      Logfile << "Significance (SM EWK)	= " << (h->Integral(1,h->GetNbinsX()+1)/100.)/sqrt((h->Integral(1,h->GetNbinsX()+1)/100.)+totevents) << endl;
       	      cout << "Significance (SM EWK) = " << (h->Integral(1,h->GetNbinsX()+1)/100.)/sqrt((h->Integral(1,h->GetNbinsX()+1)/100.)+totevents) << endl;
-	      h->Scale(th1tot->Integral(1,th1tot->GetNbinsX()+1)/h->Integral(1,h->GetNbinsX()+1));
+	      //h->Scale(th1tot->Integral(1,th1tot->GetNbinsX()+1)/h->Integral(1,h->GetNbinsX()+1));
 	      h->Draw("histsame");
+	      h1 = (TH1D*) h->Clone();
  
 	    }
 	  if (h && s->name()=="aQGC") 
@@ -653,8 +656,9 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
 	      h->SetLineColor(kRed+3);
       	      cout << "Significance (aQGC)	= " << (h->Integral(1,h->GetNbinsX()+1))/sqrt((h->Integral(1,h->GetNbinsX()+1))+totevents) << endl;
       	      Logfile << "Significance (aQGC)	= " << (h->Integral(1,h->GetNbinsX()+1))/sqrt((h->Integral(1,h->GetNbinsX()+1))+totevents) << endl;
-	      h->Scale(th1tot->Integral(1,th1tot->GetNbinsX()+1)/h->Integral(1,h->GetNbinsX()+1));
+	      //h->Scale(th1tot->Integral(1,th1tot->GetNbinsX()+1)/h->Integral(1,h->GetNbinsX()+1));
 	      h->Draw("histsame");
+	      h2 = (TH1D*) h->Clone();
 	      //h->Draw("e1same");
 	    }
   	//h->Write();
@@ -674,7 +678,77 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
 
     c1->Print(outfile+".pdf");
     c1->Print(outfile+".png");
+    c1->Delete();
     Logfile.close();
+    //-----------------------------------------------------------------
+    //	Save log plot
+    //-----------------------------------------------------------------
+    TCanvas *c2 = new TCanvas("c2","c2",800,800);
+    //TPad *d3, *d4;
+    
+    c2->SetFillColor      (0);
+    c2->SetBorderMode     (0);
+    c2->SetBorderSize     (10);
+    // Set margins to reasonable defaults
+    c2->SetLeftMargin     (0.18);
+    c2->SetRightMargin    (0.05);
+    c2->SetTopMargin      (0.08);
+    c2->SetBottomMargin   (0.15);
+    // Setup a frame which makes sense
+    c2->SetFrameFillStyle (0);
+    c2->SetFrameLineStyle (0);
+    c2->SetFrameBorderMode(0);
+    c2->SetFrameBorderSize(10);
+    c2->SetFrameFillStyle (0);
+    c2->SetFrameLineStyle (0);
+    c2->SetFrameBorderMode(0);
+    c2->SetFrameBorderSize(10);
+
+    //c2->Divide(1,2);
+    //d3 = (TPad*)c2->GetPad(1);
+    //d3->SetPad(0.01,0.02,0.95,0.99);
+    ////c1->cd();
+    //d4 = (TPad*)c2->GetPad(2);
+    //d4->SetPad(0.01,0.00,0.95,0.02);
+    //d3->cd();
+    //gPad->SetBottomMargin(0.0);
+
+    //gPad->SetTopMargin(0.1);
+    //gPad->SetRightMargin(0.05);
+    //gPad->SetLeftMargin(0.14);
+
+    //gPad->SetLogy(1);
+    c2->SetLogy(1);
+
+    th1totempty->SetMaximum(100.*maxval);
+    th1totempty->Draw();
+
+
+    th1tot->Draw("e2same");
+
+    hs->SetMinimum(0.1);
+    hs->Draw("hist");
+
+    if (h1->GetEntries()>0)	h1->Draw("histsame");
+    if (h2->GetEntries()>0)	h2->Draw("histsame");
+
+    if (pv.drawleg ==1)  Leg->Draw();  
+//    CMS_lumi( d3, 4, 10 ); 
+    //gPad->RedrawAxis();
+    //d4->cd();
+    //gPad->SetLeftMargin(0.14);
+    //gPad->SetTopMargin(0);
+    //gPad->SetRightMargin(0.05);
+    //gPad->SetFrameBorderSize(0);
+    //gPad->SetBottomMargin(0.0);
+    //gPad->SetTickx();
+
+
+    c2->Print(outfile+"_log.png");
+    //-----------------------------------------------------------------
+    //	END:	Save log plot
+    //-----------------------------------------------------------------
+
 #if 0
     c1->Print(outfile+".C");
     //gPad->WaitPrimitive();
