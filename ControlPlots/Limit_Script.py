@@ -7,7 +7,8 @@ CutFile = 'DibosonBoostedElMuCuts13TeV_SignalRegion_CHS.txt'
 VariableFile = 'controlplotvars_CHS_Limit.h'
 TemplateRunFIle = 'RunMacro_Limits_Templet.C'
 
-MCnameDict = [ "aQGC", "WV_EWK", "Z+jets", "Z+jets", "Diboson", "top", "TTbar", "SingleTop", "W+jets", "QCD" , "VV"] 
+MCnameDict = [ "WV_EWK", "Z+jets", "Z+jets", "Diboson", "top", "TTbar", "SingleTop", "W+jets", "QCD" , "VV"] 
+#MCnameDict = [ "aQGC", "WV_EWK", "Z+jets", "Z+jets", "Diboson", "top", "TTbar", "SingleTop", "W+jets", "QCD" , "VV"] 
 
 CutFileDict_jes_up={"ungroomed_PuppiAK8_jet_pt"	:"ungroomed_PuppiAK8_jet_pt_jes_up",
 		"ungroomed_PuppiAK8_jet_eta"	:"ungroomed_PuppiAK8_jet_eta_jes_up",
@@ -22,6 +23,7 @@ CutFileDict_jes_up={"ungroomed_PuppiAK8_jet_pt"	:"ungroomed_PuppiAK8_jet_pt_jes_
 		"BosonCentrality_type0"		:"BosonCentrality_type0_jes_up",
 		"ZeppenfeldWL_type0"		:"ZeppenfeldWL_type0_jes_up",
 		"vbf_maxpt_jj_Deta"		:"vbf_maxpt_jj_Deta_jes_up",
+		"mass_lvj_type0_PuppiAK8"	:"mass_lvj_type0_PuppiAK8_jes_up",
 		"ZeppenfeldWH"			:"ZeppenfeldWH_jes_up"
 		}
 CutFileDict_jes_dn={"ungroomed_PuppiAK8_jet_pt"	:"ungroomed_PuppiAK8_jet_pt_jes_dn",
@@ -37,6 +39,7 @@ CutFileDict_jes_dn={"ungroomed_PuppiAK8_jet_pt"	:"ungroomed_PuppiAK8_jet_pt_jes_
 		"BosonCentrality_type0"		:"BosonCentrality_type0_jes_dn",
 		"ZeppenfeldWL_type0"		:"ZeppenfeldWL_type0_jes_dn",
 		"vbf_maxpt_jj_Deta"		:"vbf_maxpt_jj_Deta_jes_dn",
+		"mass_lvj_type0_PuppiAK8"	:"mass_lvj_type0_PuppiAK8_jes_dn",
 		"ZeppenfeldWH"			:"ZeppenfeldWH_jes_dn"
 		}
 CutFileDict_jer_up={
@@ -54,6 +57,7 @@ CutFileDict_jer_up={
 		"ZeppenfeldWL_type0"		:"ZeppenfeldWL_type0_jer_up",
 		#"ZeppenfeldWH"			:"ZeppenfeldWH_jer_up",
 		#"vbf_maxpt_jj_Deta"		:"vbf_maxpt_jj_Deta_jer_up"
+		"mass_lvj_type0_PuppiAK8"	:"mass_lvj_type0_PuppiAK8_jer_up",
 		}
 CutFileDict_jer_dn={
 		#"ungroomed_PuppiAK8_jet_pt"	:"ungroomed_PuppiAK8_jet_pt_jer_dn",
@@ -70,6 +74,7 @@ CutFileDict_jer_dn={
 		"ZeppenfeldWL_type0"		:"ZeppenfeldWL_type0_jer_dn",
 		#"ZeppenfeldWH"			:"ZeppenfeldWH_jer_dn",
 		#"vbf_maxpt_jj_Deta"		:"vbf_maxpt_jj_Deta_jer_dn"
+		"mass_lvj_type0_PuppiAK8"	:"mass_lvj_type0_PuppiAK8_jer_dn"
 		}
 
 fileName = ""
@@ -114,8 +119,8 @@ for cutvars in [CutFileDict_jes_up,CutFileDict_jes_dn, CutFileDict_jer_up, CutFi
 	print "\nFile created: ",fileName
 
 print "\n\n============\n\n"
-for i,suffix in enumerate(["_met_jes_up","_met_jes_dn", "_met_jer_up", "_met_jer_dn"]):
-	os.system("sed 's/mass_lvj_type0/mass_lvj_type0"+suffix+"/g' " + VariableFile + " > " + "Variable"+suffix+".h")
+for i,suffix in enumerate(["_jes_up","_jes_dn", "_jer_up", "_jer_dn"]):
+	os.system("sed 's/mass_lvj_type0_PuppiAK8/mass_lvj_type0_PuppiAK8"+suffix+"/g' " + VariableFile + " > " + "Variable"+suffix+".h")
 	print "\nFile created:  Variable"+suffix+".h"
 
 print "\n\n============\n\n"
@@ -130,7 +135,7 @@ print "**"*40
 command = "root -l -b -q RunMacro_Limits_Templet.C"
 
 os.system(command)
-for i,suffix in enumerate(["_met_jes_up","_met_jes_dn", "_met_jer_up", "_met_jer_dn"]):
+for i,suffix in enumerate(["_jes_up","_jes_dn", "_jer_up", "_jer_dn"]):
 	print "\n\n","**"*40,"\n*\n","*\t\t Running for ",suffix,"\n*\n","**"*40
 	os.system("cp RunMacro_Limits_Templet.C RunMacro_Limits_"+suffix+".C")
 	os.system("sed -i 's/controlplotvars_CHS_Limit.h/"+"Variable"+suffix+".h"+"/g' RunMacro_Limits_"+suffix+".C")
@@ -168,7 +173,7 @@ for suffix in ["_CMS_scale_jUp", "_CMS_scale_jDown", "_CMS_res_metUp", "_CMS_res
 	os.system("rm "+os.path.splitext(SampleFile)[0]+suffix+".txt")
 for i,name in enumerate(OutCutFileName):
 	os.system("rm "+os.path.splitext(CutFile)[0]+OutCutFileName[i]+".txt")
-for suffix in ["_met_jes_up","_met_jes_dn", "_met_jer_up", "_met_jer_dn"]:
+for suffix in ["_jes_up","_jes_dn", "_jer_up", "_jer_dn"]:
 	os.system("rm  Variable"+suffix+".h")
 	os.system("rm RunMacro_Limits_"+suffix+".C")
 for i,key in enumerate(weights):

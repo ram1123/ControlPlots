@@ -351,13 +351,13 @@ void myControlPlots(const char *cuttablefilename,
     //
     //	ONE LEPTON CUTS
     //
-    //TCut the_cut(TString("btag0Wgt*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*(")+unwtcutstring+TString(")"));
+    TCut the_cut(TString("btag0Wgt*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*(")+unwtcutstring+TString(")"));
     //TCut the_cut(TString("genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*(")+unwtcutstring+TString(")"));
     //
     //  TWO LEPTON CASE
     //
     //TCut the_cut(TString("totalEventWeight_2Lep*pu_Weight*(")+unwtcutstring+TString(")"));
-    TCut the_cut(TString("btag0Wgt*totalEventWeight_2Lep*pu_Weight*(")+unwtcutstring+TString(")"));
+    //TCut the_cut(TString("btag0Wgt*totalEventWeight_2Lep*pu_Weight*(")+unwtcutstring+TString(")"));
     //TCut the_cut(TString("genWeight*trig_eff_Weight2*id_eff_Weight2*pu_Weight*(")+unwtcutstring+TString(")"));
     //TCut the_cut(TString("btag0Wgt*genWeight*trig_eff_Weight2*id_eff_Weight2*pu_Weight*(")+unwtcutstring+TString(")"));
     //TCut the_cut(TString("btag1Wgt*genWeight*trig_eff_Weight2*id_eff_Weight2*pu_Weight*(")+unwtcutstring+TString(")"));
