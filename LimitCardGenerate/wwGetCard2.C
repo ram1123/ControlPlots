@@ -224,16 +224,20 @@ void model(const char *cuttablefilename,
   double MAXRange = 2500;
 
 
-  TH1 *hists[29];
+  TH1 *hists[53];
 
-  const char* HistName[29] = {	"Data",						// 0
-  			"WV_EWK", "WV_EWK_LEPUp", "WV_EWK_LEPDown", "WV_EWK_CMS_scale_jUp", "WV_EWK_CMS_scale_jDown", "WV_EWK_CMS_res_metUp", "WV_EWK_CMS_res_metDown",	// 1	
-			"Diboson", "Diboson_LEPUp", "Diboson_LEPDown", "Diboson_CMS_scale_jUp", "Diboson_CMS_scale_jDown", "Diboson_CMS_res_metUp", "Diboson_CMS_res_metDown", // 8
-			"top", "top_LEPUp", "top_LEPDown", "top_CMS_scale_jUp", "top_CMS_scale_jDown",	"top_CMS_res_metUp", "_CMS_res_metDown",		// 15
-			"Vjets", "Vjets_LEPUp", "Vjets_LEPDown", "Vjets_CMS_scale_jUp", "Vjets_CMS_scale_jDown", "Vjets_CMS_res_metUp", "Vjets_CMS_res_metDown"	// 22
+  const char* HistName[53] = {	"Data",						// 0
+  			"WV_EWK", "WV_EWK_LEPUp", "WV_EWK_LEPDown", "WV_EWK_CMS_scale_jUp", "WV_EWK_CMS_scale_jDown", "WV_EWK_CMS_res_metUp", "WV_EWK_CMS_res_metDown", 
+			"WV_EWK_CMS_puUp", "WV_EWK_CMS_puDown",	"WV_EWK_CMS_btagHFUp", "WV_EWK_CMS_btagHFDown", "WV_EWK_CMS_btagLFUp", "WV_EWK_CMS_btagLFDown", // 1	
+			"Diboson", "Diboson_LEPUp", "Diboson_LEPDown", "Diboson_CMS_scale_jUp", "Diboson_CMS_scale_jDown", "Diboson_CMS_res_metUp", "Diboson_CMS_res_metDown", 
+			"Diboson_CMS_puUp", "Diboson_CMS_puDown", "Diboson_CMS_btagHFUp", "Diboson_CMS_btagHFDown", "Diboson_CMS_btagLFUp", "Diboson_CMS_btagLFDown", // 14
+			"top", "top_LEPUp", "top_LEPDown", "top_CMS_scale_jUp", "top_CMS_scale_jDown",	"top_CMS_res_metUp", "top_CMS_res_metDown", 
+			"top_CMS_puUp", "top_CMS_puDown", "top_CMS_btagHFUp", "top_CMS_btagHFDown", "top_CMS_btagLFUp", "top_CMS_btagLFDown",		// 27
+			"Vjets", "Vjets_LEPUp", "Vjets_LEPDown", "Vjets_CMS_scale_jUp", "Vjets_CMS_scale_jDown", "Vjets_CMS_res_metUp", "Vjets_CMS_res_metDown", 
+			"Vjets_CMS_puUp", "Vjets_CMS_puDown", "Vjets_CMS_btagHFUp", "Vjets_CMS_btagHFDown", "Vjets_CMS_btagLFUp", "Vjets_CMS_btagLFDown"	// 40
 			};
   
-  for (int i=0; i<29; i++)
+  for (int i=0; i<53; i++)
   {
     hists[i] = new TH1D(HistName[i],HistName[i], NBINS, MINRange, MAXRange);
     hists[i]->Sumw2();
@@ -265,6 +269,8 @@ void model(const char *cuttablefilename,
     float pfMET_Corr=-1, mass_lvj_type0=-1, mass_llj_PuppiAK8=-1;
     float mass_lvj_type0_LEP_Up=-1, mass_lvj_type0_LEP_Down=-1, mass_lvj_type0_PuppiAK8_jes_up=-1, mass_lvj_type0_PuppiAK8_jes_dn=-1;
     float genWeight=-1, trig_eff_Weight=-1, id_eff_Weight=-1, pu_Weight=-1, btag0Wgt=-1;
+    float pu_Weight_down=-1,pu_Weight_up=-1, btag0WgtDownHF=-1, btag0WgtUpHF=-1, btag0WgtUpLF=-1, btag0WgtDownLF=-1;
+
     float ZeppenfeldWL_type0=-1, ZeppenfeldWH=-1, BosonCentrality_type0=-1;
     float ZeppenfeldWL_type0_LEP_Up=-1, ZeppenfeldWL_type0_LEP_Down=-1, BosonCentrality_type0_LEP_Up=-1, BosonCentrality_type0_LEP_Down=-1;
     //float LHEWeight[1164];
@@ -399,10 +405,24 @@ void model(const char *cuttablefilename,
     mytree->SetBranchAddress("trig_eff_Weight",&trig_eff_Weight);
     mytree->SetBranchStatus("id_eff_Weight",1);
     mytree->SetBranchAddress("id_eff_Weight",&id_eff_Weight);
+
     mytree->SetBranchStatus("pu_Weight",1);
     mytree->SetBranchAddress("pu_Weight",&pu_Weight);
+    mytree->SetBranchStatus("pu_Weight_up",1);
+    mytree->SetBranchAddress("pu_Weight_up",&pu_Weight_up);
+    mytree->SetBranchStatus("pu_Weight_down",1);
+    mytree->SetBranchAddress("pu_Weight_down",&pu_Weight_down);
+
     mytree->SetBranchStatus("btag0Wgt",1);
     mytree->SetBranchAddress("btag0Wgt",&btag0Wgt);
+    mytree->SetBranchStatus("btag0WgtUpHF",1);
+    mytree->SetBranchAddress("btag0WgtUpHF",&btag0WgtUpHF);
+    mytree->SetBranchStatus("btag0WgtDownHF",1);
+    mytree->SetBranchAddress("btag0WgtDownHF",&btag0WgtDownHF);
+    mytree->SetBranchStatus("btag0WgtUpLF",1);
+    mytree->SetBranchAddress("btag0WgtUpLF",&btag0WgtUpLF);
+    mytree->SetBranchStatus("btag0WgtDownLF",1);
+    mytree->SetBranchAddress("btag0WgtDownLF",&btag0WgtDownLF);
 
     mytree->SetBranchStatus("ZeppenfeldWL_type0",1);
     mytree->SetBranchAddress("ZeppenfeldWL_type0",&ZeppenfeldWL_type0);
@@ -445,7 +465,7 @@ void model(const char *cuttablefilename,
 
       if(!(type==0||type==1)) continue;
 
-      if (1)
+      if (1)	//----------------	Nominal, PU up, PU down
       {
 	      if(!(l_pt2<0 && l_pt1>30)) continue;
 	      if(!(((type==0)&&(abs(l_eta1)<2.4))||((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566))))) continue;
@@ -465,12 +485,42 @@ void model(const char *cuttablefilename,
     
 	      if(s->name().EqualTo("data"))	 hists[0]->Fill(mass_lvj_type0);
 	      if(s->name().EqualTo("WV_EWK"))	 hists[1]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("Diboson")) 	 hists[8]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("top"))  	 hists[15]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("V+jets"))	 hists[22]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("Diboson")) 	 hists[14]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("top"))  	 hists[27]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("V+jets"))	 hists[40]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+
+	      if(s->name().EqualTo("WV_EWK"))	 hists[8]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_up*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("Diboson")) 	 hists[21]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_up*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("top"))  	 hists[34]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_up*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("V+jets"))	 hists[47]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_up*btag0Wgt)/(1.0*(nmc-2*nneg)));
+
+	      if(s->name().EqualTo("WV_EWK"))	 hists[9]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_down*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("Diboson")) 	 hists[22]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_down*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("top"))  	 hists[35]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_down*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("V+jets"))	 hists[48]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_down*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
+
+	      if(s->name().EqualTo("WV_EWK"))	 hists[10]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("Diboson")) 	 hists[23]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("top"))  	 hists[36]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("V+jets"))	 hists[49]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
+
+	      if(s->name().EqualTo("WV_EWK"))	 hists[11]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownHF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("Diboson")) 	 hists[24]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownHF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("top"))  	 hists[37]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownHF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("V+jets"))	 hists[50]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownHF)/(1.0*(nmc-2*nneg)));
+
+	      if(s->name().EqualTo("WV_EWK"))	 hists[12]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpLF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("Diboson")) 	 hists[25]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpLF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("top"))  	 hists[38]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpLF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("V+jets"))	 hists[51]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpLF)/(1.0*(nmc-2*nneg)));
+
+	      if(s->name().EqualTo("WV_EWK"))	 hists[13]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownLF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("Diboson")) 	 hists[26]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownLF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("top"))  	 hists[39]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownLF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("V+jets"))	 hists[52]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownLF)/(1.0*(nmc-2*nneg)));
       }
 
-      if (1)
+      if (1)	//--------------------------- LEP up
       {
 	      if(!(l_pt2_Up<0 && l_pt1_Up>30)) continue;
 	      if(!(((type==0)&&(abs(l_eta1)<2.4))||((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566))))) continue;
@@ -490,12 +540,12 @@ void model(const char *cuttablefilename,
    
 	      //if(s->name().EqualTo("data"))	 histo_data_LEPUp->Fill(mass_lvj_type0_LEP_Up);
 	      if(s->name().EqualTo("WV_EWK"))	 hists[2]->Fill(mass_lvj_type0_LEP_Up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("Diboson"))   hists[9]->Fill(mass_lvj_type0_LEP_Up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("top"))  	 hists[16]->Fill(mass_lvj_type0_LEP_Up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("V+jets"))	 hists[23]->Fill(mass_lvj_type0_LEP_Up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("Diboson"))   hists[15]->Fill(mass_lvj_type0_LEP_Up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("top"))  	 hists[28]->Fill(mass_lvj_type0_LEP_Up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("V+jets"))	 hists[41]->Fill(mass_lvj_type0_LEP_Up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
       }
 
-      if (1)
+      if (1)	//--------------------------- LEP down
       {
 	      if(!(l_pt2_Down<0 && l_pt1_Down>30)) continue;
 	      if(!(((type==0)&&(abs(l_eta1)<2.4))||((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566))))) continue;
@@ -515,12 +565,12 @@ void model(const char *cuttablefilename,
    
 	      //if(s->name().EqualTo("data"))	 histo_data_LEPDown->Fill(mass_lvj_type0_LEP_Down);
 	      if(s->name().EqualTo("WV_EWK"))	 hists[3]->Fill(mass_lvj_type0_LEP_Down,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("Diboson"))   hists[10]->Fill(mass_lvj_type0_LEP_Down,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("top"))  	 hists[17]->Fill(mass_lvj_type0_LEP_Down,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("V+jets"))	 hists[24]->Fill(mass_lvj_type0_LEP_Down,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("Diboson"))   hists[16]->Fill(mass_lvj_type0_LEP_Down,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("top"))  	 hists[29]->Fill(mass_lvj_type0_LEP_Down,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("V+jets"))	 hists[42]->Fill(mass_lvj_type0_LEP_Down,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
       }
 
-	if (1)
+	if (1)	//-------------------	JES up
 	{
 	   if(!(l_pt2<0 && l_pt1>30)) continue;
 	   if(!(((type==0)&&(abs(l_eta1)<2.4))||((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566))))) continue;
@@ -540,12 +590,12 @@ void model(const char *cuttablefilename,
 
 	   //if(s->name().EqualTo("data"))	 histo_data_LEPDown->Fill(mass_lvj_type0_PuppiAK8_jes_up);
 	   if(s->name().EqualTo("WV_EWK"))	 hists[4]->Fill(mass_lvj_type0_PuppiAK8_jes_up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	   if(s->name().EqualTo("Diboson"))  	 hists[11]->Fill(mass_lvj_type0_PuppiAK8_jes_up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	   if(s->name().EqualTo("top"))  	 hists[18]->Fill(mass_lvj_type0_PuppiAK8_jes_up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	   if(s->name().EqualTo("V+jets"))	 hists[25]->Fill(mass_lvj_type0_PuppiAK8_jes_up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	   if(s->name().EqualTo("Diboson"))  	 hists[17]->Fill(mass_lvj_type0_PuppiAK8_jes_up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	   if(s->name().EqualTo("top"))  	 hists[30]->Fill(mass_lvj_type0_PuppiAK8_jes_up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	   if(s->name().EqualTo("V+jets"))	 hists[43]->Fill(mass_lvj_type0_PuppiAK8_jes_up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	}
 
-	if (1)
+	if (1)	//-------------------	JES down
 	{
 	   if(!(l_pt2<0 && l_pt1>30)) continue;
 	   if(!(((type==0)&&(abs(l_eta1)<2.4))||((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566))))) continue;
@@ -565,15 +615,65 @@ void model(const char *cuttablefilename,
 
 	   //if(s->name().EqualTo("data"))	 histo_data_LEPDown->Fill(mass_lvj_type0_PuppiAK8_jes_dn);
 	   if(s->name().EqualTo("WV_EWK"))	 hists[5]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	   if(s->name().EqualTo("Diboson"))  	 hists[12]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	   if(s->name().EqualTo("top"))  	 hists[19]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	   if(s->name().EqualTo("V+jets"))	 hists[26]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	   if(s->name().EqualTo("Diboson"))  	 hists[18]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	   if(s->name().EqualTo("top"))  	 hists[31]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	   if(s->name().EqualTo("V+jets"))	 hists[44]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	}
+
+	if (1)	//-------------------	JER up
+	{
+	   if(!(l_pt2<0 && l_pt1>30)) continue;
+	   if(!(((type==0)&&(abs(l_eta1)<2.4))||((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566))))) continue;
+	   if(!(((type==0)&&(pfMET_Corr_jerup>50)) || ((type==1)&&(pfMET_Corr_jerup>80)))) continue;
+	   if(!((ungroomed_PuppiAK8_jet_pt>200)&&(abs(ungroomed_PuppiAK8_jet_eta)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55))) continue;
+	   if(!((PuppiAK8_jet_mass_so_corr>65) && (PuppiAK8_jet_mass_so_corr<105))) continue;
+	   if(!(nBTagJet_loose==0)) continue;
+	   //if(!(dilep_m>76 && dilep_m<107)) continue;
+	   if(!(vbf_maxpt_jj_m>800)) continue;
+	   if(!(abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta)>4.0)) continue;
+	   if(!((vbf_maxpt_j1_pt>30) && (vbf_maxpt_j2_pt>30))) continue;
+	   if(!(mass_lvj_type0_PuppiAK8_jer_up>600)) continue;
+	   //if(!(v_pt>200.)) continue;
+	   if(!(BosonCentrality_type0>1.0)) continue;
+	   if(!((abs(ZeppenfeldWL_type0_jer_up)/abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta))<0.3)) continue;
+	   if(!((abs(ZeppenfeldWH)/abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta))<0.3)) continue;
+
+	   //if(s->name().EqualTo("data"))	 histo_data_LEPDown->Fill(mass_lvj_type0_PuppiAK8_jes_dn);
+	   if(s->name().EqualTo("WV_EWK"))	 hists[6]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	   if(s->name().EqualTo("Diboson"))  	 hists[19]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	   if(s->name().EqualTo("top"))  	 hists[32]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	   if(s->name().EqualTo("V+jets"))	 hists[45]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	}
+
+	if (1)	//-------------------	JER down
+	{
+	   if(!(l_pt2<0 && l_pt1>30)) continue;
+	   if(!(((type==0)&&(abs(l_eta1)<2.4))||((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566))))) continue;
+	   if(!(((type==0)&&(pfMET_Corr_jerdn>50)) || ((type==1)&&(pfMET_Corr_jerdn>80)))) continue;
+	   if(!((ungroomed_PuppiAK8_jet_pt>200)&&(abs(ungroomed_PuppiAK8_jet_eta)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55))) continue;
+	   if(!((PuppiAK8_jet_mass_so_corr>65) && (PuppiAK8_jet_mass_so_corr<105))) continue;
+	   if(!(nBTagJet_loose==0)) continue;
+	   //if(!(dilep_m>76 && dilep_m<107)) continue;
+	   if(!(vbf_maxpt_jj_m>800)) continue;
+	   if(!(abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta)>4.0)) continue;
+	   if(!((vbf_maxpt_j1_pt>30) && (vbf_maxpt_j2_pt>30))) continue;
+	   if(!(mass_lvj_type0_PuppiAK8_jer_dn>600)) continue;
+	   //if(!(v_pt>200.)) continue;
+	   if(!(BosonCentrality_type0>1.0)) continue;
+	   if(!((abs(ZeppenfeldWL_type0_jer_dn)/abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta))<0.3)) continue;
+	   if(!((abs(ZeppenfeldWH)/abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta))<0.3)) continue;
+
+	   //if(s->name().EqualTo("data"))	 histo_data_LEPDown->Fill(mass_lvj_type0_PuppiAK8_jes_dn);
+	   if(s->name().EqualTo("WV_EWK"))	 hists[7]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	   if(s->name().EqualTo("Diboson"))  	 hists[20]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	   if(s->name().EqualTo("top"))  	 hists[33]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	   if(s->name().EqualTo("V+jets"))	 hists[46]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	}
       }
   }
 
 
-  for (int i=0; i<29; i++)
+  for (int i=0; i<53; i++)
   {
     // include overflow bin in last bin
     hists[i]->SetBinContent(NBINS,hists[i]->GetBinContent(NBINS)+hists[i]->GetBinContent(NBINS+1));
