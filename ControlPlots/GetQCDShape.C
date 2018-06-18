@@ -65,8 +65,8 @@ double intLUMIinvpb;
 // SYNOPSIS:
 //   1. Prepare "InData" and "OutDir" directories; e.g., "ln -s . OutDir" to go to current dir
 //   2. Prepare "cuttable.txt" of cut names and cut strings
-//   3. root [0] .L myControlPlots.C+
-//      root [1] myControlPlots("cuttable.txt","sampleFileName.txt")
+//   3. root [0] .L GetQCDShape.C+
+//      root [1] GetQCDShape("cuttable.txt","sampleFileName.txt")
 //
 // ====================================================================================
 // Self Function
@@ -252,7 +252,7 @@ void loadSamples(const char *filename,vector<Sample *>& samples)
 
 //======================================================================
 
-void myControlPlots(const char *cuttablefilename,
+void GetQCDShape(const char *cuttablefilename,
 		    const char *samplefilename,
 		    const plotVar_t plotvars[] = commonplotvars_chs,
 		    const string OutRootFile = "testrk.root",
@@ -335,9 +335,6 @@ void myControlPlots(const char *cuttablefilename,
     Logfile << second << std::endl;
     Logfile << "* " << temp << " *" << std::endl;
     Logfile << second << std::endl;
-    if (int(ScaleSignal) == 1)
-    	Logfile << "* \t signal is scaled by 50..." <<endl;
-    Logfile << second << std::endl;
     Logfile << first << std::endl;
  
     if ( !pv.plotvar.Length() ) break;
@@ -355,10 +352,15 @@ void myControlPlots(const char *cuttablefilename,
     //	ONE LEPTON CUTS
     //
     //TCut the_cut(TString("btag0Wgt*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*(")+unwtcutstring+TString(")"));
+    //TCut the_cut(TString("genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*(")+unwtcutstring+TString(")"));
     //
     //  TWO LEPTON CASE
     //
-    TCut the_cut(TString("pu_Weight*totalEventWeight_2Lep*btag0Wgt*(")+unwtcutstring+TString(")"));
+    //TCut the_cut(TString("totalEventWeight_2Lep*pu_Weight*(")+unwtcutstring+TString(")"));
+    TCut the_cut(TString("btag0Wgt*totalEventWeight_2Lep*pu_Weight*(")+unwtcutstring+TString(")"));
+    //TCut the_cut(TString("genWeight*trig_eff_Weight2*id_eff_Weight2*pu_Weight*(")+unwtcutstring+TString(")"));
+    //TCut the_cut(TString("btag0Wgt*genWeight*trig_eff_Weight2*id_eff_Weight2*pu_Weight*(")+unwtcutstring+TString(")"));
+    //TCut the_cut(TString("btag1Wgt*genWeight*trig_eff_Weight2*id_eff_Weight2*pu_Weight*(")+unwtcutstring+TString(")"));
 
     TCut nullcut("");
 
@@ -390,11 +392,11 @@ void myControlPlots(const char *cuttablefilename,
       //else if (s->name().EqualTo("aQGCX100")){
       else if (s->name().EqualTo("aQGC")){
 	if (int(ScaleSignal) == 1)
-	{	h = s->Draw(pv, the_cut*"50"*"(LHEWeight[1121]/LHEWeight[0])", the_cut*"50"*"(LHEWeight[1121]/LHEWeight[0])");
+	{	h = s->Draw(pv, the_cut*"5.00"*"(LHEWeight[994]/LHEWeight[0])", the_cut*"5.00"*"(LHEWeight[994]/LHEWeight[0])");
 		cout<<"====> Scale Signal = " << ScaleSignal << endl;
 	}
 	else
-		h = s->Draw(pv, the_cut*"(LHEWeight[1121]/LHEWeight[0])", the_cut*"(LHEWeight[1121]/LHEWeight[0])");
+		h = s->Draw(pv, the_cut*"(LHEWeight[994]/LHEWeight[0])", the_cut*"(LHEWeight[994]/LHEWeight[0])");
 	if (s->stackit()) {
 	  totevents += h->Integral(1,h->GetNbinsX()+1);
 	} 
@@ -402,7 +404,7 @@ void myControlPlots(const char *cuttablefilename,
       //else if (s->name().EqualTo("WV_EWKX100")){
       else if (s->name().EqualTo("WV_EWK")){
 	if (int(ScaleSignal) == 1)
-		h = s->Draw(pv, the_cut*"50", the_cut*"50");
+		h = s->Draw(pv, the_cut*"5.00", the_cut*"5.00");
 	else
 		h = s->Draw(pv, the_cut, the_cut);
 	if (s->stackit()) {
@@ -596,18 +598,10 @@ void myControlPlots(const char *cuttablefilename,
 	 rit != v_legentries.rend();
 	 rit++)
       {
-	if(rit->first=="aQGC")
+	if(rit->first=="aQGC" || rit->first=="WV_EWK")
 	{
 	if (int(ScaleSignal) == 1)
-	  Leg->AddEntry(rit->second, rit->first+TString("X50"), "L" ); // "F");
-	else
-	  Leg->AddEntry(rit->second, rit->first+TString("(FT2=-0.5)"), "L" ); // "F");
-	//if(rit->first=="aQGCX100" || rit->first=="WV_EWKX100")
-	}
-	else if(rit->first=="WV_EWK")
-	{
-	if (int(ScaleSignal) == 1)
-	  Leg->AddEntry(rit->second, rit->first+TString("X50"), "L" ); // "F");
+	  Leg->AddEntry(rit->second, rit->first+TString("X5.00"), "L" ); // "F");
 	else
 	  Leg->AddEntry(rit->second, rit->first, "L" ); // "F");
 	//if(rit->first=="aQGCX100" || rit->first=="WV_EWKX100")
@@ -712,8 +706,8 @@ void myControlPlots(const char *cuttablefilename,
     }
 
 //    th1totempty->SetMaximum(2.5*maxval);
-    th1totempty->SetMaximum(1.9*maxval);
-    if(pv.slog==9) th1totempty->SetMaximum(1.9*maxval);
+    th1totempty->SetMaximum(1.5*maxval);
+    if(pv.slog==9) th1totempty->SetMaximum(1.5*maxval);
     //th1totempty->SetMaximum(350.);
 
     // Draw it all
@@ -758,8 +752,8 @@ void myControlPlots(const char *cuttablefilename,
 	      h->SetLineWidth(3.);
 	      h->SetLineColor(kBlue+3);
 	      if (int(ScaleSignal) == 1){
-	      	cout << "Significance (SM EWK) = " << (h->Integral(1,h->GetNbinsX()+1)/50)/sqrt((h->Integral(1,h->GetNbinsX()+1)/50)+totevents) << endl;
-	        Logfile << "Significance (SM EWK) = " << (h->Integral(1,h->GetNbinsX()+1)/50)/sqrt((h->Integral(1,h->GetNbinsX()+1)/50)+totevents) << endl;
+	      	cout << "Significance (SM EWK) = " << (h->Integral(1,h->GetNbinsX()+1)/5.00)/sqrt((h->Integral(1,h->GetNbinsX()+1)/5.00)+totevents) << endl;
+	        Logfile << "Significance (SM EWK) = " << (h->Integral(1,h->GetNbinsX()+1)/5.00)/sqrt((h->Integral(1,h->GetNbinsX()+1)/5.00)+totevents) << endl;
 	      }
 	      else{
 	      	cout << "Significance (SM EWK) = " << (h->Integral(1,h->GetNbinsX()+1))/sqrt((h->Integral(1,h->GetNbinsX()+1))+totevents) << endl;
@@ -776,10 +770,10 @@ void myControlPlots(const char *cuttablefilename,
 	      //aqgc->SetLineStyle(11);
 	      h->SetLineWidth(3.);
 	      h->SetLineColor(kRed+3);
-	      //cout << "Significance (aQGC)   = " << (h->Integral(1,h->GetNbinsX()+1))/sqrt((h->Integral(1,h->GetNbinsX()+1))+totevents) << endl;
-	      cout << "Significance (aQGC)   = " << (h->Integral(1,h->GetNbinsX()+1)/50)/sqrt((h->Integral(1,h->GetNbinsX()+1)/50)+totevents) << endl;
-	      //Logfile << "Significance (aQGC)   = " << (h->Integral(1,h->GetNbinsX()+1))/sqrt((h->Integral(1,h->GetNbinsX()+1))+totevents) << endl;
-	      Logfile << "Significance (aQGC)   = " << (h->Integral(1,h->GetNbinsX()+1)/50)/sqrt((h->Integral(1,h->GetNbinsX()+1)/50)+totevents) << endl;
+	      cout << "Significance (aQGC)   = " << (h->Integral(1,h->GetNbinsX()+1))/sqrt((h->Integral(1,h->GetNbinsX()+1))+totevents) << endl;
+	      //cout << "Significance (aQGC)   = " << (h->Integral(1,h->GetNbinsX()+1)/5.00)/sqrt((h->Integral(1,h->GetNbinsX()+1)/5.00)+totevents) << endl;
+	      Logfile << "Significance (aQGC)   = " << (h->Integral(1,h->GetNbinsX()+1))/sqrt((h->Integral(1,h->GetNbinsX()+1))+totevents) << endl;
+	      //Logfile << "Significance (aQGC)   = " << (h->Integral(1,h->GetNbinsX()+1)/5.00)/sqrt((h->Integral(1,h->GetNbinsX()+1)/5.00)+totevents) << endl;
 	      h->Draw("histsame");
 	      h2 = (TH1D*) h->Clone();
 	      //h->Draw("e1same");
@@ -838,7 +832,7 @@ void myControlPlots(const char *cuttablefilename,
 	hhratio->SetBinError(i, binError);
       }
       th1emptyclone = new TH1D("th1emptyclone", "th1emptyclone", pv.ANBINS, pv.AMINRange, pv.AMAXRange);
-      th1emptyclone->GetYaxis()->SetRangeUser(0.1,2.8000);
+      th1emptyclone->GetYaxis()->SetRangeUser(0.6,1.3999);
       th1emptyclone->GetXaxis()->SetTitle(pv.xlabel);
       th1emptyclone->GetXaxis()->SetTitleOffset(0.9);
       th1emptyclone->GetXaxis()->SetTitleSize(0.15);
@@ -874,27 +868,16 @@ void myControlPlots(const char *cuttablefilename,
 #endif
 
       hhratio->Draw("esame");
-      TLine *line1; line1 = new TLine(pv.AMINRange,0.5,pv.AMAXRange,0.5);
-      line1->SetLineStyle(2);
-      line1->SetLineWidth(1);
-      line1->SetLineColor(1);
-      line1->Draw();
-      TLine *line2; line2 = new TLine(pv.AMINRange,1.0,pv.AMAXRange,1.0);
-      line2->SetLineStyle(2);
-      line2->SetLineWidth(1);
-      line2->SetLineColor(1);
-      line2->Draw();
-      TLine *line3; line3 = new TLine(pv.AMINRange,1.5,pv.AMAXRange,1.5);
-      line3->SetLineStyle(2);
-      line3->SetLineWidth(1);
-      line3->SetLineColor(1);
-      line3->Draw();
+      TLine *line; line = new TLine(pv.AMINRange,1.0,pv.AMAXRange,1.0);
+      line->SetLineStyle(1);
+      line->SetLineWidth(1);
+      line->SetLineColor(1);
+      line->Draw();
     }
 
 
     c1->Print(outfile+".pdf");
     c1->Print(outfile+".png");
-    c1->Print(outfile+".root");
     c1->Print(outfile+".C");
     //c1->Print(outfile+".tex");
     //-----------------------------------------------------------------
@@ -936,7 +919,7 @@ void myControlPlots(const char *cuttablefilename,
 
     gPad->SetLogy(1);
 
-    th1totempty->SetMaximum(800*maxval);
+    th1totempty->SetMaximum(100*maxval);
     th1totempty->SetMinimum(0.001);
     th1totempty->Draw();
 
@@ -996,13 +979,13 @@ void myControlPlots(const char *cuttablefilename,
   //f.Write();
   f->Close();
 
-}                                                                // myControlPlots
+}                                                                // GetQCDShape
 
 //================================================================================
 /* 
 void dibresNobtagElplots()
 {
-  myControlPlots("DibosonResolvedElCuts.txt",
+  GetQCDShape("DibosonResolvedElCuts.txt",
 		 "DibosonResolvedElSamples13TeV.txt",
 		 commonplotvars);
 }
@@ -1012,19 +995,19 @@ void dibresNobtagElplots()
 
 void Nminus1_plots_met()
 {
-  myControlPlots("DibosonBoostedElCuts13TeV_WjetControlRegion_tight.txt",
+  GetQCDShape("DibosonBoostedElCuts13TeV_WjetControlRegion_tight.txt",
   		 "DibosonBoostedElSamples13TeV.txt",
 		 met
 		 );
-  myControlPlots("DibosonBoostedMuCuts13TeV_WjetControlRegion_tight.txt",
+  GetQCDShape("DibosonBoostedMuCuts13TeV_WjetControlRegion_tight.txt",
   		 "DibosonBoostedMuSamples13TeV.txt",
 		 met
 		 );
-  myControlPlots("DibosonBoostedElCuts13TeV_TTBarControlRegion.txt",
+  GetQCDShape("DibosonBoostedElCuts13TeV_TTBarControlRegion.txt",
   		 "DibosonBoostedElSamples13TeV.txt",
 		 met
 		 );
-  myControlPlots("DibosonBoostedMuCuts13TeV_TTBarControlRegion.txt",
+  GetQCDShape("DibosonBoostedMuCuts13TeV_TTBarControlRegion.txt",
   		 "DibosonBoostedMuSamples13TeV.txt",
 		 met
 		 );

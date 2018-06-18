@@ -16,8 +16,8 @@ def main():
     #canvas = ROOT.TCanvas("c2","c2",50,50,800,800)
     #plotter.getHistFromFile(plot_info, 0, 1, 1)
     #canvas.Print(plot_info["output_file"]) 
-    #plotter.CompHistFromTwoFile(plot_info)
-    plotter.CompHistFromTwoBranchSameFile(plot_info)
+    plotter.CompHistFromTwoFile(plot_info)
+    #plotter.CompHistFromTwoBranchSameFile(plot_info)
     
 
 def getPlotArgs():

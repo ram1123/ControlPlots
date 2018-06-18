@@ -12,12 +12,12 @@ ROOT.gStyle.SetOptStat('')  # Don't show the stat box
 os.system('mkdir -p plots/')
 
 #path="/afs/cern.ch/user/r/rasharma/work/public/aQGC_Ntuples/OutPut_Ele_6Sep/"
-#path="/eos/uscms//store/user/rasharma/SecondStep/WWTree_IsoVarSaved_2018_02_26_18h33/HaddedFiles/"
-path="/eos/uscms//store/user/rasharma/SecondStep/WWTree_IsoVarSaved_2018_03_06_23h37/HaddedFiles/"
+#path="/afs/cern.ch/user/r/rasharma/work/public/aQGC_Ntuples/OutPut_Ele_2Oct/"
+path="../"
 
 #RootFiles=["WWTree_WplusToLNuWminusTo2JJJ_EWK_LO_SM_MJJ100PTJ10_TuneCUETP8M1_13TeV-madgraph-pythia8_EleMu.root"]
 #RootFiles = [ "Signal_WpWm_LNuJJ_EWK_SM.root" ]
-RootFiles = [ "SingleElectron.root" ]
+RootFiles = [ "Wjets.root" ]
 #RootFiles=["OutPutRootFile_el.root","OutPutRootFile_mu.root"]
 
 cutlist = open("CutList.dat", "r")
@@ -75,7 +75,7 @@ for files in RootFiles:
 
         h1=ROOT.TH2F("h1","",int(columns[1]),float(columns[2]),float(columns[3]),int(columns[4]),float(columns[5]),float(columns[6]))
         #h1.SetTitle(filename)
-        h1.GetZaxis().SetRangeUser(0,100);
+        h1.GetZaxis().SetRangeUser(0,10);
 	#re.sub('[!@#$]', '', line)
         h1.GetXaxis().SetTitle(re.sub('["$]',' ',titles[1]))
         h1.GetYaxis().SetTitle(re.sub('["$]',' ',titles[0]))

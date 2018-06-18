@@ -82,6 +82,7 @@ def setHistAttributes (hist, plot_info, line_color, fill_color):
         #hist.GetYaxis().SetRangeUser(plot_info["ymin"], plot_info["ymax"])
 	#hist.SetMinimum(plot_info["ymin"])
 	hist.SetMaximum(plot_info["ymax"])
+	#hist.SetMaximum(30)
 
     #hist.GetYaxis().SetTitle(plot_info["ylabel"])
 
@@ -365,6 +366,7 @@ def CompHistFromTwoFile (plot_info):
 	#print "Print Bin Number = ",list1.GetXaxis().FindBin(1100)
 	#print "HISTO: ",list1
 	print "Total Integral = ",list1.Integral()
+	#list1.Fit("gaus")
 	#print "Integral (2000,6000) = ",list1.Integral(list1.GetXaxis().FindBin(2000),list1.GetXaxis().FindBin(6000))
 	legend.AddEntry(list1,plot_info["leg"][a],"lpe")
 	if i==0:
