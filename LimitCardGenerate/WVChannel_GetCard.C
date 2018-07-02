@@ -189,19 +189,10 @@ void loadCutString(const char *filename, TString& cutstring)
 
 //======================================================================
 
-void model(const char *cuttablefilename,
-	   const char *samplefilename,
+void model(const char *samplefilename,
 	   const plotVar_t plotvars[] = commonplotvars_chs)
 {
   cout<< "done..." << endl;
-
-  TString unwtcutstring;
-  
-  loadCutString(cuttablefilename, unwtcutstring);
-  
-  TString blinddatacutstring = unwtcutstring + "&&(0)";
-  
-  cout<< "Cut string = \n\t" << blinddatacutstring << endl;
 
   vector<Sample *> samples;
   
@@ -251,11 +242,11 @@ void model(const char *cuttablefilename,
 
   TH1 *hists[53];
 
-  const char* HistName[53] = {	"Data",						// 0
+  const char* HistName[53] = {	"data_obs",						// 0
   			"WV_EWK", "WV_EWK_LEPUp", "WV_EWK_LEPDown", "WV_EWK_CMS_scale_jUp", "WV_EWK_CMS_scale_jDown", "WV_EWK_CMS_res_metUp", "WV_EWK_CMS_res_metDown", 
 			"WV_EWK_CMS_puUp", "WV_EWK_CMS_puDown",	"WV_EWK_CMS_btagHFUp", "WV_EWK_CMS_btagHFDown", "WV_EWK_CMS_btagLFUp", "WV_EWK_CMS_btagLFDown", // 1	
-			"Diboson", "Diboson_LEPUp", "Diboson_LEPDown", "Diboson_CMS_scale_jUp", "Diboson_CMS_scale_jDown", "Diboson_CMS_res_metUp", "Diboson_CMS_res_metDown", 
-			"Diboson_CMS_puUp", "Diboson_CMS_puDown", "Diboson_CMS_btagHFUp", "Diboson_CMS_btagHFDown", "Diboson_CMS_btagLFUp", "Diboson_CMS_btagLFDown", // 14
+			"diboson", "diboson_LEPUp", "diboson_LEPDown", "diboson_CMS_scale_jUp", "diboson_CMS_scale_jDown", "diboson_CMS_res_metUp", "diboson_CMS_res_metDown", 
+			"diboson_CMS_puUp", "diboson_CMS_puDown", "diboson_CMS_btagHFUp", "diboson_CMS_btagHFDown", "diboson_CMS_btagLFUp", "diboson_CMS_btagLFDown", // 14
 			"top", "top_LEPUp", "top_LEPDown", "top_CMS_scale_jUp", "top_CMS_scale_jDown",	"top_CMS_res_metUp", "top_CMS_res_metDown", 
 			"top_CMS_puUp", "top_CMS_puDown", "top_CMS_btagHFUp", "top_CMS_btagHFDown", "top_CMS_btagLFUp", "top_CMS_btagLFDown",		// 27
 			"Vjets", "Vjets_LEPUp", "Vjets_LEPDown", "Vjets_CMS_scale_jUp", "Vjets_CMS_scale_jDown", "Vjets_CMS_res_metUp", "Vjets_CMS_res_metDown", 
@@ -539,46 +530,48 @@ void model(const char *cuttablefilename,
 	      if(s->name().EqualTo("data"))	 hists[0]->Fill(mass_lvj_type0);
 	      if(s->name().EqualTo("WV_EWK"))	 hists[1]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("Diboson")) 	 hists[14]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      //if(s->name().EqualTo("top"))  	 hists[27]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("top"))  	 hists[27]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("V+jets"))	 hists[40]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("Vjets"))	 hists[40]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 
 	      //------	PU UP
 	      if(s->name().EqualTo("WV_EWK"))	 hists[8]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_up*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("Diboson")) 	 hists[21]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_up*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("top"))  	 hists[34]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_up*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("V+jets"))	 hists[47]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_up*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("Vjets"))	 hists[47]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_up*btag0Wgt)/(1.0*(nmc-2*nneg)));
 
 	      //------	PU Down
 	      if(s->name().EqualTo("WV_EWK"))	 hists[9]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_down*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("Diboson")) 	 hists[22]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_down*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("top"))  	 hists[35]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_down*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("V+jets"))	 hists[48]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_down*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("Vjets"))	 hists[48]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_down*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
 
 	      //------	btag HF Up
 	      if(s->name().EqualTo("WV_EWK"))	 hists[10]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("Diboson")) 	 hists[23]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("top"))  	 hists[36]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("V+jets"))	 hists[49]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("Vjets"))	 hists[49]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
 
 	      //------	btag HF Down
 	      if(s->name().EqualTo("WV_EWK"))	 hists[11]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownHF)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("Diboson")) 	 hists[24]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownHF)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("top"))  	 hists[37]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownHF)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("V+jets"))	 hists[50]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownHF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("Vjets"))	 hists[50]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownHF)/(1.0*(nmc-2*nneg)));
 
 	      //------	btag LF Up
 	      if(s->name().EqualTo("WV_EWK"))	 hists[12]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpLF)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("Diboson")) 	 hists[25]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpLF)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("top"))  	 hists[38]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpLF)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("V+jets"))	 hists[51]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpLF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("Vjets"))	 hists[51]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpLF)/(1.0*(nmc-2*nneg)));
 
 	      //------	btag LF Down
 	      if(s->name().EqualTo("WV_EWK"))	 hists[13]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownLF)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("Diboson")) 	 hists[26]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownLF)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("top"))  	 hists[39]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownLF)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("V+jets"))	 hists[52]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownLF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("Vjets"))	 hists[52]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownLF)/(1.0*(nmc-2*nneg)));
 
-	      if(s->name().EqualTo("WV_EWK")||s->name().EqualTo("Diboson")||s->name().EqualTo("top")||s->name().EqualTo("Z+jets") ||s->name().EqualTo("W+jets") || s->name().EqualTo("V+jets"))
+	      //if(s->name().EqualTo("WV_EWK")||s->name().EqualTo("Diboson")||s->name().EqualTo("top")||s->name().EqualTo("Z+jets") ||s->name().EqualTo("W+jets") || s->name().EqualTo("Vjets"))
+	      if(s->name().EqualTo("WV_EWK")||s->name().EqualTo("Diboson")||s->name().EqualTo("Z+jets"))
 	  	{
 	    	histo_sm->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	    	histo_EWK_CMS_QCDScaleBounding[0]->Fill(mass_lvj_type0,((LHEWeight[1]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
@@ -620,7 +613,7 @@ void model(const char *cuttablefilename,
 	      if(s->name().EqualTo("WV_EWK"))	 hists[2]->Fill(mass_lvj_type0_LEP_Up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("Diboson"))   hists[15]->Fill(mass_lvj_type0_LEP_Up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("top"))  	 hists[28]->Fill(mass_lvj_type0_LEP_Up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("V+jets"))	 hists[41]->Fill(mass_lvj_type0_LEP_Up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("Vjets"))	 hists[41]->Fill(mass_lvj_type0_LEP_Up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
       }
 
       if (1)	//--------------------------- LEP down
@@ -645,7 +638,7 @@ void model(const char *cuttablefilename,
 	      if(s->name().EqualTo("WV_EWK"))	 hists[3]->Fill(mass_lvj_type0_LEP_Down,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("Diboson"))   hists[16]->Fill(mass_lvj_type0_LEP_Down,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("top"))  	 hists[29]->Fill(mass_lvj_type0_LEP_Down,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("V+jets"))	 hists[42]->Fill(mass_lvj_type0_LEP_Down,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("Vjets"))	 hists[42]->Fill(mass_lvj_type0_LEP_Down,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
       }
 
 	if (1)	//-------------------	JES up
@@ -670,7 +663,7 @@ void model(const char *cuttablefilename,
 	   if(s->name().EqualTo("WV_EWK"))	 hists[4]->Fill(mass_lvj_type0_PuppiAK8_jes_up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	   if(s->name().EqualTo("Diboson"))  	 hists[17]->Fill(mass_lvj_type0_PuppiAK8_jes_up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	   if(s->name().EqualTo("top"))  	 hists[30]->Fill(mass_lvj_type0_PuppiAK8_jes_up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	   if(s->name().EqualTo("V+jets"))	 hists[43]->Fill(mass_lvj_type0_PuppiAK8_jes_up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	   if(s->name().EqualTo("Vjets"))	 hists[43]->Fill(mass_lvj_type0_PuppiAK8_jes_up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	}
 
 	if (1)	//-------------------	JES down
@@ -695,7 +688,7 @@ void model(const char *cuttablefilename,
 	   if(s->name().EqualTo("WV_EWK"))	 hists[5]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	   if(s->name().EqualTo("Diboson"))  	 hists[18]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	   if(s->name().EqualTo("top"))  	 hists[31]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	   if(s->name().EqualTo("V+jets"))	 hists[44]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	   if(s->name().EqualTo("Vjets"))	 hists[44]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	}
 
 	if (1)	//-------------------	JER up
@@ -720,7 +713,7 @@ void model(const char *cuttablefilename,
 	   if(s->name().EqualTo("WV_EWK"))	 hists[6]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	   if(s->name().EqualTo("Diboson"))  	 hists[19]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	   if(s->name().EqualTo("top"))  	 hists[32]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	   if(s->name().EqualTo("V+jets"))	 hists[45]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	   if(s->name().EqualTo("Vjets"))	 hists[45]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	}
 
 	if (1)	//-------------------	JER down
@@ -745,9 +738,10 @@ void model(const char *cuttablefilename,
 	   if(s->name().EqualTo("WV_EWK"))	 hists[7]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	   if(s->name().EqualTo("Diboson"))  	 hists[20]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	   if(s->name().EqualTo("top"))  	 hists[33]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	   if(s->name().EqualTo("V+jets"))	 hists[46]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	   if(s->name().EqualTo("Vjets"))	 hists[46]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	}
       }
+      //cout<<"\n\n ====>  " << hists[27]->Integral() << endl;
   }
 
   histo_sm->SetBinContent(NBINS,histo_sm->GetBinContent(NBINS)+histo_sm->GetBinContent(NBINS+1));
@@ -761,9 +755,9 @@ void model(const char *cuttablefilename,
     }
   for (int j=0;j<718;j++){
     histo_aqgc[j]->SetBinContent(NBINS,histo_aqgc[j]->GetBinContent(NBINS)+histo_aqgc[j]->GetBinContent(NBINS+1));
-    std::cout << "aqgc integral " << histo_aqgc[j]->Integral() << std::endl;
+    //std::cout << "aqgc integral " << histo_aqgc[j]->Integral() << std::endl;
   }
-  std::cout << "SM integral " << histo_sm->Integral() << std::endl;
+  //std::cout << "SM integral " << histo_sm->Integral() << std::endl;
 
   //ok now we calculate the uncertainty
   std::cout << "EWK Scale uncertainties" << std::endl;
@@ -784,7 +778,7 @@ void model(const char *cuttablefilename,
       for (int i = 0; i<99; i++)
 	{
 	  systPDFScale = systPDFScale + (histo_EWK_CMS_PDFScaleBounding[i]->GetBinContent(bin)-histo_sm->GetBinContent(bin))*(histo_EWK_CMS_PDFScaleBounding[i]->GetBinContent(bin)-histo_sm->GetBinContent(bin));
-	  cout << systPDFScale << "\t" << histo_EWK_CMS_PDFScaleBounding[i]->GetBinContent(bin) << "\t" << histo_sm->GetBinContent(bin) << endl;
+	  //cout << systPDFScale << "\t" << histo_EWK_CMS_PDFScaleBounding[i]->GetBinContent(bin) << "\t" << histo_sm->GetBinContent(bin) << endl;
 	}
       systPDFScale = sqrt(systPDFScale/99.);
       std::cout << "bin number " << bin << " " << 1 + systPDFScale/histo_sm->GetBinContent(bin) << "\t" << systPDFScale << "\t" << histo_sm->GetBinContent(bin) << std::endl; 
@@ -915,50 +909,50 @@ void model(const char *cuttablefilename,
 	}
       outFile->cd();
       TF1 *fit_1 = new TF1(hist_name,"pol2",fs0[0]-10,fs0[90]-10);
-      hfs0->Fit(hist_name,"R");
-      fit_1->Write();
+      //hfs0->Fit(hist_name,"R");
+      //fit_1->Write();
       hfs0->Write();
       outFile1->cd();
       TF1 *fit_2 = new TF1(hist_name,"pol2",fs1[0]-5,fs1[66]-5);
-      hfs1->Fit(hist_name,"R");
-      hfs1->Write();
+      //hfs1->Fit(hist_name,"R");
+      //hfs1->Write();
       fit_2->Write();
       outFile2->cd();
       //hfs0->Write();
       TF1 *fit_3 = new TF1(hist_name,"pol2",fm0[0]-0.5,fm0[84]-0.5);
-      hfm0->Fit(hist_name,"R");
-      fit_3->Write();
+      //hfm0->Fit(hist_name,"R");
+      //fit_3->Write();
       hfm0->Write();
       outFile3->cd();
       TF1 *fit_4 = new TF1(hist_name,"pol2",fm1[0]-2.5,fm1[66]-2.5);
-      hfm1->Fit(hist_name,"R");
-      fit_4->Write();
+      //hfm1->Fit(hist_name,"R");
+      //fit_4->Write();
       hfm1->Write();
       outFile4->cd();
       TF1 *fit_5 = new TF1(hist_name,"pol2",fm6[0]-1.0,fm6[83]-1.0);
-      hfm6->Fit(hist_name,"R");
-      fit_5->Write();
+      //hfm6->Fit(hist_name,"R");
+      //fit_5->Write();
       hfm6->Write();
       outFile5->cd();
       TF1 *fit_6 = new TF1(hist_name,"pol2",fm7[0]-2.5,fm7[120]-2.5);
-      hfm7->Fit(hist_name,"R");
-      fit_6->Write();
+      //hfm7->Fit(hist_name,"R");
+      //fit_6->Write();
       hfm7->Write();
       outFile6->cd();
       hft0->Write();
       TF1 *fit_7 = new TF1(hist_name,"pol2",ft0[0]-0.1,ft0[68]-0.1);
-      hft0->Fit(hist_name,"R");
-      fit_7->Write();
+      //hft0->Fit(hist_name,"R");
+      //fit_7->Write();
       outFile7->cd();
       hft1->Write();
       TF1 *fit_8 = new TF1(hist_name,"pol2",ft1[0]-0.25,ft1[50]-0.25);
-      hft1->Fit(hist_name,"R");
-      fit_8->Write();
+      //hft1->Fit(hist_name,"R");
+      //fit_8->Write();
       hft1->Write();
       outFile8->cd();	
       TF1 *fit_9 = new TF1(hist_name,"pol2",ft2[0]-0.25,ft2[82]-0.25);
-      hft2->Fit(hist_name,"R");
-      fit_9->Write();
+      //hft2->Fit(hist_name,"R");
+      //fit_9->Write();
       hft2->Write();
       //f.Write();
       //delete hft0; delete  hft1; delete hft2; delete hfs0; delete hfs1; delete hfm0;   delete hfm1;   delete hfm6;   delete hfm7; 
@@ -967,7 +961,7 @@ void model(const char *cuttablefilename,
   outFile->Close();outFile1->Close();outFile2->Close();outFile3->Close();outFile4->Close();outFile5->Close();outFile6->Close();outFile7->Close();outFile8->Close();
 
 
-  TFile f("WVchannel_datacard.root", "RECREATE");
+  TFile f("ch1_splitted_TF1_NoBinbyBin.root", "RECREATE");	// if name change then change this name also in first time where script add_stat_shapes.py appears
   
   for (int i=0; i<53; i++)
   {
@@ -1046,8 +1040,13 @@ void model(const char *cuttablefilename,
   f.Write();
   f.Close();
 
+  //-----------------------------------------------------
+  //
+  //	Add bin-by-bin uncertanities
+  //
+  //-----------------------------------------------------
   char command1[3000];
-  sprintf(command1,"./add_stat_shapes.py --filter Vjets --prefix Vjets_bbb WVchannel_datacard.root WVchannel_datacard_BBB2.root");
+  sprintf(command1,"./add_stat_shapes.py --filter Vjets --prefix Vjets_bbb ch1_splitted_TF1_NoBinbyBin.root WVchannel_datacard_BBB2.root");
   system(command1);
 
   char command2[3000];
@@ -1055,7 +1054,7 @@ void model(const char *cuttablefilename,
   system(command2);
 
   char command3[3000];
-  sprintf(command3,"./add_stat_shapes.py --filter Diboson --prefix Diboson_bbb WVchannel_datacard_BBB3.root WVchannel_datacard_BBB4.root");
+  sprintf(command3,"./add_stat_shapes.py --filter diboson --prefix diboson_bbb WVchannel_datacard_BBB3.root WVchannel_datacard_BBB4.root");
   system(command3);
 
   char command4[3000];
@@ -1067,15 +1066,14 @@ void model(const char *cuttablefilename,
   system(command5);
 
   char command6[3000];
-  sprintf(command6,"rm WVchannel_datacard_BBB2.root WVchannel_datacard_BBB3.root WVchannel_datacard_BBB4.root WVchannel_datacard_BBB5.root; mv WVchannel_datacard_BBB6.root WVchannel_datacard_BBB.root");
+  sprintf(command6,"rm WVchannel_datacard_BBB2.root WVchannel_datacard_BBB3.root WVchannel_datacard_BBB4.root WVchannel_datacard_BBB5.root; mv WVchannel_datacard_BBB6.root ch1_splitted_TF1.root");
   system(command6);
 }
 
-void wwGetCard2()
+void WVChannel_GetCard()
 {
   int start_s=clock();
-  model("DibosonBoostedElMuCuts13TeV_WjetControlRegion_Tighter_CHS.txt",
-		 "DibosonBoostedElMuSamples13TeV.txt",
+  model("DibosonBoostedElMuSamples13TeV.txt",
 		 commonplotvars_chs);
   int stop_s=clock();
   cout << "time: " << (stop_s-start_s)/double(CLOCKS_PER_SEC)*1000 << endl;

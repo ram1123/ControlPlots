@@ -6,6 +6,6 @@ void RunMacro_Zjet()
 //-------------------------------------
 //	FOR W+Jet CR 
 //-------------------------------------
-    gROOT->ProcessLine("myControlPlots(\"DibosonBoostedElMuCuts13TeV_ZjetControlRegion_Tighter_CHS.txt\", \"ZV_DibosonBoostedElMuSamples13TeV.txt\", controlplotvars_CHS_2lep, \"ZjetControlRegion.root\", 0) ");
+    gROOT->ProcessLine("myControlPlots(\"DibosonBoostedElMuCuts13TeV_ZjetControlRegion_Tighter_CHS.txt\", \"DibosonBoostedElMuSamples13TeV.txt\", controlplotvars_CHS_2lep, \"ZjetControlRegion.root\", 0) ");
     
 }
