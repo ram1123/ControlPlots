@@ -309,7 +309,7 @@ void model(const char *samplefilename,
     float l_pt1=-1, l_pt2=-1, l_eta1=-999, l_eta2=-999, ungroomed_PuppiAK8_jet_pt=-1, ungroomed_PuppiAK8_jet_eta=-1, PuppiAK8_jet_tau2tau1=-1, dilep_m=-1, PuppiAK8_jet_mass_so_corr=-1, v_pt=-1;
     float l_pt1_Up=-1, l_pt1_Down=-1, l_pt2_Up=-1,l_pt2_Down=-1;
     float vbf_maxpt_jj_m=-1, vbf_maxpt_j2_eta=-999, vbf_maxpt_j1_eta=-999, vbf_maxpt_j1_pt=-1, vbf_maxpt_j2_pt=-1;
-    float pfMET_Corr=-1, mass_lvj_type0=-1, mass_llj_PuppiAK8=-1;
+    float pfMET_Corr=-1, mass_lvj_type0_PuppiAK8=-1, mass_llj_PuppiAK8=-1;
     float mass_lvj_type0_LEP_Up=-1, mass_lvj_type0_LEP_Down=-1, mass_lvj_type0_PuppiAK8_jes_up=-1, mass_lvj_type0_PuppiAK8_jes_dn=-1;
     float genWeight=-1, trig_eff_Weight=-1, id_eff_Weight=-1, pu_Weight=-1, btag0Wgt=-1;
     float pu_Weight_down=-1,pu_Weight_up=-1, btag0WgtDownHF=-1, btag0WgtUpHF=-1, btag0WgtUpLF=-1, btag0WgtDownLF=-1;
@@ -426,7 +426,7 @@ void model(const char *samplefilename,
     mytree->SetBranchAddress("pfMET_Corr_jerdn",&pfMET_Corr_jerdn);
 
     mytree->SetBranchStatus("mass_lvj_type0_PuppiAK8",1);
-    mytree->SetBranchAddress("mass_lvj_type0_PuppiAK8",&mass_lvj_type0);
+    mytree->SetBranchAddress("mass_lvj_type0_PuppiAK8",&mass_lvj_type0_PuppiAK8);
     mytree->SetBranchStatus("mass_lvj_type0_PuppiAK8_LEP_Up",1);
     mytree->SetBranchAddress("mass_lvj_type0_PuppiAK8_LEP_Up",&mass_lvj_type0_LEP_Up);
     mytree->SetBranchStatus("mass_lvj_type0_PuppiAK8_LEP_Down",1);
@@ -521,71 +521,71 @@ void model(const char *samplefilename,
 	      if(!(vbf_maxpt_jj_m>800)) continue;
 	      if(!(abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta)>4.0)) continue;
 	      if(!((vbf_maxpt_j1_pt>30) && (vbf_maxpt_j2_pt>30))) continue;
-	      if(!(mass_lvj_type0>600)) continue;
+	      if(!(mass_lvj_type0_PuppiAK8>600)) continue;
 	      //if(!(v_pt>200.)) continue;
 	      if(!(BosonCentrality_type0>1.0)) continue;
 	      if(!((abs(ZeppenfeldWL_type0)/abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta))<0.3)) continue;
 	      if(!((abs(ZeppenfeldWH)/abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta))<0.3)) continue;
     
-	      if(s->name().EqualTo("data"))	 hists[0]->Fill(mass_lvj_type0);
-	      if(s->name().EqualTo("WV_EWK"))	 hists[1]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("Diboson")) 	 hists[14]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	      //if(s->name().EqualTo("top"))  	 hists[27]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("top"))  	 hists[27]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("Vjets"))	 hists[40]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("data"))	 hists[0]->Fill(mass_lvj_type0_PuppiAK8);
+	      if(s->name().EqualTo("WV_EWK"))	 hists[1]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("Diboson")) 	 hists[14]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      //if(s->name().EqualTo("top"))  	 hists[27]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("top"))  	 hists[27]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("Vjets"))	 hists[40]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 
 	      //------	PU UP
-	      if(s->name().EqualTo("WV_EWK"))	 hists[8]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_up*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("Diboson")) 	 hists[21]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_up*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("top"))  	 hists[34]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_up*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("Vjets"))	 hists[47]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_up*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("WV_EWK"))	 hists[8]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_up*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("Diboson")) 	 hists[21]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_up*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("top"))  	 hists[34]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_up*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("Vjets"))	 hists[47]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_up*btag0Wgt)/(1.0*(nmc-2*nneg)));
 
 	      //------	PU Down
-	      if(s->name().EqualTo("WV_EWK"))	 hists[9]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_down*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("Diboson")) 	 hists[22]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_down*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("top"))  	 hists[35]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_down*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("Vjets"))	 hists[48]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_down*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("WV_EWK"))	 hists[9]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_down*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("Diboson")) 	 hists[22]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_down*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("top"))  	 hists[35]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_down*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("Vjets"))	 hists[48]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_down*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
 
 	      //------	btag HF Up
-	      if(s->name().EqualTo("WV_EWK"))	 hists[10]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("Diboson")) 	 hists[23]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("top"))  	 hists[36]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("Vjets"))	 hists[49]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("WV_EWK"))	 hists[10]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("Diboson")) 	 hists[23]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("top"))  	 hists[36]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("Vjets"))	 hists[49]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
 
 	      //------	btag HF Down
-	      if(s->name().EqualTo("WV_EWK"))	 hists[11]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownHF)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("Diboson")) 	 hists[24]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownHF)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("top"))  	 hists[37]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownHF)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("Vjets"))	 hists[50]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownHF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("WV_EWK"))	 hists[11]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownHF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("Diboson")) 	 hists[24]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownHF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("top"))  	 hists[37]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownHF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("Vjets"))	 hists[50]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownHF)/(1.0*(nmc-2*nneg)));
 
 	      //------	btag LF Up
-	      if(s->name().EqualTo("WV_EWK"))	 hists[12]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpLF)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("Diboson")) 	 hists[25]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpLF)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("top"))  	 hists[38]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpLF)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("Vjets"))	 hists[51]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpLF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("WV_EWK"))	 hists[12]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpLF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("Diboson")) 	 hists[25]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpLF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("top"))  	 hists[38]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpLF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("Vjets"))	 hists[51]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpLF)/(1.0*(nmc-2*nneg)));
 
 	      //------	btag LF Down
-	      if(s->name().EqualTo("WV_EWK"))	 hists[13]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownLF)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("Diboson")) 	 hists[26]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownLF)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("top"))  	 hists[39]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownLF)/(1.0*(nmc-2*nneg)));
-	      if(s->name().EqualTo("Vjets"))	 hists[52]->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownLF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("WV_EWK"))	 hists[13]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownLF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("Diboson")) 	 hists[26]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownLF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("top"))  	 hists[39]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownLF)/(1.0*(nmc-2*nneg)));
+	      if(s->name().EqualTo("Vjets"))	 hists[52]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownLF)/(1.0*(nmc-2*nneg)));
 
 	      //if(s->name().EqualTo("WV_EWK")||s->name().EqualTo("Diboson")||s->name().EqualTo("top")||s->name().EqualTo("Z+jets") ||s->name().EqualTo("W+jets") || s->name().EqualTo("Vjets"))
 	      if(s->name().EqualTo("WV_EWK")||s->name().EqualTo("Diboson")||s->name().EqualTo("Z+jets"))
 	  	{
-	    	histo_sm->Fill(mass_lvj_type0,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	    	histo_EWK_CMS_QCDScaleBounding[0]->Fill(mass_lvj_type0,((LHEWeight[1]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	    	histo_EWK_CMS_QCDScaleBounding[1]->Fill(mass_lvj_type0,((LHEWeight[2]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	    	histo_EWK_CMS_QCDScaleBounding[2]->Fill(mass_lvj_type0,((LHEWeight[3]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	    	histo_EWK_CMS_QCDScaleBounding[3]->Fill(mass_lvj_type0,((LHEWeight[4]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	    	histo_EWK_CMS_QCDScaleBounding[4]->Fill(mass_lvj_type0,((LHEWeight[6]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	    	histo_EWK_CMS_QCDScaleBounding[5]->Fill(mass_lvj_type0,((LHEWeight[8]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	    	for(int npdf=0; npdf<100; npdf++) histo_EWK_CMS_PDFScaleBounding[npdf]->Fill(mass_lvj_type0,((LHEWeight[9+npdf]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	    	histo_sm->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	    	histo_EWK_CMS_QCDScaleBounding[0]->Fill(mass_lvj_type0_PuppiAK8,((LHEWeight[1]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	    	histo_EWK_CMS_QCDScaleBounding[1]->Fill(mass_lvj_type0_PuppiAK8,((LHEWeight[2]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	    	histo_EWK_CMS_QCDScaleBounding[2]->Fill(mass_lvj_type0_PuppiAK8,((LHEWeight[3]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	    	histo_EWK_CMS_QCDScaleBounding[3]->Fill(mass_lvj_type0_PuppiAK8,((LHEWeight[4]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	    	histo_EWK_CMS_QCDScaleBounding[4]->Fill(mass_lvj_type0_PuppiAK8,((LHEWeight[6]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	    	histo_EWK_CMS_QCDScaleBounding[5]->Fill(mass_lvj_type0_PuppiAK8,((LHEWeight[8]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	    	for(int npdf=0; npdf<100; npdf++) histo_EWK_CMS_PDFScaleBounding[npdf]->Fill(mass_lvj_type0_PuppiAK8,((LHEWeight[9+npdf]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	  	}
 	      else if(s->name().EqualTo("aQGC"))
 	  	{
 	    	for (int j=0;j<718;j++){
-	      	   histo_aqgc[j]->Fill(mass_lvj_type0,((LHEWeight[j+446]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      	   histo_aqgc[j]->Fill(mass_lvj_type0_PuppiAK8,((LHEWeight[j+446]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	    	}
 	  	}
 
