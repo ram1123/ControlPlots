@@ -190,7 +190,8 @@ void loadCutString(const char *filename, TString& cutstring)
 //======================================================================
 
 void model(const char *samplefilename,
-	   const plotVar_t plotvars[] = commonplotvars_chs)
+	   const plotVar_t plotvars[] = commonplotvars_chs,
+	   const TString OutPutRootFileName = "ch1_splitted_TF1")
 {
   cout<< "done..." << endl;
 
@@ -205,30 +206,19 @@ void model(const char *samplefilename,
   if (sdata->Tree())
     cout << "ndata =" << sdata->Tree()->GetEntries() <<endl;
 
-  TFile *wf = new TFile("vjet_files/WjetFitUncert_Corr_Shape_Nominal_4bins_DataUncert.root");
-  TH1* wjet = (TH1*) gDirectory->Get("hModel_Sig_new");
-  TFile *wfup = new TFile("vjet_files/WjetFitUncert_Corr_Shape_Up_4bins_DataUncert_0.root");
-  TH1* wjetup = (TH1*) gDirectory->Get("hModel_Sig_up_new0");
-  TFile *wfdown = new TFile("vjet_files/WjetFitUncert_Corr_Shape_Down_4bins_DataUncert0.root");
-  TH1* wjetdown = (TH1*) gDirectory->Get("hModel_Sig_Down_new0");
-  TFile *wfup1 = new TFile("vjet_files/WjetFitUncert_Corr_Shape_Up_4bins_DataUncert1.root");
-  TH1* wjetup1 = (TH1*) gDirectory->Get("hModel_Sig_up_new1");
-  TFile *wfdown1 = new TFile("vjet_files/WjetFitUncert_Corr_Shape_Down_4bins_DataUncert1.root");
-  TH1* wjetdown1 = (TH1*) gDirectory->Get("hModel_Sig_Down_new1");
-  TFile *wfup2 = new TFile("vjet_files/WjetFit_AlternateShape_4bins_Up.root");
-  TH1* wjetup2 = (TH1*) gDirectory->Get("hModel_Sig_up_new1");
-  TFile *wfdown2 = new TFile("vjet_files/WjetFit_AlternateShape_4bins_Down.root");
-  TH1* wjetdown2 = (TH1*) gDirectory->Get("hModel_Sig_up_new0");
-  TFile *wfup3 = new TFile("vjet_files/WV_Hist_Up_0_4bins.root");
-  TH1* wjetup3 = (TH1*) gDirectory->Get("Hist_Up_0");
-  TFile *wfdown3 = new TFile("vjet_files/WV_Hist_Down_0_4bins.root");
-  TH1* wjetdown3 = (TH1*) gDirectory->Get("Hist_Down_0");
-  TFile *wfup4 = new TFile("vjet_files/WV_Hist_Up_1_4bins.root");
-  TH1* wjetup4 = (TH1*) gDirectory->Get("Hist_Up_1");
-  TFile *wfdown4 = new TFile("vjet_files/WV_Hist_Down_1_4bins.root");
-  TH1* wjetdown4 = (TH1*) gDirectory->Get("Hist_Down_1");
-
-
+  TFile* wjetBkgSystFile = new TFile("bkg_estimation.root","READ");
+  
+  TH1F* wjet = (TH1F*)wjetBkgSystFile->Get("WjetFitSyst_SignalRegion_Corr_Hist_From_Data_4bins_Nominal");
+  TH1F* wjetup = (TH1F*)wjetBkgSystFile->Get("WjetFitSyst_SignalRegion_Corr_Hist_From_Data_4bins_Par0Up");
+  TH1F* wjetdown = (TH1F*)wjetBkgSystFile->Get("WjetFitSyst_SignalRegion_Corr_Hist_From_Data_4bins_Par0Down");
+  TH1F* wjetup1 = (TH1F*)wjetBkgSystFile->Get("WjetFitSyst_SignalRegion_Corr_Hist_From_Data_4bins_Par1Up");
+  TH1F* wjetdown1 = (TH1F*)wjetBkgSystFile->Get("WjetFitSyst_SignalRegion_Corr_Hist_From_Data_4bins_Par1Down");
+  TH1F* wjetup2 = (TH1F*)wjetBkgSystFile->Get("WjetFitSyst_SignalRegion_Corr_Hist_From_Data_4bins_AlternateShape_Up");
+  TH1F* wjetdown2 = (TH1F*)wjetBkgSystFile->Get("WjetFitSyst_SignalRegion_Corr_Hist_From_Data_4bins_AlternateShape_Down");
+  TH1F* wjetup3 = (TH1F*)wjetBkgSystFile->Get("AlphaSyst_Vjet_SR_4bins_Par0Up");
+  TH1F* wjetdown3 = (TH1F*)wjetBkgSystFile->Get("AlphaSyst_Vjet_SR_4bins_Par0Down");
+  TH1F* wjetup4 = (TH1F*)wjetBkgSystFile->Get("AlphaSyst_Vjet_SR_4bins_Par1Up");
+  TH1F* wjetdown4 = (TH1F*)wjetBkgSystFile->Get("AlphaSyst_Vjet_SR_4bins_Par1Down");
   
   //============================================================
   //  VARIABLE LOOP
@@ -243,13 +233,13 @@ void model(const char *samplefilename,
   TH1 *hists[53];
 
   const char* HistName[53] = {	"data_obs",						// 0
-  			"WV_EWK", "WV_EWK_LEPUp", "WV_EWK_LEPDown", "WV_EWK_CMS_scale_jUp", "WV_EWK_CMS_scale_jDown", "WV_EWK_CMS_res_metUp", "WV_EWK_CMS_res_metDown", 
-			"WV_EWK_CMS_puUp", "WV_EWK_CMS_puDown",	"WV_EWK_CMS_btagHFUp", "WV_EWK_CMS_btagHFDown", "WV_EWK_CMS_btagLFUp", "WV_EWK_CMS_btagLFDown", // 1	
-			"diboson", "diboson_LEPUp", "diboson_LEPDown", "diboson_CMS_scale_jUp", "diboson_CMS_scale_jDown", "diboson_CMS_res_metUp", "diboson_CMS_res_metDown", 
-			"diboson_CMS_puUp", "diboson_CMS_puDown", "diboson_CMS_btagHFUp", "diboson_CMS_btagHFDown", "diboson_CMS_btagLFUp", "diboson_CMS_btagLFDown", // 14
-			"top", "top_LEPUp", "top_LEPDown", "top_CMS_scale_jUp", "top_CMS_scale_jDown",	"top_CMS_res_metUp", "top_CMS_res_metDown", 
+  			"diboson", "diboson_CMS_scale_lUp", "diboson_CMS_scale_lDown", "diboson_CMS_scale_jUp", "diboson_CMS_scale_jDown", "diboson_CMS_res_metUp", "diboson_CMS_res_metDown", 
+			"diboson_CMS_puUp", "diboson_CMS_puDown",	"diboson_CMS_btagHFUp", "diboson_CMS_btagHFDown", "diboson_CMS_btagLFUp", "diboson_CMS_btagLFDown", // 1	
+			"VVjjQCD", "VVjjQCD_CMS_scale_lUp", "VVjjQCD_CMS_scale_lDown", "VVjjQCD_CMS_scale_jUp", "VVjjQCD_CMS_scale_jDown", "VVjjQCD_CMS_res_metUp", "VVjjQCD_CMS_res_metDown", 
+			"VVjjQCD_CMS_puUp", "VVjjQCD_CMS_puDown", "VVjjQCD_CMS_btagHFUp", "VVjjQCD_CMS_btagHFDown", "VVjjQCD_CMS_btagLFUp", "VVjjQCD_CMS_btagLFDown", // 14
+			"top", "top_CMS_scale_lUp", "top_CMS_scale_lDown", "top_CMS_scale_jUp", "top_CMS_scale_jDown",	"top_CMS_res_metUp", "top_CMS_res_metDown", 
 			"top_CMS_puUp", "top_CMS_puDown", "top_CMS_btagHFUp", "top_CMS_btagHFDown", "top_CMS_btagLFUp", "top_CMS_btagLFDown",		// 27
-			"Vjets", "Vjets_LEPUp", "Vjets_LEPDown", "Vjets_CMS_scale_jUp", "Vjets_CMS_scale_jDown", "Vjets_CMS_res_metUp", "Vjets_CMS_res_metDown", 
+			"Vjets", "Vjets_CMS_scale_lUp", "Vjets_CMS_scale_lDown", "Vjets_CMS_scale_jUp", "Vjets_CMS_scale_jDown", "Vjets_CMS_res_metUp", "Vjets_CMS_res_metDown", 
 			"Vjets_CMS_puUp", "Vjets_CMS_puDown", "Vjets_CMS_btagHFUp", "Vjets_CMS_btagHFDown", "Vjets_CMS_btagLFUp", "Vjets_CMS_btagLFDown"	// 40
 			};
   
@@ -297,7 +287,7 @@ void model(const char *samplefilename,
     int nmc =  s->mcevent();
     int nneg = s->mcevent_neg();
 
-    //cout<< " == > " << s->name() << "\t" << s->cross() << endl;
+    cout<< "Running for  ==>  " << s->name() << "\t" << endl;
     if(s->name().EqualTo("data")) { 
     	//intLUMIinvpb = s->cross(); 
       cout<< "Lumi = " << intLUMIinvpb << endl;
@@ -317,7 +307,7 @@ void model(const char *samplefilename,
     float ZeppenfeldWL_type0=-1, ZeppenfeldWH=-1, BosonCentrality_type0=-1;
     float ZeppenfeldWL_type0_LEP_Up=-1, ZeppenfeldWL_type0_LEP_Down=-1, BosonCentrality_type0_LEP_Up=-1, BosonCentrality_type0_LEP_Down=-1;
     float LHEWeight[1164];
-    float ungroomed_PuppiAK8_jet_pt_jes_up=-1, ungroomed_PuppiAK8_jet_pt_jes_dn=-1, ungroomed_PuppiAK8_jet_eta_jes_up=-1, ungroomed_PuppiAK8_jet_eta_jes_dn=-1, ungroomed_PuppiAK8_jet_mass_jes_up=-1, ungroomed_PuppiAK8_jet_mass_jes_dn=-1, vbf_maxpt_jj_m_jes_up=-1, vbf_maxpt_jj_m_jes_dn=-1, vbf_maxpt_j2_eta_jes_up=-1, vbf_maxpt_j2_eta_jes_dn=-1, vbf_maxpt_j1_pt_jes_up=-1, vbf_maxpt_j1_pt_jes_dn=-1, vbf_maxpt_j2_pt_jes_up=-1, vbf_maxpt_j2_pt_jes_dn=-1, pfMET_jes_up=-1, pfMET_jes_dn=-1, ZeppenfeldWL_type0_jes_up=-1, ZeppenfeldWL_type0_jes_dn=-1, ZeppenfeldWH_jes_up=-1, ZeppenfeldWH_jes_dn=-1, BosonCentrality_type0_jes_up=-1, BosonCentrality_type0_jes_dn=-1, vbf_maxpt_j1_eta_jes_up=-1, vbf_maxpt_j1_eta_jes_dn=-1;
+    float ungroomed_PuppiAK8_jet_pt_jes_up=-1, ungroomed_PuppiAK8_jet_pt_jes_dn=-1, ungroomed_PuppiAK8_jet_eta_jes_up=-1, ungroomed_PuppiAK8_jet_eta_jes_dn=-1, vbf_maxpt_jj_m_jes_up=-1, vbf_maxpt_jj_m_jes_dn=-1, vbf_maxpt_j2_eta_jes_up=-1, vbf_maxpt_j2_eta_jes_dn=-1, vbf_maxpt_j1_pt_jes_up=-1, vbf_maxpt_j1_pt_jes_dn=-1, vbf_maxpt_j2_pt_jes_up=-1, vbf_maxpt_j2_pt_jes_dn=-1, pfMET_jes_up=-1, pfMET_jes_dn=-1, ZeppenfeldWL_type0_jes_up=-1, ZeppenfeldWL_type0_jes_dn=-1, ZeppenfeldWH_jes_up=-1, ZeppenfeldWH_jes_dn=-1, BosonCentrality_type0_jes_up=-1, BosonCentrality_type0_jes_dn=-1, vbf_maxpt_j1_eta_jes_up=-1, vbf_maxpt_j1_eta_jes_dn=-1;
     float pfMET_Corr_jerup=-1, pfMET_Corr_jerdn=-1, ZeppenfeldWL_type0_jer_up=-1, ZeppenfeldWL_type0_jer_dn=-1, mass_lvj_type0_PuppiAK8_jer_up=-1, mass_lvj_type0_PuppiAK8_jer_dn=-1;
     
     mytree->SetBranchStatus("*",0);
@@ -371,10 +361,6 @@ void model(const char *samplefilename,
 
     mytree->SetBranchStatus("PuppiAK8_jet_mass_so_corr",1);
     mytree->SetBranchAddress("PuppiAK8_jet_mass_so_corr",&PuppiAK8_jet_mass_so_corr);
-    mytree->SetBranchStatus("ungroomed_PuppiAK8_jet_mass_jes_up",1);
-    mytree->SetBranchAddress("ungroomed_PuppiAK8_jet_mass_jes_up",&ungroomed_PuppiAK8_jet_mass_jes_up);
-    mytree->SetBranchStatus("ungroomed_PuppiAK8_jet_mass_jes_dn",1);
-    mytree->SetBranchAddress("ungroomed_PuppiAK8_jet_mass_jes_dn",&ungroomed_PuppiAK8_jet_mass_jes_dn);
 
     //mytree->SetBranchStatus("v_pt",1);
     //mytree->SetBranchAddress("v_pt",&v_pt);
@@ -570,8 +556,8 @@ void model(const char *samplefilename,
 	      if(s->name().EqualTo("top"))  	 hists[39]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownLF)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("Vjets"))	 hists[52]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownLF)/(1.0*(nmc-2*nneg)));
 
-	      //if(s->name().EqualTo("WV_EWK")||s->name().EqualTo("Diboson")||s->name().EqualTo("top")||s->name().EqualTo("Z+jets") ||s->name().EqualTo("W+jets") || s->name().EqualTo("Vjets"))
-	      if(s->name().EqualTo("WV_EWK")||s->name().EqualTo("Diboson")||s->name().EqualTo("Z+jets"))
+	      // To get QCD scale bounding we need to add QCD scale for all signal and bkg. But except for WV_EWK and Diboson others are taken care of using background estimation. For top there is not QCD scale bounding present in MC.
+	      if(s->name().EqualTo("WV_EWK")||s->name().EqualTo("Diboson"))
 	  	{
 	    	histo_sm->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	    	histo_EWK_CMS_QCDScaleBounding[0]->Fill(mass_lvj_type0_PuppiAK8,((LHEWeight[1]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
@@ -647,7 +633,7 @@ void model(const char *samplefilename,
 	   if(!(((type==0)&&(abs(l_eta1)<2.4))||((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566))))) continue;
 	   if(!(((type==0)&&(pfMET_jes_up>50)) || ((type==1)&&(pfMET_jes_up>80)))) continue;
 	   if(!((ungroomed_PuppiAK8_jet_pt_jes_up>200)&&(abs(ungroomed_PuppiAK8_jet_eta_jes_up)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55))) continue;
-	   if(!((ungroomed_PuppiAK8_jet_mass_jes_up>65) && (ungroomed_PuppiAK8_jet_mass_jes_up<105))) continue;
+	   if(!((PuppiAK8_jet_mass_so_corr>65) && (PuppiAK8_jet_mass_so_corr<105))) continue;
 	   if(!(nBTagJet_loose==0)) continue;
 	   //if(!(dilep_m>76 && dilep_m<107)) continue;
 	   if(!(vbf_maxpt_jj_m_jes_up>800)) continue;
@@ -672,7 +658,7 @@ void model(const char *samplefilename,
 	   if(!(((type==0)&&(abs(l_eta1)<2.4))||((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566))))) continue;
 	   if(!(((type==0)&&(pfMET_jes_dn>50)) || ((type==1)&&(pfMET_jes_dn>80)))) continue;
 	   if(!((ungroomed_PuppiAK8_jet_pt_jes_dn>200)&&(abs(ungroomed_PuppiAK8_jet_eta_jes_dn)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55))) continue;
-	   if(!((ungroomed_PuppiAK8_jet_mass_jes_dn>65) && (ungroomed_PuppiAK8_jet_mass_jes_dn<105))) continue;
+	   if(!((PuppiAK8_jet_mass_so_corr>65) && (PuppiAK8_jet_mass_so_corr<105))) continue;
 	   if(!(nBTagJet_loose==0)) continue;
 	   //if(!(dilep_m>76 && dilep_m<107)) continue;
 	   if(!(vbf_maxpt_jj_m_jes_dn>800)) continue;
@@ -744,6 +730,15 @@ void model(const char *samplefilename,
       //cout<<"\n\n ====>  " << hists[27]->Integral() << endl;
   }
 
+  
+  // include overflow bin in last bin for all histograms
+  for (int i=0; i<53; i++)
+  {
+    hists[i]->SetBinContent(NBINS,hists[i]->GetBinContent(NBINS)+hists[i]->GetBinContent(NBINS+1));
+    cout << HistName[i] << " = " << hists[i]->Integral() << endl;
+    //hists[i]->Write();
+  }
+
   histo_sm->SetBinContent(NBINS,histo_sm->GetBinContent(NBINS)+histo_sm->GetBinContent(NBINS+1));
   for (int i=0; i<6; i++)
     {
@@ -799,7 +794,8 @@ void model(const char *samplefilename,
   TFile *outFile7 = new TFile("ch1_splitted_TF1_hft1.root","RECREATE"); 
   TFile *outFile8 = new TFile("ch1_splitted_TF1_hft2.root","RECREATE");       
   
-  for(int i = 1; i<histo_sm->GetNbinsX()+1; i++)
+  // In this for loop the used histogram `hists[1]` contains information for WV_EWK
+  for(int i = 1; i<hists[1]->GetNbinsX()+1; i++)
     {
       stringstream ss;
       ss << i;
@@ -819,92 +815,92 @@ void model(const char *samplefilename,
 	{
 	  if(j<(536))
 	    {
-	      double w = histo_aqgc[j-446]->GetBinContent(i)/histo_sm->GetBinContent(i);
+	      double w = histo_aqgc[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
 	      double e1 = histo_aqgc[j-446]->GetBinError(i)/histo_aqgc[j-446]->GetBinContent(i);
-	      double e2 = histo_sm->GetBinError(i)/histo_sm->GetBinContent(i);
-	      hfs0->SetBinContent(j-446+1,histo_aqgc[j-446]->GetBinContent(i)/histo_sm->GetBinContent(i));
-	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(histo_sm->GetBinContent(i)*histo_sm->GetBinContent(i)));
-	      //std::cout << histo_aqgc[j-446]->GetBinContent(i) << " " << histo_sm->GetBinContent(i) << " " << histo_aqgc[j-446]->GetBinError(i) << " " <<  histo_sm->GetBinError(i) << " " << err << std::endl;
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfs0->SetBinContent(j-446+1,histo_aqgc[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));
+	      //std::cout << histo_aqgc[j-446]->GetBinContent(i) << " " << hists[1]->GetBinContent(i) << " " << histo_aqgc[j-446]->GetBinError(i) << " " <<  hists[1]->GetBinError(i) << " " << err << std::endl;
 	      hfs0->SetBinError(j-446+1,err);
 	    }
 	  else if(j>536 && j<603)
 	    {
-	      double w = histo_aqgc[j-446]->GetBinContent(i)/histo_sm->GetBinContent(i);
+	      double w = histo_aqgc[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
 	      double e1 = histo_aqgc[j-446]->GetBinError(i)/histo_aqgc[j-446]->GetBinContent(i);
-	      double e2 = histo_sm->GetBinError(i)/histo_sm->GetBinContent(i);
-	      hfs1->SetBinContent(j-537+1,histo_aqgc[j-446]->GetBinContent(i)/histo_sm->GetBinContent(i));
-	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(histo_sm->GetBinContent(i)*histo_sm->GetBinContent(i)));  
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfs1->SetBinContent(j-537+1,histo_aqgc[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
 	      hfs1->SetBinError(j-537+1,err);
 	    }
 	  else if(j>603 && j<688)
 	    {
-	      double w = histo_aqgc[j-446]->GetBinContent(i)/histo_sm->GetBinContent(i);
+	      double w = histo_aqgc[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
 	      double e1 = histo_aqgc[j-446]->GetBinError(i)/histo_aqgc[j-446]->GetBinContent(i);
-	      double e2 = histo_sm->GetBinError(i)/histo_sm->GetBinContent(i);
-	      hfm0->SetBinContent(j-604+1,histo_aqgc[j-446]->GetBinContent(i)/histo_sm->GetBinContent(i));
-	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(histo_sm->GetBinContent(i)*histo_sm->GetBinContent(i)));  
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfm0->SetBinContent(j-604+1,histo_aqgc[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
 	      hfm0->SetBinError(j-604+1,err);
-	      //hfm0->SetBinContent(j+1-604,histo_aqgc[j-446]->GetBinContent(i)/histo_sm->GetBinContent(i));
+	      //hfm0->SetBinContent(j+1-604,histo_aqgc[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
 	    }
 	  else if(j>688 && j<755)
 	    {
-	      double w = histo_aqgc[j-446]->GetBinContent(i)/histo_sm->GetBinContent(i);
+	      double w = histo_aqgc[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
 	      double e1 = histo_aqgc[j-446]->GetBinError(i)/histo_aqgc[j-446]->GetBinContent(i);
-	      double e2 = histo_sm->GetBinError(i)/histo_sm->GetBinContent(i);
-	      hfm1->SetBinContent(j-689+1,histo_aqgc[j-446]->GetBinContent(i)/histo_sm->GetBinContent(i));
-	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(histo_sm->GetBinContent(i)*histo_sm->GetBinContent(i)));  
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfm1->SetBinContent(j-689+1,histo_aqgc[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
 	      hfm1->SetBinError(j-689+1,err);
-	      //hfm1->SetBinContent(j+1-689,histo_aqgc[j-446]->GetBinContent(i)/histo_sm->GetBinContent(i));
+	      //hfm1->SetBinContent(j+1-689,histo_aqgc[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
 	    }
 	  else if(j>755 && j<839)
 	    {
-	      double w = histo_aqgc[j-446]->GetBinContent(i)/histo_sm->GetBinContent(i);
+	      double w = histo_aqgc[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
 	      double e1 = histo_aqgc[j-446]->GetBinError(i)/histo_aqgc[j-446]->GetBinContent(i);
-	      double e2 = histo_sm->GetBinError(i)/histo_sm->GetBinContent(i);
-	      hfm6->SetBinContent(j-756+1,histo_aqgc[j-446]->GetBinContent(i)/histo_sm->GetBinContent(i));
-	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(histo_sm->GetBinContent(i)*histo_sm->GetBinContent(i)));  
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfm6->SetBinContent(j-756+1,histo_aqgc[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
 	      hfm6->SetBinError(j-756+1,err);
-	      //hfm6->SetBinContent(j+1-756,histo_aqgc[j-446]->GetBinContent(i)/histo_sm->GetBinContent(i));	
+	      //hfm6->SetBinContent(j+1-756,histo_aqgc[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));	
 	    }
 	  else if(j>839 && j<960)
 	    {
-	      double w = histo_aqgc[j-446]->GetBinContent(i)/histo_sm->GetBinContent(i);
+	      double w = histo_aqgc[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
 	      double e1 = histo_aqgc[j-446]->GetBinError(i)/histo_aqgc[j-446]->GetBinContent(i);
-	      double e2 = histo_sm->GetBinError(i)/histo_sm->GetBinContent(i);
-	      hfm7->SetBinContent(j-840+1,histo_aqgc[j-446]->GetBinContent(i)/histo_sm->GetBinContent(i));
-	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(histo_sm->GetBinContent(i)*histo_sm->GetBinContent(i)));  
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfm7->SetBinContent(j-840+1,histo_aqgc[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
 	      hfm7->SetBinError(j-840+1,err);
-	      //hfm7->SetBinContent(j+1-840,histo_aqgc[j-446]->GetBinContent(i)/histo_sm->GetBinContent(i));
+	      //hfm7->SetBinContent(j+1-840,histo_aqgc[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
 	    }
 	  else if(j>960 && j<1029)
 	    {
-	      double w = histo_aqgc[j-446]->GetBinContent(i)/histo_sm->GetBinContent(i);
+	      double w = histo_aqgc[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
 	      double e1 = histo_aqgc[j-446]->GetBinError(i)/histo_aqgc[j-446]->GetBinContent(i);
-	      double e2 = histo_sm->GetBinError(i)/histo_sm->GetBinContent(i);
-	      hft0->SetBinContent(j-961+1,histo_aqgc[j-446]->GetBinContent(i)/histo_sm->GetBinContent(i));
-	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(histo_sm->GetBinContent(i)*histo_sm->GetBinContent(i)));  
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hft0->SetBinContent(j-961+1,histo_aqgc[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
 	      hft0->SetBinError(j-961+1,err);
-	      //hft0->SetBinContent(j+1-961,histo_aqgc[j-446]->GetBinContent(i)/histo_sm->GetBinContent(i));
+	      //hft0->SetBinContent(j+1-961,histo_aqgc[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
 	    }
 	  else if(j>1029 && j<1080)
 	    {
-	      double w = histo_aqgc[j-446]->GetBinContent(i)/histo_sm->GetBinContent(i);
+	      double w = histo_aqgc[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
 	      double e1 = histo_aqgc[j-446]->GetBinError(i)/histo_aqgc[j-446]->GetBinContent(i);
-	      double e2 = histo_sm->GetBinError(i)/histo_sm->GetBinContent(i);
-	      hft1->SetBinContent(j-1030+1,histo_aqgc[j-446]->GetBinContent(i)/histo_sm->GetBinContent(i));
-	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(histo_sm->GetBinContent(i)*histo_sm->GetBinContent(i)));  
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hft1->SetBinContent(j-1030+1,histo_aqgc[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
 	      hft1->SetBinError(j-1030+1,err);
-	      //hft1->SetBinContent(j+1-1030,histo_aqgc[j-446]->GetBinContent(i)/histo_sm->GetBinContent(i));
+	      //hft1->SetBinContent(j+1-1030,histo_aqgc[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
 	    }
 	  else if(j>1080 && j<1163)
 	    {
-	      double w = histo_aqgc[j-446]->GetBinContent(i)/histo_sm->GetBinContent(i);
+	      double w = histo_aqgc[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
 	      double e1 = histo_aqgc[j-446]->GetBinError(i)/histo_aqgc[j-446]->GetBinContent(i);
-	      double e2 = histo_sm->GetBinError(i)/histo_sm->GetBinContent(i);
-	      hft2->SetBinContent(j-1081+1,histo_aqgc[j-446]->GetBinContent(i)/histo_sm->GetBinContent(i));
-	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(histo_sm->GetBinContent(i)*histo_sm->GetBinContent(i)));  
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hft2->SetBinContent(j-1081+1,histo_aqgc[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
 	      hft2->SetBinError(j-1081+1,err);
-	      //hft2->SetBinContent(j+1-1081,histo_aqgc[j-446]->GetBinContent(i)/histo_sm->GetBinContent(i));
+	      //hft2->SetBinContent(j+1-1081,histo_aqgc[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
 	    }
 	}
       outFile->cd();
@@ -961,18 +957,20 @@ void model(const char *samplefilename,
   outFile->Close();outFile1->Close();outFile2->Close();outFile3->Close();outFile4->Close();outFile5->Close();outFile6->Close();outFile7->Close();outFile8->Close();
 
 
-  TFile f("ch1_splitted_TF1_NoBinbyBin.root", "RECREATE");	// if name change then change this name also in first time where script add_stat_shapes.py appears
-  
+
+  //TFile f("ch1_splitted_TF1_NoBinbyBin.root", "RECREATE");	// if name change then change this name also in first time where script add_stat_shapes.py appears
+  TString OutRootFileSuffix = "_NoBinbyBin";
+  TFile f(OutPutRootFileName + OutRootFileSuffix + ".root", "RECREATE");	// if name change then change this name also in first time where script add_stat_shapes.py appears
+
+
+  // Write all histograms... 
   for (int i=0; i<53; i++)
   {
-    // include overflow bin in last bin
-    hists[i]->SetBinContent(NBINS,hists[i]->GetBinContent(NBINS)+hists[i]->GetBinContent(NBINS+1));
-    cout << HistName[i] << " = " << hists[i]->Integral() << endl;
     hists[i]->Write();
   }
 
-  wjet->SetName("W1jets");
-  wjet->SetTitle("W1jets");
+  wjet->SetName("W1+jets");
+  wjet->SetTitle("W1+jets");
   //wjet->SetLineColor(TColor::GetColor(222,90,106));
   //wjet->SetFillColor(TColor::GetColor(222,90,106));
   wjet->SetLineColor(TColor::GetColor(248,206,104));
@@ -1017,6 +1015,7 @@ void model(const char *samplefilename,
     //		Create Data card
     //
     //-------------------------------------------------------------------------------------
+    #if 0
     char outputLimitsShape[200];
     sprintf(outputLimitsShape,"histo_limits_WV.txt");
     ofstream newcardShape;
@@ -1036,6 +1035,7 @@ void model(const char *samplefilename,
     //-------------------------------------------------------------------------------------
 
     newcardShape.close();
+    #endif
 
   f.Write();
   f.Close();
@@ -1045,16 +1045,15 @@ void model(const char *samplefilename,
   //	Add bin-by-bin uncertanities
   //
   //-----------------------------------------------------
-  char command1[3000];
-  sprintf(command1,"./add_stat_shapes.py --filter Vjets --prefix Vjets_bbb ch1_splitted_TF1_NoBinbyBin.root WVchannel_datacard_BBB2.root");
+  TString command1 = "./add_stat_shapes.py --filter Vjets --prefix Vjets_bbb " + OutPutRootFileName + OutRootFileSuffix + ".root WVchannel_datacard_BBB2.root";
   system(command1);
 
   char command2[3000];
-  sprintf(command2,"./add_stat_shapes.py --filter WV_EWK --prefix WV_EWK_bbb WVchannel_datacard_BBB2.root WVchannel_datacard_BBB3.root");
+  sprintf(command2,"./add_stat_shapes.py --filter diboson --prefix diboson_bbb WVchannel_datacard_BBB2.root WVchannel_datacard_BBB3.root");
   system(command2);
 
   char command3[3000];
-  sprintf(command3,"./add_stat_shapes.py --filter diboson --prefix diboson_bbb WVchannel_datacard_BBB3.root WVchannel_datacard_BBB4.root");
+  sprintf(command3,"./add_stat_shapes.py --filter VVjjQCD --prefix VVjjQCD_bbb WVchannel_datacard_BBB3.root WVchannel_datacard_BBB4.root");
   system(command3);
 
   char command4[3000];
@@ -1062,11 +1061,10 @@ void model(const char *samplefilename,
   system(command4);
 
   char command5[3000];
-  sprintf(command5,"./add_stat_shapes.py --filter W1jets --prefix W1jets_bbb WVchannel_datacard_BBB5.root WVchannel_datacard_BBB6.root");
+  sprintf(command5,"./add_stat_shapes.py --filter W1+jets --prefix W1+jets_bbb WVchannel_datacard_BBB5.root WVchannel_datacard_BBB6.root");
   system(command5);
 
-  char command6[3000];
-  sprintf(command6,"rm WVchannel_datacard_BBB2.root WVchannel_datacard_BBB3.root WVchannel_datacard_BBB4.root WVchannel_datacard_BBB5.root; mv WVchannel_datacard_BBB6.root ch1_splitted_TF1.root");
+  TString command6 = "rm WVchannel_datacard_BBB2.root WVchannel_datacard_BBB3.root WVchannel_datacard_BBB4.root WVchannel_datacard_BBB5.root; mv WVchannel_datacard_BBB6.root " + OutPutRootFileName + ".root";
   system(command6);
 }
 
@@ -1074,7 +1072,9 @@ void WVChannel_GetCard()
 {
   int start_s=clock();
   model("DibosonBoostedElMuSamples13TeV.txt",
-		 commonplotvars_chs);
+	commonplotvars_chs,
+	"ch1_splitted_TF1");
+
   int stop_s=clock();
   cout << "time: " << (stop_s-start_s)/double(CLOCKS_PER_SEC)*1000 << endl;
 
