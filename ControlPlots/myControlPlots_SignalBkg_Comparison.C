@@ -301,7 +301,7 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
     cout << pv.plotvar << "\t"<<pv.MINRange<<"\t" << pv.MAXRange<<"\t" << pv.NBINS<<"\tTHE CUT " << endl;
 
 
-    TCut the_cut(TString("genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*(")+unwtcutstring+TString(")"));
+    TCut the_cut(TString("btag0Wgt*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*(")+unwtcutstring+TString(")"));
 
     TCut nullcut("");
 
@@ -335,17 +335,17 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
       else if (s->name().EqualTo("aQGC")){
 	if (int(ScaleSignal) == 1)
 	{
-	h = s->Draw(pv, the_cut*"100*(LHEWeight[993]/LHEWeight[0])", the_cut*"100*(LHEWeight[993]/LHEWeight[0])");
+	h = s->Draw(pv, the_cut*"1.0*(LHEWeight[1121]/LHEWeight[0])", the_cut*"1.0*(LHEWeight[1121]/LHEWeight[0])");
 	}
 	else
-	h = s->Draw(pv, the_cut*"(LHEWeight[993]/LHEWeight[0])", the_cut*"(LHEWeight[993]/LHEWeight[0])");
+	h = s->Draw(pv, the_cut*"(LHEWeight[1121]/LHEWeight[0])", the_cut*"(LHEWeight[1121]/LHEWeight[0])");
 	if (s->stackit()) {
 	  totevents += h->Integral(1,h->GetNbinsX()+1);
 	} 
       }
       else if (s->name().EqualTo("WV_EWK")){
 	if (int(ScaleSignal) == 1)
-		h = s->Draw(pv, the_cut*"100.0", the_cut*"100.0");
+		h = s->Draw(pv, the_cut*"1.0", the_cut*"1.0");
 	else
 		h = s->Draw(pv, the_cut, the_cut);
 	if (s->stackit()) {
@@ -501,7 +501,7 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
 	if(rit->first=="aQGC" || rit->first=="WV_EWK")
 	{
 	if (int(ScaleSignal) == 1)
-	  Leg->AddEntry(rit->second, rit->first+TString("*100"), "L" ); // "F");
+	  Leg->AddEntry(rit->second, rit->first+TString("*5"), "L" ); // "F");
 	else
 	  Leg->AddEntry(rit->second, rit->first, "L" ); // "F");
 	}
@@ -621,7 +621,7 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
     //if(aqgc)
     //  aqgc->Draw("same");
 	      Logfile << endl << endl;
-	      Logfile << "Significance (For SM) = (nSig/100) / sqrt(nSig/100 + nTotalBkg)" << endl;
+	      Logfile << "Significance (For SM) = (nSig/1) / sqrt(nSig/1 + nTotalBkg)" << endl;
 	      Logfile << "Significance (For aQGC) = (nSig) / sqrt(nSig + nTotalBkg)" << endl;
 
     // draw unstacked histos separately.
@@ -641,8 +641,8 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
 	      //aqgc->SetLineStyle(11);
 	      h->SetLineWidth(3.);
 	      h->SetLineColor(kBlue+3);
-      	      Logfile << "Significance (SM EWK)	= " << (h->Integral(1,h->GetNbinsX()+1)/100.)/sqrt((h->Integral(1,h->GetNbinsX()+1)/100.)+totevents) << endl;
-      	      cout << "Significance (SM EWK) = " << (h->Integral(1,h->GetNbinsX()+1)/100.)/sqrt((h->Integral(1,h->GetNbinsX()+1)/100.)+totevents) << endl;
+      	      Logfile << "Significance (SM EWK)	= " << (h->Integral(1,h->GetNbinsX()+1)/1.)/sqrt((h->Integral(1,h->GetNbinsX()+1)/1.)+totevents) << endl;
+      	      cout << "Significance (SM EWK) = " << (h->Integral(1,h->GetNbinsX()+1)/1.)/sqrt((h->Integral(1,h->GetNbinsX()+1)/1.)+totevents) << endl;
 	      //h->Scale(th1tot->Integral(1,th1tot->GetNbinsX()+1)/h->Integral(1,h->GetNbinsX()+1));
 	      h->Draw("histsame");
 	      h1 = (TH1D*) h->Clone();
@@ -668,7 +668,7 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
     }
     //cout<<" Debug.... 1" << endl;
 
-    //cmspre(intLUMIinvpb/1000.0);   
+    //cmspre(intLUMIinvpb/500.0);   
     CMS_lumi( d1, 4, 10 ); 
     //cout<<" Debug.... 2" << endl;
 //    gPad->RedrawAxis();
@@ -720,7 +720,7 @@ void myControlPlots_SignalBkg_Comparison(const char *cuttablefilename,
     //gPad->SetLogy(1);
     c2->SetLogy(1);
 
-    th1totempty->SetMaximum(100.*maxval);
+    th1totempty->SetMaximum(500.*maxval);
     th1totempty->Draw();
 
 
