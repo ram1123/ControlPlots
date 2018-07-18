@@ -31,7 +31,6 @@
 #include <Python.h>
 
 
-#include "controlplotvars_CHS.h"
 
 typedef struct SampleInfo_t {
   int     index;
@@ -188,7 +187,6 @@ void loadCutString(const char *filename, TString& cutstring)
 //======================================================================
 
 void model(const char *samplefilename,
-	   const plotVar_t plotvars[] = commonplotvars_chs,
 	   const TString OutPutRootFileName = "ch1_splitted_TF1")
 {
   cout<< "done..." << endl;
@@ -204,7 +202,7 @@ void model(const char *samplefilename,
   if (sdata->Tree())
     cout << "ndata =" << sdata->Tree()->GetEntries() <<endl;
 
-  TFile* wjetBkgSystFile = new TFile("bkg_estimation.root","READ");
+  TFile* wjetBkgSystFile = new TFile("bkg_estimation_4Bins.root","READ");
   
   TH1F* wjet = (TH1F*)wjetBkgSystFile->Get("WjetFitSyst_SignalRegion_Corr_Hist_From_Data_4bins_Nominal");
   TH1F* wjetup = (TH1F*)wjetBkgSystFile->Get("WjetFitSyst_SignalRegion_Corr_Hist_From_Data_4bins_Par0Up");
@@ -1116,8 +1114,8 @@ void model(const char *samplefilename,
       outFile_M10001->cd();
       TF1 *fit_2 = new TF1(hist_name,"pol2",fs1[0]-5,fs1[66]-5);
       //hfs1->Fit(hist_name,"R");
-      //hfs1->Write();
-      fit_2->Write();
+      hfs1->Write();
+      //fit_2->Write();
       outFile_M10002->cd();
       //hfs0->Write();
       TF1 *fit_3 = new TF1(hist_name,"pol2",fm0[0]-0.5,fm0[84]-0.5);
@@ -1293,8 +1291,8 @@ void model(const char *samplefilename,
       outFile_15001->cd();
       TF1 *fit_2 = new TF1(hist_name,"pol2",fs1[0]-5,fs1[66]-5);
       //hfs1->Fit(hist_name,"R");
-      //hfs1->Write();
-      fit_2->Write();
+      hfs1->Write();
+      //fit_2->Write();
       outFile_15002->cd();
       //hfs0->Write();
       TF1 *fit_3 = new TF1(hist_name,"pol2",fm0[0]-0.5,fm0[84]-0.5);
@@ -1470,8 +1468,8 @@ void model(const char *samplefilename,
       outFile_20001->cd();
       TF1 *fit_2 = new TF1(hist_name,"pol2",fs1[0]-5,fs1[66]-5);
       //hfs1->Fit(hist_name,"R");
-      //hfs1->Write();
-      fit_2->Write();
+      hfs1->Write();
+      //fit_2->Write();
       outFile_20002->cd();
       //hfs0->Write();
       TF1 *fit_3 = new TF1(hist_name,"pol2",fm0[0]-0.5,fm0[84]-0.5);
@@ -1647,8 +1645,8 @@ void model(const char *samplefilename,
       outFile_25001->cd();
       TF1 *fit_2 = new TF1(hist_name,"pol2",fs1[0]-5,fs1[66]-5);
       //hfs1->Fit(hist_name,"R");
-      //hfs1->Write();
-      fit_2->Write();
+      hfs1->Write();
+      //fit_2->Write();
       outFile_25002->cd();
       //hfs0->Write();
       TF1 *fit_3 = new TF1(hist_name,"pol2",fm0[0]-0.5,fm0[84]-0.5);
@@ -1824,8 +1822,8 @@ void model(const char *samplefilename,
       outFile_30001->cd();
       TF1 *fit_2 = new TF1(hist_name,"pol2",fs1[0]-5,fs1[66]-5);
       //hfs1->Fit(hist_name,"R");
-      //hfs1->Write();
-      fit_2->Write();
+      hfs1->Write();
+      //fit_2->Write();
       outFile_30002->cd();
       //hfs0->Write();
       TF1 *fit_3 = new TF1(hist_name,"pol2",fm0[0]-0.5,fm0[84]-0.5);
@@ -2001,8 +1999,8 @@ void model(const char *samplefilename,
       outFile_35001->cd();
       TF1 *fit_2 = new TF1(hist_name,"pol2",fs1[0]-5,fs1[66]-5);
       //hfs1->Fit(hist_name,"R");
-      //hfs1->Write();
-      fit_2->Write();
+      hfs1->Write();
+      //fit_2->Write();
       outFile_35002->cd();
       //hfs0->Write();
       TF1 *fit_3 = new TF1(hist_name,"pol2",fm0[0]-0.5,fm0[84]-0.5);
@@ -2178,8 +2176,8 @@ void model(const char *samplefilename,
       outFile_40001->cd();
       TF1 *fit_2 = new TF1(hist_name,"pol2",fs1[0]-5,fs1[66]-5);
       //hfs1->Fit(hist_name,"R");
-      //hfs1->Write();
-      fit_2->Write();
+      hfs1->Write();
+      //fit_2->Write();
       outFile_40002->cd();
       //hfs0->Write();
       TF1 *fit_3 = new TF1(hist_name,"pol2",fm0[0]-0.5,fm0[84]-0.5);
@@ -2355,8 +2353,8 @@ void model(const char *samplefilename,
       outFile_45001->cd();
       TF1 *fit_2 = new TF1(hist_name,"pol2",fs1[0]-5,fs1[66]-5);
       //hfs1->Fit(hist_name,"R");
-      //hfs1->Write();
-      fit_2->Write();
+      hfs1->Write();
+      //fit_2->Write();
       outFile_45002->cd();
       //hfs0->Write();
       TF1 *fit_3 = new TF1(hist_name,"pol2",fm0[0]-0.5,fm0[84]-0.5);
@@ -2532,8 +2530,8 @@ void model(const char *samplefilename,
       outFile_50001->cd();
       TF1 *fit_2 = new TF1(hist_name,"pol2",fs1[0]-5,fs1[66]-5);
       //hfs1->Fit(hist_name,"R");
-      //hfs1->Write();
-      fit_2->Write();
+      hfs1->Write();
+      //fit_2->Write();
       outFile_50002->cd();
       //hfs0->Write();
       TF1 *fit_3 = new TF1(hist_name,"pol2",fm0[0]-0.5,fm0[84]-0.5);
@@ -2716,12 +2714,11 @@ cdscale->cd();
   system(command6);
 }
 
-void WVChannel_GetCard_AllaQGCPar_CutOffHist()
+void WVChannel_GetCard()
 {
   int start_s=clock();
-  model("DibosonBoostedElMuSamples13TeV_WWTree_CommonNtuple_For1and2Lepton_MuonPtScale_2018_07_09_18h38_1.txt",
-	commonplotvars_chs,
-	"DibosonBoostedElMuSamples13TeV_WWTree_CommonNtuple_For1and2Lepton_MuonPtScale_2018_07_09_18h38_Higgs");
+  model("DibosonBoostedElMuSamples13TeV_WWTree_CommonNtuple_For1and2Lepton_MuonPtScale_2018_07_09_18h38.txt",
+	"WVChannel_LimitInput");
 
   int stop_s=clock();
   cout << "time: " << double(stop_s-start_s)/(double(CLOCKS_PER_SEC)*60.0) <<" min" << endl;

@@ -65,7 +65,12 @@ const plotVar_t commonplotvars_chs[] = {
 //
 //
 ////----------------	4 body mass	---------------
- { "mass_lvj_type0_PuppiAK8", 	600, 2500, 4, 3, "M_{WW} (GeV)",		"mass_lvj_type0_PuppiAK8_4bin",    600, 2500, 4, 1},
+ //{ "mass_lvj_type0_PuppiAK8", 	600, 2500, 4, 3, "M_{WW} (GeV)",		"mass_lvj_type0_PuppiAK8_4bin",    600, 2500, 4, 1},
+ //{ "mt_lvj_type0_PuppiAK8", 	600, 2500, 4, 3, "MT_{WW} (GeV)",		"mt_lvj_type0_PuppiAK8_4bin",    600, 2500, 4, 1},
+ //{ "mass_lvj_type0_PuppiAK8", 	600, 2500, 38, 3, "M_{WW} (GeV)",		"mass_lvj_type0_PuppiAK8_38bin",    600, 2500, 38, 1},
+ //{ "mt_lvj_type0_PuppiAK8", 	600, 2500, 38, 3, "MT_{WW} (GeV)",		"mt_lvj_type0_PuppiAK8_38bin",    600, 2500, 38, 1},
+ { "mass_lvj_type0_PuppiAK8", 	600, 2500, 19, 3, "M_{WW} (GeV)",		"mass_lvj_type0_PuppiAK8_19bin",    600, 2500, 19, 1},
+ { "mt_lvj_type0_PuppiAK8", 	600, 2500, 19, 3, "MT_{WW} (GeV)",		"mt_lvj_type0_PuppiAK8_19bin",    600, 2500, 19, 1},
 // { "mass_lvj_type0_PuppiAK8", 	600, 2500, 38, 3, "M_{WW} (GeV)",		"mass_lvj_type0_PuppiAK8_38bin",    600, 2500, 38, 1},
 // { "mass_lvj_type0_PuppiAK8", 	0.0, 2500, 50, 3, "M_{WW} (GeV)",		"mass_lvj_type0_PuppiAK8_38bin",    0.0, 2500, 50, 1},
 ////

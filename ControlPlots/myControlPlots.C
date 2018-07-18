@@ -354,11 +354,11 @@ void myControlPlots(const char *cuttablefilename,
     //
     //	ONE LEPTON CUTS
     //
-    //TCut the_cut(TString("btag0Wgt*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*(")+unwtcutstring+TString(")"));
+    TCut the_cut(TString("btag0Wgt*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*(")+unwtcutstring+TString(")"));
     //
     //  TWO LEPTON CASE
     //
-    TCut the_cut(TString("pu_Weight*totalEventWeight_2Lep*btag0Wgt*(")+unwtcutstring+TString(")"));
+    //TCut the_cut(TString("pu_Weight*totalEventWeight_2Lep*btag0Wgt*(")+unwtcutstring+TString(")"));
 
     TCut nullcut("");
 
