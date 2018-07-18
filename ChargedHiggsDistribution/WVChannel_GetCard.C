@@ -205,7 +205,6 @@ void model(const char *samplefilename,
   //
 
   double bins[9] = {600, 700, 800, 900, 1000, 1200, 1500, 2000, 2500};
-  //int NBINS = sizeof(bins)/sizeof(Float_t) - 1; 
   int NBINS = 8;
 
 
