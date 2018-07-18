@@ -982,7 +982,6 @@ void model(const char *samplefilename,
   outFile->Close();outFile1->Close();outFile2->Close();outFile3->Close();outFile4->Close();outFile5->Close();outFile6->Close();outFile7->Close();outFile8->Close();
 
 
- 
   //map<TString, TH1 *>::iterator mit = m_histos.find("ZV(EWK)");
   //TH1 *h = 0;//mit->second;
   std::cout << "Did we ever get here? " << std::endl;
@@ -2722,5 +2721,4 @@ void WVChannel_GetCard()
 
   int stop_s=clock();
   cout << "time: " << double(stop_s-start_s)/(double(CLOCKS_PER_SEC)*60.0) <<" min" << endl;
-
 }
