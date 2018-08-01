@@ -1284,6 +1284,7 @@ void model(const char *samplefilename,
 	    }
 	}
       outFile_M1500->cd();
+
       TF1 *fit_1 = new TF1(hist_name,"pol2",fs0[0]-10,fs0[90]-10);
       //hfs0->Fit(hist_name,"R");
       //fit_1->Write();
