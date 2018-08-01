@@ -13,11 +13,12 @@ os.system('mkdir -p plots/')
 
 #path="/afs/cern.ch/user/r/rasharma/work/public/aQGC_Ntuples/OutPut_Ele_6Sep/"
 #path="/eos/uscms//store/user/rasharma/SecondStep/WWTree_IsoVarSaved_2018_02_26_18h33/HaddedFiles/"
-path="/eos/uscms//store/user/rasharma/SecondStep/WWTree_IsoVarSaved_2018_03_06_23h37/HaddedFiles/"
+path="/eos/uscms/store/user/rasharma/SecondStep/WWTree_CommonNtuple_For1and2Lepton_MuonPtScale_2018_07_09_18h38/HaddedFiles/"
 
 #RootFiles=["WWTree_WplusToLNuWminusTo2JJJ_EWK_LO_SM_MJJ100PTJ10_TuneCUETP8M1_13TeV-madgraph-pythia8_EleMu.root"]
 #RootFiles = [ "Signal_WpWm_LNuJJ_EWK_SM.root" ]
-RootFiles = [ "SingleElectron.root" ]
+#RootFiles = [ "WplusToLNuWminusTo2JJJ_EWK_LO_SM.root" ]
+RootFiles = ["WplusToLNuWminusTo2JJJ_EWK_LO_aQGC.root"]
 #RootFiles=["OutPutRootFile_el.root","OutPutRootFile_mu.root"]
 
 cutlist = open("CutList.dat", "r")
@@ -36,6 +37,8 @@ for columns in ( raw.strip().split() for raw in cutlist ):
 #ROOT.gStyle.SetGridStyle(1)
 #ROOT.gStyle.SetPalette(1)
 
+print "\n\n==================\n\n",cut,"\n\n=====\n\n"
+cut = "(LHEWeight[1121]/LHEWeight[0])*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt*("+cut+")"
 print "\n\n==================\n\n",cut,"\n\n=====\n\n"
 c=ROOT.TCanvas("c","c",800,600)
 c.SetRightMargin(0.15)      # right margin for canvas
@@ -75,7 +78,7 @@ for files in RootFiles:
 
         h1=ROOT.TH2F("h1","",int(columns[1]),float(columns[2]),float(columns[3]),int(columns[4]),float(columns[5]),float(columns[6]))
         #h1.SetTitle(filename)
-        h1.GetZaxis().SetRangeUser(0,100);
+        h1.GetZaxis().SetRangeUser(0,50);
 	#re.sub('[!@#$]', '', line)
         h1.GetXaxis().SetTitle(re.sub('["$]',' ',titles[1]))
         h1.GetYaxis().SetTitle(re.sub('["$]',' ',titles[0]))
