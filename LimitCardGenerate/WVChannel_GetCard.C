@@ -187,7 +187,7 @@ void loadCutString(const char *filename, TString& cutstring)
 //======================================================================
 
 void model(const char *samplefilename,
-	   const TString OutPutRootFileName = "ch1_splitted_TF1")
+	   const TString OutPutRootFileName = "ch1_splitted_TF1_WV")
 {
   cout<< "done..." << endl;
 
@@ -202,7 +202,8 @@ void model(const char *samplefilename,
   if (sdata->Tree())
     cout << "ndata =" << sdata->Tree()->GetEntries() <<endl;
 
-  TFile* wjetBkgSystFile = new TFile("bkg_estimation_4Bins.root","READ");
+  //TFile* wjetBkgSystFile = new TFile("bkg_estimation_4Bins.root","READ");
+  TFile* wjetBkgSystFile = new TFile("WV_bkg_estimation_4Bins_50GeVLepCut.root","READ");
   
   TH1F* wjet = (TH1F*)wjetBkgSystFile->Get("WjetFitSyst_SignalRegion_Corr_Hist_From_Data_4bins_Nominal");
   TH1F* wjetup = (TH1F*)wjetBkgSystFile->Get("WjetFitSyst_SignalRegion_Corr_Hist_From_Data_4bins_Par0Up");
@@ -519,7 +520,7 @@ void model(const char *samplefilename,
 
       if (1)	//----------------	Nominal, PU up, PU down
       {
-	      if(!(l_pt2<0 && l_pt1>30)) continue;
+	      if(!(l_pt2<0 && l_pt1>50)) continue;
 	      if(!(((type==0)&&(abs(l_eta1)<2.4))||((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566))))) continue;
 	      if(!(((type==0)&&(pfMET_Corr>50)) || ((type==1)&&(pfMET_Corr>80)))) continue;
 	      if(!((ungroomed_PuppiAK8_jet_pt>200)&&(abs(ungroomed_PuppiAK8_jet_eta)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55))) continue;
@@ -607,7 +608,7 @@ void model(const char *samplefilename,
 
       if (1)	//--------------------------- LEP up
 	      {
-	      if(!(l_pt2_Up<0 && l_pt1_Up>30)) continue;
+	      if(!(l_pt2_Up<0 && l_pt1_Up>50)) continue;
 	      if(!(((type==0)&&(abs(l_eta1)<2.4))||((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566))))) continue;
 	      if(!(((type==0)&&(pfMET_Corr>50)) || ((type==1)&&(pfMET_Corr>80)))) continue;
 	      if(!((ungroomed_PuppiAK8_jet_pt>200)&&(abs(ungroomed_PuppiAK8_jet_eta)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55))) continue;
@@ -630,7 +631,7 @@ void model(const char *samplefilename,
 
       if (1)	//--------------------------- LEP down
       {
-	      if(!(l_pt2_Down<0 && l_pt1_Down>30)) continue;
+	      if(!(l_pt2_Down<0 && l_pt1_Down>50)) continue;
 	      if(!(((type==0)&&(abs(l_eta1)<2.4))||((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566))))) continue;
 	      if(!(((type==0)&&(pfMET_Corr>50)) || ((type==1)&&(pfMET_Corr>80)))) continue;
 	      if(!((ungroomed_PuppiAK8_jet_pt>200)&&(abs(ungroomed_PuppiAK8_jet_eta)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55))) continue;
@@ -653,7 +654,7 @@ void model(const char *samplefilename,
 
 	if (1)	//-------------------	JES up
 	{
-	   if(!(l_pt2<0 && l_pt1>30)) continue;
+	   if(!(l_pt2<0 && l_pt1>50)) continue;
 	   if(!(((type==0)&&(abs(l_eta1)<2.4))||((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566))))) continue;
 	   if(!((ungroomed_PuppiAK8_jet_pt_jes_up>200)&&(abs(ungroomed_PuppiAK8_jet_eta_jes_up)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55))) continue;
 	   if(!(nBTagJet_loose==0)) continue;
@@ -676,7 +677,7 @@ void model(const char *samplefilename,
 
 	if (1)	//-------------------	JES down
 	{
-	   if(!(l_pt2<0 && l_pt1>30)) continue;
+	   if(!(l_pt2<0 && l_pt1>50)) continue;
 	   if(!(((type==0)&&(abs(l_eta1)<2.4))||((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566))))) continue;
 	   if(!(((type==0)&&(pfMET_jes_dn>50)) || ((type==1)&&(pfMET_jes_dn>80)))) continue;
 	   if(!((ungroomed_PuppiAK8_jet_pt_jes_dn>200)&&(abs(ungroomed_PuppiAK8_jet_eta_jes_dn)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55))) continue;
@@ -699,7 +700,7 @@ void model(const char *samplefilename,
 
 	if (1)	//-------------------	JER up
 	{
-	   if(!(l_pt2<0 && l_pt1>30)) continue;
+	   if(!(l_pt2<0 && l_pt1>50)) continue;
 	   if(!(((type==0)&&(abs(l_eta1)<2.4))||((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566))))) continue;
 	   if(!(((type==0)&&(pfMET_Corr_jerup>50)) || ((type==1)&&(pfMET_Corr_jerup>80)))) continue;
 	   if(!((ungroomed_PuppiAK8_jet_pt>200)&&(abs(ungroomed_PuppiAK8_jet_eta)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55))) continue;
@@ -722,7 +723,7 @@ void model(const char *samplefilename,
 
 	if (1)	//-------------------	JER down
 	{
-	   if(!(l_pt2<0 && l_pt1>30)) continue;
+	   if(!(l_pt2<0 && l_pt1>50)) continue;
 	   if(!(((type==0)&&(abs(l_eta1)<2.4))||((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566))))) continue;
 	   if(!(((type==0)&&(pfMET_Corr_jerdn>50)) || ((type==1)&&(pfMET_Corr_jerdn>80)))) continue;
 	   if(!((ungroomed_PuppiAK8_jet_pt>200)&&(abs(ungroomed_PuppiAK8_jet_eta)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55))) continue;
@@ -800,7 +801,7 @@ void model(const char *samplefilename,
 	  //cout << systPDFScale << "\t" << histo_EWK_CMS_PDFScaleBounding[i]->GetBinContent(bin) << "\t" << histo_sm->GetBinContent(bin) << endl;
 	}
       systPDFScale = sqrt(systPDFScale/99.);
-      std::cout << "bin number " << bin << " " << 1 + systPDFScale/histo_sm->GetBinContent(bin) << "\t" << systPDFScale << "\t" << histo_sm->GetBinContent(bin) << std::endl; 
+      std::cout << "bin number " << bin << " " << 1 + systPDFScale/histo_sm->GetBinContent(bin) <<  std::endl; 
     }
 
 
@@ -808,15 +809,15 @@ void model(const char *samplefilename,
   //map<TString, TH1 *>::iterator mit = m_histos.find("ZV(EWK)");
   //TH1 *h = 0;//mit->second;
   std::cout << "Did we ever get here? " << std::endl;
-  TFile *outFile = new TFile("ch1_splitted_TF1_hfs0.root","RECREATE"); 
-  TFile *outFile1 = new TFile("ch1_splitted_TF1_hfs1.root","RECREATE"); 
-  TFile *outFile2 = new TFile("ch1_splitted_TF1_hfm0.root","RECREATE"); 
-  TFile *outFile3 = new TFile("ch1_splitted_TF1_hfm1.root","RECREATE"); 
-  TFile *outFile4 = new TFile("ch1_splitted_TF1_hfm6.root","RECREATE"); 
-  TFile *outFile5 = new TFile("ch1_splitted_TF1_hfm7.root","RECREATE"); 
-  TFile *outFile6 = new TFile("ch1_splitted_TF1_hft0.root","RECREATE"); 
-  TFile *outFile7 = new TFile("ch1_splitted_TF1_hft1.root","RECREATE"); 
-  TFile *outFile8 = new TFile("ch1_splitted_TF1_hft2.root","RECREATE");       
+  TFile *outFile = new TFile("ch1_splitted_TF1_WV_hfs0.root","RECREATE"); 
+  TFile *outFile1 = new TFile("ch1_splitted_TF1_WV_hfs1.root","RECREATE"); 
+  TFile *outFile2 = new TFile("ch1_splitted_TF1_WV_hfm0.root","RECREATE"); 
+  TFile *outFile3 = new TFile("ch1_splitted_TF1_WV_hfm1.root","RECREATE"); 
+  TFile *outFile4 = new TFile("ch1_splitted_TF1_WV_hfm6.root","RECREATE"); 
+  TFile *outFile5 = new TFile("ch1_splitted_TF1_WV_hfm7.root","RECREATE"); 
+  TFile *outFile6 = new TFile("ch1_splitted_TF1_WV_hft0.root","RECREATE"); 
+  TFile *outFile7 = new TFile("ch1_splitted_TF1_WV_hft1.root","RECREATE"); 
+  TFile *outFile8 = new TFile("ch1_splitted_TF1_WV_hft2.root","RECREATE");       
   
   // In this for loop the used histogram `hists[1]` contains information for WV_EWK
   for(int i = 1; i<hists[1]->GetNbinsX()+1; i++)
@@ -985,15 +986,15 @@ void model(const char *samplefilename,
   //map<TString, TH1 *>::iterator mit = m_histos.find("ZV(EWK)");
   //TH1 *h = 0;//mit->second;
   std::cout << "Did we ever get here? " << std::endl;
-  TFile *outFile_M1000 = new TFile("ch1_splitted_TF1_hfs0_M1000.root","RECREATE"); 
-  TFile *outFile_M10001 = new TFile("ch1_splitted_TF1_hfs1_M1000.root","RECREATE"); 
-  TFile *outFile_M10002 = new TFile("ch1_splitted_TF1_hfm0_M1000.root","RECREATE"); 
-  TFile *outFile_M10003 = new TFile("ch1_splitted_TF1_hfm1_M1000.root","RECREATE"); 
-  TFile *outFile_M10004 = new TFile("ch1_splitted_TF1_hfm6_M1000.root","RECREATE"); 
-  TFile *outFile_M10005 = new TFile("ch1_splitted_TF1_hfm7_M1000.root","RECREATE"); 
-  TFile *outFile_M10006 = new TFile("ch1_splitted_TF1_hft0_M1000.root","RECREATE"); 
-  TFile *outFile_M10007 = new TFile("ch1_splitted_TF1_hft1_M1000.root","RECREATE"); 
-  TFile *outFile_M10008 = new TFile("ch1_splitted_TF1_hft2_M1000.root","RECREATE");       
+  TFile *outFile_M1000 = new TFile("ch1_splitted_TF1_WV_hfs0_M1000.root","RECREATE"); 
+  TFile *outFile_M10001 = new TFile("ch1_splitted_TF1_WV_hfs1_M1000.root","RECREATE"); 
+  TFile *outFile_M10002 = new TFile("ch1_splitted_TF1_WV_hfm0_M1000.root","RECREATE"); 
+  TFile *outFile_M10003 = new TFile("ch1_splitted_TF1_WV_hfm1_M1000.root","RECREATE"); 
+  TFile *outFile_M10004 = new TFile("ch1_splitted_TF1_WV_hfm6_M1000.root","RECREATE"); 
+  TFile *outFile_M10005 = new TFile("ch1_splitted_TF1_WV_hfm7_M1000.root","RECREATE"); 
+  TFile *outFile_M10006 = new TFile("ch1_splitted_TF1_WV_hft0_M1000.root","RECREATE"); 
+  TFile *outFile_M10007 = new TFile("ch1_splitted_TF1_WV_hft1_M1000.root","RECREATE"); 
+  TFile *outFile_M10008 = new TFile("ch1_splitted_TF1_WV_hft2_M1000.root","RECREATE");       
   
   // In this for loop the used histogram `hists[1]` contains information for WV_EWK
   for(int i = 1; i<hists[1]->GetNbinsX()+1; i++)
@@ -1162,15 +1163,15 @@ void model(const char *samplefilename,
   //map<TString, TH1 *>::iterator mit = m_histos.find("ZV(EWK)");
   //TH1 *h = 0;//mit->second;
   std::cout << "Did we ever get here? " << std::endl;
-  TFile *outFile_1500 = new TFile("ch1_splitted_TF1_hfs0_1500.root","RECREATE"); 
-  TFile *outFile_15001 = new TFile("ch1_splitted_TF1_hfs1_1500.root","RECREATE"); 
-  TFile *outFile_15002 = new TFile("ch1_splitted_TF1_hfm0_1500.root","RECREATE"); 
-  TFile *outFile_15003 = new TFile("ch1_splitted_TF1_hfm1_1500.root","RECREATE"); 
-  TFile *outFile_15004 = new TFile("ch1_splitted_TF1_hfm6_1500.root","RECREATE"); 
-  TFile *outFile_15005 = new TFile("ch1_splitted_TF1_hfm7_1500.root","RECREATE"); 
-  TFile *outFile_15006 = new TFile("ch1_splitted_TF1_hft0_1500.root","RECREATE"); 
-  TFile *outFile_15007 = new TFile("ch1_splitted_TF1_hft1_1500.root","RECREATE"); 
-  TFile *outFile_15008 = new TFile("ch1_splitted_TF1_hft2_1500.root","RECREATE");       
+  TFile *outFile_M1500 = new TFile("ch1_splitted_TF1_WV_hfs0_M1500.root","RECREATE"); 
+  TFile *outFile_M15001 = new TFile("ch1_splitted_TF1_WV_hfs1_M1500.root","RECREATE"); 
+  TFile *outFile_M15002 = new TFile("ch1_splitted_TF1_WV_hfm0_M1500.root","RECREATE"); 
+  TFile *outFile_M15003 = new TFile("ch1_splitted_TF1_WV_hfm1_M1500.root","RECREATE"); 
+  TFile *outFile_M15004 = new TFile("ch1_splitted_TF1_WV_hfm6_M1500.root","RECREATE"); 
+  TFile *outFile_M15005 = new TFile("ch1_splitted_TF1_WV_hfm7_M1500.root","RECREATE"); 
+  TFile *outFile_M15006 = new TFile("ch1_splitted_TF1_WV_hft0_M1500.root","RECREATE"); 
+  TFile *outFile_M15007 = new TFile("ch1_splitted_TF1_WV_hft1_M1500.root","RECREATE"); 
+  TFile *outFile_M15008 = new TFile("ch1_splitted_TF1_WV_hft2_M1500.root","RECREATE");       
   
   // In this for loop the used histogram `hists[1]` contains information for WV_EWK
   for(int i = 1; i<hists[1]->GetNbinsX()+1; i++)
@@ -1282,49 +1283,50 @@ void model(const char *samplefilename,
 	      //hft2->SetBinContent(j+1-1081,histo_aqgc_M1500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
 	    }
 	}
-      outFile_1500->cd();
+      outFile_M1500->cd();
+
       TF1 *fit_1 = new TF1(hist_name,"pol2",fs0[0]-10,fs0[90]-10);
       //hfs0->Fit(hist_name,"R");
       //fit_1->Write();
       hfs0->Write();
-      outFile_15001->cd();
+      outFile_M15001->cd();
       TF1 *fit_2 = new TF1(hist_name,"pol2",fs1[0]-5,fs1[66]-5);
       //hfs1->Fit(hist_name,"R");
       hfs1->Write();
       //fit_2->Write();
-      outFile_15002->cd();
+      outFile_M15002->cd();
       //hfs0->Write();
       TF1 *fit_3 = new TF1(hist_name,"pol2",fm0[0]-0.5,fm0[84]-0.5);
       //hfm0->Fit(hist_name,"R");
       //fit_3->Write();
       hfm0->Write();
-      outFile_15003->cd();
+      outFile_M15003->cd();
       TF1 *fit_4 = new TF1(hist_name,"pol2",fm1[0]-2.5,fm1[66]-2.5);
       //hfm1->Fit(hist_name,"R");
       //fit_4->Write();
       hfm1->Write();
-      outFile_15004->cd();
+      outFile_M15004->cd();
       TF1 *fit_5 = new TF1(hist_name,"pol2",fm6[0]-1.0,fm6[83]-1.0);
       //hfm6->Fit(hist_name,"R");
       //fit_5->Write();
       hfm6->Write();
-      outFile_15005->cd();
+      outFile_M15005->cd();
       TF1 *fit_6 = new TF1(hist_name,"pol2",fm7[0]-2.5,fm7[120]-2.5);
       //hfm7->Fit(hist_name,"R");
       //fit_6->Write();
       hfm7->Write();
-      outFile_15006->cd();
+      outFile_M15006->cd();
       hft0->Write();
       TF1 *fit_7 = new TF1(hist_name,"pol2",ft0[0]-0.1,ft0[68]-0.1);
       //hft0->Fit(hist_name,"R");
       //fit_7->Write();
-      outFile_15007->cd();
+      outFile_M15007->cd();
       hft1->Write();
       TF1 *fit_8 = new TF1(hist_name,"pol2",ft1[0]-0.25,ft1[50]-0.25);
       //hft1->Fit(hist_name,"R");
       //fit_8->Write();
       hft1->Write();
-      outFile_15008->cd();	
+      outFile_M15008->cd();	
       TF1 *fit_9 = new TF1(hist_name,"pol2",ft2[0]-0.25,ft2[82]-0.25);
       //hft2->Fit(hist_name,"R");
       //fit_9->Write();
@@ -1332,22 +1334,22 @@ void model(const char *samplefilename,
       //f.Write();
       //delete hft0; delete  hft1; delete hft2; delete hfs0; delete hfs1; delete hfm0;   delete hfm1;   delete hfm6;   delete hfm7; 
     }
-  //outFile_1500->Write();
-  outFile_1500->Close();outFile_15001->Close();outFile_15002->Close();outFile_15003->Close();outFile_15004->Close();outFile_15005->Close();outFile_15006->Close();outFile_15007->Close();outFile_15008->Close();
+  //outFile_M1500->Write();
+  outFile_M1500->Close();outFile_M15001->Close();outFile_M15002->Close();outFile_M15003->Close();outFile_M15004->Close();outFile_M15005->Close();outFile_M15006->Close();outFile_M15007->Close();outFile_M15008->Close();
 
  
   //map<TString, TH1 *>::iterator mit = m_histos.find("ZV(EWK)");
   //TH1 *h = 0;//mit->second;
   std::cout << "Did we ever get here? " << std::endl;
-  TFile *outFile_2000 = new TFile("ch1_splitted_TF1_hfs0_2000.root","RECREATE"); 
-  TFile *outFile_20001 = new TFile("ch1_splitted_TF1_hfs1_2000.root","RECREATE"); 
-  TFile *outFile_20002 = new TFile("ch1_splitted_TF1_hfm0_2000.root","RECREATE"); 
-  TFile *outFile_20003 = new TFile("ch1_splitted_TF1_hfm1_2000.root","RECREATE"); 
-  TFile *outFile_20004 = new TFile("ch1_splitted_TF1_hfm6_2000.root","RECREATE"); 
-  TFile *outFile_20005 = new TFile("ch1_splitted_TF1_hfm7_2000.root","RECREATE"); 
-  TFile *outFile_20006 = new TFile("ch1_splitted_TF1_hft0_2000.root","RECREATE"); 
-  TFile *outFile_20007 = new TFile("ch1_splitted_TF1_hft1_2000.root","RECREATE"); 
-  TFile *outFile_20008 = new TFile("ch1_splitted_TF1_hft2_2000.root","RECREATE");       
+  TFile *outFile_M2000 = new TFile("ch1_splitted_TF1_WV_hfs0_M2000.root","RECREATE"); 
+  TFile *outFile_M20001 = new TFile("ch1_splitted_TF1_WV_hfs1_M2000.root","RECREATE"); 
+  TFile *outFile_M20002 = new TFile("ch1_splitted_TF1_WV_hfm0_M2000.root","RECREATE"); 
+  TFile *outFile_M20003 = new TFile("ch1_splitted_TF1_WV_hfm1_M2000.root","RECREATE"); 
+  TFile *outFile_M20004 = new TFile("ch1_splitted_TF1_WV_hfm6_M2000.root","RECREATE"); 
+  TFile *outFile_M20005 = new TFile("ch1_splitted_TF1_WV_hfm7_M2000.root","RECREATE"); 
+  TFile *outFile_M20006 = new TFile("ch1_splitted_TF1_WV_hft0_M2000.root","RECREATE"); 
+  TFile *outFile_M20007 = new TFile("ch1_splitted_TF1_WV_hft1_M2000.root","RECREATE"); 
+  TFile *outFile_M20008 = new TFile("ch1_splitted_TF1_WV_hft2_M2000.root","RECREATE");       
   
   // In this for loop the used histogram `hists[1]` contains information for WV_EWK
   for(int i = 1; i<hists[1]->GetNbinsX()+1; i++)
@@ -1459,49 +1461,49 @@ void model(const char *samplefilename,
 	      //hft2->SetBinContent(j+1-1081,histo_aqgc_M2000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
 	    }
 	}
-      outFile_2000->cd();
+      outFile_M2000->cd();
       TF1 *fit_1 = new TF1(hist_name,"pol2",fs0[0]-10,fs0[90]-10);
       //hfs0->Fit(hist_name,"R");
       //fit_1->Write();
       hfs0->Write();
-      outFile_20001->cd();
+      outFile_M20001->cd();
       TF1 *fit_2 = new TF1(hist_name,"pol2",fs1[0]-5,fs1[66]-5);
       //hfs1->Fit(hist_name,"R");
       hfs1->Write();
       //fit_2->Write();
-      outFile_20002->cd();
+      outFile_M20002->cd();
       //hfs0->Write();
       TF1 *fit_3 = new TF1(hist_name,"pol2",fm0[0]-0.5,fm0[84]-0.5);
       //hfm0->Fit(hist_name,"R");
       //fit_3->Write();
       hfm0->Write();
-      outFile_20003->cd();
+      outFile_M20003->cd();
       TF1 *fit_4 = new TF1(hist_name,"pol2",fm1[0]-2.5,fm1[66]-2.5);
       //hfm1->Fit(hist_name,"R");
       //fit_4->Write();
       hfm1->Write();
-      outFile_20004->cd();
+      outFile_M20004->cd();
       TF1 *fit_5 = new TF1(hist_name,"pol2",fm6[0]-1.0,fm6[83]-1.0);
       //hfm6->Fit(hist_name,"R");
       //fit_5->Write();
       hfm6->Write();
-      outFile_20005->cd();
+      outFile_M20005->cd();
       TF1 *fit_6 = new TF1(hist_name,"pol2",fm7[0]-2.5,fm7[120]-2.5);
       //hfm7->Fit(hist_name,"R");
       //fit_6->Write();
       hfm7->Write();
-      outFile_20006->cd();
+      outFile_M20006->cd();
       hft0->Write();
       TF1 *fit_7 = new TF1(hist_name,"pol2",ft0[0]-0.1,ft0[68]-0.1);
       //hft0->Fit(hist_name,"R");
       //fit_7->Write();
-      outFile_20007->cd();
+      outFile_M20007->cd();
       hft1->Write();
       TF1 *fit_8 = new TF1(hist_name,"pol2",ft1[0]-0.25,ft1[50]-0.25);
       //hft1->Fit(hist_name,"R");
       //fit_8->Write();
       hft1->Write();
-      outFile_20008->cd();	
+      outFile_M20008->cd();	
       TF1 *fit_9 = new TF1(hist_name,"pol2",ft2[0]-0.25,ft2[82]-0.25);
       //hft2->Fit(hist_name,"R");
       //fit_9->Write();
@@ -1509,22 +1511,22 @@ void model(const char *samplefilename,
       //f.Write();
       //delete hft0; delete  hft1; delete hft2; delete hfs0; delete hfs1; delete hfm0;   delete hfm1;   delete hfm6;   delete hfm7; 
     }
-  //outFile_2000->Write();
-  outFile_2000->Close();outFile_20001->Close();outFile_20002->Close();outFile_20003->Close();outFile_20004->Close();outFile_20005->Close();outFile_20006->Close();outFile_20007->Close();outFile_20008->Close();
+  //outFile_M2000->Write();
+  outFile_M2000->Close();outFile_M20001->Close();outFile_M20002->Close();outFile_M20003->Close();outFile_M20004->Close();outFile_M20005->Close();outFile_M20006->Close();outFile_M20007->Close();outFile_M20008->Close();
 
  
   //map<TString, TH1 *>::iterator mit = m_histos.find("ZV(EWK)");
   //TH1 *h = 0;//mit->second;
   std::cout << "Did we ever get here? " << std::endl;
-  TFile *outFile_2500 = new TFile("ch1_splitted_TF1_hfs0_2500.root","RECREATE"); 
-  TFile *outFile_25001 = new TFile("ch1_splitted_TF1_hfs1_2500.root","RECREATE"); 
-  TFile *outFile_25002 = new TFile("ch1_splitted_TF1_hfm0_2500.root","RECREATE"); 
-  TFile *outFile_25003 = new TFile("ch1_splitted_TF1_hfm1_2500.root","RECREATE"); 
-  TFile *outFile_25004 = new TFile("ch1_splitted_TF1_hfm6_2500.root","RECREATE"); 
-  TFile *outFile_25005 = new TFile("ch1_splitted_TF1_hfm7_2500.root","RECREATE"); 
-  TFile *outFile_25006 = new TFile("ch1_splitted_TF1_hft0_2500.root","RECREATE"); 
-  TFile *outFile_25007 = new TFile("ch1_splitted_TF1_hft1_2500.root","RECREATE"); 
-  TFile *outFile_25008 = new TFile("ch1_splitted_TF1_hft2_2500.root","RECREATE");       
+  TFile *outFile_M2500 = new TFile("ch1_splitted_TF1_WV_hfs0_M2500.root","RECREATE"); 
+  TFile *outFile_M25001 = new TFile("ch1_splitted_TF1_WV_hfs1_M2500.root","RECREATE"); 
+  TFile *outFile_M25002 = new TFile("ch1_splitted_TF1_WV_hfm0_M2500.root","RECREATE"); 
+  TFile *outFile_M25003 = new TFile("ch1_splitted_TF1_WV_hfm1_M2500.root","RECREATE"); 
+  TFile *outFile_M25004 = new TFile("ch1_splitted_TF1_WV_hfm6_M2500.root","RECREATE"); 
+  TFile *outFile_M25005 = new TFile("ch1_splitted_TF1_WV_hfm7_M2500.root","RECREATE"); 
+  TFile *outFile_M25006 = new TFile("ch1_splitted_TF1_WV_hft0_M2500.root","RECREATE"); 
+  TFile *outFile_M25007 = new TFile("ch1_splitted_TF1_WV_hft1_M2500.root","RECREATE"); 
+  TFile *outFile_M25008 = new TFile("ch1_splitted_TF1_WV_hft2_M2500.root","RECREATE");       
   
   // In this for loop the used histogram `hists[1]` contains information for WV_EWK
   for(int i = 1; i<hists[1]->GetNbinsX()+1; i++)
@@ -1636,49 +1638,49 @@ void model(const char *samplefilename,
 	      //hft2->SetBinContent(j+1-1081,histo_aqgc_M2500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
 	    }
 	}
-      outFile_2500->cd();
+      outFile_M2500->cd();
       TF1 *fit_1 = new TF1(hist_name,"pol2",fs0[0]-10,fs0[90]-10);
       //hfs0->Fit(hist_name,"R");
       //fit_1->Write();
       hfs0->Write();
-      outFile_25001->cd();
+      outFile_M25001->cd();
       TF1 *fit_2 = new TF1(hist_name,"pol2",fs1[0]-5,fs1[66]-5);
       //hfs1->Fit(hist_name,"R");
       hfs1->Write();
       //fit_2->Write();
-      outFile_25002->cd();
+      outFile_M25002->cd();
       //hfs0->Write();
       TF1 *fit_3 = new TF1(hist_name,"pol2",fm0[0]-0.5,fm0[84]-0.5);
       //hfm0->Fit(hist_name,"R");
       //fit_3->Write();
       hfm0->Write();
-      outFile_25003->cd();
+      outFile_M25003->cd();
       TF1 *fit_4 = new TF1(hist_name,"pol2",fm1[0]-2.5,fm1[66]-2.5);
       //hfm1->Fit(hist_name,"R");
       //fit_4->Write();
       hfm1->Write();
-      outFile_25004->cd();
+      outFile_M25004->cd();
       TF1 *fit_5 = new TF1(hist_name,"pol2",fm6[0]-1.0,fm6[83]-1.0);
       //hfm6->Fit(hist_name,"R");
       //fit_5->Write();
       hfm6->Write();
-      outFile_25005->cd();
+      outFile_M25005->cd();
       TF1 *fit_6 = new TF1(hist_name,"pol2",fm7[0]-2.5,fm7[120]-2.5);
       //hfm7->Fit(hist_name,"R");
       //fit_6->Write();
       hfm7->Write();
-      outFile_25006->cd();
+      outFile_M25006->cd();
       hft0->Write();
       TF1 *fit_7 = new TF1(hist_name,"pol2",ft0[0]-0.1,ft0[68]-0.1);
       //hft0->Fit(hist_name,"R");
       //fit_7->Write();
-      outFile_25007->cd();
+      outFile_M25007->cd();
       hft1->Write();
       TF1 *fit_8 = new TF1(hist_name,"pol2",ft1[0]-0.25,ft1[50]-0.25);
       //hft1->Fit(hist_name,"R");
       //fit_8->Write();
       hft1->Write();
-      outFile_25008->cd();	
+      outFile_M25008->cd();	
       TF1 *fit_9 = new TF1(hist_name,"pol2",ft2[0]-0.25,ft2[82]-0.25);
       //hft2->Fit(hist_name,"R");
       //fit_9->Write();
@@ -1686,22 +1688,22 @@ void model(const char *samplefilename,
       //f.Write();
       //delete hft0; delete  hft1; delete hft2; delete hfs0; delete hfs1; delete hfm0;   delete hfm1;   delete hfm6;   delete hfm7; 
     }
-  //outFile_2500->Write();
-  outFile_2500->Close();outFile_25001->Close();outFile_25002->Close();outFile_25003->Close();outFile_25004->Close();outFile_25005->Close();outFile_25006->Close();outFile_25007->Close();outFile_25008->Close();
+  //outFile_M2500->Write();
+  outFile_M2500->Close();outFile_M25001->Close();outFile_M25002->Close();outFile_M25003->Close();outFile_M25004->Close();outFile_M25005->Close();outFile_M25006->Close();outFile_M25007->Close();outFile_M25008->Close();
 
  
   //map<TString, TH1 *>::iterator mit = m_histos.find("ZV(EWK)");
   //TH1 *h = 0;//mit->second;
   std::cout << "Did we ever get here? " << std::endl;
-  TFile *outFile_3000 = new TFile("ch1_splitted_TF1_hfs0_3000.root","RECREATE"); 
-  TFile *outFile_30001 = new TFile("ch1_splitted_TF1_hfs1_3000.root","RECREATE"); 
-  TFile *outFile_30002 = new TFile("ch1_splitted_TF1_hfm0_3000.root","RECREATE"); 
-  TFile *outFile_30003 = new TFile("ch1_splitted_TF1_hfm1_3000.root","RECREATE"); 
-  TFile *outFile_30004 = new TFile("ch1_splitted_TF1_hfm6_3000.root","RECREATE"); 
-  TFile *outFile_30005 = new TFile("ch1_splitted_TF1_hfm7_3000.root","RECREATE"); 
-  TFile *outFile_30006 = new TFile("ch1_splitted_TF1_hft0_3000.root","RECREATE"); 
-  TFile *outFile_30007 = new TFile("ch1_splitted_TF1_hft1_3000.root","RECREATE"); 
-  TFile *outFile_30008 = new TFile("ch1_splitted_TF1_hft2_3000.root","RECREATE");       
+  TFile *outFile_M3000 = new TFile("ch1_splitted_TF1_WV_hfs0_M3000.root","RECREATE"); 
+  TFile *outFile_M30001 = new TFile("ch1_splitted_TF1_WV_hfs1_M3000.root","RECREATE"); 
+  TFile *outFile_M30002 = new TFile("ch1_splitted_TF1_WV_hfm0_M3000.root","RECREATE"); 
+  TFile *outFile_M30003 = new TFile("ch1_splitted_TF1_WV_hfm1_M3000.root","RECREATE"); 
+  TFile *outFile_M30004 = new TFile("ch1_splitted_TF1_WV_hfm6_M3000.root","RECREATE"); 
+  TFile *outFile_M30005 = new TFile("ch1_splitted_TF1_WV_hfm7_M3000.root","RECREATE"); 
+  TFile *outFile_M30006 = new TFile("ch1_splitted_TF1_WV_hft0_M3000.root","RECREATE"); 
+  TFile *outFile_M30007 = new TFile("ch1_splitted_TF1_WV_hft1_M3000.root","RECREATE"); 
+  TFile *outFile_M30008 = new TFile("ch1_splitted_TF1_WV_hft2_M3000.root","RECREATE");       
   
   // In this for loop the used histogram `hists[1]` contains information for WV_EWK
   for(int i = 1; i<hists[1]->GetNbinsX()+1; i++)
@@ -1813,49 +1815,49 @@ void model(const char *samplefilename,
 	      //hft2->SetBinContent(j+1-1081,histo_aqgc_M3000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
 	    }
 	}
-      outFile_3000->cd();
+      outFile_M3000->cd();
       TF1 *fit_1 = new TF1(hist_name,"pol2",fs0[0]-10,fs0[90]-10);
       //hfs0->Fit(hist_name,"R");
       //fit_1->Write();
       hfs0->Write();
-      outFile_30001->cd();
+      outFile_M30001->cd();
       TF1 *fit_2 = new TF1(hist_name,"pol2",fs1[0]-5,fs1[66]-5);
       //hfs1->Fit(hist_name,"R");
       hfs1->Write();
       //fit_2->Write();
-      outFile_30002->cd();
+      outFile_M30002->cd();
       //hfs0->Write();
       TF1 *fit_3 = new TF1(hist_name,"pol2",fm0[0]-0.5,fm0[84]-0.5);
       //hfm0->Fit(hist_name,"R");
       //fit_3->Write();
       hfm0->Write();
-      outFile_30003->cd();
+      outFile_M30003->cd();
       TF1 *fit_4 = new TF1(hist_name,"pol2",fm1[0]-2.5,fm1[66]-2.5);
       //hfm1->Fit(hist_name,"R");
       //fit_4->Write();
       hfm1->Write();
-      outFile_30004->cd();
+      outFile_M30004->cd();
       TF1 *fit_5 = new TF1(hist_name,"pol2",fm6[0]-1.0,fm6[83]-1.0);
       //hfm6->Fit(hist_name,"R");
       //fit_5->Write();
       hfm6->Write();
-      outFile_30005->cd();
+      outFile_M30005->cd();
       TF1 *fit_6 = new TF1(hist_name,"pol2",fm7[0]-2.5,fm7[120]-2.5);
       //hfm7->Fit(hist_name,"R");
       //fit_6->Write();
       hfm7->Write();
-      outFile_30006->cd();
+      outFile_M30006->cd();
       hft0->Write();
       TF1 *fit_7 = new TF1(hist_name,"pol2",ft0[0]-0.1,ft0[68]-0.1);
       //hft0->Fit(hist_name,"R");
       //fit_7->Write();
-      outFile_30007->cd();
+      outFile_M30007->cd();
       hft1->Write();
       TF1 *fit_8 = new TF1(hist_name,"pol2",ft1[0]-0.25,ft1[50]-0.25);
       //hft1->Fit(hist_name,"R");
       //fit_8->Write();
       hft1->Write();
-      outFile_30008->cd();	
+      outFile_M30008->cd();	
       TF1 *fit_9 = new TF1(hist_name,"pol2",ft2[0]-0.25,ft2[82]-0.25);
       //hft2->Fit(hist_name,"R");
       //fit_9->Write();
@@ -1863,22 +1865,22 @@ void model(const char *samplefilename,
       //f.Write();
       //delete hft0; delete  hft1; delete hft2; delete hfs0; delete hfs1; delete hfm0;   delete hfm1;   delete hfm6;   delete hfm7; 
     }
-  //outFile_3000->Write();
-  outFile_3000->Close();outFile_30001->Close();outFile_30002->Close();outFile_30003->Close();outFile_30004->Close();outFile_30005->Close();outFile_30006->Close();outFile_30007->Close();outFile_30008->Close();
+  //outFile_M3000->Write();
+  outFile_M3000->Close();outFile_M30001->Close();outFile_M30002->Close();outFile_M30003->Close();outFile_M30004->Close();outFile_M30005->Close();outFile_M30006->Close();outFile_M30007->Close();outFile_M30008->Close();
 
  
   //map<TString, TH1 *>::iterator mit = m_histos.find("ZV(EWK)");
   //TH1 *h = 0;//mit->second;
   std::cout << "Did we ever get here? " << std::endl;
-  TFile *outFile_3500 = new TFile("ch1_splitted_TF1_hfs0_3500.root","RECREATE"); 
-  TFile *outFile_35001 = new TFile("ch1_splitted_TF1_hfs1_3500.root","RECREATE"); 
-  TFile *outFile_35002 = new TFile("ch1_splitted_TF1_hfm0_3500.root","RECREATE"); 
-  TFile *outFile_35003 = new TFile("ch1_splitted_TF1_hfm1_3500.root","RECREATE"); 
-  TFile *outFile_35004 = new TFile("ch1_splitted_TF1_hfm6_3500.root","RECREATE"); 
-  TFile *outFile_35005 = new TFile("ch1_splitted_TF1_hfm7_3500.root","RECREATE"); 
-  TFile *outFile_35006 = new TFile("ch1_splitted_TF1_hft0_3500.root","RECREATE"); 
-  TFile *outFile_35007 = new TFile("ch1_splitted_TF1_hft1_3500.root","RECREATE"); 
-  TFile *outFile_35008 = new TFile("ch1_splitted_TF1_hft2_3500.root","RECREATE");       
+  TFile *outFile_M3500 = new TFile("ch1_splitted_TF1_WV_hfs0_M3500.root","RECREATE"); 
+  TFile *outFile_M35001 = new TFile("ch1_splitted_TF1_WV_hfs1_M3500.root","RECREATE"); 
+  TFile *outFile_M35002 = new TFile("ch1_splitted_TF1_WV_hfm0_M3500.root","RECREATE"); 
+  TFile *outFile_M35003 = new TFile("ch1_splitted_TF1_WV_hfm1_M3500.root","RECREATE"); 
+  TFile *outFile_M35004 = new TFile("ch1_splitted_TF1_WV_hfm6_M3500.root","RECREATE"); 
+  TFile *outFile_M35005 = new TFile("ch1_splitted_TF1_WV_hfm7_M3500.root","RECREATE"); 
+  TFile *outFile_M35006 = new TFile("ch1_splitted_TF1_WV_hft0_M3500.root","RECREATE"); 
+  TFile *outFile_M35007 = new TFile("ch1_splitted_TF1_WV_hft1_M3500.root","RECREATE"); 
+  TFile *outFile_M35008 = new TFile("ch1_splitted_TF1_WV_hft2_M3500.root","RECREATE");       
   
   // In this for loop the used histogram `hists[1]` contains information for WV_EWK
   for(int i = 1; i<hists[1]->GetNbinsX()+1; i++)
@@ -1990,49 +1992,49 @@ void model(const char *samplefilename,
 	      //hft2->SetBinContent(j+1-1081,histo_aqgc_M3500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
 	    }
 	}
-      outFile_3500->cd();
+      outFile_M3500->cd();
       TF1 *fit_1 = new TF1(hist_name,"pol2",fs0[0]-10,fs0[90]-10);
       //hfs0->Fit(hist_name,"R");
       //fit_1->Write();
       hfs0->Write();
-      outFile_35001->cd();
+      outFile_M35001->cd();
       TF1 *fit_2 = new TF1(hist_name,"pol2",fs1[0]-5,fs1[66]-5);
       //hfs1->Fit(hist_name,"R");
       hfs1->Write();
       //fit_2->Write();
-      outFile_35002->cd();
+      outFile_M35002->cd();
       //hfs0->Write();
       TF1 *fit_3 = new TF1(hist_name,"pol2",fm0[0]-0.5,fm0[84]-0.5);
       //hfm0->Fit(hist_name,"R");
       //fit_3->Write();
       hfm0->Write();
-      outFile_35003->cd();
+      outFile_M35003->cd();
       TF1 *fit_4 = new TF1(hist_name,"pol2",fm1[0]-2.5,fm1[66]-2.5);
       //hfm1->Fit(hist_name,"R");
       //fit_4->Write();
       hfm1->Write();
-      outFile_35004->cd();
+      outFile_M35004->cd();
       TF1 *fit_5 = new TF1(hist_name,"pol2",fm6[0]-1.0,fm6[83]-1.0);
       //hfm6->Fit(hist_name,"R");
       //fit_5->Write();
       hfm6->Write();
-      outFile_35005->cd();
+      outFile_M35005->cd();
       TF1 *fit_6 = new TF1(hist_name,"pol2",fm7[0]-2.5,fm7[120]-2.5);
       //hfm7->Fit(hist_name,"R");
       //fit_6->Write();
       hfm7->Write();
-      outFile_35006->cd();
+      outFile_M35006->cd();
       hft0->Write();
       TF1 *fit_7 = new TF1(hist_name,"pol2",ft0[0]-0.1,ft0[68]-0.1);
       //hft0->Fit(hist_name,"R");
       //fit_7->Write();
-      outFile_35007->cd();
+      outFile_M35007->cd();
       hft1->Write();
       TF1 *fit_8 = new TF1(hist_name,"pol2",ft1[0]-0.25,ft1[50]-0.25);
       //hft1->Fit(hist_name,"R");
       //fit_8->Write();
       hft1->Write();
-      outFile_35008->cd();	
+      outFile_M35008->cd();	
       TF1 *fit_9 = new TF1(hist_name,"pol2",ft2[0]-0.25,ft2[82]-0.25);
       //hft2->Fit(hist_name,"R");
       //fit_9->Write();
@@ -2040,22 +2042,22 @@ void model(const char *samplefilename,
       //f.Write();
       //delete hft0; delete  hft1; delete hft2; delete hfs0; delete hfs1; delete hfm0;   delete hfm1;   delete hfm6;   delete hfm7; 
     }
-  //outFile_3500->Write();
-  outFile_3500->Close();outFile_35001->Close();outFile_35002->Close();outFile_35003->Close();outFile_35004->Close();outFile_35005->Close();outFile_35006->Close();outFile_35007->Close();outFile_35008->Close();
+  //outFile_M3500->Write();
+  outFile_M3500->Close();outFile_M35001->Close();outFile_M35002->Close();outFile_M35003->Close();outFile_M35004->Close();outFile_M35005->Close();outFile_M35006->Close();outFile_M35007->Close();outFile_M35008->Close();
 
  
   //map<TString, TH1 *>::iterator mit = m_histos.find("ZV(EWK)");
   //TH1 *h = 0;//mit->second;
   std::cout << "Did we ever get here? " << std::endl;
-  TFile *outFile_4000 = new TFile("ch1_splitted_TF1_hfs0_4000.root","RECREATE"); 
-  TFile *outFile_40001 = new TFile("ch1_splitted_TF1_hfs1_4000.root","RECREATE"); 
-  TFile *outFile_40002 = new TFile("ch1_splitted_TF1_hfm0_4000.root","RECREATE"); 
-  TFile *outFile_40003 = new TFile("ch1_splitted_TF1_hfm1_4000.root","RECREATE"); 
-  TFile *outFile_40004 = new TFile("ch1_splitted_TF1_hfm6_4000.root","RECREATE"); 
-  TFile *outFile_40005 = new TFile("ch1_splitted_TF1_hfm7_4000.root","RECREATE"); 
-  TFile *outFile_40006 = new TFile("ch1_splitted_TF1_hft0_4000.root","RECREATE"); 
-  TFile *outFile_40007 = new TFile("ch1_splitted_TF1_hft1_4000.root","RECREATE"); 
-  TFile *outFile_40008 = new TFile("ch1_splitted_TF1_hft2_4000.root","RECREATE");       
+  TFile *outFile_M4000 = new TFile("ch1_splitted_TF1_WV_hfs0_M4000.root","RECREATE"); 
+  TFile *outFile_M40001 = new TFile("ch1_splitted_TF1_WV_hfs1_M4000.root","RECREATE"); 
+  TFile *outFile_M40002 = new TFile("ch1_splitted_TF1_WV_hfm0_M4000.root","RECREATE"); 
+  TFile *outFile_M40003 = new TFile("ch1_splitted_TF1_WV_hfm1_M4000.root","RECREATE"); 
+  TFile *outFile_M40004 = new TFile("ch1_splitted_TF1_WV_hfm6_M4000.root","RECREATE"); 
+  TFile *outFile_M40005 = new TFile("ch1_splitted_TF1_WV_hfm7_M4000.root","RECREATE"); 
+  TFile *outFile_M40006 = new TFile("ch1_splitted_TF1_WV_hft0_M4000.root","RECREATE"); 
+  TFile *outFile_M40007 = new TFile("ch1_splitted_TF1_WV_hft1_M4000.root","RECREATE"); 
+  TFile *outFile_M40008 = new TFile("ch1_splitted_TF1_WV_hft2_M4000.root","RECREATE");       
   
   // In this for loop the used histogram `hists[1]` contains information for WV_EWK
   for(int i = 1; i<hists[1]->GetNbinsX()+1; i++)
@@ -2167,49 +2169,49 @@ void model(const char *samplefilename,
 	      //hft2->SetBinContent(j+1-1081,histo_aqgc_M4000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
 	    }
 	}
-      outFile_4000->cd();
+      outFile_M4000->cd();
       TF1 *fit_1 = new TF1(hist_name,"pol2",fs0[0]-10,fs0[90]-10);
       //hfs0->Fit(hist_name,"R");
       //fit_1->Write();
       hfs0->Write();
-      outFile_40001->cd();
+      outFile_M40001->cd();
       TF1 *fit_2 = new TF1(hist_name,"pol2",fs1[0]-5,fs1[66]-5);
       //hfs1->Fit(hist_name,"R");
       hfs1->Write();
       //fit_2->Write();
-      outFile_40002->cd();
+      outFile_M40002->cd();
       //hfs0->Write();
       TF1 *fit_3 = new TF1(hist_name,"pol2",fm0[0]-0.5,fm0[84]-0.5);
       //hfm0->Fit(hist_name,"R");
       //fit_3->Write();
       hfm0->Write();
-      outFile_40003->cd();
+      outFile_M40003->cd();
       TF1 *fit_4 = new TF1(hist_name,"pol2",fm1[0]-2.5,fm1[66]-2.5);
       //hfm1->Fit(hist_name,"R");
       //fit_4->Write();
       hfm1->Write();
-      outFile_40004->cd();
+      outFile_M40004->cd();
       TF1 *fit_5 = new TF1(hist_name,"pol2",fm6[0]-1.0,fm6[83]-1.0);
       //hfm6->Fit(hist_name,"R");
       //fit_5->Write();
       hfm6->Write();
-      outFile_40005->cd();
+      outFile_M40005->cd();
       TF1 *fit_6 = new TF1(hist_name,"pol2",fm7[0]-2.5,fm7[120]-2.5);
       //hfm7->Fit(hist_name,"R");
       //fit_6->Write();
       hfm7->Write();
-      outFile_40006->cd();
+      outFile_M40006->cd();
       hft0->Write();
       TF1 *fit_7 = new TF1(hist_name,"pol2",ft0[0]-0.1,ft0[68]-0.1);
       //hft0->Fit(hist_name,"R");
       //fit_7->Write();
-      outFile_40007->cd();
+      outFile_M40007->cd();
       hft1->Write();
       TF1 *fit_8 = new TF1(hist_name,"pol2",ft1[0]-0.25,ft1[50]-0.25);
       //hft1->Fit(hist_name,"R");
       //fit_8->Write();
       hft1->Write();
-      outFile_40008->cd();	
+      outFile_M40008->cd();	
       TF1 *fit_9 = new TF1(hist_name,"pol2",ft2[0]-0.25,ft2[82]-0.25);
       //hft2->Fit(hist_name,"R");
       //fit_9->Write();
@@ -2217,22 +2219,22 @@ void model(const char *samplefilename,
       //f.Write();
       //delete hft0; delete  hft1; delete hft2; delete hfs0; delete hfs1; delete hfm0;   delete hfm1;   delete hfm6;   delete hfm7; 
     }
-  //outFile_4000->Write();
-  outFile_4000->Close();outFile_40001->Close();outFile_40002->Close();outFile_40003->Close();outFile_40004->Close();outFile_40005->Close();outFile_40006->Close();outFile_40007->Close();outFile_40008->Close();
+  //outFile_M4000->Write();
+  outFile_M4000->Close();outFile_M40001->Close();outFile_M40002->Close();outFile_M40003->Close();outFile_M40004->Close();outFile_M40005->Close();outFile_M40006->Close();outFile_M40007->Close();outFile_M40008->Close();
 
  
   //map<TString, TH1 *>::iterator mit = m_histos.find("ZV(EWK)");
   //TH1 *h = 0;//mit->second;
   std::cout << "Did we ever get here? " << std::endl;
-  TFile *outFile_4500 = new TFile("ch1_splitted_TF1_hfs0_4500.root","RECREATE"); 
-  TFile *outFile_45001 = new TFile("ch1_splitted_TF1_hfs1_4500.root","RECREATE"); 
-  TFile *outFile_45002 = new TFile("ch1_splitted_TF1_hfm0_4500.root","RECREATE"); 
-  TFile *outFile_45003 = new TFile("ch1_splitted_TF1_hfm1_4500.root","RECREATE"); 
-  TFile *outFile_45004 = new TFile("ch1_splitted_TF1_hfm6_4500.root","RECREATE"); 
-  TFile *outFile_45005 = new TFile("ch1_splitted_TF1_hfm7_4500.root","RECREATE"); 
-  TFile *outFile_45006 = new TFile("ch1_splitted_TF1_hft0_4500.root","RECREATE"); 
-  TFile *outFile_45007 = new TFile("ch1_splitted_TF1_hft1_4500.root","RECREATE"); 
-  TFile *outFile_45008 = new TFile("ch1_splitted_TF1_hft2_4500.root","RECREATE");       
+  TFile *outFile_M4500 = new TFile("ch1_splitted_TF1_WV_hfs0_M4500.root","RECREATE"); 
+  TFile *outFile_M45001 = new TFile("ch1_splitted_TF1_WV_hfs1_M4500.root","RECREATE"); 
+  TFile *outFile_M45002 = new TFile("ch1_splitted_TF1_WV_hfm0_M4500.root","RECREATE"); 
+  TFile *outFile_M45003 = new TFile("ch1_splitted_TF1_WV_hfm1_M4500.root","RECREATE"); 
+  TFile *outFile_M45004 = new TFile("ch1_splitted_TF1_WV_hfm6_M4500.root","RECREATE"); 
+  TFile *outFile_M45005 = new TFile("ch1_splitted_TF1_WV_hfm7_M4500.root","RECREATE"); 
+  TFile *outFile_M45006 = new TFile("ch1_splitted_TF1_WV_hft0_M4500.root","RECREATE"); 
+  TFile *outFile_M45007 = new TFile("ch1_splitted_TF1_WV_hft1_M4500.root","RECREATE"); 
+  TFile *outFile_M45008 = new TFile("ch1_splitted_TF1_WV_hft2_M4500.root","RECREATE");       
   
   // In this for loop the used histogram `hists[1]` contains information for WV_EWK
   for(int i = 1; i<hists[1]->GetNbinsX()+1; i++)
@@ -2344,49 +2346,49 @@ void model(const char *samplefilename,
 	      //hft2->SetBinContent(j+1-1081,histo_aqgc_M4500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
 	    }
 	}
-      outFile_4500->cd();
+      outFile_M4500->cd();
       TF1 *fit_1 = new TF1(hist_name,"pol2",fs0[0]-10,fs0[90]-10);
       //hfs0->Fit(hist_name,"R");
       //fit_1->Write();
       hfs0->Write();
-      outFile_45001->cd();
+      outFile_M45001->cd();
       TF1 *fit_2 = new TF1(hist_name,"pol2",fs1[0]-5,fs1[66]-5);
       //hfs1->Fit(hist_name,"R");
       hfs1->Write();
       //fit_2->Write();
-      outFile_45002->cd();
+      outFile_M45002->cd();
       //hfs0->Write();
       TF1 *fit_3 = new TF1(hist_name,"pol2",fm0[0]-0.5,fm0[84]-0.5);
       //hfm0->Fit(hist_name,"R");
       //fit_3->Write();
       hfm0->Write();
-      outFile_45003->cd();
+      outFile_M45003->cd();
       TF1 *fit_4 = new TF1(hist_name,"pol2",fm1[0]-2.5,fm1[66]-2.5);
       //hfm1->Fit(hist_name,"R");
       //fit_4->Write();
       hfm1->Write();
-      outFile_45004->cd();
+      outFile_M45004->cd();
       TF1 *fit_5 = new TF1(hist_name,"pol2",fm6[0]-1.0,fm6[83]-1.0);
       //hfm6->Fit(hist_name,"R");
       //fit_5->Write();
       hfm6->Write();
-      outFile_45005->cd();
+      outFile_M45005->cd();
       TF1 *fit_6 = new TF1(hist_name,"pol2",fm7[0]-2.5,fm7[120]-2.5);
       //hfm7->Fit(hist_name,"R");
       //fit_6->Write();
       hfm7->Write();
-      outFile_45006->cd();
+      outFile_M45006->cd();
       hft0->Write();
       TF1 *fit_7 = new TF1(hist_name,"pol2",ft0[0]-0.1,ft0[68]-0.1);
       //hft0->Fit(hist_name,"R");
       //fit_7->Write();
-      outFile_45007->cd();
+      outFile_M45007->cd();
       hft1->Write();
       TF1 *fit_8 = new TF1(hist_name,"pol2",ft1[0]-0.25,ft1[50]-0.25);
       //hft1->Fit(hist_name,"R");
       //fit_8->Write();
       hft1->Write();
-      outFile_45008->cd();	
+      outFile_M45008->cd();	
       TF1 *fit_9 = new TF1(hist_name,"pol2",ft2[0]-0.25,ft2[82]-0.25);
       //hft2->Fit(hist_name,"R");
       //fit_9->Write();
@@ -2394,22 +2396,22 @@ void model(const char *samplefilename,
       //f.Write();
       //delete hft0; delete  hft1; delete hft2; delete hfs0; delete hfs1; delete hfm0;   delete hfm1;   delete hfm6;   delete hfm7; 
     }
-  //outFile_4500->Write();
-  outFile_4500->Close();outFile_45001->Close();outFile_45002->Close();outFile_45003->Close();outFile_45004->Close();outFile_45005->Close();outFile_45006->Close();outFile_45007->Close();outFile_45008->Close();
+  //outFile_M4500->Write();
+  outFile_M4500->Close();outFile_M45001->Close();outFile_M45002->Close();outFile_M45003->Close();outFile_M45004->Close();outFile_M45005->Close();outFile_M45006->Close();outFile_M45007->Close();outFile_M45008->Close();
 
  
   //map<TString, TH1 *>::iterator mit = m_histos.find("ZV(EWK)");
   //TH1 *h = 0;//mit->second;
   std::cout << "Did we ever get here? " << std::endl;
-  TFile *outFile_5000 = new TFile("ch1_splitted_TF1_hfs0_5000.root","RECREATE"); 
-  TFile *outFile_50001 = new TFile("ch1_splitted_TF1_hfs1_5000.root","RECREATE"); 
-  TFile *outFile_50002 = new TFile("ch1_splitted_TF1_hfm0_5000.root","RECREATE"); 
-  TFile *outFile_50003 = new TFile("ch1_splitted_TF1_hfm1_5000.root","RECREATE"); 
-  TFile *outFile_50004 = new TFile("ch1_splitted_TF1_hfm6_5000.root","RECREATE"); 
-  TFile *outFile_50005 = new TFile("ch1_splitted_TF1_hfm7_5000.root","RECREATE"); 
-  TFile *outFile_50006 = new TFile("ch1_splitted_TF1_hft0_5000.root","RECREATE"); 
-  TFile *outFile_50007 = new TFile("ch1_splitted_TF1_hft1_5000.root","RECREATE"); 
-  TFile *outFile_50008 = new TFile("ch1_splitted_TF1_hft2_5000.root","RECREATE");       
+  TFile *outFile_M5000 = new TFile("ch1_splitted_TF1_WV_hfs0_M5000.root","RECREATE"); 
+  TFile *outFile_M50001 = new TFile("ch1_splitted_TF1_WV_hfs1_M5000.root","RECREATE"); 
+  TFile *outFile_M50002 = new TFile("ch1_splitted_TF1_WV_hfm0_M5000.root","RECREATE"); 
+  TFile *outFile_M50003 = new TFile("ch1_splitted_TF1_WV_hfm1_M5000.root","RECREATE"); 
+  TFile *outFile_M50004 = new TFile("ch1_splitted_TF1_WV_hfm6_M5000.root","RECREATE"); 
+  TFile *outFile_M50005 = new TFile("ch1_splitted_TF1_WV_hfm7_M5000.root","RECREATE"); 
+  TFile *outFile_M50006 = new TFile("ch1_splitted_TF1_WV_hft0_M5000.root","RECREATE"); 
+  TFile *outFile_M50007 = new TFile("ch1_splitted_TF1_WV_hft1_M5000.root","RECREATE"); 
+  TFile *outFile_M50008 = new TFile("ch1_splitted_TF1_WV_hft2_M5000.root","RECREATE");       
   
   // In this for loop the used histogram `hists[1]` contains information for WV_EWK
   for(int i = 1; i<hists[1]->GetNbinsX()+1; i++)
@@ -2521,49 +2523,49 @@ void model(const char *samplefilename,
 	      //hft2->SetBinContent(j+1-1081,histo_aqgc_M5000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
 	    }
 	}
-      outFile_5000->cd();
+      outFile_M5000->cd();
       TF1 *fit_1 = new TF1(hist_name,"pol2",fs0[0]-10,fs0[90]-10);
       //hfs0->Fit(hist_name,"R");
       //fit_1->Write();
       hfs0->Write();
-      outFile_50001->cd();
+      outFile_M50001->cd();
       TF1 *fit_2 = new TF1(hist_name,"pol2",fs1[0]-5,fs1[66]-5);
       //hfs1->Fit(hist_name,"R");
       hfs1->Write();
       //fit_2->Write();
-      outFile_50002->cd();
+      outFile_M50002->cd();
       //hfs0->Write();
       TF1 *fit_3 = new TF1(hist_name,"pol2",fm0[0]-0.5,fm0[84]-0.5);
       //hfm0->Fit(hist_name,"R");
       //fit_3->Write();
       hfm0->Write();
-      outFile_50003->cd();
+      outFile_M50003->cd();
       TF1 *fit_4 = new TF1(hist_name,"pol2",fm1[0]-2.5,fm1[66]-2.5);
       //hfm1->Fit(hist_name,"R");
       //fit_4->Write();
       hfm1->Write();
-      outFile_50004->cd();
+      outFile_M50004->cd();
       TF1 *fit_5 = new TF1(hist_name,"pol2",fm6[0]-1.0,fm6[83]-1.0);
       //hfm6->Fit(hist_name,"R");
       //fit_5->Write();
       hfm6->Write();
-      outFile_50005->cd();
+      outFile_M50005->cd();
       TF1 *fit_6 = new TF1(hist_name,"pol2",fm7[0]-2.5,fm7[120]-2.5);
       //hfm7->Fit(hist_name,"R");
       //fit_6->Write();
       hfm7->Write();
-      outFile_50006->cd();
+      outFile_M50006->cd();
       hft0->Write();
       TF1 *fit_7 = new TF1(hist_name,"pol2",ft0[0]-0.1,ft0[68]-0.1);
       //hft0->Fit(hist_name,"R");
       //fit_7->Write();
-      outFile_50007->cd();
+      outFile_M50007->cd();
       hft1->Write();
       TF1 *fit_8 = new TF1(hist_name,"pol2",ft1[0]-0.25,ft1[50]-0.25);
       //hft1->Fit(hist_name,"R");
       //fit_8->Write();
       hft1->Write();
-      outFile_50008->cd();	
+      outFile_M50008->cd();	
       TF1 *fit_9 = new TF1(hist_name,"pol2",ft2[0]-0.25,ft2[82]-0.25);
       //hft2->Fit(hist_name,"R");
       //fit_9->Write();
@@ -2571,11 +2573,11 @@ void model(const char *samplefilename,
       //f.Write();
       //delete hft0; delete  hft1; delete hft2; delete hfs0; delete hfs1; delete hfm0;   delete hfm1;   delete hfm6;   delete hfm7; 
     }
-  //outFile_5000->Write();
-  outFile_5000->Close();outFile_50001->Close();outFile_50002->Close();outFile_50003->Close();outFile_50004->Close();outFile_50005->Close();outFile_50006->Close();outFile_50007->Close();outFile_50008->Close();
+  //outFile_M5000->Write();
+  outFile_M5000->Close();outFile_M50001->Close();outFile_M50002->Close();outFile_M50003->Close();outFile_M50004->Close();outFile_M50005->Close();outFile_M50006->Close();outFile_M50007->Close();outFile_M50008->Close();
 
 
-  //TFile f("ch1_splitted_TF1_NoBinbyBin.root", "RECREATE");	// if name change then change this name also in first time where script add_stat_shapes.py appears
+  //TFile f("ch1_splitted_TF1_WV_NoBinbyBin.root", "RECREATE");	// if name change then change this name also in first time where script add_stat_shapes.py appears
   TString OutRootFileSuffix = "_NoBinbyBin";
   TFile f(OutPutRootFileName + OutRootFileSuffix + ".root", "RECREATE");	// if name change then change this name also in first time where script add_stat_shapes.py appears
 
@@ -2716,8 +2718,8 @@ cdscale->cd();
 void WVChannel_GetCard()
 {
   int start_s=clock();
-  model("DibosonBoostedElMuSamples13TeV_WWTree_CommonNtuple_For1and2Lepton_MuonPtScale_2018_07_09_18h38.txt",
-	"WVChannel_LimitInput");
+  model("DibosonBoostedElMuSamples13TeV_WWTree_CommonNtuple_For1and2Lepton_MuonPtScale_2018_07_24_10h36.txt",
+	"ch1_splitted_TF1_WV");
 
   int stop_s=clock();
   cout << "time: " << double(stop_s-start_s)/(double(CLOCKS_PER_SEC)*60.0) <<" min" << endl;
