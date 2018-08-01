@@ -189,7 +189,7 @@ void loadCutString(const char *filename, TString& cutstring)
 
 void model(const char *samplefilename,
 	   //const plotVar_t plotvars[] = commonplotvars_chs,
-	   const TString OutPutRootFileName = "ch1_splitted_TF1")
+	   const TString OutPutRootFileName = "ch1_splitted_TF1_ZV")
 {
   cout<< "done..." << endl;
 
@@ -204,7 +204,7 @@ void model(const char *samplefilename,
   if (sdata->Tree())
     cout << "ndata =" << sdata->Tree()->GetEntries() <<endl;
 
-  TFile* wjetBkgSystFile = new TFile("ZV_bkg_estimation_4Bins.root","READ");
+  TFile* wjetBkgSystFile = new TFile("ZV_bkg_estimation_4Bins_LeadingLep50GeV.root","READ");
   
   TH1F* wjet = (TH1F*)wjetBkgSystFile->Get("WjetFitSyst_SignalRegion_Corr_Hist_From_Data_4bins_Nominal");
   TH1F* wjetup = (TH1F*)wjetBkgSystFile->Get("WjetFitSyst_SignalRegion_Corr_Hist_From_Data_4bins_Par0Up");
@@ -244,6 +244,15 @@ void model(const char *samplefilename,
   TH1 *histo_sm = new TH1D("SM", "SM", NBINS, MINRange, MAXRange);
   histo_sm->Sumw2();
   TH1 *histo_aqgc[718];
+  TH1 *histo_aqgc_M1000[718];
+  TH1 *histo_aqgc_M1500[718];
+  TH1 *histo_aqgc_M2000[718];
+  TH1 *histo_aqgc_M2500[718];
+  TH1 *histo_aqgc_M3000[718];
+  TH1 *histo_aqgc_M3500[718];
+  TH1 *histo_aqgc_M4000[718];
+  TH1 *histo_aqgc_M4500[718];
+  TH1 *histo_aqgc_M5000[718];
   for(int j=0;j<718;j++)
     {
       stringstream ss;
@@ -252,18 +261,45 @@ void model(const char *samplefilename,
       const char* name = temp.c_str();
       histo_aqgc[j] = new TH1D(name, name, NBINS, MINRange, MAXRange);
       histo_aqgc[j]->Sumw2();
+      TString name1 = Form("M1000_%d",j);
+      histo_aqgc_M1000[j] = new TH1D(name1, name1, NBINS, MINRange, MAXRange);
+      histo_aqgc_M1000[j]->Sumw2();
+      name1 = Form("M1500_%d",j);
+      histo_aqgc_M1500[j] = new TH1D(name1, name1, NBINS, MINRange, MAXRange);
+      histo_aqgc_M1500[j]->Sumw2();
+      name1 = Form("M2000_%d",j);
+      histo_aqgc_M2000[j] = new TH1D(name1, name1, NBINS, MINRange, MAXRange);
+      histo_aqgc_M2000[j]->Sumw2();
+      name1 = Form("M2500_%d",j);
+      histo_aqgc_M2500[j] = new TH1D(name1, name1, NBINS, MINRange, MAXRange);
+      histo_aqgc_M2500[j]->Sumw2();
+      name1 = Form("M3000_%d",j);
+      histo_aqgc_M3000[j] = new TH1D(name1, name1, NBINS, MINRange, MAXRange);
+      histo_aqgc_M3000[j]->Sumw2();
+      name1 = Form("M3500_%d",j);
+      histo_aqgc_M3500[j] = new TH1D(name1, name1, NBINS, MINRange, MAXRange);
+      histo_aqgc_M3500[j]->Sumw2();
+      name1 = Form("M4000_%d",j);
+      histo_aqgc_M4000[j] = new TH1D(name1, name1, NBINS, MINRange, MAXRange);
+      histo_aqgc_M4000[j]->Sumw2();
+      name1 = Form("M4500_%d",j);
+      histo_aqgc_M4500[j] = new TH1D(name1, name1, NBINS, MINRange, MAXRange);
+      histo_aqgc_M4500[j]->Sumw2();
+      name1 = Form("M5000_%d",j);
+      histo_aqgc_M5000[j] = new TH1D(name1, name1, NBINS, MINRange, MAXRange);
+      histo_aqgc_M5000[j]->Sumw2();
     }
   //let's define few histograms for the uncertainties
   TH1D* histo_EWK_CMS_QCDScaleBounding[6];
   for(int i = 0; i<6; i++)
     {
-      histo_EWK_CMS_QCDScaleBounding[i] = new TH1D("SM", "SM", NBINS, MINRange, MAXRange);
+      histo_EWK_CMS_QCDScaleBounding[i] = new TH1D(Form("QCDScaleBounding_%d",i), Form("QCDScaleBounding_%d",i), NBINS, MINRange, MAXRange);
       histo_EWK_CMS_QCDScaleBounding[i]->Sumw2();
     }
  TH1D* histo_EWK_CMS_PDFScaleBounding[100];
   for(int i = 0; i<100; i++)
     {
-      histo_EWK_CMS_PDFScaleBounding[i] = new TH1D("", "", NBINS, MINRange, MAXRange);
+      histo_EWK_CMS_PDFScaleBounding[i] = new TH1D(Form("PDFScaleBounding_%d",i), Form("PDFScaleBounding_%d",i), NBINS, MINRange, MAXRange);
       histo_EWK_CMS_PDFScaleBounding[i]->Sumw2();
     }
   
@@ -451,7 +487,7 @@ void model(const char *samplefilename,
 
       if (1)	//----------------	Nominal, PU up, PU down
       {
-	      if(!(l_pt1>30 && (((type==0)&&(abs(l_eta1)<2.4)) || ((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566)))))) continue;
+	      if(!(l_pt1>50 && (((type==0)&&(abs(l_eta1)<2.4)) || ((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566)))))) continue;
 	      if(!(l_pt2>30 && (((type==0)&&(abs(l_eta2)<2.4)) || ((type==1)&&((abs(l_eta2)<2.5)&&!(abs(l_eta2)>1.4442 && abs(l_eta2)<1.566)))))) continue;
 	      if(!((ungroomed_PuppiAK8_jet_pt>200)&&(abs(ungroomed_PuppiAK8_jet_eta)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55))) continue;
 	      if(!((PuppiAK8_jet_mass_so_corr>65) && (PuppiAK8_jet_mass_so_corr<105))) continue;
@@ -520,6 +556,15 @@ void model(const char *samplefilename,
 	  	{
 	    	for (int j=0;j<718;j++){
 	      	   histo_aqgc[j]->Fill(mass_llj_PuppiAK8,((LHEWeight[j+446]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      	   if((mass_llj_PuppiAK8<1000)) histo_aqgc_M1000[j]->Fill(mass_llj_PuppiAK8,((LHEWeight[j+446]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      	   if((mass_llj_PuppiAK8<1500)) histo_aqgc_M1500[j]->Fill(mass_llj_PuppiAK8,((LHEWeight[j+446]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      	   if((mass_llj_PuppiAK8<2000)) histo_aqgc_M2000[j]->Fill(mass_llj_PuppiAK8,((LHEWeight[j+446]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      	   if((mass_llj_PuppiAK8<2500)) histo_aqgc_M2500[j]->Fill(mass_llj_PuppiAK8,((LHEWeight[j+446]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      	   if((mass_llj_PuppiAK8<3000)) histo_aqgc_M3000[j]->Fill(mass_llj_PuppiAK8,((LHEWeight[j+446]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      	   if((mass_llj_PuppiAK8<3500)) histo_aqgc_M3500[j]->Fill(mass_llj_PuppiAK8,((LHEWeight[j+446]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      	   if((mass_llj_PuppiAK8<4000)) histo_aqgc_M4000[j]->Fill(mass_llj_PuppiAK8,((LHEWeight[j+446]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      	   if((mass_llj_PuppiAK8<4500)) histo_aqgc_M4500[j]->Fill(mass_llj_PuppiAK8,((LHEWeight[j+446]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      	   if((mass_llj_PuppiAK8<5000)) histo_aqgc_M5000[j]->Fill(mass_llj_PuppiAK8,((LHEWeight[j+446]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	    	}
 	  	}
 
@@ -527,7 +572,7 @@ void model(const char *samplefilename,
 
       if (1)	//--------------------------- LEP up
       {
-	      if(!(l_pt1_Up>30 && (((type==0)&&(abs(l_eta1)<2.4)) || ((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566)))))) continue;
+	      if(!(l_pt1_Up>50 && (((type==0)&&(abs(l_eta1)<2.4)) || ((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566)))))) continue;
 	      if(!(l_pt2_Up>30 && (((type==0)&&(abs(l_eta2)<2.4)) || ((type==1)&&((abs(l_eta2)<2.5)&&!(abs(l_eta2)>1.4442 && abs(l_eta2)<1.566)))))) continue;
 	      if(!((ungroomed_PuppiAK8_jet_pt>200)&&(abs(ungroomed_PuppiAK8_jet_eta)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55))) continue;
 	      if(!((PuppiAK8_jet_mass_so_corr>65) && (PuppiAK8_jet_mass_so_corr<105))) continue;
@@ -547,7 +592,7 @@ void model(const char *samplefilename,
 
       if (1)	//--------------------------- LEP down
       {
-	      if(!(l_pt1_Down>30 && (((type==0)&&(abs(l_eta1)<2.4)) || ((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566)))))) continue;
+	      if(!(l_pt1_Down>50 && (((type==0)&&(abs(l_eta1)<2.4)) || ((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566)))))) continue;
 	      if(!(l_pt2_Down>30 && (((type==0)&&(abs(l_eta2)<2.4)) || ((type==1)&&((abs(l_eta2)<2.5)&&!(abs(l_eta2)>1.4442 && abs(l_eta2)<1.566)))))) continue;
 	      if(!((ungroomed_PuppiAK8_jet_pt>200)&&(abs(ungroomed_PuppiAK8_jet_eta)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55))) continue;
 	      if(!((PuppiAK8_jet_mass_so_corr>65) && (PuppiAK8_jet_mass_so_corr<105))) continue;
@@ -568,7 +613,7 @@ void model(const char *samplefilename,
 	if (1)	//-------------------	JES up
 	{
 	      //cout<< "mass_llj_PuppiAK8_jes_up = "<< mass_llj_PuppiAK8_jes_up << "\t" << mass_llj_PuppiAK8 << endl;
-	      if(!(l_pt1>30 && (((type==0)&&(abs(l_eta1)<2.4)) || ((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566)))))) continue;
+	      if(!(l_pt1>50 && (((type==0)&&(abs(l_eta1)<2.4)) || ((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566)))))) continue;
 	      if(!(l_pt2>30 && (((type==0)&&(abs(l_eta2)<2.4)) || ((type==1)&&((abs(l_eta2)<2.5)&&!(abs(l_eta2)>1.4442 && abs(l_eta2)<1.566)))))) continue;
 	      if(!((ungroomed_PuppiAK8_jet_pt_jes_up>200)&&((ungroomed_PuppiAK8_jet_eta_jes_up)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55))) continue;
 	      if(!((PuppiAK8_jet_mass_so_corr>65) && (PuppiAK8_jet_mass_so_corr<105))) continue;
@@ -589,7 +634,7 @@ void model(const char *samplefilename,
 
 	if (1)	//-------------------	JES down
 	{
-	      if(!(l_pt1>30 && (((type==0)&&(abs(l_eta1)<2.4)) || ((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566)))))) continue;
+	      if(!(l_pt1>50 && (((type==0)&&(abs(l_eta1)<2.4)) || ((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566)))))) continue;
 	      if(!(l_pt2>30 && (((type==0)&&(abs(l_eta2)<2.4)) || ((type==1)&&((abs(l_eta2)<2.5)&&!(abs(l_eta2)>1.4442 && abs(l_eta2)<1.566)))))) continue;
 	      if(!((ungroomed_PuppiAK8_jet_pt_jes_dn>200)&&((ungroomed_PuppiAK8_jet_eta_jes_dn)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55))) continue;
 	      if(!((PuppiAK8_jet_mass_so_corr>65) && (PuppiAK8_jet_mass_so_corr<105))) continue;
@@ -631,6 +676,15 @@ void model(const char *samplefilename,
     }
   for (int j=0;j<718;j++){
     histo_aqgc[j]->SetBinContent(NBINS,histo_aqgc[j]->GetBinContent(NBINS)+histo_aqgc[j]->GetBinContent(NBINS+1));
+    histo_aqgc_M1000[j]->SetBinContent(NBINS,histo_aqgc_M1000[j]->GetBinContent(NBINS)+histo_aqgc_M1000[j]->GetBinContent(NBINS+1));
+    histo_aqgc_M1500[j]->SetBinContent(NBINS,histo_aqgc_M1500[j]->GetBinContent(NBINS)+histo_aqgc_M1500[j]->GetBinContent(NBINS+1));
+    histo_aqgc_M2000[j]->SetBinContent(NBINS,histo_aqgc_M2000[j]->GetBinContent(NBINS)+histo_aqgc_M2000[j]->GetBinContent(NBINS+1));
+    histo_aqgc_M2500[j]->SetBinContent(NBINS,histo_aqgc_M2500[j]->GetBinContent(NBINS)+histo_aqgc_M2500[j]->GetBinContent(NBINS+1));
+    histo_aqgc_M3000[j]->SetBinContent(NBINS,histo_aqgc_M3000[j]->GetBinContent(NBINS)+histo_aqgc_M3000[j]->GetBinContent(NBINS+1));
+    histo_aqgc_M3500[j]->SetBinContent(NBINS,histo_aqgc_M3500[j]->GetBinContent(NBINS)+histo_aqgc_M3500[j]->GetBinContent(NBINS+1));
+    histo_aqgc_M4000[j]->SetBinContent(NBINS,histo_aqgc_M4000[j]->GetBinContent(NBINS)+histo_aqgc_M4000[j]->GetBinContent(NBINS+1));
+    histo_aqgc_M4500[j]->SetBinContent(NBINS,histo_aqgc_M4500[j]->GetBinContent(NBINS)+histo_aqgc_M4500[j]->GetBinContent(NBINS+1));
+    histo_aqgc_M5000[j]->SetBinContent(NBINS,histo_aqgc_M5000[j]->GetBinContent(NBINS)+histo_aqgc_M5000[j]->GetBinContent(NBINS+1));
     //std::cout << "aqgc integral " << histo_aqgc[j]->Integral() << std::endl;
   }
   //std::cout << "SM integral " << histo_sm->Integral() << std::endl;
@@ -661,19 +715,19 @@ void model(const char *samplefilename,
     }
 
 
- 
-  //map<TString, TH1 *>::iterator mit = m_histos.find("ZV(EWK)");
-  TH1 *h = 0;//mit->second;
-  std::cout << "Did we ever get here? " << std::endl;
-  TFile *outFile = new TFile("ch1_splitted_TF1_hfs0_ZV.root","RECREATE"); 
-  TFile *outFile1 = new TFile("ch1_splitted_TF1_hfs1_ZV.root","RECREATE"); 
-  TFile *outFile2 = new TFile("ch1_splitted_TF1_hfm0_ZV.root","RECREATE"); 
-  TFile *outFile3 = new TFile("ch1_splitted_TF1_hfm1_ZV.root","RECREATE"); 
-  TFile *outFile4 = new TFile("ch1_splitted_TF1_hfm6_ZV.root","RECREATE"); 
-  TFile *outFile5 = new TFile("ch1_splitted_TF1_hfm7_ZV.root","RECREATE"); 
-  TFile *outFile6 = new TFile("ch1_splitted_TF1_hft0_ZV.root","RECREATE"); 
-  TFile *outFile7 = new TFile("ch1_splitted_TF1_hft1_ZV.root","RECREATE"); 
-  TFile *outFile8 = new TFile("ch1_splitted_TF1_hft2_ZV.root","RECREATE");       
+
+
+
+
+  TFile *outFile = new TFile("ch1_splitted_TF1_ZV_hfs0.root","RECREATE"); 
+  TFile *outFile1 = new TFile("ch1_splitted_TF1_ZV_hfs1.root","RECREATE"); 
+  TFile *outFile2 = new TFile("ch1_splitted_TF1_ZV_hfm0.root","RECREATE"); 
+  TFile *outFile3 = new TFile("ch1_splitted_TF1_ZV_hfm1.root","RECREATE"); 
+  TFile *outFile4 = new TFile("ch1_splitted_TF1_ZV_hfm6.root","RECREATE"); 
+  TFile *outFile5 = new TFile("ch1_splitted_TF1_ZV_hfm7.root","RECREATE"); 
+  TFile *outFile6 = new TFile("ch1_splitted_TF1_ZV_hft0.root","RECREATE"); 
+  TFile *outFile7 = new TFile("ch1_splitted_TF1_ZV_hft1.root","RECREATE"); 
+  TFile *outFile8 = new TFile("ch1_splitted_TF1_ZV_hft2.root","RECREATE");       
   
   // In this for loop the used histogram `hists[1]` contains information for WV_EWK
   for(int i = 1; i<hists[1]->GetNbinsX()+1; i++)
@@ -839,8 +893,1247 @@ void model(const char *samplefilename,
   outFile->Close();outFile1->Close();outFile2->Close();outFile3->Close();outFile4->Close();outFile5->Close();outFile6->Close();outFile7->Close();outFile8->Close();
 
 
+ 
+  //map<TString, TH1 *>::iterator mit = m_histos.find("ZV(EWK)");
+  //TH1 *h = 0;//mit->second;
+  std::cout << "Did we ever get here? " << std::endl;
+  TFile *outFile_M1000 = new TFile("ch1_splitted_TF1_ZV_hfs0_M1000.root","RECREATE"); 
+  TFile *outFile_M10001 = new TFile("ch1_splitted_TF1_ZV_hfs1_M1000.root","RECREATE"); 
+  TFile *outFile_M10002 = new TFile("ch1_splitted_TF1_ZV_hfm0_M1000.root","RECREATE"); 
+  TFile *outFile_M10003 = new TFile("ch1_splitted_TF1_ZV_hfm1_M1000.root","RECREATE"); 
+  TFile *outFile_M10004 = new TFile("ch1_splitted_TF1_ZV_hfm6_M1000.root","RECREATE"); 
+  TFile *outFile_M10005 = new TFile("ch1_splitted_TF1_ZV_hfm7_M1000.root","RECREATE"); 
+  TFile *outFile_M10006 = new TFile("ch1_splitted_TF1_ZV_hft0_M1000.root","RECREATE"); 
+  TFile *outFile_M10007 = new TFile("ch1_splitted_TF1_ZV_hft1_M1000.root","RECREATE"); 
+  TFile *outFile_M10008 = new TFile("ch1_splitted_TF1_ZV_hft2_M1000.root","RECREATE");       
+  
+  // In this for loop the used histogram `hists[1]` contains information for WV_EWK
+  for(int i = 1; i<hists[1]->GetNbinsX()+1; i++)
+    {
+      stringstream ss;
+      ss << i;
+      std::string hist_name_temp = "bin_content_par1_"+ss.str();
+      const char* hist_name = hist_name_temp.c_str();
+      TH1D  *hfs0  = new TH1D(hist_name, hist_name, 90,fs0[0]-10,fs0[90]-10);
+      TH1D  *hfs1  = new TH1D(hist_name, hist_name, 66,fs1[0]-5,fs1[66]-5);
+      TH1D  *hfm0  = new TH1D(hist_name, hist_name, 84,fm0[0]-0.5,fm0[84]-0.5);
+      TH1D  *hfm1  = new TH1D(hist_name, hist_name, 66,fm1[0]-2.5,fm1[66]-2.5);
+      TH1D  *hfm6  = new TH1D(hist_name, hist_name, 83,fm6[0]-1.0,fm6[83]-1.0);
+      TH1D  *hfm7  = new TH1D(hist_name, hist_name, 120,fm7[0]-2.5,fm7[120]-2.5);
+      TH1D  *hft0  = new TH1D(hist_name, hist_name, 68,ft0[0]-0.1,ft0[68]-0.1);
+      TH1D  *hft1  = new TH1D(hist_name, hist_name, 50,ft1[0]-0.25,ft1[50]-0.25);
+      TH1D  *hft2  = new TH1D(hist_name, hist_name, 82,ft2[0]-0.25,ft2[82]-0.25);
+      
+      for(int j = 446; j<(718+446); j++)
+	{
+	  if(j<(536))
+	    {
+	      double w = histo_aqgc_M1000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M1000[j-446]->GetBinError(i)/histo_aqgc_M1000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfs0->SetBinContent(j-446+1,histo_aqgc_M1000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));
+	      //std::cout << "fs0 \t " << histo_aqgc_M1000[j-446]->GetBinContent(i) << " " << hists[1]->GetBinContent(i) << " " << histo_aqgc_M1000[j-446]->GetBinError(i) << " " <<  hists[1]->GetBinError(i) << " " << err << "\t" << hfs0->GetBinContent(j-446+1) << std::endl;
+	      hfs0->SetBinError(j-446+1,err);
+	    }
+	  else if(j>536 && j<603)
+	    {
+	      double w = histo_aqgc_M1000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M1000[j-446]->GetBinError(i)/histo_aqgc_M1000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfs1->SetBinContent(j-537+1,histo_aqgc_M1000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      //std::cout << "fs1 \t " << histo_aqgc_M1000[j-446]->GetBinContent(i) << " " << hists[1]->GetBinContent(i) << " " << histo_aqgc_M1000[j-446]->GetBinError(i) << " " <<  hists[1]->GetBinError(i) << " " << err << "\t" << hfs1->GetBinContent(j-537+1) << std::endl;
+	      hfs1->SetBinError(j-537+1,err);
+	    }
+	  else if(j>603 && j<688)
+	    {
+	      double w = histo_aqgc_M1000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M1000[j-446]->GetBinError(i)/histo_aqgc_M1000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfm0->SetBinContent(j-604+1,histo_aqgc_M1000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hfm0->SetBinError(j-604+1,err);
+	      //hfm0->SetBinContent(j+1-604,histo_aqgc_M1000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>688 && j<755)
+	    {
+	      double w = histo_aqgc_M1000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M1000[j-446]->GetBinError(i)/histo_aqgc_M1000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfm1->SetBinContent(j-689+1,histo_aqgc_M1000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hfm1->SetBinError(j-689+1,err);
+	      //hfm1->SetBinContent(j+1-689,histo_aqgc_M1000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>755 && j<839)
+	    {
+	      double w = histo_aqgc_M1000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M1000[j-446]->GetBinError(i)/histo_aqgc_M1000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfm6->SetBinContent(j-756+1,histo_aqgc_M1000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hfm6->SetBinError(j-756+1,err);
+	      //hfm6->SetBinContent(j+1-756,histo_aqgc_M1000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));	
+	    }
+	  else if(j>839 && j<960)
+	    {
+	      double w = histo_aqgc_M1000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M1000[j-446]->GetBinError(i)/histo_aqgc_M1000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfm7->SetBinContent(j-840+1,histo_aqgc_M1000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hfm7->SetBinError(j-840+1,err);
+	      //hfm7->SetBinContent(j+1-840,histo_aqgc_M1000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>960 && j<1029)
+	    {
+	      double w = histo_aqgc_M1000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M1000[j-446]->GetBinError(i)/histo_aqgc_M1000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hft0->SetBinContent(j-961+1,histo_aqgc_M1000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hft0->SetBinError(j-961+1,err);
+	      //hft0->SetBinContent(j+1-961,histo_aqgc_M1000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>1029 && j<1080)
+	    {
+	      double w = histo_aqgc_M1000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M1000[j-446]->GetBinError(i)/histo_aqgc_M1000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hft1->SetBinContent(j-1030+1,histo_aqgc_M1000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hft1->SetBinError(j-1030+1,err);
+	      //hft1->SetBinContent(j+1-1030,histo_aqgc_M1000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>1080 && j<1163)
+	    {
+	      double w = histo_aqgc_M1000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M1000[j-446]->GetBinError(i)/histo_aqgc_M1000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hft2->SetBinContent(j-1081+1,histo_aqgc_M1000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hft2->SetBinError(j-1081+1,err);
+	      //hft2->SetBinContent(j+1-1081,histo_aqgc_M1000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	}
+      outFile_M1000->cd();
+      TF1 *fit_1 = new TF1(hist_name,"pol2",fs0[0]-10,fs0[90]-10);
+      //hfs0->Fit(hist_name,"R");
+      //fit_1->Write();
+      hfs0->Write();
+      outFile_M10001->cd();
+      TF1 *fit_2 = new TF1(hist_name,"pol2",fs1[0]-5,fs1[66]-5);
+      //hfs1->Fit(hist_name,"R");
+      hfs1->Write();
+      //fit_2->Write();
+      outFile_M10002->cd();
+      //hfs0->Write();
+      TF1 *fit_3 = new TF1(hist_name,"pol2",fm0[0]-0.5,fm0[84]-0.5);
+      //hfm0->Fit(hist_name,"R");
+      //fit_3->Write();
+      hfm0->Write();
+      outFile_M10003->cd();
+      TF1 *fit_4 = new TF1(hist_name,"pol2",fm1[0]-2.5,fm1[66]-2.5);
+      //hfm1->Fit(hist_name,"R");
+      //fit_4->Write();
+      hfm1->Write();
+      outFile_M10004->cd();
+      TF1 *fit_5 = new TF1(hist_name,"pol2",fm6[0]-1.0,fm6[83]-1.0);
+      //hfm6->Fit(hist_name,"R");
+      //fit_5->Write();
+      hfm6->Write();
+      outFile_M10005->cd();
+      TF1 *fit_6 = new TF1(hist_name,"pol2",fm7[0]-2.5,fm7[120]-2.5);
+      //hfm7->Fit(hist_name,"R");
+      //fit_6->Write();
+      hfm7->Write();
+      outFile_M10006->cd();
+      hft0->Write();
+      TF1 *fit_7 = new TF1(hist_name,"pol2",ft0[0]-0.1,ft0[68]-0.1);
+      //hft0->Fit(hist_name,"R");
+      //fit_7->Write();
+      outFile_M10007->cd();
+      hft1->Write();
+      TF1 *fit_8 = new TF1(hist_name,"pol2",ft1[0]-0.25,ft1[50]-0.25);
+      //hft1->Fit(hist_name,"R");
+      //fit_8->Write();
+      hft1->Write();
+      outFile_M10008->cd();	
+      TF1 *fit_9 = new TF1(hist_name,"pol2",ft2[0]-0.25,ft2[82]-0.25);
+      //hft2->Fit(hist_name,"R");
+      //fit_9->Write();
+      hft2->Write();
+      //f.Write();
+      //delete hft0; delete  hft1; delete hft2; delete hfs0; delete hfs1; delete hfm0;   delete hfm1;   delete hfm6;   delete hfm7; 
+    }
+  //outFile_M1000->Write();
+  outFile_M1000->Close();outFile_M10001->Close();outFile_M10002->Close();outFile_M10003->Close();outFile_M10004->Close();outFile_M10005->Close();outFile_M10006->Close();outFile_M10007->Close();outFile_M10008->Close();
 
-  //TFile f("ch1_splitted_TF1_NoBinbyBin.root", "RECREATE");	// if name change then change this name also in first time where script add_stat_shapes.py appears
+ 
+  //map<TString, TH1 *>::iterator mit = m_histos.find("ZV(EWK)");
+  //TH1 *h = 0;//mit->second;
+  std::cout << "Did we ever get here? " << std::endl;
+  TFile *outFile_M2500 = new TFile("ch1_splitted_TF1_ZV_hfs0_M2500.root","RECREATE"); 
+  TFile *outFile_M25001 = new TFile("ch1_splitted_TF1_ZV_hfs1_M2500.root","RECREATE"); 
+  TFile *outFile_M25002 = new TFile("ch1_splitted_TF1_ZV_hfm0_M2500.root","RECREATE"); 
+  TFile *outFile_M25003 = new TFile("ch1_splitted_TF1_ZV_hfm1_M2500.root","RECREATE"); 
+  TFile *outFile_M25004 = new TFile("ch1_splitted_TF1_ZV_hfm6_M2500.root","RECREATE"); 
+  TFile *outFile_M25005 = new TFile("ch1_splitted_TF1_ZV_hfm7_M2500.root","RECREATE"); 
+  TFile *outFile_M25006 = new TFile("ch1_splitted_TF1_ZV_hft0_M2500.root","RECREATE"); 
+  TFile *outFile_M25007 = new TFile("ch1_splitted_TF1_ZV_hft1_M2500.root","RECREATE"); 
+  TFile *outFile_M25008 = new TFile("ch1_splitted_TF1_ZV_hft2_M2500.root","RECREATE");       
+  
+  // In this for loop the used histogram `hists[1]` contains information for WV_EWK
+  for(int i = 1; i<hists[1]->GetNbinsX()+1; i++)
+    {
+      stringstream ss;
+      ss << i;
+      std::string hist_name_temp = "bin_content_par1_"+ss.str();
+      const char* hist_name = hist_name_temp.c_str();
+      TH1D  *hfs0  = new TH1D(hist_name, hist_name, 90,fs0[0]-10,fs0[90]-10);
+      TH1D  *hfs1  = new TH1D(hist_name, hist_name, 66,fs1[0]-5,fs1[66]-5);
+      TH1D  *hfm0  = new TH1D(hist_name, hist_name, 84,fm0[0]-0.5,fm0[84]-0.5);
+      TH1D  *hfm1  = new TH1D(hist_name, hist_name, 66,fm1[0]-2.5,fm1[66]-2.5);
+      TH1D  *hfm6  = new TH1D(hist_name, hist_name, 83,fm6[0]-1.0,fm6[83]-1.0);
+      TH1D  *hfm7  = new TH1D(hist_name, hist_name, 120,fm7[0]-2.5,fm7[120]-2.5);
+      TH1D  *hft0  = new TH1D(hist_name, hist_name, 68,ft0[0]-0.1,ft0[68]-0.1);
+      TH1D  *hft1  = new TH1D(hist_name, hist_name, 50,ft1[0]-0.25,ft1[50]-0.25);
+      TH1D  *hft2  = new TH1D(hist_name, hist_name, 82,ft2[0]-0.25,ft2[82]-0.25);
+      
+      for(int j = 446; j<(718+446); j++)
+	{
+	  if(j<(536))
+	    {
+	      double w = histo_aqgc_M2500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M2500[j-446]->GetBinError(i)/histo_aqgc_M2500[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfs0->SetBinContent(j-446+1,histo_aqgc_M2500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));
+	      //std::cout << "fs0 \t " << histo_aqgc_M2500[j-446]->GetBinContent(i) << " " << hists[1]->GetBinContent(i) << " " << histo_aqgc_M2500[j-446]->GetBinError(i) << " " <<  hists[1]->GetBinError(i) << " " << err << "\t" << hfs0->GetBinContent(j-446+1) << std::endl;
+	      hfs0->SetBinError(j-446+1,err);
+	    }
+	  else if(j>536 && j<603)
+	    {
+	      double w = histo_aqgc_M2500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M2500[j-446]->GetBinError(i)/histo_aqgc_M2500[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfs1->SetBinContent(j-537+1,histo_aqgc_M2500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      //std::cout << "fs1 \t " << histo_aqgc_M2500[j-446]->GetBinContent(i) << " " << hists[1]->GetBinContent(i) << " " << histo_aqgc_M2500[j-446]->GetBinError(i) << " " <<  hists[1]->GetBinError(i) << " " << err << "\t" << hfs1->GetBinContent(j-537+1) << std::endl;
+	      hfs1->SetBinError(j-537+1,err);
+	    }
+	  else if(j>603 && j<688)
+	    {
+	      double w = histo_aqgc_M2500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M2500[j-446]->GetBinError(i)/histo_aqgc_M2500[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfm0->SetBinContent(j-604+1,histo_aqgc_M2500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hfm0->SetBinError(j-604+1,err);
+	      //hfm0->SetBinContent(j+1-604,histo_aqgc_M2500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>688 && j<755)
+	    {
+	      double w = histo_aqgc_M2500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M2500[j-446]->GetBinError(i)/histo_aqgc_M2500[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfm1->SetBinContent(j-689+1,histo_aqgc_M2500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hfm1->SetBinError(j-689+1,err);
+	      //hfm1->SetBinContent(j+1-689,histo_aqgc_M2500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>755 && j<839)
+	    {
+	      double w = histo_aqgc_M2500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M2500[j-446]->GetBinError(i)/histo_aqgc_M2500[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfm6->SetBinContent(j-756+1,histo_aqgc_M2500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hfm6->SetBinError(j-756+1,err);
+	      //hfm6->SetBinContent(j+1-756,histo_aqgc_M2500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));	
+	    }
+	  else if(j>839 && j<960)
+	    {
+	      double w = histo_aqgc_M2500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M2500[j-446]->GetBinError(i)/histo_aqgc_M2500[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfm7->SetBinContent(j-840+1,histo_aqgc_M2500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hfm7->SetBinError(j-840+1,err);
+	      //hfm7->SetBinContent(j+1-840,histo_aqgc_M2500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>960 && j<1029)
+	    {
+	      double w = histo_aqgc_M2500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M2500[j-446]->GetBinError(i)/histo_aqgc_M2500[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hft0->SetBinContent(j-961+1,histo_aqgc_M2500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hft0->SetBinError(j-961+1,err);
+	      //hft0->SetBinContent(j+1-961,histo_aqgc_M2500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>1029 && j<1080)
+	    {
+	      double w = histo_aqgc_M2500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M2500[j-446]->GetBinError(i)/histo_aqgc_M2500[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hft1->SetBinContent(j-1030+1,histo_aqgc_M2500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hft1->SetBinError(j-1030+1,err);
+	      //hft1->SetBinContent(j+1-1030,histo_aqgc_M2500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>1080 && j<1163)
+	    {
+	      double w = histo_aqgc_M2500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M2500[j-446]->GetBinError(i)/histo_aqgc_M2500[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hft2->SetBinContent(j-1081+1,histo_aqgc_M2500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hft2->SetBinError(j-1081+1,err);
+	      //hft2->SetBinContent(j+1-1081,histo_aqgc_M2500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	}
+      outFile_M2500->cd();
+      TF1 *fit_1 = new TF1(hist_name,"pol2",fs0[0]-10,fs0[90]-10);
+      //hfs0->Fit(hist_name,"R");
+      //fit_1->Write();
+      hfs0->Write();
+      outFile_M25001->cd();
+      TF1 *fit_2 = new TF1(hist_name,"pol2",fs1[0]-5,fs1[66]-5);
+      //hfs1->Fit(hist_name,"R");
+      hfs1->Write();
+      //fit_2->Write();
+      outFile_M25002->cd();
+      //hfs0->Write();
+      TF1 *fit_3 = new TF1(hist_name,"pol2",fm0[0]-0.5,fm0[84]-0.5);
+      //hfm0->Fit(hist_name,"R");
+      //fit_3->Write();
+      hfm0->Write();
+      outFile_M25003->cd();
+      TF1 *fit_4 = new TF1(hist_name,"pol2",fm1[0]-2.5,fm1[66]-2.5);
+      //hfm1->Fit(hist_name,"R");
+      //fit_4->Write();
+      hfm1->Write();
+      outFile_M25004->cd();
+      TF1 *fit_5 = new TF1(hist_name,"pol2",fm6[0]-1.0,fm6[83]-1.0);
+      //hfm6->Fit(hist_name,"R");
+      //fit_5->Write();
+      hfm6->Write();
+      outFile_M25005->cd();
+      TF1 *fit_6 = new TF1(hist_name,"pol2",fm7[0]-2.5,fm7[120]-2.5);
+      //hfm7->Fit(hist_name,"R");
+      //fit_6->Write();
+      hfm7->Write();
+      outFile_M25006->cd();
+      hft0->Write();
+      TF1 *fit_7 = new TF1(hist_name,"pol2",ft0[0]-0.1,ft0[68]-0.1);
+      //hft0->Fit(hist_name,"R");
+      //fit_7->Write();
+      outFile_M25007->cd();
+      hft1->Write();
+      TF1 *fit_8 = new TF1(hist_name,"pol2",ft1[0]-0.25,ft1[50]-0.25);
+      //hft1->Fit(hist_name,"R");
+      //fit_8->Write();
+      hft1->Write();
+      outFile_M25008->cd();	
+      TF1 *fit_9 = new TF1(hist_name,"pol2",ft2[0]-0.25,ft2[82]-0.25);
+      //hft2->Fit(hist_name,"R");
+      //fit_9->Write();
+      hft2->Write();
+      //f.Write();
+      //delete hft0; delete  hft1; delete hft2; delete hfs0; delete hfs1; delete hfm0;   delete hfm1;   delete hfm6;   delete hfm7; 
+    }
+  //outFile_M2500->Write();
+  outFile_M2500->Close();outFile_M25001->Close();outFile_M25002->Close();outFile_M25003->Close();outFile_M25004->Close();outFile_M25005->Close();outFile_M25006->Close();outFile_M25007->Close();outFile_M25008->Close();
+
+ 
+  //map<TString, TH1 *>::iterator mit = m_histos.find("ZV(EWK)");
+  //TH1 *h = 0;//mit->second;
+  std::cout << "Did we ever get here? " << std::endl;
+  TFile *outFile_M3000 = new TFile("ch1_splitted_TF1_ZV_hfs0_M3000.root","RECREATE"); 
+  TFile *outFile_M30001 = new TFile("ch1_splitted_TF1_ZV_hfs1_M3000.root","RECREATE"); 
+  TFile *outFile_M30002 = new TFile("ch1_splitted_TF1_ZV_hfm0_M3000.root","RECREATE"); 
+  TFile *outFile_M30003 = new TFile("ch1_splitted_TF1_ZV_hfm1_M3000.root","RECREATE"); 
+  TFile *outFile_M30004 = new TFile("ch1_splitted_TF1_ZV_hfm6_M3000.root","RECREATE"); 
+  TFile *outFile_M30005 = new TFile("ch1_splitted_TF1_ZV_hfm7_M3000.root","RECREATE"); 
+  TFile *outFile_M30006 = new TFile("ch1_splitted_TF1_ZV_hft0_M3000.root","RECREATE"); 
+  TFile *outFile_M30007 = new TFile("ch1_splitted_TF1_ZV_hft1_M3000.root","RECREATE"); 
+  TFile *outFile_M30008 = new TFile("ch1_splitted_TF1_ZV_hft2_M3000.root","RECREATE");       
+  
+  // In this for loop the used histogram `hists[1]` contains information for WV_EWK
+  for(int i = 1; i<hists[1]->GetNbinsX()+1; i++)
+    {
+      stringstream ss;
+      ss << i;
+      std::string hist_name_temp = "bin_content_par1_"+ss.str();
+      const char* hist_name = hist_name_temp.c_str();
+      TH1D  *hfs0  = new TH1D(hist_name, hist_name, 90,fs0[0]-10,fs0[90]-10);
+      TH1D  *hfs1  = new TH1D(hist_name, hist_name, 66,fs1[0]-5,fs1[66]-5);
+      TH1D  *hfm0  = new TH1D(hist_name, hist_name, 84,fm0[0]-0.5,fm0[84]-0.5);
+      TH1D  *hfm1  = new TH1D(hist_name, hist_name, 66,fm1[0]-2.5,fm1[66]-2.5);
+      TH1D  *hfm6  = new TH1D(hist_name, hist_name, 83,fm6[0]-1.0,fm6[83]-1.0);
+      TH1D  *hfm7  = new TH1D(hist_name, hist_name, 120,fm7[0]-2.5,fm7[120]-2.5);
+      TH1D  *hft0  = new TH1D(hist_name, hist_name, 68,ft0[0]-0.1,ft0[68]-0.1);
+      TH1D  *hft1  = new TH1D(hist_name, hist_name, 50,ft1[0]-0.25,ft1[50]-0.25);
+      TH1D  *hft2  = new TH1D(hist_name, hist_name, 82,ft2[0]-0.25,ft2[82]-0.25);
+      
+      for(int j = 446; j<(718+446); j++)
+	{
+	  if(j<(536))
+	    {
+	      double w = histo_aqgc_M3000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M3000[j-446]->GetBinError(i)/histo_aqgc_M3000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfs0->SetBinContent(j-446+1,histo_aqgc_M3000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));
+	      //std::cout << "fs0 \t " << histo_aqgc_M3000[j-446]->GetBinContent(i) << " " << hists[1]->GetBinContent(i) << " " << histo_aqgc_M3000[j-446]->GetBinError(i) << " " <<  hists[1]->GetBinError(i) << " " << err << "\t" << hfs0->GetBinContent(j-446+1) << std::endl;
+	      hfs0->SetBinError(j-446+1,err);
+	    }
+	  else if(j>536 && j<603)
+	    {
+	      double w = histo_aqgc_M3000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M3000[j-446]->GetBinError(i)/histo_aqgc_M3000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfs1->SetBinContent(j-537+1,histo_aqgc_M3000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      //std::cout << "fs1 \t " << histo_aqgc_M3000[j-446]->GetBinContent(i) << " " << hists[1]->GetBinContent(i) << " " << histo_aqgc_M3000[j-446]->GetBinError(i) << " " <<  hists[1]->GetBinError(i) << " " << err << "\t" << hfs1->GetBinContent(j-537+1) << std::endl;
+	      hfs1->SetBinError(j-537+1,err);
+	    }
+	  else if(j>603 && j<688)
+	    {
+	      double w = histo_aqgc_M3000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M3000[j-446]->GetBinError(i)/histo_aqgc_M3000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfm0->SetBinContent(j-604+1,histo_aqgc_M3000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hfm0->SetBinError(j-604+1,err);
+	      //hfm0->SetBinContent(j+1-604,histo_aqgc_M3000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>688 && j<755)
+	    {
+	      double w = histo_aqgc_M3000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M3000[j-446]->GetBinError(i)/histo_aqgc_M3000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfm1->SetBinContent(j-689+1,histo_aqgc_M3000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hfm1->SetBinError(j-689+1,err);
+	      //hfm1->SetBinContent(j+1-689,histo_aqgc_M3000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>755 && j<839)
+	    {
+	      double w = histo_aqgc_M3000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M3000[j-446]->GetBinError(i)/histo_aqgc_M3000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfm6->SetBinContent(j-756+1,histo_aqgc_M3000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hfm6->SetBinError(j-756+1,err);
+	      //hfm6->SetBinContent(j+1-756,histo_aqgc_M3000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));	
+	    }
+	  else if(j>839 && j<960)
+	    {
+	      double w = histo_aqgc_M3000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M3000[j-446]->GetBinError(i)/histo_aqgc_M3000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfm7->SetBinContent(j-840+1,histo_aqgc_M3000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hfm7->SetBinError(j-840+1,err);
+	      //hfm7->SetBinContent(j+1-840,histo_aqgc_M3000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>960 && j<1029)
+	    {
+	      double w = histo_aqgc_M3000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M3000[j-446]->GetBinError(i)/histo_aqgc_M3000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hft0->SetBinContent(j-961+1,histo_aqgc_M3000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hft0->SetBinError(j-961+1,err);
+	      //hft0->SetBinContent(j+1-961,histo_aqgc_M3000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>1029 && j<1080)
+	    {
+	      double w = histo_aqgc_M3000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M3000[j-446]->GetBinError(i)/histo_aqgc_M3000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hft1->SetBinContent(j-1030+1,histo_aqgc_M3000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hft1->SetBinError(j-1030+1,err);
+	      //hft1->SetBinContent(j+1-1030,histo_aqgc_M3000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>1080 && j<1163)
+	    {
+	      double w = histo_aqgc_M3000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M3000[j-446]->GetBinError(i)/histo_aqgc_M3000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hft2->SetBinContent(j-1081+1,histo_aqgc_M3000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hft2->SetBinError(j-1081+1,err);
+	      //hft2->SetBinContent(j+1-1081,histo_aqgc_M3000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	}
+      outFile_M3000->cd();
+      TF1 *fit_1 = new TF1(hist_name,"pol2",fs0[0]-10,fs0[90]-10);
+      //hfs0->Fit(hist_name,"R");
+      //fit_1->Write();
+      hfs0->Write();
+      outFile_M30001->cd();
+      TF1 *fit_2 = new TF1(hist_name,"pol2",fs1[0]-5,fs1[66]-5);
+      //hfs1->Fit(hist_name,"R");
+      hfs1->Write();
+      //fit_2->Write();
+      outFile_M30002->cd();
+      //hfs0->Write();
+      TF1 *fit_3 = new TF1(hist_name,"pol2",fm0[0]-0.5,fm0[84]-0.5);
+      //hfm0->Fit(hist_name,"R");
+      //fit_3->Write();
+      hfm0->Write();
+      outFile_M30003->cd();
+      TF1 *fit_4 = new TF1(hist_name,"pol2",fm1[0]-2.5,fm1[66]-2.5);
+      //hfm1->Fit(hist_name,"R");
+      //fit_4->Write();
+      hfm1->Write();
+      outFile_M30004->cd();
+      TF1 *fit_5 = new TF1(hist_name,"pol2",fm6[0]-1.0,fm6[83]-1.0);
+      //hfm6->Fit(hist_name,"R");
+      //fit_5->Write();
+      hfm6->Write();
+      outFile_M30005->cd();
+      TF1 *fit_6 = new TF1(hist_name,"pol2",fm7[0]-2.5,fm7[120]-2.5);
+      //hfm7->Fit(hist_name,"R");
+      //fit_6->Write();
+      hfm7->Write();
+      outFile_M30006->cd();
+      hft0->Write();
+      TF1 *fit_7 = new TF1(hist_name,"pol2",ft0[0]-0.1,ft0[68]-0.1);
+      //hft0->Fit(hist_name,"R");
+      //fit_7->Write();
+      outFile_M30007->cd();
+      hft1->Write();
+      TF1 *fit_8 = new TF1(hist_name,"pol2",ft1[0]-0.25,ft1[50]-0.25);
+      //hft1->Fit(hist_name,"R");
+      //fit_8->Write();
+      hft1->Write();
+      outFile_M30008->cd();	
+      TF1 *fit_9 = new TF1(hist_name,"pol2",ft2[0]-0.25,ft2[82]-0.25);
+      //hft2->Fit(hist_name,"R");
+      //fit_9->Write();
+      hft2->Write();
+      //f.Write();
+      //delete hft0; delete  hft1; delete hft2; delete hfs0; delete hfs1; delete hfm0;   delete hfm1;   delete hfm6;   delete hfm7; 
+    }
+  //outFile_M3000->Write();
+  outFile_M3000->Close();outFile_M30001->Close();outFile_M30002->Close();outFile_M30003->Close();outFile_M30004->Close();outFile_M30005->Close();outFile_M30006->Close();outFile_M30007->Close();outFile_M30008->Close();
+
+ 
+  //map<TString, TH1 *>::iterator mit = m_histos.find("ZV(EWK)");
+  //TH1 *h = 0;//mit->second;
+  std::cout << "Did we ever get here? " << std::endl;
+  TFile *outFile_M3500 = new TFile("ch1_splitted_TF1_ZV_hfs0_M3500.root","RECREATE"); 
+  TFile *outFile_M35001 = new TFile("ch1_splitted_TF1_ZV_hfs1_M3500.root","RECREATE"); 
+  TFile *outFile_M35002 = new TFile("ch1_splitted_TF1_ZV_hfm0_M3500.root","RECREATE"); 
+  TFile *outFile_M35003 = new TFile("ch1_splitted_TF1_ZV_hfm1_M3500.root","RECREATE"); 
+  TFile *outFile_M35004 = new TFile("ch1_splitted_TF1_ZV_hfm6_M3500.root","RECREATE"); 
+  TFile *outFile_M35005 = new TFile("ch1_splitted_TF1_ZV_hfm7_M3500.root","RECREATE"); 
+  TFile *outFile_M35006 = new TFile("ch1_splitted_TF1_ZV_hft0_M3500.root","RECREATE"); 
+  TFile *outFile_M35007 = new TFile("ch1_splitted_TF1_ZV_hft1_M3500.root","RECREATE"); 
+  TFile *outFile_M35008 = new TFile("ch1_splitted_TF1_ZV_hft2_M3500.root","RECREATE");       
+  
+  // In this for loop the used histogram `hists[1]` contains information for WV_EWK
+  for(int i = 1; i<hists[1]->GetNbinsX()+1; i++)
+    {
+      stringstream ss;
+      ss << i;
+      std::string hist_name_temp = "bin_content_par1_"+ss.str();
+      const char* hist_name = hist_name_temp.c_str();
+      TH1D  *hfs0  = new TH1D(hist_name, hist_name, 90,fs0[0]-10,fs0[90]-10);
+      TH1D  *hfs1  = new TH1D(hist_name, hist_name, 66,fs1[0]-5,fs1[66]-5);
+      TH1D  *hfm0  = new TH1D(hist_name, hist_name, 84,fm0[0]-0.5,fm0[84]-0.5);
+      TH1D  *hfm1  = new TH1D(hist_name, hist_name, 66,fm1[0]-2.5,fm1[66]-2.5);
+      TH1D  *hfm6  = new TH1D(hist_name, hist_name, 83,fm6[0]-1.0,fm6[83]-1.0);
+      TH1D  *hfm7  = new TH1D(hist_name, hist_name, 120,fm7[0]-2.5,fm7[120]-2.5);
+      TH1D  *hft0  = new TH1D(hist_name, hist_name, 68,ft0[0]-0.1,ft0[68]-0.1);
+      TH1D  *hft1  = new TH1D(hist_name, hist_name, 50,ft1[0]-0.25,ft1[50]-0.25);
+      TH1D  *hft2  = new TH1D(hist_name, hist_name, 82,ft2[0]-0.25,ft2[82]-0.25);
+      
+      for(int j = 446; j<(718+446); j++)
+	{
+	  if(j<(536))
+	    {
+	      double w = histo_aqgc_M3500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M3500[j-446]->GetBinError(i)/histo_aqgc_M3500[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfs0->SetBinContent(j-446+1,histo_aqgc_M3500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));
+	      //std::cout << "fs0 \t " << histo_aqgc_M3500[j-446]->GetBinContent(i) << " " << hists[1]->GetBinContent(i) << " " << histo_aqgc_M3500[j-446]->GetBinError(i) << " " <<  hists[1]->GetBinError(i) << " " << err << "\t" << hfs0->GetBinContent(j-446+1) << std::endl;
+	      hfs0->SetBinError(j-446+1,err);
+	    }
+	  else if(j>536 && j<603)
+	    {
+	      double w = histo_aqgc_M3500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M3500[j-446]->GetBinError(i)/histo_aqgc_M3500[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfs1->SetBinContent(j-537+1,histo_aqgc_M3500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      //std::cout << "fs1 \t " << histo_aqgc_M3500[j-446]->GetBinContent(i) << " " << hists[1]->GetBinContent(i) << " " << histo_aqgc_M3500[j-446]->GetBinError(i) << " " <<  hists[1]->GetBinError(i) << " " << err << "\t" << hfs1->GetBinContent(j-537+1) << std::endl;
+	      hfs1->SetBinError(j-537+1,err);
+	    }
+	  else if(j>603 && j<688)
+	    {
+	      double w = histo_aqgc_M3500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M3500[j-446]->GetBinError(i)/histo_aqgc_M3500[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfm0->SetBinContent(j-604+1,histo_aqgc_M3500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hfm0->SetBinError(j-604+1,err);
+	      //hfm0->SetBinContent(j+1-604,histo_aqgc_M3500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>688 && j<755)
+	    {
+	      double w = histo_aqgc_M3500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M3500[j-446]->GetBinError(i)/histo_aqgc_M3500[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfm1->SetBinContent(j-689+1,histo_aqgc_M3500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hfm1->SetBinError(j-689+1,err);
+	      //hfm1->SetBinContent(j+1-689,histo_aqgc_M3500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>755 && j<839)
+	    {
+	      double w = histo_aqgc_M3500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M3500[j-446]->GetBinError(i)/histo_aqgc_M3500[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfm6->SetBinContent(j-756+1,histo_aqgc_M3500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hfm6->SetBinError(j-756+1,err);
+	      //hfm6->SetBinContent(j+1-756,histo_aqgc_M3500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));	
+	    }
+	  else if(j>839 && j<960)
+	    {
+	      double w = histo_aqgc_M3500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M3500[j-446]->GetBinError(i)/histo_aqgc_M3500[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfm7->SetBinContent(j-840+1,histo_aqgc_M3500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hfm7->SetBinError(j-840+1,err);
+	      //hfm7->SetBinContent(j+1-840,histo_aqgc_M3500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>960 && j<1029)
+	    {
+	      double w = histo_aqgc_M3500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M3500[j-446]->GetBinError(i)/histo_aqgc_M3500[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hft0->SetBinContent(j-961+1,histo_aqgc_M3500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hft0->SetBinError(j-961+1,err);
+	      //hft0->SetBinContent(j+1-961,histo_aqgc_M3500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>1029 && j<1080)
+	    {
+	      double w = histo_aqgc_M3500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M3500[j-446]->GetBinError(i)/histo_aqgc_M3500[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hft1->SetBinContent(j-1030+1,histo_aqgc_M3500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hft1->SetBinError(j-1030+1,err);
+	      //hft1->SetBinContent(j+1-1030,histo_aqgc_M3500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>1080 && j<1163)
+	    {
+	      double w = histo_aqgc_M3500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M3500[j-446]->GetBinError(i)/histo_aqgc_M3500[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hft2->SetBinContent(j-1081+1,histo_aqgc_M3500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hft2->SetBinError(j-1081+1,err);
+	      //hft2->SetBinContent(j+1-1081,histo_aqgc_M3500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	}
+      outFile_M3500->cd();
+      TF1 *fit_1 = new TF1(hist_name,"pol2",fs0[0]-10,fs0[90]-10);
+      //hfs0->Fit(hist_name,"R");
+      //fit_1->Write();
+      hfs0->Write();
+      outFile_M35001->cd();
+      TF1 *fit_2 = new TF1(hist_name,"pol2",fs1[0]-5,fs1[66]-5);
+      //hfs1->Fit(hist_name,"R");
+      hfs1->Write();
+      //fit_2->Write();
+      outFile_M35002->cd();
+      //hfs0->Write();
+      TF1 *fit_3 = new TF1(hist_name,"pol2",fm0[0]-0.5,fm0[84]-0.5);
+      //hfm0->Fit(hist_name,"R");
+      //fit_3->Write();
+      hfm0->Write();
+      outFile_M35003->cd();
+      TF1 *fit_4 = new TF1(hist_name,"pol2",fm1[0]-2.5,fm1[66]-2.5);
+      //hfm1->Fit(hist_name,"R");
+      //fit_4->Write();
+      hfm1->Write();
+      outFile_M35004->cd();
+      TF1 *fit_5 = new TF1(hist_name,"pol2",fm6[0]-1.0,fm6[83]-1.0);
+      //hfm6->Fit(hist_name,"R");
+      //fit_5->Write();
+      hfm6->Write();
+      outFile_M35005->cd();
+      TF1 *fit_6 = new TF1(hist_name,"pol2",fm7[0]-2.5,fm7[120]-2.5);
+      //hfm7->Fit(hist_name,"R");
+      //fit_6->Write();
+      hfm7->Write();
+      outFile_M35006->cd();
+      hft0->Write();
+      TF1 *fit_7 = new TF1(hist_name,"pol2",ft0[0]-0.1,ft0[68]-0.1);
+      //hft0->Fit(hist_name,"R");
+      //fit_7->Write();
+      outFile_M35007->cd();
+      hft1->Write();
+      TF1 *fit_8 = new TF1(hist_name,"pol2",ft1[0]-0.25,ft1[50]-0.25);
+      //hft1->Fit(hist_name,"R");
+      //fit_8->Write();
+      hft1->Write();
+      outFile_M35008->cd();	
+      TF1 *fit_9 = new TF1(hist_name,"pol2",ft2[0]-0.25,ft2[82]-0.25);
+      //hft2->Fit(hist_name,"R");
+      //fit_9->Write();
+      hft2->Write();
+      //f.Write();
+      //delete hft0; delete  hft1; delete hft2; delete hfs0; delete hfs1; delete hfm0;   delete hfm1;   delete hfm6;   delete hfm7; 
+    }
+  //outFile_M3500->Write();
+  outFile_M3500->Close();outFile_M35001->Close();outFile_M35002->Close();outFile_M35003->Close();outFile_M35004->Close();outFile_M35005->Close();outFile_M35006->Close();outFile_M35007->Close();outFile_M35008->Close();
+
+ 
+  //map<TString, TH1 *>::iterator mit = m_histos.find("ZV(EWK)");
+  //TH1 *h = 0;//mit->second;
+  std::cout << "Did we ever get here? " << std::endl;
+  TFile *outFile_M4000 = new TFile("ch1_splitted_TF1_ZV_hfs0_M4000.root","RECREATE"); 
+  TFile *outFile_M40001 = new TFile("ch1_splitted_TF1_ZV_hfs1_M4000.root","RECREATE"); 
+  TFile *outFile_M40002 = new TFile("ch1_splitted_TF1_ZV_hfm0_M4000.root","RECREATE"); 
+  TFile *outFile_M40003 = new TFile("ch1_splitted_TF1_ZV_hfm1_M4000.root","RECREATE"); 
+  TFile *outFile_M40004 = new TFile("ch1_splitted_TF1_ZV_hfm6_M4000.root","RECREATE"); 
+  TFile *outFile_M40005 = new TFile("ch1_splitted_TF1_ZV_hfm7_M4000.root","RECREATE"); 
+  TFile *outFile_M40006 = new TFile("ch1_splitted_TF1_ZV_hft0_M4000.root","RECREATE"); 
+  TFile *outFile_M40007 = new TFile("ch1_splitted_TF1_ZV_hft1_M4000.root","RECREATE"); 
+  TFile *outFile_M40008 = new TFile("ch1_splitted_TF1_ZV_hft2_M4000.root","RECREATE");       
+  
+  // In this for loop the used histogram `hists[1]` contains information for WV_EWK
+  for(int i = 1; i<hists[1]->GetNbinsX()+1; i++)
+    {
+      stringstream ss;
+      ss << i;
+      std::string hist_name_temp = "bin_content_par1_"+ss.str();
+      const char* hist_name = hist_name_temp.c_str();
+      TH1D  *hfs0  = new TH1D(hist_name, hist_name, 90,fs0[0]-10,fs0[90]-10);
+      TH1D  *hfs1  = new TH1D(hist_name, hist_name, 66,fs1[0]-5,fs1[66]-5);
+      TH1D  *hfm0  = new TH1D(hist_name, hist_name, 84,fm0[0]-0.5,fm0[84]-0.5);
+      TH1D  *hfm1  = new TH1D(hist_name, hist_name, 66,fm1[0]-2.5,fm1[66]-2.5);
+      TH1D  *hfm6  = new TH1D(hist_name, hist_name, 83,fm6[0]-1.0,fm6[83]-1.0);
+      TH1D  *hfm7  = new TH1D(hist_name, hist_name, 120,fm7[0]-2.5,fm7[120]-2.5);
+      TH1D  *hft0  = new TH1D(hist_name, hist_name, 68,ft0[0]-0.1,ft0[68]-0.1);
+      TH1D  *hft1  = new TH1D(hist_name, hist_name, 50,ft1[0]-0.25,ft1[50]-0.25);
+      TH1D  *hft2  = new TH1D(hist_name, hist_name, 82,ft2[0]-0.25,ft2[82]-0.25);
+      
+      for(int j = 446; j<(718+446); j++)
+	{
+	  if(j<(536))
+	    {
+	      double w = histo_aqgc_M4000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M4000[j-446]->GetBinError(i)/histo_aqgc_M4000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfs0->SetBinContent(j-446+1,histo_aqgc_M4000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));
+	      //std::cout << "fs0 \t " << histo_aqgc_M4000[j-446]->GetBinContent(i) << " " << hists[1]->GetBinContent(i) << " " << histo_aqgc_M4000[j-446]->GetBinError(i) << " " <<  hists[1]->GetBinError(i) << " " << err << "\t" << hfs0->GetBinContent(j-446+1) << std::endl;
+	      hfs0->SetBinError(j-446+1,err);
+	    }
+	  else if(j>536 && j<603)
+	    {
+	      double w = histo_aqgc_M4000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M4000[j-446]->GetBinError(i)/histo_aqgc_M4000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfs1->SetBinContent(j-537+1,histo_aqgc_M4000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      //std::cout << "fs1 \t " << histo_aqgc_M4000[j-446]->GetBinContent(i) << " " << hists[1]->GetBinContent(i) << " " << histo_aqgc_M4000[j-446]->GetBinError(i) << " " <<  hists[1]->GetBinError(i) << " " << err << "\t" << hfs1->GetBinContent(j-537+1) << std::endl;
+	      hfs1->SetBinError(j-537+1,err);
+	    }
+	  else if(j>603 && j<688)
+	    {
+	      double w = histo_aqgc_M4000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M4000[j-446]->GetBinError(i)/histo_aqgc_M4000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfm0->SetBinContent(j-604+1,histo_aqgc_M4000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hfm0->SetBinError(j-604+1,err);
+	      //hfm0->SetBinContent(j+1-604,histo_aqgc_M4000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>688 && j<755)
+	    {
+	      double w = histo_aqgc_M4000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M4000[j-446]->GetBinError(i)/histo_aqgc_M4000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfm1->SetBinContent(j-689+1,histo_aqgc_M4000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hfm1->SetBinError(j-689+1,err);
+	      //hfm1->SetBinContent(j+1-689,histo_aqgc_M4000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>755 && j<839)
+	    {
+	      double w = histo_aqgc_M4000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M4000[j-446]->GetBinError(i)/histo_aqgc_M4000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfm6->SetBinContent(j-756+1,histo_aqgc_M4000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hfm6->SetBinError(j-756+1,err);
+	      //hfm6->SetBinContent(j+1-756,histo_aqgc_M4000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));	
+	    }
+	  else if(j>839 && j<960)
+	    {
+	      double w = histo_aqgc_M4000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M4000[j-446]->GetBinError(i)/histo_aqgc_M4000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfm7->SetBinContent(j-840+1,histo_aqgc_M4000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hfm7->SetBinError(j-840+1,err);
+	      //hfm7->SetBinContent(j+1-840,histo_aqgc_M4000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>960 && j<1029)
+	    {
+	      double w = histo_aqgc_M4000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M4000[j-446]->GetBinError(i)/histo_aqgc_M4000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hft0->SetBinContent(j-961+1,histo_aqgc_M4000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hft0->SetBinError(j-961+1,err);
+	      //hft0->SetBinContent(j+1-961,histo_aqgc_M4000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>1029 && j<1080)
+	    {
+	      double w = histo_aqgc_M4000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M4000[j-446]->GetBinError(i)/histo_aqgc_M4000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hft1->SetBinContent(j-1030+1,histo_aqgc_M4000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hft1->SetBinError(j-1030+1,err);
+	      //hft1->SetBinContent(j+1-1030,histo_aqgc_M4000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>1080 && j<1163)
+	    {
+	      double w = histo_aqgc_M4000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M4000[j-446]->GetBinError(i)/histo_aqgc_M4000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hft2->SetBinContent(j-1081+1,histo_aqgc_M4000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hft2->SetBinError(j-1081+1,err);
+	      //hft2->SetBinContent(j+1-1081,histo_aqgc_M4000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	}
+      outFile_M4000->cd();
+      TF1 *fit_1 = new TF1(hist_name,"pol2",fs0[0]-10,fs0[90]-10);
+      //hfs0->Fit(hist_name,"R");
+      //fit_1->Write();
+      hfs0->Write();
+      outFile_M40001->cd();
+      TF1 *fit_2 = new TF1(hist_name,"pol2",fs1[0]-5,fs1[66]-5);
+      //hfs1->Fit(hist_name,"R");
+      hfs1->Write();
+      //fit_2->Write();
+      outFile_M40002->cd();
+      //hfs0->Write();
+      TF1 *fit_3 = new TF1(hist_name,"pol2",fm0[0]-0.5,fm0[84]-0.5);
+      //hfm0->Fit(hist_name,"R");
+      //fit_3->Write();
+      hfm0->Write();
+      outFile_M40003->cd();
+      TF1 *fit_4 = new TF1(hist_name,"pol2",fm1[0]-2.5,fm1[66]-2.5);
+      //hfm1->Fit(hist_name,"R");
+      //fit_4->Write();
+      hfm1->Write();
+      outFile_M40004->cd();
+      TF1 *fit_5 = new TF1(hist_name,"pol2",fm6[0]-1.0,fm6[83]-1.0);
+      //hfm6->Fit(hist_name,"R");
+      //fit_5->Write();
+      hfm6->Write();
+      outFile_M40005->cd();
+      TF1 *fit_6 = new TF1(hist_name,"pol2",fm7[0]-2.5,fm7[120]-2.5);
+      //hfm7->Fit(hist_name,"R");
+      //fit_6->Write();
+      hfm7->Write();
+      outFile_M40006->cd();
+      hft0->Write();
+      TF1 *fit_7 = new TF1(hist_name,"pol2",ft0[0]-0.1,ft0[68]-0.1);
+      //hft0->Fit(hist_name,"R");
+      //fit_7->Write();
+      outFile_M40007->cd();
+      hft1->Write();
+      TF1 *fit_8 = new TF1(hist_name,"pol2",ft1[0]-0.25,ft1[50]-0.25);
+      //hft1->Fit(hist_name,"R");
+      //fit_8->Write();
+      hft1->Write();
+      outFile_M40008->cd();	
+      TF1 *fit_9 = new TF1(hist_name,"pol2",ft2[0]-0.25,ft2[82]-0.25);
+      //hft2->Fit(hist_name,"R");
+      //fit_9->Write();
+      hft2->Write();
+      //f.Write();
+      //delete hft0; delete  hft1; delete hft2; delete hfs0; delete hfs1; delete hfm0;   delete hfm1;   delete hfm6;   delete hfm7; 
+    }
+  //outFile_M4000->Write();
+  outFile_M4000->Close();outFile_M40001->Close();outFile_M40002->Close();outFile_M40003->Close();outFile_M40004->Close();outFile_M40005->Close();outFile_M40006->Close();outFile_M40007->Close();outFile_M40008->Close();
+
+ 
+  //map<TString, TH1 *>::iterator mit = m_histos.find("ZV(EWK)");
+  //TH1 *h = 0;//mit->second;
+  std::cout << "Did we ever get here? " << std::endl;
+  TFile *outFile_M4500 = new TFile("ch1_splitted_TF1_ZV_hfs0_M4500.root","RECREATE"); 
+  TFile *outFile_M45001 = new TFile("ch1_splitted_TF1_ZV_hfs1_M4500.root","RECREATE"); 
+  TFile *outFile_M45002 = new TFile("ch1_splitted_TF1_ZV_hfm0_M4500.root","RECREATE"); 
+  TFile *outFile_M45003 = new TFile("ch1_splitted_TF1_ZV_hfm1_M4500.root","RECREATE"); 
+  TFile *outFile_M45004 = new TFile("ch1_splitted_TF1_ZV_hfm6_M4500.root","RECREATE"); 
+  TFile *outFile_M45005 = new TFile("ch1_splitted_TF1_ZV_hfm7_M4500.root","RECREATE"); 
+  TFile *outFile_M45006 = new TFile("ch1_splitted_TF1_ZV_hft0_M4500.root","RECREATE"); 
+  TFile *outFile_M45007 = new TFile("ch1_splitted_TF1_ZV_hft1_M4500.root","RECREATE"); 
+  TFile *outFile_M45008 = new TFile("ch1_splitted_TF1_ZV_hft2_M4500.root","RECREATE");       
+  
+  // In this for loop the used histogram `hists[1]` contains information for WV_EWK
+  for(int i = 1; i<hists[1]->GetNbinsX()+1; i++)
+    {
+      stringstream ss;
+      ss << i;
+      std::string hist_name_temp = "bin_content_par1_"+ss.str();
+      const char* hist_name = hist_name_temp.c_str();
+      TH1D  *hfs0  = new TH1D(hist_name, hist_name, 90,fs0[0]-10,fs0[90]-10);
+      TH1D  *hfs1  = new TH1D(hist_name, hist_name, 66,fs1[0]-5,fs1[66]-5);
+      TH1D  *hfm0  = new TH1D(hist_name, hist_name, 84,fm0[0]-0.5,fm0[84]-0.5);
+      TH1D  *hfm1  = new TH1D(hist_name, hist_name, 66,fm1[0]-2.5,fm1[66]-2.5);
+      TH1D  *hfm6  = new TH1D(hist_name, hist_name, 83,fm6[0]-1.0,fm6[83]-1.0);
+      TH1D  *hfm7  = new TH1D(hist_name, hist_name, 120,fm7[0]-2.5,fm7[120]-2.5);
+      TH1D  *hft0  = new TH1D(hist_name, hist_name, 68,ft0[0]-0.1,ft0[68]-0.1);
+      TH1D  *hft1  = new TH1D(hist_name, hist_name, 50,ft1[0]-0.25,ft1[50]-0.25);
+      TH1D  *hft2  = new TH1D(hist_name, hist_name, 82,ft2[0]-0.25,ft2[82]-0.25);
+      
+      for(int j = 446; j<(718+446); j++)
+	{
+	  if(j<(536))
+	    {
+	      double w = histo_aqgc_M4500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M4500[j-446]->GetBinError(i)/histo_aqgc_M4500[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfs0->SetBinContent(j-446+1,histo_aqgc_M4500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));
+	      //std::cout << "fs0 \t " << histo_aqgc_M4500[j-446]->GetBinContent(i) << " " << hists[1]->GetBinContent(i) << " " << histo_aqgc_M4500[j-446]->GetBinError(i) << " " <<  hists[1]->GetBinError(i) << " " << err << "\t" << hfs0->GetBinContent(j-446+1) << std::endl;
+	      hfs0->SetBinError(j-446+1,err);
+	    }
+	  else if(j>536 && j<603)
+	    {
+	      double w = histo_aqgc_M4500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M4500[j-446]->GetBinError(i)/histo_aqgc_M4500[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfs1->SetBinContent(j-537+1,histo_aqgc_M4500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      //std::cout << "fs1 \t " << histo_aqgc_M4500[j-446]->GetBinContent(i) << " " << hists[1]->GetBinContent(i) << " " << histo_aqgc_M4500[j-446]->GetBinError(i) << " " <<  hists[1]->GetBinError(i) << " " << err << "\t" << hfs1->GetBinContent(j-537+1) << std::endl;
+	      hfs1->SetBinError(j-537+1,err);
+	    }
+	  else if(j>603 && j<688)
+	    {
+	      double w = histo_aqgc_M4500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M4500[j-446]->GetBinError(i)/histo_aqgc_M4500[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfm0->SetBinContent(j-604+1,histo_aqgc_M4500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hfm0->SetBinError(j-604+1,err);
+	      //hfm0->SetBinContent(j+1-604,histo_aqgc_M4500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>688 && j<755)
+	    {
+	      double w = histo_aqgc_M4500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M4500[j-446]->GetBinError(i)/histo_aqgc_M4500[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfm1->SetBinContent(j-689+1,histo_aqgc_M4500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hfm1->SetBinError(j-689+1,err);
+	      //hfm1->SetBinContent(j+1-689,histo_aqgc_M4500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>755 && j<839)
+	    {
+	      double w = histo_aqgc_M4500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M4500[j-446]->GetBinError(i)/histo_aqgc_M4500[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfm6->SetBinContent(j-756+1,histo_aqgc_M4500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hfm6->SetBinError(j-756+1,err);
+	      //hfm6->SetBinContent(j+1-756,histo_aqgc_M4500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));	
+	    }
+	  else if(j>839 && j<960)
+	    {
+	      double w = histo_aqgc_M4500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M4500[j-446]->GetBinError(i)/histo_aqgc_M4500[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfm7->SetBinContent(j-840+1,histo_aqgc_M4500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hfm7->SetBinError(j-840+1,err);
+	      //hfm7->SetBinContent(j+1-840,histo_aqgc_M4500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>960 && j<1029)
+	    {
+	      double w = histo_aqgc_M4500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M4500[j-446]->GetBinError(i)/histo_aqgc_M4500[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hft0->SetBinContent(j-961+1,histo_aqgc_M4500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hft0->SetBinError(j-961+1,err);
+	      //hft0->SetBinContent(j+1-961,histo_aqgc_M4500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>1029 && j<1080)
+	    {
+	      double w = histo_aqgc_M4500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M4500[j-446]->GetBinError(i)/histo_aqgc_M4500[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hft1->SetBinContent(j-1030+1,histo_aqgc_M4500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hft1->SetBinError(j-1030+1,err);
+	      //hft1->SetBinContent(j+1-1030,histo_aqgc_M4500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>1080 && j<1163)
+	    {
+	      double w = histo_aqgc_M4500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M4500[j-446]->GetBinError(i)/histo_aqgc_M4500[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hft2->SetBinContent(j-1081+1,histo_aqgc_M4500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hft2->SetBinError(j-1081+1,err);
+	      //hft2->SetBinContent(j+1-1081,histo_aqgc_M4500[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	}
+      outFile_M4500->cd();
+      TF1 *fit_1 = new TF1(hist_name,"pol2",fs0[0]-10,fs0[90]-10);
+      //hfs0->Fit(hist_name,"R");
+      //fit_1->Write();
+      hfs0->Write();
+      outFile_M45001->cd();
+      TF1 *fit_2 = new TF1(hist_name,"pol2",fs1[0]-5,fs1[66]-5);
+      //hfs1->Fit(hist_name,"R");
+      hfs1->Write();
+      //fit_2->Write();
+      outFile_M45002->cd();
+      //hfs0->Write();
+      TF1 *fit_3 = new TF1(hist_name,"pol2",fm0[0]-0.5,fm0[84]-0.5);
+      //hfm0->Fit(hist_name,"R");
+      //fit_3->Write();
+      hfm0->Write();
+      outFile_M45003->cd();
+      TF1 *fit_4 = new TF1(hist_name,"pol2",fm1[0]-2.5,fm1[66]-2.5);
+      //hfm1->Fit(hist_name,"R");
+      //fit_4->Write();
+      hfm1->Write();
+      outFile_M45004->cd();
+      TF1 *fit_5 = new TF1(hist_name,"pol2",fm6[0]-1.0,fm6[83]-1.0);
+      //hfm6->Fit(hist_name,"R");
+      //fit_5->Write();
+      hfm6->Write();
+      outFile_M45005->cd();
+      TF1 *fit_6 = new TF1(hist_name,"pol2",fm7[0]-2.5,fm7[120]-2.5);
+      //hfm7->Fit(hist_name,"R");
+      //fit_6->Write();
+      hfm7->Write();
+      outFile_M45006->cd();
+      hft0->Write();
+      TF1 *fit_7 = new TF1(hist_name,"pol2",ft0[0]-0.1,ft0[68]-0.1);
+      //hft0->Fit(hist_name,"R");
+      //fit_7->Write();
+      outFile_M45007->cd();
+      hft1->Write();
+      TF1 *fit_8 = new TF1(hist_name,"pol2",ft1[0]-0.25,ft1[50]-0.25);
+      //hft1->Fit(hist_name,"R");
+      //fit_8->Write();
+      hft1->Write();
+      outFile_M45008->cd();	
+      TF1 *fit_9 = new TF1(hist_name,"pol2",ft2[0]-0.25,ft2[82]-0.25);
+      //hft2->Fit(hist_name,"R");
+      //fit_9->Write();
+      hft2->Write();
+      //f.Write();
+      //delete hft0; delete  hft1; delete hft2; delete hfs0; delete hfs1; delete hfm0;   delete hfm1;   delete hfm6;   delete hfm7; 
+    }
+  //outFile_M4500->Write();
+  outFile_M4500->Close();outFile_M45001->Close();outFile_M45002->Close();outFile_M45003->Close();outFile_M45004->Close();outFile_M45005->Close();outFile_M45006->Close();outFile_M45007->Close();outFile_M45008->Close();
+
+ 
+  //map<TString, TH1 *>::iterator mit = m_histos.find("ZV(EWK)");
+  //TH1 *h = 0;//mit->second;
+  std::cout << "Did we ever get here? " << std::endl;
+  TFile *outFile_M5000 = new TFile("ch1_splitted_TF1_ZV_hfs0_M5000.root","RECREATE"); 
+  TFile *outFile_M50001 = new TFile("ch1_splitted_TF1_ZV_hfs1_M5000.root","RECREATE"); 
+  TFile *outFile_M50002 = new TFile("ch1_splitted_TF1_ZV_hfm0_M5000.root","RECREATE"); 
+  TFile *outFile_M50003 = new TFile("ch1_splitted_TF1_ZV_hfm1_M5000.root","RECREATE"); 
+  TFile *outFile_M50004 = new TFile("ch1_splitted_TF1_ZV_hfm6_M5000.root","RECREATE"); 
+  TFile *outFile_M50005 = new TFile("ch1_splitted_TF1_ZV_hfm7_M5000.root","RECREATE"); 
+  TFile *outFile_M50006 = new TFile("ch1_splitted_TF1_ZV_hft0_M5000.root","RECREATE"); 
+  TFile *outFile_M50007 = new TFile("ch1_splitted_TF1_ZV_hft1_M5000.root","RECREATE"); 
+  TFile *outFile_M50008 = new TFile("ch1_splitted_TF1_ZV_hft2_M5000.root","RECREATE");       
+  
+  // In this for loop the used histogram `hists[1]` contains information for WV_EWK
+  for(int i = 1; i<hists[1]->GetNbinsX()+1; i++)
+    {
+      stringstream ss;
+      ss << i;
+      std::string hist_name_temp = "bin_content_par1_"+ss.str();
+      const char* hist_name = hist_name_temp.c_str();
+      TH1D  *hfs0  = new TH1D(hist_name, hist_name, 90,fs0[0]-10,fs0[90]-10);
+      TH1D  *hfs1  = new TH1D(hist_name, hist_name, 66,fs1[0]-5,fs1[66]-5);
+      TH1D  *hfm0  = new TH1D(hist_name, hist_name, 84,fm0[0]-0.5,fm0[84]-0.5);
+      TH1D  *hfm1  = new TH1D(hist_name, hist_name, 66,fm1[0]-2.5,fm1[66]-2.5);
+      TH1D  *hfm6  = new TH1D(hist_name, hist_name, 83,fm6[0]-1.0,fm6[83]-1.0);
+      TH1D  *hfm7  = new TH1D(hist_name, hist_name, 120,fm7[0]-2.5,fm7[120]-2.5);
+      TH1D  *hft0  = new TH1D(hist_name, hist_name, 68,ft0[0]-0.1,ft0[68]-0.1);
+      TH1D  *hft1  = new TH1D(hist_name, hist_name, 50,ft1[0]-0.25,ft1[50]-0.25);
+      TH1D  *hft2  = new TH1D(hist_name, hist_name, 82,ft2[0]-0.25,ft2[82]-0.25);
+      
+      for(int j = 446; j<(718+446); j++)
+	{
+	  if(j<(536))
+	    {
+	      double w = histo_aqgc_M5000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M5000[j-446]->GetBinError(i)/histo_aqgc_M5000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfs0->SetBinContent(j-446+1,histo_aqgc_M5000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));
+	      //std::cout << "fs0 \t " << histo_aqgc_M5000[j-446]->GetBinContent(i) << " " << hists[1]->GetBinContent(i) << " " << histo_aqgc_M5000[j-446]->GetBinError(i) << " " <<  hists[1]->GetBinError(i) << " " << err << "\t" << hfs0->GetBinContent(j-446+1) << std::endl;
+	      hfs0->SetBinError(j-446+1,err);
+	    }
+	  else if(j>536 && j<603)
+	    {
+	      double w = histo_aqgc_M5000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M5000[j-446]->GetBinError(i)/histo_aqgc_M5000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfs1->SetBinContent(j-537+1,histo_aqgc_M5000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      //std::cout << "fs1 \t " << histo_aqgc_M5000[j-446]->GetBinContent(i) << " " << hists[1]->GetBinContent(i) << " " << histo_aqgc_M5000[j-446]->GetBinError(i) << " " <<  hists[1]->GetBinError(i) << " " << err << "\t" << hfs1->GetBinContent(j-537+1) << std::endl;
+	      hfs1->SetBinError(j-537+1,err);
+	    }
+	  else if(j>603 && j<688)
+	    {
+	      double w = histo_aqgc_M5000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M5000[j-446]->GetBinError(i)/histo_aqgc_M5000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfm0->SetBinContent(j-604+1,histo_aqgc_M5000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hfm0->SetBinError(j-604+1,err);
+	      //hfm0->SetBinContent(j+1-604,histo_aqgc_M5000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>688 && j<755)
+	    {
+	      double w = histo_aqgc_M5000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M5000[j-446]->GetBinError(i)/histo_aqgc_M5000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfm1->SetBinContent(j-689+1,histo_aqgc_M5000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hfm1->SetBinError(j-689+1,err);
+	      //hfm1->SetBinContent(j+1-689,histo_aqgc_M5000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>755 && j<839)
+	    {
+	      double w = histo_aqgc_M5000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M5000[j-446]->GetBinError(i)/histo_aqgc_M5000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfm6->SetBinContent(j-756+1,histo_aqgc_M5000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hfm6->SetBinError(j-756+1,err);
+	      //hfm6->SetBinContent(j+1-756,histo_aqgc_M5000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));	
+	    }
+	  else if(j>839 && j<960)
+	    {
+	      double w = histo_aqgc_M5000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M5000[j-446]->GetBinError(i)/histo_aqgc_M5000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hfm7->SetBinContent(j-840+1,histo_aqgc_M5000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hfm7->SetBinError(j-840+1,err);
+	      //hfm7->SetBinContent(j+1-840,histo_aqgc_M5000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>960 && j<1029)
+	    {
+	      double w = histo_aqgc_M5000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M5000[j-446]->GetBinError(i)/histo_aqgc_M5000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hft0->SetBinContent(j-961+1,histo_aqgc_M5000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hft0->SetBinError(j-961+1,err);
+	      //hft0->SetBinContent(j+1-961,histo_aqgc_M5000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>1029 && j<1080)
+	    {
+	      double w = histo_aqgc_M5000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M5000[j-446]->GetBinError(i)/histo_aqgc_M5000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hft1->SetBinContent(j-1030+1,histo_aqgc_M5000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hft1->SetBinError(j-1030+1,err);
+	      //hft1->SetBinContent(j+1-1030,histo_aqgc_M5000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	  else if(j>1080 && j<1163)
+	    {
+	      double w = histo_aqgc_M5000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i);
+	      double e1 = histo_aqgc_M5000[j-446]->GetBinError(i)/histo_aqgc_M5000[j-446]->GetBinContent(i);
+	      double e2 = hists[1]->GetBinError(i)/hists[1]->GetBinContent(i);
+	      hft2->SetBinContent(j-1081+1,histo_aqgc_M5000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	      double err = sqrt(e1*e1+e2*e2)*w;//TMath::Abs(((1-2*w)*e1*e1 + w*w*e2*e2 )/(hists[1]->GetBinContent(i)*hists[1]->GetBinContent(i)));  
+	      hft2->SetBinError(j-1081+1,err);
+	      //hft2->SetBinContent(j+1-1081,histo_aqgc_M5000[j-446]->GetBinContent(i)/hists[1]->GetBinContent(i));
+	    }
+	}
+      outFile_M5000->cd();
+      TF1 *fit_1 = new TF1(hist_name,"pol2",fs0[0]-10,fs0[90]-10);
+      //hfs0->Fit(hist_name,"R");
+      //fit_1->Write();
+      hfs0->Write();
+      outFile_M50001->cd();
+      TF1 *fit_2 = new TF1(hist_name,"pol2",fs1[0]-5,fs1[66]-5);
+      //hfs1->Fit(hist_name,"R");
+      hfs1->Write();
+      //fit_2->Write();
+      outFile_M50002->cd();
+      //hfs0->Write();
+      TF1 *fit_3 = new TF1(hist_name,"pol2",fm0[0]-0.5,fm0[84]-0.5);
+      //hfm0->Fit(hist_name,"R");
+      //fit_3->Write();
+      hfm0->Write();
+      outFile_M50003->cd();
+      TF1 *fit_4 = new TF1(hist_name,"pol2",fm1[0]-2.5,fm1[66]-2.5);
+      //hfm1->Fit(hist_name,"R");
+      //fit_4->Write();
+      hfm1->Write();
+      outFile_M50004->cd();
+      TF1 *fit_5 = new TF1(hist_name,"pol2",fm6[0]-1.0,fm6[83]-1.0);
+      //hfm6->Fit(hist_name,"R");
+      //fit_5->Write();
+      hfm6->Write();
+      outFile_M50005->cd();
+      TF1 *fit_6 = new TF1(hist_name,"pol2",fm7[0]-2.5,fm7[120]-2.5);
+      //hfm7->Fit(hist_name,"R");
+      //fit_6->Write();
+      hfm7->Write();
+      outFile_M50006->cd();
+      hft0->Write();
+      TF1 *fit_7 = new TF1(hist_name,"pol2",ft0[0]-0.1,ft0[68]-0.1);
+      //hft0->Fit(hist_name,"R");
+      //fit_7->Write();
+      outFile_M50007->cd();
+      hft1->Write();
+      TF1 *fit_8 = new TF1(hist_name,"pol2",ft1[0]-0.25,ft1[50]-0.25);
+      //hft1->Fit(hist_name,"R");
+      //fit_8->Write();
+      hft1->Write();
+      outFile_M50008->cd();	
+      TF1 *fit_9 = new TF1(hist_name,"pol2",ft2[0]-0.25,ft2[82]-0.25);
+      //hft2->Fit(hist_name,"R");
+      //fit_9->Write();
+      hft2->Write();
+      //f.Write();
+      //delete hft0; delete  hft1; delete hft2; delete hfs0; delete hfs1; delete hfm0;   delete hfm1;   delete hfm6;   delete hfm7; 
+    }
+  //outFile_M5000->Write();
+  outFile_M5000->Close();outFile_M50001->Close();outFile_M50002->Close();outFile_M50003->Close();outFile_M50004->Close();outFile_M50005->Close();outFile_M50006->Close();outFile_M50007->Close();outFile_M50008->Close();
+
+
+  //TFile f("ch1_splitted_TF1_ZV_NoBinbyBin.root", "RECREATE");	// if name change then change this name also in first time where script add_stat_shapes.py appears
   TString OutRootFileSuffix = "_NoBinbyBin";
   TFile f(OutPutRootFileName + OutRootFileSuffix + ".root", "RECREATE");	// if name change then change this name also in first time where script add_stat_shapes.py appears
 
@@ -889,6 +2182,36 @@ void model(const char *samplefilename,
   wjetdown4->SetName("shape5_W+jetsDown");
   wjetdown4->SetTitle("shape5_W+jetsDown");
   wjetdown4->Write();
+
+TDirectory *cdtof = f.mkdir("aQGC_Histograms");
+   cdtof->cd();    // make the "tof" directory the current directory
+
+    histo_sm->Write();
+  for(int j=0;j<718;j++)
+    {
+      histo_aqgc[j]->Write();
+      histo_aqgc_M1000[j]->Write();
+      histo_aqgc_M1500[j]->Write();
+      histo_aqgc_M2000[j]->Write();
+      histo_aqgc_M2500[j]->Write();
+      histo_aqgc_M3000[j]->Write();
+      histo_aqgc_M3500[j]->Write();
+      histo_aqgc_M4000[j]->Write();
+      histo_aqgc_M4500[j]->Write();
+      histo_aqgc_M5000[j]->Write();
+    }
+TDirectory *cdscale = f.mkdir("Scales");
+cdscale->cd();
+
+  for(int i = 0; i<6; i++)
+    {
+      histo_EWK_CMS_QCDScaleBounding[i]->Write();
+    }
+  for(int i = 0; i<100; i++)
+    {
+      histo_EWK_CMS_PDFScaleBounding[i]->Write();
+    }
+  
 
 
 
@@ -953,7 +2276,7 @@ void model(const char *samplefilename,
 void ZVChannel_GetCard()
 {
   int start_s=clock();
-  model("DibosonBoostedElMuSamples13TeV_WWTree_CommonNtuple_For1and2Lepton_MuonPtScale_2018_07_09_18h38.txt",
+  model("DibosonBoostedElMuSamples13TeV_WWTree_CommonNtuple_For1and2Lepton_MuonPtScale_2018_07_24_10h36.txt",
 	//commonplotvars_chs,
 	"ch1_splitted_TF1_ZV");
 
