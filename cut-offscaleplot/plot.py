@@ -7,7 +7,7 @@ tdrstyle.setTDRStyle()
 CMS_lumi.lumi_7TeV = "4.8 fb^{-1}"
 CMS_lumi.lumi_8TeV = "18.3 fb^{-1}"
 CMS_lumi.lumi_13TeV = "36 fb^{-1}"
-CMS_lumi.writeExtraText = 1
+CMS_lumi.writeExtraText = 0
 CMS_lumi.extraText = "Preliminary"
 CMS_lumi.lumi_sqrtS = "13 TeV" # used with iPeriod = 0, e.g. for simulation-only plots (default is an empty string)
 
@@ -17,7 +17,7 @@ iPos = 10
 
 iPeriod = 4
 
-if( iPos==0 ): CMS_lumi.relPosX = 0.12
+CMS_lumi.relPosX = 0.00
 
 
 fileIn = open("cutoffscale.dat","read")
@@ -33,6 +33,7 @@ c1 = TCanvas( 'c1', 'A Simple Graph Example', 1000,700 )
 #c1.SetGrid()
 
 mg = TMultiGraph()
+
 from array import array
 
 n = count
@@ -43,15 +44,16 @@ coutn  = 0
 for i in fileIn:
    j=i.split()
    print j
-   x.append(float(j[0]))
+   x.append(float(j[0])/1000.)
    y.append(float(j[1]))
    print(' i %f %f %f ' % (coutn,x[coutn],y[coutn]))
    coutn+=1
 fileIn.close()
 gr = TGraph( n, x, y )
-gr.SetLineColor( 2 )
-gr.SetLineWidth( 4 )
-gr.SetMarkerColor( 4 )
+gr.SetLineColor( 1 )
+gr.SetLineWidth( 1 )
+gr.SetLineStyle(3)
+gr.SetMarkerColor( 1 )
 gr.SetMarkerStyle( 21 )
 gr.SetTitle( 'a simple graph' )
 gr.GetXaxis().SetTitle( 'X title' )
@@ -67,15 +69,16 @@ coutn  = 0
 for i in fileIn:
    j=i.split()
    print j
-   xx.append(float(j[0]))
+   xx.append(float(j[0])/1000.)
    yy.append(float(j[2]))
    print(' i %f %f %f ' % (coutn,xx[coutn],yy[coutn]))
    coutn+=1
 
 gr1 = TGraph( n, xx, yy )
-gr1.SetLineColor( 2 )
-gr1.SetLineWidth( 4 )
-gr1.SetMarkerColor( 4 )
+gr1.SetLineColor( 1 )
+gr1.SetLineWidth( 1 )
+gr1.SetLineStyle(3)
+gr1.SetMarkerColor( 1 )
 gr1.SetMarkerStyle( 21 )
 ##gr1.SetTitle( 'a simple graph' )
 ##gr1.GetXaxis().SetTitle( 'X title' )
@@ -89,7 +92,7 @@ mg.SetMinimum(-0.4)
 
 #mg.GetXaxis().SetTitle("M_{WW} (GeV) CutOff Scale")
 #mg.GetYaxis().SetTitle("FT0 (95% CL)")
-mg.SetTitle(";M_{WW} (GeV) CutOff Scale;FT0 (95% CL)");
+mg.SetTitle(";M_{VV} cut-off scale (TeV);FT0 (#times 10^{-12} TeV^{-4})");
 
 from ROOT import TPad, TH1F
 
@@ -99,7 +102,7 @@ pad1.SetBottomMargin(0.13)  # joins upper and lower plot
 pad1.SetLeftMargin(0.15)
 pad1.SetRightMargin(0.0)
 #pad1.SetLogy(1)
-pad1.SetGridx()
+#pad1.SetGridx()
 pad1.SetTickx(1)
 pad1.SetTicky(1)
 pad1.Draw()
@@ -119,7 +122,7 @@ pad2.Draw()
 c1.cd()
 
 pad1.cd()
-mg.Draw("AP ")
+mg.Draw("APL")
 CMS_lumi.CMS_lumi(c1, iPeriod, iPos)
 
 pad2.cd()
@@ -131,7 +134,7 @@ h1.SetMaximum(0.4)
 h1.SetMinimum(-0.4)
 h1.SetMarkerSize(1);
 h1.SetMarkerStyle(21);
-h1.SetMarkerColor(4);
+h1.SetMarkerColor(1);
 h1.GetXaxis().SetBinLabel(1,"#infty");
 h1.GetXaxis().SetLabelSize(0.4);
 h1.GetYaxis().SetLabelOffset(999);
@@ -147,7 +150,7 @@ h2.SetMaximum(0.4)
 h2.SetMinimum(-0.4)
 h2.SetMarkerSize(1);
 h2.SetMarkerStyle(21);
-h2.SetMarkerColor(4);
+h2.SetMarkerColor(1);
 h2.GetXaxis().SetBinLabel(1,"#infty");
 h2.GetXaxis().SetLabelSize(0.3);
 h2.GetYaxis().SetLabelOffset(999);
@@ -158,4 +161,5 @@ h2.Draw("P same")
 
 
 
-c1.SaveAs("test.png")
+c1.SaveAs("cut-off_FT0.png")
+c1.SaveAs("cut-off_FT0.pdf")

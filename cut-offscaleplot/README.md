@@ -4,4 +4,5 @@
 
 # How to
 
-1. prepare cut of txt file then run python file
+1. In text file **cutoffscale_FT.dat** and **cutoffscale_FS.dat** aQGC cut-off limit is summarized for FS and FT.
+

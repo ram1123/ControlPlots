@@ -87,6 +87,8 @@ def CMS_lumi(pad,  iPeriod,  iPosX ):
         lumiText += "8 TeV"
     elif ( iPeriod==0 ):
         lumiText += lumi_sqrtS
+    elif ( iPeriod==9 ):
+        lumiText = ""
             
     print lumiText
 
@@ -107,7 +109,7 @@ def CMS_lumi(pad,  iPeriod,  iPosX ):
         latex.SetTextFont(cmsTextFont)
         latex.SetTextAlign(11) 
         latex.SetTextSize(cmsTextSize*t)    
-        latex.DrawLatex(l,1-t+lumiTextOffset*t,cmsText)
+        latex.DrawLatex(l,1.5+t+lumiTextOffset*t,cmsText)
   
     pad.cd()
 
@@ -140,7 +142,7 @@ def CMS_lumi(pad,  iPeriod,  iPosX ):
             latex.SetTextFont(cmsTextFont)
             latex.SetTextSize(cmsTextSize*t)
             latex.SetTextAlign(align_)
-            latex.DrawLatex(posX_, posY_, cmsText)
+            latex.DrawLatex(posX_-0.02, posY_+0.08, cmsText)
             if( writeExtraText ) :
                 latex.SetTextFont(extraTextFont)
                 latex.SetTextAlign(align_)
