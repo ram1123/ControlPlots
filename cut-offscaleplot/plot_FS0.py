@@ -2,12 +2,12 @@ import CMS_lumi, tdrstyle
 tdrstyle.setTDRStyle()
 
 
-
+pre = 1
 #change the CMS_lumi variables (see CMS_lumi.py)
 CMS_lumi.lumi_7TeV = "4.8 fb^{-1}"
 CMS_lumi.lumi_8TeV = "18.3 fb^{-1}"
 CMS_lumi.lumi_13TeV = "36 fb^{-1}"
-CMS_lumi.writeExtraText = 0
+CMS_lumi.writeExtraText = pre
 CMS_lumi.extraText = "Preliminary"
 CMS_lumi.lumi_sqrtS = "13 TeV" # used with iPeriod = 0, e.g. for simulation-only plots (default is an empty string)
 
@@ -20,10 +20,10 @@ iPeriod = 4
 CMS_lumi.relPosX = 0.00
 
 
-fileIn = open("cutoffscale.dat","read")
+fileIn = open("cutoffscale_FS.dat","read")
 
 
-count = len(open("cutoffscale.dat").readlines(  ))
+count = len(open("cutoffscale_FS.dat").readlines(  ))
 print count
 
 from ROOT import TCanvas, TGraph, TMultiGraph,TAxis
@@ -44,7 +44,7 @@ coutn  = 0
 for i in fileIn:
    j=i.split()
    print j
-   x.append(float(j[0])/1000.)
+   x.append(float(j[0]))
    y.append(float(j[1]))
    print(' i %f %f %f ' % (coutn,x[coutn],y[coutn]))
    coutn+=1
@@ -63,13 +63,13 @@ gr.GetYaxis().SetTitle( 'Y title' )
 
 
 
-fileIn = open("cutoffscale.dat","read")
+fileIn = open("cutoffscale_FS.dat","read")
 xx, yy = array( 'd' ), array( 'd' )
 coutn  = 0
 for i in fileIn:
    j=i.split()
    print j
-   xx.append(float(j[0])/1000.)
+   xx.append(float(j[0]))
    yy.append(float(j[2]))
    print(' i %f %f %f ' % (coutn,xx[coutn],yy[coutn]))
    coutn+=1
@@ -87,12 +87,12 @@ gr1.SetMarkerStyle( 21 )
 
 mg.Add(gr)
 mg.Add(gr1)
-mg.SetMaximum(0.4)
-mg.SetMinimum(-0.4)
+mg.SetMaximum(8.0)
+mg.SetMinimum(-8.0)
 
 #mg.GetXaxis().SetTitle("M_{WW} (GeV) CutOff Scale")
-#mg.GetYaxis().SetTitle("FT0 (95% CL)")
-mg.SetTitle(";M_{VV} cut-off scale (TeV);FT0 (#times 10^{-12} TeV^{-4})");
+#mg.GetYaxis().SetTitle("FS0 (95% CL)")
+mg.SetTitle(";M_{VV} cut-off scale (TeV);FS0 (#times 10^{-12} TeV^{-4})");
 
 from ROOT import TPad, TH1F
 
@@ -128,7 +128,7 @@ CMS_lumi.CMS_lumi(c1, iPeriod, iPos)
 pad2.cd()
 h1 = TH1F("h1","",1,0,10);
 
-h1.SetBinContent(1,0.15);
+h1.SetBinContent(1,3.91);
 h1.SetStats(0)
 h1.SetMaximum(0.4)
 h1.SetMinimum(-0.4)
@@ -144,7 +144,7 @@ h1.Draw("P")
 
 h2 = TH1F("h2","",1,0,10);
 
-h2.SetBinContent(1,-0.15);
+h2.SetBinContent(1,-3.87);
 h2.SetStats(0)
 h2.SetMaximum(0.4)
 h2.SetMinimum(-0.4)
@@ -161,5 +161,9 @@ h2.Draw("P same")
 
 
 
-c1.SaveAs("cut-off_FT0.png")
-c1.SaveAs("cut-off_FT0.pdf")
+if pre:
+	c1.SaveAs("cut-off_FS0_CMSpre.png")
+	c1.SaveAs("cut-off_FS0_CMSpre.pdf")
+else:
+	c1.SaveAs("cut-off_FS0.png")
+	c1.SaveAs("cut-off_FS0.pdf")
