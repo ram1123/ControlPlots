@@ -31,7 +31,6 @@
 #include <Python.h>
 
 
-#include "controlplotvars_CHS.h"
 
 typedef struct SampleInfo_t {
   int     index;
@@ -188,7 +187,6 @@ void loadCutString(const char *filename, TString& cutstring)
 //======================================================================
 
 void model(const char *samplefilename,
-	   const plotVar_t plotvars[] = commonplotvars_chs,
 	   const TString OutPutRootFileName = "ch1_splitted_TF1")
 {
   cout<< "done..." << endl;
@@ -204,7 +202,7 @@ void model(const char *samplefilename,
   if (sdata->Tree())
     cout << "ndata =" << sdata->Tree()->GetEntries() <<endl;
 
-  TFile* wjetBkgSystFile = new TFile("bkg_estimation.root","READ");
+  TFile* wjetBkgSystFile = new TFile("WV_bkg_estimation_4Bins.root","READ");
   
   TH1F* wjet = (TH1F*)wjetBkgSystFile->Get("WjetFitSyst_SignalRegion_Corr_Hist_From_Data_4bins_Nominal");
   TH1F* wjetup = (TH1F*)wjetBkgSystFile->Get("WjetFitSyst_SignalRegion_Corr_Hist_From_Data_4bins_Par0Up");
@@ -1244,11 +1242,10 @@ void model(const char *samplefilename,
   system(command6);
 }
 
-void WVChannel_GetCard()
+void WVChannel_GetCard_WithHiggsDistributions()
 {
   int start_s=clock();
-  model("DibosonBoostedElMuSamples13TeV_WWTree_CommonNtuple_For1and2Lepton_MuonPtScale_2018_07_09_18h38_1.txt",
-	commonplotvars_chs,
+  model("DibosonBoostedElMuSamples13TeV_WWTree_CommonNtuple_For1and2Lepton_MuonPtScale_2018_07_24_10h36.txt",
 	"DibosonBoostedElMuSamples13TeV_WWTree_CommonNtuple_For1and2Lepton_MuonPtScale_2018_07_09_18h38_Higgs_New");
 
   int stop_s=clock();
