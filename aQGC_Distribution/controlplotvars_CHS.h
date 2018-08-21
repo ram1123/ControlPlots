@@ -8,7 +8,10 @@ const plotVar_t commonplotvars_chs[] = {
 ////
 //------------    LEPTONS  	-------------------
 
- { "l_pt1",		50, 1500, 26, 3,		"Lepton p_{T} (GeV)",     "lepton_pt",       50, 1500, 26, 1 },
+ { "l_pt1",		30, 1530, 30, 3,		"Lepton p_{T} (GeV)",     "lepton_pt_30bin",       30, 1530, 30, 1 },
+ { "l_pt1",		30, 1500, 147, 3,		"Lepton p_{T} (GeV)",     "lepton_pt_147bin",       50, 1500, 147, 1 },
+ { "l_pt1",		30, 1500, 49, 3,		"Lepton p_{T} (GeV)",     "lepton_pt_49bin",       50, 1500, 49, 1 },
+ { "l_pt1",		30, 1500, 26, 3,		"Lepton p_{T} (GeV)",     "lepton_pt_26bin",       50, 1500, 26, 1 },
  { "l_eta1",		-2.5, 2.5, 8, 1,	"Lepton #eta",            "lepton_eta",    -2.5,  2.5,  8, 0 },
 
 //-------------- 	MET	-------------------
@@ -37,7 +40,7 @@ const plotVar_t commonplotvars_chs[] = {
  { "mass_lvj_type0_PuppiAK8", 	600, 4500, 78, 3, "M_{WW} (GeV)",		"mass_lvj_type0_PuppiAK8_78bin",    600, 4500, 78, 1},
  { "mass_lvj_type0_PuppiAK8", 	600, 4500, 8, 3, "M_{WW} (GeV)",		"mass_lvj_type0_PuppiAK8_8bin",    600, 4500, 8, 1},
  { "mass_lvj_type0_PuppiAK8", 	600, 2500, 4, 3, "M_{WW} (GeV)",		"mass_lvj_type0_PuppiAK8_4bin",    600, 2500, 4, 1},
-//
+
 
  { "", 0.0,0.0,0,0,"","",0.,0.,0,0 }
 };

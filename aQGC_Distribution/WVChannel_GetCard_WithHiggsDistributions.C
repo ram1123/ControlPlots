@@ -476,7 +476,7 @@ for (int var=0; var<PlotVars.size(); var++) cout<<"Vars to plots  = "<< PlotVars
 
       if (1)	//----------------	Nominal, PU up, PU down
       {
-	      if(!(l_pt2<0 && l_pt1>50)) continue;
+	      if(!(l_pt2<0 && l_pt1>30)) continue;
 	      if(!(((type==0)&&(abs(l_eta1)<2.4))||((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566))))) continue;
 	      if(!(((type==0)&&(pfMET_Corr>50)) || ((type==1)&&(pfMET_Corr>80)))) continue;
 	      if(!((ungroomed_PuppiAK8_jet_pt>200)&&(abs(ungroomed_PuppiAK8_jet_eta)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55))) continue;
@@ -498,6 +498,7 @@ for (int var=0; var<PlotVars.size(); var++) cout<<"Vars to plots  = "<< PlotVars
 		  {
 		  //cout<<" type = "<< typeid(PlotVars[k]).name()<< "\t\t" << typeid((TString(PlotVars[k])).Data()).name() << endl;
 		//cout<<"Value for var " << PlotVars[k] << "\t\t" << mass_lvj_type0_PuppiAK8 << endl;
+		if (mass_lvj_type0_PuppiAK8>1550)
 		for (int j=0;j<718; j++){
 		   if (PlotVars[k] == "mass_lvj_type0_PuppiAK8")
 	      	   hists[count]->Fill(mass_lvj_type0_PuppiAK8,((LHEWeight[j+446]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));

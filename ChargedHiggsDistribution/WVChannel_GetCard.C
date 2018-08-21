@@ -464,7 +464,7 @@ void model(const char *samplefilename,
 
       if (1)	//----------------	Nominal, PU up, PU down
       {
-	      if(!(l_pt2<0 && l_pt1>30)) continue;
+	      if(!(l_pt2<0 && l_pt1>50)) continue;
 	      if(!(((type==0)&&(abs(l_eta1)<2.4))||((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566))))) continue;
 	      if(!(((type==0)&&(pfMET_Corr>50)) || ((type==1)&&(pfMET_Corr>80)))) continue;
 	      if(!((ungroomed_PuppiAK8_jet_pt>200)&&(abs(ungroomed_PuppiAK8_jet_eta)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55))) continue;
@@ -550,9 +550,9 @@ void model(const char *samplefilename,
 void WVChannel_GetCard()
 {
   int start_s=clock();
-  model("DibosonBoostedElMuSamples13TeV_WWTree_CommonNtuple_For1and2Lepton_MuonPtScale_2018_07_09_18h38.txt",
+  model("DibosonBoostedElMuSamples13TeV_WWTree_CommonNtuple_For1and2Lepton_MuonPtScale_2018_07_24_10h36.txt",
 	commonplotvars_chs,
-	"ch1_splitted_TF1_Mass_DibosonBoostedElMuSamples13TeV_WWTree_CommonNtuples_2018_07_06_16h38");
+	"ChargedHiggs_VariableBin");
 
   int stop_s=clock();
   cout << "time: " << (stop_s-start_s)/double(CLOCKS_PER_SEC)*1000 << endl;
