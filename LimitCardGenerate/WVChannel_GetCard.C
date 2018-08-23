@@ -202,7 +202,6 @@ void model(const char *samplefilename,
   if (sdata->Tree())
     cout << "ndata =" << sdata->Tree()->GetEntries() <<endl;
 
-  //TFile* wjetBkgSystFile = new TFile("bkg_estimation_4Bins.root","READ");
   TFile* wjetBkgSystFile = new TFile("WV_bkg_estimation_4Bins_50GeVLepCut.root","READ");
   
   TH1F* wjet = (TH1F*)wjetBkgSystFile->Get("WjetFitSyst_SignalRegion_Corr_Hist_From_Data_4bins_Nominal");
@@ -341,7 +340,10 @@ void model(const char *samplefilename,
     float ZeppenfeldWL_type0=-1, ZeppenfeldWH=-1, BosonCentrality_type0=-1;
     float ZeppenfeldWL_type0_LEP_Up=-1, ZeppenfeldWL_type0_LEP_Down=-1, BosonCentrality_type0_LEP_Up=-1, BosonCentrality_type0_LEP_Down=-1;
     float LHEWeight[1164];
-    float ungroomed_PuppiAK8_jet_pt_jes_up=-1, ungroomed_PuppiAK8_jet_pt_jes_dn=-1, ungroomed_PuppiAK8_jet_eta_jes_up=-1, ungroomed_PuppiAK8_jet_eta_jes_dn=-1, vbf_maxpt_jj_m_jes_up=-1, vbf_maxpt_jj_m_jes_dn=-1, vbf_maxpt_j2_eta_jes_up=-1, vbf_maxpt_j2_eta_jes_dn=-1, vbf_maxpt_j1_pt_jes_up=-1, vbf_maxpt_j1_pt_jes_dn=-1, vbf_maxpt_j2_pt_jes_up=-1, vbf_maxpt_j2_pt_jes_dn=-1, pfMET_jes_up=-1, pfMET_jes_dn=-1, ZeppenfeldWL_type0_jes_up=-1, ZeppenfeldWL_type0_jes_dn=-1, ZeppenfeldWH_jes_up=-1, ZeppenfeldWH_jes_dn=-1, BosonCentrality_type0_jes_up=-1, BosonCentrality_type0_jes_dn=-1, vbf_maxpt_j1_eta_jes_up=-1, vbf_maxpt_j1_eta_jes_dn=-1;
+    float ungroomed_PuppiAK8_jet_pt_jes_up=-1, ungroomed_PuppiAK8_jet_pt_jes_dn=-1, ungroomed_PuppiAK8_jet_eta_jes_up=-1, ungroomed_PuppiAK8_jet_eta_jes_dn=-1, vbf_maxpt_jj_m_jes_up=-1, vbf_maxpt_jj_m_jes_dn=-1, vbf_maxpt_j2_eta_jes_up=-1, vbf_maxpt_j2_eta_jes_dn=-1, vbf_maxpt_j1_pt_jes_up=-1, vbf_maxpt_j1_pt_jes_dn=-1, vbf_maxpt_j2_pt_jes_up=-1, vbf_maxpt_j2_pt_jes_dn=-1;
+    //float pfMET_jes_up=-1;
+    float pfMET_jes_dn=-1, ZeppenfeldWL_type0_jes_up=-1, ZeppenfeldWL_type0_jes_dn=-1, ZeppenfeldWH_jes_up=-1, ZeppenfeldWH_jes_dn=-1, BosonCentrality_type0_jes_up=-1, BosonCentrality_type0_jes_dn=-1, vbf_maxpt_j1_eta_jes_up=-1, vbf_maxpt_j1_eta_jes_dn=-1;
+    float pfMET_jes_up=-1.0;
     float pfMET_Corr_jerup=-1, pfMET_Corr_jerdn=-1, ZeppenfeldWL_type0_jer_up=-1, ZeppenfeldWL_type0_jer_dn=-1;
     
     mytree->SetBranchStatus("*",0);
@@ -520,20 +522,21 @@ void model(const char *samplefilename,
 
       if (1)	//----------------	Nominal, PU up, PU down
       {
-	      if(!(l_pt2<0 && l_pt1>50)) continue;
-	      if(!(((type==0)&&(abs(l_eta1)<2.4))||((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566))))) continue;
-	      if(!(((type==0)&&(pfMET_Corr>50)) || ((type==1)&&(pfMET_Corr>80)))) continue;
-	      if(!((ungroomed_PuppiAK8_jet_pt>200)&&(abs(ungroomed_PuppiAK8_jet_eta)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55))) continue;
-	      if(!((PuppiAK8_jet_mass_so_corr>65) && (PuppiAK8_jet_mass_so_corr<105))) continue;
-	      if(!(nBTagJet_loose==0)) continue;
-	      if(!(vbf_maxpt_jj_m>800)) continue;
-	      if(!(abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta)>4.0)) continue;
-	      if(!((vbf_maxpt_j1_pt>30) && (vbf_maxpt_j2_pt>30))) continue;
-	      if(!(mass_lvj_type0_PuppiAK8>600)) continue;
-	      if(!(BosonCentrality_type0>1.0)) continue;
-	      if(!((abs(ZeppenfeldWL_type0)/abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta))<0.3)) continue;
-	      if(!((abs(ZeppenfeldWH)/abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta))<0.3)) continue;
-    
+	      if ( (l_pt2<0 && l_pt1>50) && (((type==0)&&(abs(l_eta1)<2.4))||((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566)))) &&
+	           (((type==0)&&(pfMET_Corr>50)) || ((type==1)&&(pfMET_Corr>80))) &&
+		   ((ungroomed_PuppiAK8_jet_pt>200)&&(abs(ungroomed_PuppiAK8_jet_eta)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55)) &&
+		   ((PuppiAK8_jet_mass_so_corr>65) && (PuppiAK8_jet_mass_so_corr<105)) &&
+		   (nBTagJet_loose==0) &&
+		   (vbf_maxpt_jj_m>800) &&
+		   (abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta)>4.0) &&
+		   ((vbf_maxpt_j1_pt>30) && (vbf_maxpt_j2_pt>30)) &&
+		   (mass_lvj_type0_PuppiAK8>600) &&
+		   (BosonCentrality_type0>1.0) &&
+		   ((abs(ZeppenfeldWL_type0)/abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta))<0.3) &&
+		   ((abs(ZeppenfeldWH)/abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta))<0.3)
+	      )
+	      {
+
 	      if(s->name().EqualTo("data"))	 hists[0]->Fill(mass_lvj_type0_PuppiAK8);
 	      if(s->name().EqualTo("WV_EWK"))	 hists[1]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("Diboson")) 	 hists[14]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
@@ -603,144 +606,156 @@ void model(const char *samplefilename,
 		   if((mass_lvj_type0_PuppiAK8<5000)) histo_aqgc_M5000[j]->Fill(mass_lvj_type0_PuppiAK8,((LHEWeight[j+446]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	    	}
 	  	}
-
+	      }
       }
 
       if (1)	//--------------------------- LEP up
-	      {
-	      if(!(l_pt2_Up<0 && l_pt1_Up>50)) continue;
-	      if(!(((type==0)&&(abs(l_eta1)<2.4))||((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566))))) continue;
-	      if(!(((type==0)&&(pfMET_Corr>50)) || ((type==1)&&(pfMET_Corr>80)))) continue;
-	      if(!((ungroomed_PuppiAK8_jet_pt>200)&&(abs(ungroomed_PuppiAK8_jet_eta)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55))) continue;
-	      if(!((PuppiAK8_jet_mass_so_corr>65) && (PuppiAK8_jet_mass_so_corr<105))) continue;
-	      if(!(nBTagJet_loose==0)) continue;
-	      if(!(vbf_maxpt_jj_m>800)) continue;
-	      if(!(abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta)>4.0)) continue;
-	      if(!((vbf_maxpt_j1_pt>30) && (vbf_maxpt_j2_pt>30))) continue;
-	      if(!(mass_lvj_type0_LEP_Up>600)) continue;
-	      if(!(BosonCentrality_type0_LEP_Up>1.0)) continue;
-	      if(!((abs(ZeppenfeldWL_type0_LEP_Up)/abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta))<0.3)) continue;
-	      if(!((abs(ZeppenfeldWH)/abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta))<0.3)) continue;
-   
+      {
+	  if (
+	      (l_pt2_Up<0 && l_pt1_Up>50) &&
+	      (((type==0)&&(abs(l_eta1)<2.4))||((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566)))) &&
+	      (((type==0)&&(pfMET_Corr>50)) || ((type==1)&&(pfMET_Corr>80))) &&
+	      ((ungroomed_PuppiAK8_jet_pt>200)&&(abs(ungroomed_PuppiAK8_jet_eta)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55)) &&
+	      ((PuppiAK8_jet_mass_so_corr>65) && (PuppiAK8_jet_mass_so_corr<105)) &&
+	      (nBTagJet_loose==0) &&
+	      (vbf_maxpt_jj_m>800) &&
+	      (abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta)>4.0) &&
+	      ((vbf_maxpt_j1_pt>30) && (vbf_maxpt_j2_pt>30)) &&
+	      (mass_lvj_type0_LEP_Up>600) &&
+	      (BosonCentrality_type0_LEP_Up>1.0) &&
+	      ((abs(ZeppenfeldWL_type0_LEP_Up)/abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta))<0.3) &&
+	      ((abs(ZeppenfeldWH)/abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta))<0.3)
+	   ){
 	      //if(s->name().EqualTo("data"))	 histo_data_LEPUp->Fill(mass_lvj_type0_LEP_Up);
 	      if(s->name().EqualTo("WV_EWK"))	 hists[2]->Fill(mass_lvj_type0_LEP_Up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("Diboson"))   hists[15]->Fill(mass_lvj_type0_LEP_Up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("top"))  	 hists[28]->Fill(mass_lvj_type0_LEP_Up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("Vjets"))	 hists[41]->Fill(mass_lvj_type0_LEP_Up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	   }
       }
 
       if (1)	//--------------------------- LEP down
       {
-	      if(!(l_pt2_Down<0 && l_pt1_Down>50)) continue;
-	      if(!(((type==0)&&(abs(l_eta1)<2.4))||((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566))))) continue;
-	      if(!(((type==0)&&(pfMET_Corr>50)) || ((type==1)&&(pfMET_Corr>80)))) continue;
-	      if(!((ungroomed_PuppiAK8_jet_pt>200)&&(abs(ungroomed_PuppiAK8_jet_eta)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55))) continue;
-	      if(!((PuppiAK8_jet_mass_so_corr>65) && (PuppiAK8_jet_mass_so_corr<105))) continue;
-	      if(!(nBTagJet_loose==0)) continue;
-	      if(!(vbf_maxpt_jj_m>800)) continue;
-	      if(!(abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta)>4.0)) continue;
-	      if(!((vbf_maxpt_j1_pt>30) && (vbf_maxpt_j2_pt>30))) continue;
-	      if(!(mass_lvj_type0_LEP_Down>600)) continue;
-	      if(!(BosonCentrality_type0_LEP_Down>1.0)) continue;
-	      if(!((abs(ZeppenfeldWL_type0_LEP_Down)/abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta))<0.3)) continue;
-	      if(!((abs(ZeppenfeldWH)/abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta))<0.3)) continue;
-   
+          if (
+	      (l_pt2_Down<0 && l_pt1_Down>50) &&
+	      (((type==0)&&(abs(l_eta1)<2.4))||((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566)))) &&
+	      (((type==0)&&(pfMET_Corr>50)) || ((type==1)&&(pfMET_Corr>80))) &&
+	      ((ungroomed_PuppiAK8_jet_pt>200)&&(abs(ungroomed_PuppiAK8_jet_eta)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55)) &&
+	      ((PuppiAK8_jet_mass_so_corr>65) && (PuppiAK8_jet_mass_so_corr<105)) &&
+	      (nBTagJet_loose==0) &&
+	      (vbf_maxpt_jj_m>800) &&
+	      (abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta)>4.0) &&
+	      ((vbf_maxpt_j1_pt>30) && (vbf_maxpt_j2_pt>30)) &&
+	      (mass_lvj_type0_LEP_Down>600) &&
+	      (BosonCentrality_type0_LEP_Down>1.0) &&
+	      ((abs(ZeppenfeldWL_type0_LEP_Down)/abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta))<0.3) &&
+	      ((abs(ZeppenfeldWH)/abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta))<0.3) 
+          ){
 	      //if(s->name().EqualTo("data"))	 histo_data_LEPDown->Fill(mass_lvj_type0_LEP_Down);
 	      if(s->name().EqualTo("WV_EWK"))	 hists[3]->Fill(mass_lvj_type0_LEP_Down,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("Diboson"))   hists[16]->Fill(mass_lvj_type0_LEP_Down,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("top"))  	 hists[29]->Fill(mass_lvj_type0_LEP_Down,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("Vjets"))	 hists[42]->Fill(mass_lvj_type0_LEP_Down,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+          }
       }
 
 	if (1)	//-------------------	JES up
 	{
-	   if(!(l_pt2<0 && l_pt1>50)) continue;
-	   if(!(((type==0)&&(abs(l_eta1)<2.4))||((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566))))) continue;
-	   if(!((ungroomed_PuppiAK8_jet_pt_jes_up>200)&&(abs(ungroomed_PuppiAK8_jet_eta_jes_up)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55))) continue;
-	   if(!(nBTagJet_loose==0)) continue;
-	   if(!(vbf_maxpt_jj_m_jes_up>800)) continue;
-	   if(!((vbf_maxpt_j1_pt_jes_up>30) && (vbf_maxpt_j2_pt_jes_up>30))) continue;
-	   if(!(abs(vbf_maxpt_j2_eta_jes_up-vbf_maxpt_j1_eta_jes_up)>4.0)) continue;
-	   if(!((PuppiAK8_jet_mass_so_corr>65) && (PuppiAK8_jet_mass_so_corr<105))) continue;
-	   if(!(((type==0)&&(pfMET_jes_up>50)) || ((type==1)&&(pfMET_jes_up>80)))) continue;
-	   if(!((abs(ZeppenfeldWL_type0_jes_up)/abs(vbf_maxpt_j2_eta_jes_up-vbf_maxpt_j1_eta_jes_up))<0.3)) continue;
-	   if(!((abs(ZeppenfeldWH_jes_up)/abs(vbf_maxpt_j2_eta_jes_up-vbf_maxpt_j1_eta_jes_up))<0.3)) continue;
-	   if(!(BosonCentrality_type0_jes_up>1.0)) continue;
-	   if(!(mass_lvj_type0_PuppiAK8_jes_up>600)) continue;
-
+	   if ( (l_pt2<0 && l_pt1>50) && (((type==0)&&(abs(l_eta1)<2.4))||((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566)))) &&
+	        (((type==0)&&(pfMET_jes_up>50)) || ((type==1)&&(pfMET_jes_up>80))) &&
+		((ungroomed_PuppiAK8_jet_pt_jes_up>200)&&(abs(ungroomed_PuppiAK8_jet_eta_jes_up)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55)) &&
+		((PuppiAK8_jet_mass_so_corr>65) && (PuppiAK8_jet_mass_so_corr<105)) &&
+		(nBTagJet_loose==0) &&
+		(vbf_maxpt_jj_m_jes_up>800) &&
+		(abs(vbf_maxpt_j2_eta_jes_up-vbf_maxpt_j1_eta_jes_up)>4.0) &&
+		((vbf_maxpt_j1_pt_jes_up>30) && (vbf_maxpt_j2_pt_jes_up>30)) && 
+		(mass_lvj_type0_PuppiAK8_jes_up>600) &&
+		(BosonCentrality_type0_jes_up>1.0) &&
+		((abs(ZeppenfeldWL_type0_jes_up)/abs(vbf_maxpt_j2_eta_jes_up-vbf_maxpt_j1_eta_jes_up))<0.3) &&
+		((abs(ZeppenfeldWH_jes_up)/abs(vbf_maxpt_j2_eta_jes_up-vbf_maxpt_j1_eta_jes_up))<0.3)
+	   )
+	   {
 	   //if(s->name().EqualTo("data"))	 histo_data_LEPDown->Fill(mass_lvj_type0_PuppiAK8_jes_up);
 	   if(s->name().EqualTo("WV_EWK"))	 hists[4] ->Fill(mass_lvj_type0_PuppiAK8_jes_up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	   if(s->name().EqualTo("Diboson"))  	 hists[17]->Fill(mass_lvj_type0_PuppiAK8_jes_up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	   if(s->name().EqualTo("top"))  	 hists[30]->Fill(mass_lvj_type0_PuppiAK8_jes_up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	   if(s->name().EqualTo("Vjets"))	 hists[43]->Fill(mass_lvj_type0_PuppiAK8_jes_up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	   }
 	}
 
 	if (1)	//-------------------	JES down
 	{
-	   if(!(l_pt2<0 && l_pt1>50)) continue;
-	   if(!(((type==0)&&(abs(l_eta1)<2.4))||((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566))))) continue;
-	   if(!(((type==0)&&(pfMET_jes_dn>50)) || ((type==1)&&(pfMET_jes_dn>80)))) continue;
-	   if(!((ungroomed_PuppiAK8_jet_pt_jes_dn>200)&&(abs(ungroomed_PuppiAK8_jet_eta_jes_dn)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55))) continue;
-	   if(!((PuppiAK8_jet_mass_so_corr>65) && (PuppiAK8_jet_mass_so_corr<105))) continue;
-	   if(!(nBTagJet_loose==0)) continue;
-	   if(!(vbf_maxpt_jj_m_jes_dn>800)) continue;
-	   if(!(abs(vbf_maxpt_j2_eta_jes_dn-vbf_maxpt_j1_eta_jes_dn)>4.0)) continue;
-	   if(!((vbf_maxpt_j1_pt_jes_dn>30) && (vbf_maxpt_j2_pt_jes_dn>30))) continue;
-	   if(!(mass_lvj_type0_PuppiAK8_jes_dn>600)) continue;
-	   if(!(BosonCentrality_type0_jes_dn>1.0)) continue;
-	   if(!((abs(ZeppenfeldWL_type0_jes_dn)/abs(vbf_maxpt_j2_eta_jes_dn-vbf_maxpt_j1_eta_jes_dn))<0.3)) continue;
-	   if(!((abs(ZeppenfeldWH_jes_dn)/abs(vbf_maxpt_j2_eta_jes_dn-vbf_maxpt_j1_eta_jes_dn))<0.3)) continue;
-
+	   if ( (l_pt2<0 && l_pt1>50) && (((type==0)&&(abs(l_eta1)<2.4))||((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566)))) &&
+	        (((type==0)&&(pfMET_jes_dn>50)) || ((type==1)&&(pfMET_jes_dn>80))) &&
+		((ungroomed_PuppiAK8_jet_pt_jes_dn>200)&&(abs(ungroomed_PuppiAK8_jet_eta_jes_dn)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55)) &&
+		((PuppiAK8_jet_mass_so_corr>65) && (PuppiAK8_jet_mass_so_corr<105)) &&
+		(nBTagJet_loose==0) &&
+		(vbf_maxpt_jj_m_jes_dn>800) &&
+		(abs(vbf_maxpt_j2_eta_jes_dn-vbf_maxpt_j1_eta_jes_dn)>4.0) &&
+		((vbf_maxpt_j1_pt_jes_dn>30) && (vbf_maxpt_j2_pt_jes_dn>30)) && 
+		(mass_lvj_type0_PuppiAK8_jes_dn>600) &&
+		(BosonCentrality_type0_jes_dn>1.0) &&
+		((abs(ZeppenfeldWL_type0_jes_dn)/abs(vbf_maxpt_j2_eta_jes_dn-vbf_maxpt_j1_eta_jes_dn))<0.3) &&
+		((abs(ZeppenfeldWH_jes_dn)/abs(vbf_maxpt_j2_eta_jes_dn-vbf_maxpt_j1_eta_jes_dn))<0.3)
+	   )
+	   {
 	   //if(s->name().EqualTo("data"))	 histo_data_LEPDown->Fill(mass_lvj_type0_PuppiAK8_jes_dn);
-	   if(s->name().EqualTo("WV_EWK"))	 hists[5]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	   if(s->name().EqualTo("WV_EWK"))	 hists[5] ->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	   if(s->name().EqualTo("Diboson"))  	 hists[18]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	   if(s->name().EqualTo("top"))  	 hists[31]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	   if(s->name().EqualTo("Vjets"))	 hists[44]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	   }
 	}
 
 	if (1)	//-------------------	JER up
 	{
-	   if(!(l_pt2<0 && l_pt1>50)) continue;
-	   if(!(((type==0)&&(abs(l_eta1)<2.4))||((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566))))) continue;
-	   if(!(((type==0)&&(pfMET_Corr_jerup>50)) || ((type==1)&&(pfMET_Corr_jerup>80)))) continue;
-	   if(!((ungroomed_PuppiAK8_jet_pt>200)&&(abs(ungroomed_PuppiAK8_jet_eta)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55))) continue;
-	   if(!((PuppiAK8_jet_mass_so_corr>65) && (PuppiAK8_jet_mass_so_corr<105))) continue;
-	   if(!(nBTagJet_loose==0)) continue;
-	   if(!(vbf_maxpt_jj_m>800)) continue;
-	   if(!(abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta)>4.0)) continue;
-	   if(!((vbf_maxpt_j1_pt>30) && (vbf_maxpt_j2_pt>30))) continue;
-	   if(!(mass_lvj_type0_PuppiAK8_jer_up>600)) continue;
-	   if(!(BosonCentrality_type0>1.0)) continue;
-	   if(!((abs(ZeppenfeldWL_type0_jer_up)/abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta))<0.3)) continue;
-	   if(!((abs(ZeppenfeldWH)/abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta))<0.3)) continue;
+          if(
+	   (l_pt2<0 && l_pt1>50) &&
+	   (((type==0)&&(abs(l_eta1)<2.4))||((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566)))) &&
+	   (((type==0)&&(pfMET_Corr_jerup>50)) || ((type==1)&&(pfMET_Corr_jerup>80))) &&
+	   ((ungroomed_PuppiAK8_jet_pt>200)&&(abs(ungroomed_PuppiAK8_jet_eta)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55)) &&
+	   ((PuppiAK8_jet_mass_so_corr>65) && (PuppiAK8_jet_mass_so_corr<105)) &&
+	   (nBTagJet_loose==0) &&
+	   (vbf_maxpt_jj_m>800) &&
+	   (abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta)>4.0) &&
+	   ((vbf_maxpt_j1_pt>30) && (vbf_maxpt_j2_pt>30)) &&
+	   (mass_lvj_type0_PuppiAK8_jer_up>600) &&
+	   (BosonCentrality_type0>1.0) &&
+	   ((abs(ZeppenfeldWL_type0_jer_up)/abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta))<0.3) &&
+	   ((abs(ZeppenfeldWH)/abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta))<0.3)
+          ){
 
 	   //if(s->name().EqualTo("data"))	 histo_data_LEPDown->Fill(mass_lvj_type0_PuppiAK8_jer_dn);
 	   if(s->name().EqualTo("WV_EWK"))	 hists[6]->Fill(mass_lvj_type0_PuppiAK8_jer_up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	   if(s->name().EqualTo("Diboson"))  	 hists[19]->Fill(mass_lvj_type0_PuppiAK8_jer_up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	   if(s->name().EqualTo("top"))  	 hists[32]->Fill(mass_lvj_type0_PuppiAK8_jer_up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	   if(s->name().EqualTo("Vjets"))	 hists[45]->Fill(mass_lvj_type0_PuppiAK8_jer_up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+          }
 	}
 
 	if (1)	//-------------------	JER down
 	{
-	   if(!(l_pt2<0 && l_pt1>50)) continue;
-	   if(!(((type==0)&&(abs(l_eta1)<2.4))||((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566))))) continue;
-	   if(!(((type==0)&&(pfMET_Corr_jerdn>50)) || ((type==1)&&(pfMET_Corr_jerdn>80)))) continue;
-	   if(!((ungroomed_PuppiAK8_jet_pt>200)&&(abs(ungroomed_PuppiAK8_jet_eta)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55))) continue;
-	   if(!((PuppiAK8_jet_mass_so_corr>65) && (PuppiAK8_jet_mass_so_corr<105))) continue;
-	   if(!(nBTagJet_loose==0)) continue;
-	   if(!(vbf_maxpt_jj_m>800)) continue;
-	   if(!(abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta)>4.0)) continue;
-	   if(!((vbf_maxpt_j1_pt>30) && (vbf_maxpt_j2_pt>30))) continue;
-	   if(!(mass_lvj_type0_PuppiAK8_jer_dn>600)) continue;
-	   if(!(BosonCentrality_type0>1.0)) continue;
-	   if(!((abs(ZeppenfeldWL_type0_jer_dn)/abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta))<0.3)) continue;
-	   if(!((abs(ZeppenfeldWH)/abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta))<0.3)) continue;
+	  if(
+	   (l_pt2<0 && l_pt1>50) &&
+	   (((type==0)&&(abs(l_eta1)<2.4))||((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566)))) &&
+	   (((type==0)&&(pfMET_Corr_jerdn>50)) || ((type==1)&&(pfMET_Corr_jerdn>80))) &&
+	   ((ungroomed_PuppiAK8_jet_pt>200)&&(abs(ungroomed_PuppiAK8_jet_eta)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55)) &&
+	   ((PuppiAK8_jet_mass_so_corr>65) && (PuppiAK8_jet_mass_so_corr<105)) &&
+	   (nBTagJet_loose==0) &&
+	   (vbf_maxpt_jj_m>800) &&
+	   (abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta)>4.0) &&
+	   ((vbf_maxpt_j1_pt>30) && (vbf_maxpt_j2_pt>30)) &&
+	   (mass_lvj_type0_PuppiAK8_jer_dn>600) &&
+	   (BosonCentrality_type0>1.0) &&
+	   ((abs(ZeppenfeldWL_type0_jer_dn)/abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta))<0.3) &&
+	   ((abs(ZeppenfeldWH)/abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta))<0.3)
+	  ){
 
 	   if(s->name().EqualTo("WV_EWK"))	 hists[7]->Fill(mass_lvj_type0_PuppiAK8_jer_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	   if(s->name().EqualTo("Diboson"))  	 hists[20]->Fill(mass_lvj_type0_PuppiAK8_jer_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	   if(s->name().EqualTo("top"))  	 hists[33]->Fill(mass_lvj_type0_PuppiAK8_jer_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	   if(s->name().EqualTo("Vjets"))	 hists[46]->Fill(mass_lvj_type0_PuppiAK8_jer_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	  }
 	}
       }
       //cout<<"\n\n ====>  " << hists[27]->Integral() << endl;
@@ -2718,6 +2733,7 @@ void WVChannel_GetCard()
 {
   int start_s=clock();
   model("DibosonBoostedElMuSamples13TeV_WWTree_CommonNtuple_For1and2Lepton_MuonPtScale_2018_07_24_10h36.txt",
+  //model("DibosonBoostedElMuSamples13TeV_WWTree_CleanedCode_Isolated_NaNFixed_Btag30GeV_2018_03_16_00h13.txt",
 	"ch1_splitted_TF1_WV");
 
   int stop_s=clock();
