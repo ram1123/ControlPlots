@@ -31,7 +31,6 @@
 #include <Python.h>
 
 
-//#include "controlplotvars_CHS.h"
 
 typedef struct SampleInfo_t {
   int     index;
@@ -188,7 +187,6 @@ void loadCutString(const char *filename, TString& cutstring)
 //======================================================================
 
 void model(const char *samplefilename,
-	   //const plotVar_t plotvars[] = commonplotvars_chs,
 	   const TString OutPutRootFileName = "ch1_splitted_TF1_ZV")
 {
   cout<< "done..." << endl;
@@ -475,8 +473,6 @@ void model(const char *samplefilename,
     mytree->SetBranchAddress("btag0WgtDownLF",&btag0WgtDownLF);
 
 
-
-    
     //cout<< " Reading sample : " << isamp << "   " << s->name() << endl;
     for(int i = 0; i<mytree->GetEntries(); i++)
     {
@@ -487,17 +483,18 @@ void model(const char *samplefilename,
 
       if (1)	//----------------	Nominal, PU up, PU down
       {
-	      if(!(l_pt1>50 && (((type==0)&&(abs(l_eta1)<2.4)) || ((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566)))))) continue;
-	      if(!(l_pt2>30 && (((type==0)&&(abs(l_eta2)<2.4)) || ((type==1)&&((abs(l_eta2)<2.5)&&!(abs(l_eta2)>1.4442 && abs(l_eta2)<1.566)))))) continue;
-	      if(!((ungroomed_PuppiAK8_jet_pt>200)&&(abs(ungroomed_PuppiAK8_jet_eta)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55))) continue;
-	      if(!((PuppiAK8_jet_mass_so_corr>65) && (PuppiAK8_jet_mass_so_corr<105))) continue;
-	      if(!(nBTagJet_loose==0)) continue;
-	      if(!(dilep_m>76 && dilep_m<107)) continue;
-	      if(!(vbf_maxpt_jj_m>800)) continue;
-	      if(!(abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta)>4.0)) continue;
-	      if(!((vbf_maxpt_j1_pt>30) && (vbf_maxpt_j2_pt>30))) continue;
-	      if(!(mass_llj_PuppiAK8>600)) continue;
-    
+	      if(
+	      (l_pt1>50 && (((type==0)&&(abs(l_eta1)<2.4)) || ((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566))))) &&
+	      (l_pt2>30 && (((type==0)&&(abs(l_eta2)<2.4)) || ((type==1)&&((abs(l_eta2)<2.5)&&!(abs(l_eta2)>1.4442 && abs(l_eta2)<1.566))))) &&
+	      ((ungroomed_PuppiAK8_jet_pt>200)&&(abs(ungroomed_PuppiAK8_jet_eta)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55)) &&
+	      ((PuppiAK8_jet_mass_so_corr>65) && (PuppiAK8_jet_mass_so_corr<105)) &&
+	      (nBTagJet_loose==0) &&
+	      (dilep_m>76 && dilep_m<107) &&
+	      (vbf_maxpt_jj_m>800) &&
+	      (abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta)>4.0) &&
+	      ((vbf_maxpt_j1_pt>30) && (vbf_maxpt_j2_pt>30)) &&
+	      (mass_llj_PuppiAK8>600)
+	      ){
 	      if(s->name().EqualTo("data"))	 hists[0]->Fill(mass_llj_PuppiAK8);
 	      if(s->name().EqualTo("WV_EWK"))	 hists[1]->Fill(mass_llj_PuppiAK8,(xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("Diboson")) 	 hists[14]->Fill(mass_llj_PuppiAK8,(xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
@@ -567,89 +564,99 @@ void model(const char *samplefilename,
 	      	   if((mass_llj_PuppiAK8<5000)) histo_aqgc_M5000[j]->Fill(mass_llj_PuppiAK8,((LHEWeight[j+446]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	    	}
 	  	}
-
+	  }
       }
 
       if (1)	//--------------------------- LEP up
       {
-	      if(!(l_pt1_Up>50 && (((type==0)&&(abs(l_eta1)<2.4)) || ((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566)))))) continue;
-	      if(!(l_pt2_Up>30 && (((type==0)&&(abs(l_eta2)<2.4)) || ((type==1)&&((abs(l_eta2)<2.5)&&!(abs(l_eta2)>1.4442 && abs(l_eta2)<1.566)))))) continue;
-	      if(!((ungroomed_PuppiAK8_jet_pt>200)&&(abs(ungroomed_PuppiAK8_jet_eta)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55))) continue;
-	      if(!((PuppiAK8_jet_mass_so_corr>65) && (PuppiAK8_jet_mass_so_corr<105))) continue;
-	      if(!(nBTagJet_loose==0)) continue;
-	      if(!(dilep_m_Up>76 && dilep_m_Up<107)) continue;
-	      if(!(vbf_maxpt_jj_m>800)) continue;
-	      if(!(abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta)>4.0)) continue;
-	      if(!((vbf_maxpt_j1_pt>30) && (vbf_maxpt_j2_pt>30))) continue;
-	      if(!(mass_llj_PuppiAK8_LEP_Up>600)) continue;
+	      if(
+	      (l_pt1_Up>50 && (((type==0)&&(abs(l_eta1)<2.4)) || ((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566))))) &&
+	      (l_pt2_Up>30 && (((type==0)&&(abs(l_eta2)<2.4)) || ((type==1)&&((abs(l_eta2)<2.5)&&!(abs(l_eta2)>1.4442 && abs(l_eta2)<1.566))))) &&
+	      ((ungroomed_PuppiAK8_jet_pt>200)&&(abs(ungroomed_PuppiAK8_jet_eta)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55)) &&
+	      ((PuppiAK8_jet_mass_so_corr>65) && (PuppiAK8_jet_mass_so_corr<105)) &&
+	      (nBTagJet_loose==0) &&
+	      (dilep_m_Up>76 && dilep_m_Up<107) &&
+	      (vbf_maxpt_jj_m>800) &&
+	      (abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta)>4.0) &&
+	      ((vbf_maxpt_j1_pt>30) && (vbf_maxpt_j2_pt>30)) &&
+	      (mass_llj_PuppiAK8_LEP_Up>600)
+	      ){
 
 	      //if(s->name().EqualTo("data"))	 histo_data_LEPUp->Fill(mass_llj_PuppiAK8_LEP_Up);
 	      if(s->name().EqualTo("WV_EWK"))	 hists[2]->Fill(mass_llj_PuppiAK8_LEP_Up,(xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("Diboson"))   hists[15]->Fill(mass_llj_PuppiAK8_LEP_Up,(xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("top"))  	 hists[28]->Fill(mass_llj_PuppiAK8_LEP_Up,(xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("Vjets"))	 hists[41]->Fill(mass_llj_PuppiAK8_LEP_Up,(xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      }
       }
 
       if (1)	//--------------------------- LEP down
       {
-	      if(!(l_pt1_Down>50 && (((type==0)&&(abs(l_eta1)<2.4)) || ((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566)))))) continue;
-	      if(!(l_pt2_Down>30 && (((type==0)&&(abs(l_eta2)<2.4)) || ((type==1)&&((abs(l_eta2)<2.5)&&!(abs(l_eta2)>1.4442 && abs(l_eta2)<1.566)))))) continue;
-	      if(!((ungroomed_PuppiAK8_jet_pt>200)&&(abs(ungroomed_PuppiAK8_jet_eta)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55))) continue;
-	      if(!((PuppiAK8_jet_mass_so_corr>65) && (PuppiAK8_jet_mass_so_corr<105))) continue;
-	      if(!(nBTagJet_loose==0)) continue;
-	      if(!(dilep_m_Down>76 && dilep_m_Down<107)) continue;
-	      if(!(vbf_maxpt_jj_m>800)) continue;
-	      if(!(abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta)>4.0)) continue;
-	      if(!((vbf_maxpt_j1_pt>30) && (vbf_maxpt_j2_pt>30))) continue;
-	      if(!(mass_llj_PuppiAK8_LEP_Down>600)) continue;
+	      if(
+	      (l_pt1_Down>50 && (((type==0)&&(abs(l_eta1)<2.4)) || ((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566))))) &&
+	      (l_pt2_Down>30 && (((type==0)&&(abs(l_eta2)<2.4)) || ((type==1)&&((abs(l_eta2)<2.5)&&!(abs(l_eta2)>1.4442 && abs(l_eta2)<1.566))))) &&
+	      ((ungroomed_PuppiAK8_jet_pt>200)&&(abs(ungroomed_PuppiAK8_jet_eta)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55)) &&
+	      ((PuppiAK8_jet_mass_so_corr>65) && (PuppiAK8_jet_mass_so_corr<105)) &&
+	      (nBTagJet_loose==0) &&
+	      (dilep_m_Down>76 && dilep_m_Down<107) &&
+	      (vbf_maxpt_jj_m>800) &&
+	      (abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta)>4.0) &&
+	      ((vbf_maxpt_j1_pt>30) && (vbf_maxpt_j2_pt>30)) &&
+	      (mass_llj_PuppiAK8_LEP_Down>600)
+	      ){
 	      
 	      //if(s->name().EqualTo("data"))	 histo_data_LEPDown->Fill(mass_llj_PuppiAK8_LEP_Down);
 	      if(s->name().EqualTo("WV_EWK"))	 hists[3]->Fill(mass_llj_PuppiAK8_LEP_Down,(xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("Diboson"))   hists[16]->Fill(mass_llj_PuppiAK8_LEP_Down,(xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("top"))  	 hists[29]->Fill(mass_llj_PuppiAK8_LEP_Down,(xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("Vjets"))	 hists[42]->Fill(mass_llj_PuppiAK8_LEP_Down,(xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	      }
       }
 
 	if (1)	//-------------------	JES up
 	{
-	      //cout<< "mass_llj_PuppiAK8_jes_up = "<< mass_llj_PuppiAK8_jes_up << "\t" << mass_llj_PuppiAK8 << endl;
-	      if(!(l_pt1>50 && (((type==0)&&(abs(l_eta1)<2.4)) || ((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566)))))) continue;
-	      if(!(l_pt2>30 && (((type==0)&&(abs(l_eta2)<2.4)) || ((type==1)&&((abs(l_eta2)<2.5)&&!(abs(l_eta2)>1.4442 && abs(l_eta2)<1.566)))))) continue;
-	      if(!((ungroomed_PuppiAK8_jet_pt_jes_up>200)&&((ungroomed_PuppiAK8_jet_eta_jes_up)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55))) continue;
-	      if(!((PuppiAK8_jet_mass_so_corr>65) && (PuppiAK8_jet_mass_so_corr<105))) continue;
-	      if(!(nBTagJet_loose==0)) continue;
-	      if(!(dilep_m>76 && dilep_m<107)) continue;
-	      if(!(vbf_maxpt_jj_m_jes_up>800)) continue;
-	      if(!(abs(vbf_maxpt_j2_eta_jes_up-vbf_maxpt_j1_eta_jes_up)>4.0)) continue;
-	      if(!((vbf_maxpt_j1_pt_jes_up>30) && (vbf_maxpt_j2_pt_jes_up>30))) continue;
-	      if(!(mass_llj_PuppiAK8_jes_up>600)) continue;
+	      if(
+	      (l_pt1>50 && (((type==0)&&(abs(l_eta1)<2.4)) || ((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566))))) &&
+	      (l_pt2>30 && (((type==0)&&(abs(l_eta2)<2.4)) || ((type==1)&&((abs(l_eta2)<2.5)&&!(abs(l_eta2)>1.4442 && abs(l_eta2)<1.566))))) &&
+	      ((ungroomed_PuppiAK8_jet_pt_jes_up>200)&&((ungroomed_PuppiAK8_jet_eta_jes_up)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55)) &&
+	      ((PuppiAK8_jet_mass_so_corr>65) && (PuppiAK8_jet_mass_so_corr<105)) &&
+	      (nBTagJet_loose==0) &&
+	      (dilep_m>76 && dilep_m<107) &&
+	      (vbf_maxpt_jj_m_jes_up>800) &&
+	      (abs(vbf_maxpt_j2_eta_jes_up-vbf_maxpt_j1_eta_jes_up)>4.0) &&
+	      ((vbf_maxpt_j1_pt_jes_up>30) && (vbf_maxpt_j2_pt_jes_up>30)) &&
+	      (mass_llj_PuppiAK8_jes_up>600)
+	      ){
 
-	      //cout<< "\n\n=====> mass_llj_PuppiAK8_jes_up = "<< mass_llj_PuppiAK8_jes_up << endl << endl;
 	   //if(s->name().EqualTo("data"))	 histo_data_LEPDown->Fill(mass_llj_PuppiAK8_jes_up);
 	   if(s->name().EqualTo("WV_EWK"))	 hists[4]->Fill(mass_llj_PuppiAK8_jes_up,(xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	   if(s->name().EqualTo("Diboson"))  	 hists[17]->Fill(mass_llj_PuppiAK8_jes_up,(xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	   if(s->name().EqualTo("top"))  	 hists[30]->Fill(mass_llj_PuppiAK8_jes_up,(xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	   if(s->name().EqualTo("Vjets"))	 hists[43]->Fill(mass_llj_PuppiAK8_jes_up,(xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	   }
 	}
 
 	if (1)	//-------------------	JES down
 	{
-	      if(!(l_pt1>50 && (((type==0)&&(abs(l_eta1)<2.4)) || ((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566)))))) continue;
-	      if(!(l_pt2>30 && (((type==0)&&(abs(l_eta2)<2.4)) || ((type==1)&&((abs(l_eta2)<2.5)&&!(abs(l_eta2)>1.4442 && abs(l_eta2)<1.566)))))) continue;
-	      if(!((ungroomed_PuppiAK8_jet_pt_jes_dn>200)&&((ungroomed_PuppiAK8_jet_eta_jes_dn)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55))) continue;
-	      if(!((PuppiAK8_jet_mass_so_corr>65) && (PuppiAK8_jet_mass_so_corr<105))) continue;
-	      if(!(nBTagJet_loose==0)) continue;
-	      if(!(dilep_m>76 && dilep_m<107)) continue;
-	      if(!(vbf_maxpt_jj_m_jes_dn>800)) continue;
-	      if(!(abs(vbf_maxpt_j2_eta_jes_dn-vbf_maxpt_j1_eta_jes_dn)>4.0)) continue;
-	      if(!((vbf_maxpt_j1_pt_jes_dn>30) && (vbf_maxpt_j2_pt_jes_dn>30))) continue;
-	      if(!(mass_llj_PuppiAK8_jes_dn>600)) continue;
+	      if(
+	      (l_pt1>50 && (((type==0)&&(abs(l_eta1)<2.4)) || ((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566))))) &&
+	      (l_pt2>30 && (((type==0)&&(abs(l_eta2)<2.4)) || ((type==1)&&((abs(l_eta2)<2.5)&&!(abs(l_eta2)>1.4442 && abs(l_eta2)<1.566))))) &&
+	      ((ungroomed_PuppiAK8_jet_pt_jes_dn>200)&&((ungroomed_PuppiAK8_jet_eta_jes_dn)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55)) &&
+	      ((PuppiAK8_jet_mass_so_corr>65) && (PuppiAK8_jet_mass_so_corr<105)) &&
+	      (nBTagJet_loose==0) &&
+	      (dilep_m>76 && dilep_m<107) &&
+	      (vbf_maxpt_jj_m_jes_dn>800) &&
+	      (abs(vbf_maxpt_j2_eta_jes_dn-vbf_maxpt_j1_eta_jes_dn)>4.0) &&
+	      ((vbf_maxpt_j1_pt_jes_dn>30) && (vbf_maxpt_j2_pt_jes_dn>30)) &&
+	      (mass_llj_PuppiAK8_jes_dn>600)
+	      ){
 
 	   //if(s->name().EqualTo("data"))	 histo_data_LEPDown->Fill(mass_llj_PuppiAK8_jes_dn);
 	   if(s->name().EqualTo("WV_EWK"))	 hists[5]->Fill(mass_llj_PuppiAK8_jes_dn,(xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	   if(s->name().EqualTo("Diboson"))  	 hists[18]->Fill(mass_llj_PuppiAK8_jes_dn,(xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	   if(s->name().EqualTo("top"))  	 hists[31]->Fill(mass_llj_PuppiAK8_jes_dn,(xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	   if(s->name().EqualTo("Vjets"))	 hists[44]->Fill(mass_llj_PuppiAK8_jes_dn,(xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	   }
 	}
 
       }
@@ -2277,10 +2284,9 @@ void ZVChannel_GetCard()
 {
   int start_s=clock();
   model("DibosonBoostedElMuSamples13TeV_WWTree_CommonNtuple_For1and2Lepton_MuonPtScale_2018_07_24_10h36.txt",
-	//commonplotvars_chs,
 	"ch1_splitted_TF1_ZV");
 
   int stop_s=clock();
-  cout << "time: " << (stop_s-start_s)/double(CLOCKS_PER_SEC)*1000 << endl;
+  cout << "time: " << double(stop_s-start_s)/(double(CLOCKS_PER_SEC)*60.0) <<" min" << endl;
 
 }
