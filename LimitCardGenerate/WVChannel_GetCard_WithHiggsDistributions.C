@@ -1117,6 +1117,7 @@ void model(const char *samplefilename,
 	  systPDFScale = systPDFScale + (ChargedHistPDF[i]->GetBinContent(bin)-ChargedHist[CountCHhist*17]->GetBinContent(bin))*(ChargedHistPDF[i]->GetBinContent(bin)-ChargedHist[CountCHhist*17]->GetBinContent(bin));
 	     HistCount++;
 	    };
+	    systPDFScale =  sqrt(systPDFScale/99.);
 	  ChargedHist[15+CountCHhist*17]->SetBinContent(bin, ChargedHist[CountCHhist*17]->GetBinContent(bin) + 1 + systPDFScale/ChargedHist[CountCHhist*17]->GetBinContent(bin));
 	  ChargedHist[16+CountCHhist*17]->SetBinContent(bin, ChargedHist[CountCHhist*17]->GetBinContent(bin) - 1 + systPDFScale/ChargedHist[CountCHhist*17]->GetBinContent(bin));
 	  CountCHhist++;
