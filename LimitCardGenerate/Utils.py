@@ -1,6 +1,6 @@
 import ROOT as r
 
-def createRatio(h1, h2, xlabel, col, ymin=0.4, ymax=3.5):
+def createRatio(h1, h2, xlabel, col, ymin=0.5, ymax=1.5):
     h3 = h2.Clone("h3")
     h3.SetLineColor(col)
     h3.SetMarkerColor(col)
