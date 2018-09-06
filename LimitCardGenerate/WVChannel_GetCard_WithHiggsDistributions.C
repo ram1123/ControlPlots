@@ -1015,13 +1015,13 @@ void model(const char *samplefilename,
   for (int i=0; i<79; i++)
   {
     hists[i]->SetBinContent(NBINS,hists[i]->GetBinContent(NBINS)+hists[i]->GetBinContent(NBINS+1));
-    cout << HistName[i] << " = " << hists[i]->Integral() << endl;
+    //cout << HistName[i] << " = " << hists[i]->Integral() << endl;
     //hists[i]->Write();
   }
   for (int i=0; i<561; i++)
   {
     ChargedHist[i]->SetBinContent(NBINS,ChargedHist[i]->GetBinContent(NBINS)+ChargedHist[i]->GetBinContent(NBINS+1));
-    cout << ChargedHist[i]->GetName() << " = " << ChargedHist[i]->Integral() << endl;
+    //cout << ChargedHist[i]->GetName() << " = " << ChargedHist[i]->Integral() << endl;
     //hists[i]->Write();
   }
 
@@ -1312,10 +1312,12 @@ void model(const char *samplefilename,
   // Write all histograms... 
   for (int i=0; i<79; i++)
   {
+    cout << HistName[i] << " = " << hists[i]->Integral() << endl;
     hists[i]->Write();
   }
   for (int i=0; i<561; i++)
   {
+    cout << ChargedHist[i]->GetName() << " = " << ChargedHist[i]->Integral() << endl;
     ChargedHist[i]->Write();
   }
 
