@@ -227,7 +227,9 @@ void model(const char *samplefilename,
 
 
   TH1 *hists[79];
-  TH1 *ChargedHist[429];
+  TH1 *ChargedHist[561];
+  TH1 *ChargedHistQCD[198];
+  TH1 *ChargedHistPDF[3300];
 
   const char* HistName[79] = {	"data_obs",						// 0
   			"diboson", "diboson_CMS_scale_lUp", "diboson_CMS_scale_lDown", "diboson_CMS_scale_jUp", "diboson_CMS_scale_jDown", "diboson_CMS_res_metUp", "diboson_CMS_res_metDown", 
@@ -247,7 +249,7 @@ void model(const char *samplefilename,
 
   TString HiggsSampleName[3] = { "CH_WZToLL", "CH_WZToLNu", "DCH_WW"};
   TString MassPoint[11] = { "_M200", "_M300", "_M400", "_M500", "_M600", "_M700", "_M800", "_M900", "_M1000", "_M1500", "_M2000"};
-  TString Syst[13] = {"", "_CMS_scale_lUp", "_CMS_scale_lDown", "_CMS_scale_jUp", "_CMS_scale_jDown", "_CMS_res_metUp", "_CMS_res_metDown", "_CMS_puUp", "_CMS_puDown",       "_CMS_btagHFUp", "_CMS_btagHFDown", "_CMS_btagLFUp", "_CMS_btagLFDown" };
+  TString Syst[17] = {"", "_CMS_scale_lUp", "_CMS_scale_lDown", "_CMS_scale_jUp", "_CMS_scale_jDown", "_CMS_res_metUp", "_CMS_res_metDown", "_CMS_puUp", "_CMS_puDown",       "_CMS_btagHFUp", "_CMS_btagHFDown", "_CMS_btagLFUp", "_CMS_btagLFDown", "_CMS_QCDScaleUp", "_CMS_QCDScaleDown", "_CMS_PDFScaleUp", "_CMS_PDFScaleDown" };
 
   
   TH1 *histo_sm = new TH1D("SM", "SM", NBINS, MINRange, MAXRange);
@@ -263,19 +265,63 @@ void model(const char *samplefilename,
       histo_aqgc[j]->Sumw2();
     }
   //let's define few histograms for the uncertainties
-  TH1D* histo_EWK_CMS_QCDScaleBounding[6];
+  TH1D* histo_diboson_EWK_CMS_QCDScaleBounding[6];
+  TH1D* histo_VVjjQCD_EWK_CMS_QCDScaleBounding[6];
   for(int i = 0; i<6; i++)
     {
-      histo_EWK_CMS_QCDScaleBounding[i] = new TH1D(Form("QCDScaleBounding_%d",i), Form("QCDScaleBounding_%d",i), NBINS, MINRange, MAXRange);
-      histo_EWK_CMS_QCDScaleBounding[i]->Sumw2();
+      stringstream ss;
+      ss << i;
+      string temp = ss.str()+"_QCD";
+      string temp1 = ss.str()+"_diboson";
+      const char* name = temp.c_str();
+      const char* name1 = temp1.c_str();
+      histo_diboson_EWK_CMS_QCDScaleBounding[i] = new TH1D(name1, name1, NBINS, MINRange, MAXRange);
+      histo_diboson_EWK_CMS_QCDScaleBounding[i]->Sumw2();
+      histo_VVjjQCD_EWK_CMS_QCDScaleBounding[i] = new TH1D(name, name, NBINS, MINRange, MAXRange);
+      histo_VVjjQCD_EWK_CMS_QCDScaleBounding[i]->Sumw2();
     }
- TH1D* histo_EWK_CMS_PDFScaleBounding[100];
+ TH1D* histo_diboson_EWK_CMS_PDFScaleBounding[100];
+ TH1D* histo_VVjjQCD_EWK_CMS_PDFScaleBounding[100];
   for(int i = 0; i<100; i++)
     {
-      histo_EWK_CMS_PDFScaleBounding[i] = new TH1D(Form("PDFScaleBounding_%d",i), Form("PDFScaleBounding_%d",i), NBINS, MINRange, MAXRange);
-      histo_EWK_CMS_PDFScaleBounding[i]->Sumw2();
+      stringstream ss;
+      ss << i;
+      string temp = ss.str()+"_diboson";
+      string temp1 = ss.str()+"_VVJJQCD";
+      const char* name = temp.c_str();
+      const char* name1 = temp1.c_str();
+      histo_diboson_EWK_CMS_PDFScaleBounding[i] = new TH1D(name, name, NBINS, MINRange, MAXRange);
+      histo_diboson_EWK_CMS_PDFScaleBounding[i]->Sumw2();
+      histo_VVjjQCD_EWK_CMS_PDFScaleBounding[i] = new TH1D(name1, name1, NBINS, MINRange, MAXRange);
+      histo_VVjjQCD_EWK_CMS_PDFScaleBounding[i]->Sumw2();
     }
+
+ TH1D* histo_VVjjQCD_EWK_CMS_QCDScaleBounding_Up = new TH1D("histo_VVjjQCD_EWK_CMS_QCDScaleBounding_Up","", NBINS, MINRange, MAXRange);
+ histo_VVjjQCD_EWK_CMS_QCDScaleBounding_Up->Sumw2();
+
+ TH1D* histo_VVjjQCD_EWK_CMS_QCDScaleBounding_Down = new TH1D("histo_VVjjQCD_EWK_CMS_QCDScaleBounding_Down","", NBINS, MINRange, MAXRange);
+ histo_VVjjQCD_EWK_CMS_QCDScaleBounding_Down->Sumw2();
   
+ TH1D* histo_VVjjQCD_EWK_CMS_PDFScaleBounding_Up = new TH1D("histo_VVjjQCD_EWK_CMS_PDFScaleBounding_Up","", NBINS, MINRange, MAXRange);
+ histo_VVjjQCD_EWK_CMS_PDFScaleBounding_Up->Sumw2();
+
+ TH1D* histo_VVjjQCD_EWK_CMS_PDFScaleBounding_Down = new TH1D("histo_VVjjQCD_EWK_CMS_PDFScaleBounding_Down","", NBINS, MINRange, MAXRange);
+ histo_VVjjQCD_EWK_CMS_PDFScaleBounding_Down->Sumw2();
+  
+
+ TH1D* histo_diboson_EWK_CMS_QCDScaleBounding_Up = new TH1D("histo_diboson_EWK_CMS_QCDScaleBounding_Up","", NBINS, MINRange, MAXRange);
+ histo_diboson_EWK_CMS_QCDScaleBounding_Up->Sumw2();
+
+ TH1D* histo_diboson_EWK_CMS_QCDScaleBounding_Down = new TH1D("histo_diboson_EWK_CMS_QCDScaleBounding_Down","", NBINS, MINRange, MAXRange);
+ histo_diboson_EWK_CMS_QCDScaleBounding_Down->Sumw2();
+  
+ TH1D* histo_diboson_EWK_CMS_PDFScaleBounding_Up = new TH1D("histo_diboson_EWK_CMS_PDFScaleBounding_Up","", NBINS, MINRange, MAXRange);
+ histo_diboson_EWK_CMS_PDFScaleBounding_Up->Sumw2();
+
+ TH1D* histo_diboson_EWK_CMS_PDFScaleBounding_Down = new TH1D("histo_diboson_EWK_CMS_PDFScaleBounding_Down","", NBINS, MINRange, MAXRange);
+ histo_diboson_EWK_CMS_PDFScaleBounding_Down->Sumw2();
+  
+
   // histo for JES, JER, UP, Btag, LEP up/down uncertanities
   for (int i=0; i<79; i++)
   {
@@ -286,12 +332,34 @@ void model(const char *samplefilename,
   int HistCount = 0;
   for (int i=0; i<3; i++)
      for (int j=0; j<11; j++)
-        for (int k=0; k<13; k++)
+        for (int k=0; k<17; k++)
 	{
 	   TString name = HiggsSampleName[i]+MassPoint[j]+Syst[k];
 	   cout<< "Hist name will be : " << HistCount << "\t" << name << endl;
 	   ChargedHist[HistCount] = new TH1D(name , name, NBINS, MINRange, MAXRange); 
 	   ChargedHist[HistCount]->Sumw2();
+	   HistCount++;
+	}
+  HistCount = 0;
+  for (int i=0; i<3; i++)
+     for (int j=0; j<11; j++)
+        for (int k=0; k<6; k++)
+	{
+	   TString name = HiggsSampleName[i]+MassPoint[j]+"_CMS_QCDScale";
+	   cout<< "Hist name will be : " << HistCount << "\t" << name << endl;
+	   ChargedHistQCD[HistCount] = new TH1D(name , name, NBINS, MINRange, MAXRange); 
+	   ChargedHistQCD[HistCount]->Sumw2();
+	   HistCount++;
+	}
+  HistCount = 0;
+  for (int i=0; i<3; i++)
+     for (int j=0; j<11; j++)
+        for (int k=0; k<100; k++)
+	{
+	   TString name = HiggsSampleName[i]+MassPoint[j]+"_CMS_PDFScale";
+	   cout<< "Hist name will be : " << HistCount << "\t" << name << endl;
+	   ChargedHistPDF[HistCount] = new TH1D(name , name, NBINS, MINRange, MAXRange); 
+	   ChargedHistPDF[HistCount]->Sumw2();
 	   HistCount++;
 	}
   HistCount = 0;
@@ -493,7 +561,7 @@ void model(const char *samplefilename,
   	      HistCount = 0;
   	      for (int i=0; i<3; i++)
 	        for (int j=0; j<11; j++)
-		  for (int k=0; k<13; k++)
+		  for (int k=0; k<17; k++)
 		  { 
 		    //TString name = HiggsSampleName[i]+MassPoint[j];
 		    TString OrigName = s->name();
@@ -512,7 +580,7 @@ void model(const char *samplefilename,
   	      HistCount = 0;
   	      for (int i=0; i<3; i++)
 	        for (int j=0; j<11; j++)
-		  for (int k=0; k<13; k++)
+		  for (int k=0; k<17; k++)
 		  { 
 		    //TString name = HiggsSampleName[i]+MassPoint[j];
 		    TString OrigName = s->name()+"_CMS_puUp";
@@ -531,7 +599,7 @@ void model(const char *samplefilename,
   	      HistCount = 0;
   	      for (int i=0; i<3; i++)
 	        for (int j=0; j<11; j++)
-		  for (int k=0; k<13; k++)
+		  for (int k=0; k<17; k++)
 		  { 
 		    //TString name = HiggsSampleName[i]+MassPoint[j];
 		    TString OrigName = s->name()+"_CMS_puDown";
@@ -550,7 +618,7 @@ void model(const char *samplefilename,
   	      HistCount = 0;
   	      for (int i=0; i<3; i++)
 	        for (int j=0; j<11; j++)
-		  for (int k=0; k<13; k++)
+		  for (int k=0; k<17; k++)
 		  { 
 		    //TString name = HiggsSampleName[i]+MassPoint[j];
 		    TString OrigName = s->name()+"_CMS_btagHFUp";
@@ -569,7 +637,7 @@ void model(const char *samplefilename,
   	      HistCount = 0;
   	      for (int i=0; i<3; i++)
 	        for (int j=0; j<11; j++)
-		  for (int k=0; k<13; k++)
+		  for (int k=0; k<17; k++)
 		  { 
 		    //TString name = HiggsSampleName[i]+MassPoint[j];
 		    TString OrigName = s->name()+"_CMS_btagHFDown";
@@ -588,7 +656,7 @@ void model(const char *samplefilename,
   	      HistCount = 0;
   	      for (int i=0; i<3; i++)
 	        for (int j=0; j<11; j++)
-		  for (int k=0; k<13; k++)
+		  for (int k=0; k<17; k++)
 		  { 
 		    //TString name = HiggsSampleName[i]+MassPoint[j];
 		    TString OrigName = s->name()+"_CMS_btagLFUp";
@@ -607,7 +675,7 @@ void model(const char *samplefilename,
   	      HistCount = 0;
   	      for (int i=0; i<3; i++)
 	        for (int j=0; j<11; j++)
-		  for (int k=0; k<13; k++)
+		  for (int k=0; k<17; k++)
 		  { 
 		    //TString name = HiggsSampleName[i]+MassPoint[j];
 		    TString OrigName = s->name()+"_CMS_btagLFDown";
@@ -620,13 +688,49 @@ void model(const char *samplefilename,
 	      if(s->name().EqualTo("WV_EWK")||s->name().EqualTo("Diboson"))
 	  	{
 	    	histo_sm->Fill(mass_llj_PuppiAK8,(xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	    	histo_EWK_CMS_QCDScaleBounding[0]->Fill(mass_llj_PuppiAK8,((LHEWeight[1]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	    	histo_EWK_CMS_QCDScaleBounding[1]->Fill(mass_llj_PuppiAK8,((LHEWeight[2]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	    	histo_EWK_CMS_QCDScaleBounding[2]->Fill(mass_llj_PuppiAK8,((LHEWeight[3]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	    	histo_EWK_CMS_QCDScaleBounding[3]->Fill(mass_llj_PuppiAK8,((LHEWeight[4]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	    	histo_EWK_CMS_QCDScaleBounding[4]->Fill(mass_llj_PuppiAK8,((LHEWeight[6]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	    	histo_EWK_CMS_QCDScaleBounding[5]->Fill(mass_llj_PuppiAK8,((LHEWeight[8]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	    	for(int npdf=0; npdf<100; npdf++) histo_EWK_CMS_PDFScaleBounding[npdf]->Fill(mass_llj_PuppiAK8,((LHEWeight[9+npdf]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
+		if(s->name().EqualTo("WV_EWK")){
+	    	histo_diboson_EWK_CMS_QCDScaleBounding[0]->Fill(mass_llj_PuppiAK8,((LHEWeight[1]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	    	histo_diboson_EWK_CMS_QCDScaleBounding[1]->Fill(mass_llj_PuppiAK8,((LHEWeight[2]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	    	histo_diboson_EWK_CMS_QCDScaleBounding[2]->Fill(mass_llj_PuppiAK8,((LHEWeight[3]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	    	histo_diboson_EWK_CMS_QCDScaleBounding[3]->Fill(mass_llj_PuppiAK8,((LHEWeight[4]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	    	histo_diboson_EWK_CMS_QCDScaleBounding[4]->Fill(mass_llj_PuppiAK8,((LHEWeight[6]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	    	histo_diboson_EWK_CMS_QCDScaleBounding[5]->Fill(mass_llj_PuppiAK8,((LHEWeight[8]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	    	for(int npdf=0; npdf<100; npdf++) histo_diboson_EWK_CMS_PDFScaleBounding[npdf]->Fill(mass_llj_PuppiAK8,((LHEWeight[9+npdf]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
+		}
+		if(s->name().EqualTo("Diboson")){
+	    	histo_VVjjQCD_EWK_CMS_QCDScaleBounding[0]->Fill(mass_llj_PuppiAK8,((LHEWeight[1]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	    	histo_VVjjQCD_EWK_CMS_QCDScaleBounding[1]->Fill(mass_llj_PuppiAK8,((LHEWeight[2]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	    	histo_VVjjQCD_EWK_CMS_QCDScaleBounding[2]->Fill(mass_llj_PuppiAK8,((LHEWeight[3]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	    	histo_VVjjQCD_EWK_CMS_QCDScaleBounding[3]->Fill(mass_llj_PuppiAK8,((LHEWeight[4]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	    	histo_VVjjQCD_EWK_CMS_QCDScaleBounding[4]->Fill(mass_llj_PuppiAK8,((LHEWeight[6]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	    	histo_VVjjQCD_EWK_CMS_QCDScaleBounding[5]->Fill(mass_llj_PuppiAK8,((LHEWeight[8]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
+	    	for(int npdf=0; npdf<100; npdf++) histo_VVjjQCD_EWK_CMS_PDFScaleBounding[npdf]->Fill(mass_llj_PuppiAK8,((LHEWeight[9+npdf]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
+		}
+  	      HistCount = 0;
+	      int LHEWgt[6] = {1, 2, 3, 4, 6, 8};
+  	      for (int i=0; i<3; i++)
+	        for (int j=0; j<11; j++)
+		  for (int k=0; k<6; k++)
+		  { 
+		    //TString name = HiggsSampleName[i]+MassPoint[j];
+		    TString OrigName = s->name()+"_CMS_QCDScale";
+		    TString name = HiggsSampleName[i]+MassPoint[j]+"_CMS_QCDScale";
+		    if (OrigName.EqualTo(name)) ChargedHistQCD[HistCount]->Fill(mass_llj_PuppiAK8,((LHEWeight[LHEWgt[k]]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
+		    HistCount++;
+		  }
+  	      HistCount = 0;
+  	      for (int i=0; i<3; i++)
+	        for (int j=0; j<11; j++)
+		  for (int k=0; k<100; k++)
+		  { 
+		    //TString name = HiggsSampleName[i]+MassPoint[j];
+		    TString OrigName = s->name()+"_CMS_PDFScale";
+		    TString name = HiggsSampleName[i]+MassPoint[j]+"_CMS_PDFScale";
+		    if (OrigName.EqualTo(name)) ChargedHistPDF[HistCount]->Fill(mass_llj_PuppiAK8,((LHEWeight[9+k]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
+		    HistCount++;
+		  }
+
+
 	  	}
 	      else if(s->name().EqualTo("aQGC"))
 	  	{
@@ -662,7 +766,7 @@ void model(const char *samplefilename,
   	      HistCount = 0;
   	      for (int i=0; i<3; i++)
 	        for (int j=0; j<11; j++)
-		  for (int k=0; k<13; k++)
+		  for (int k=0; k<17; k++)
 		  { 
 		    //TString name = HiggsSampleName[i]+MassPoint[j];
 		    TString OrigName = s->name()+"_CMS_scale_lUp";
@@ -698,7 +802,7 @@ void model(const char *samplefilename,
   	      HistCount = 0;
   	      for (int i=0; i<3; i++)
 	        for (int j=0; j<11; j++)
-		  for (int k=0; k<13; k++)
+		  for (int k=0; k<17; k++)
 		  { 
 		    //TString name = HiggsSampleName[i]+MassPoint[j];
 		    TString OrigName = s->name()+"_CMS_scale_lDown";
@@ -734,7 +838,7 @@ void model(const char *samplefilename,
   	      HistCount = 0;
   	      for (int i=0; i<3; i++)
 	        for (int j=0; j<11; j++)
-		  for (int k=0; k<13; k++)
+		  for (int k=0; k<17; k++)
 		  { 
 		    //TString name = HiggsSampleName[i]+MassPoint[j];
 		    TString OrigName = s->name()+"_CMS_scale_jUp";
@@ -770,7 +874,7 @@ void model(const char *samplefilename,
   	      HistCount = 0;
   	      for (int i=0; i<3; i++)
 	        for (int j=0; j<11; j++)
-		  for (int k=0; k<13; k++)
+		  for (int k=0; k<17; k++)
 		  { 
 		    //TString name = HiggsSampleName[i]+MassPoint[j];
 		    TString OrigName = s->name()+"_CMS_scale_jDown";
@@ -790,24 +894,36 @@ void model(const char *samplefilename,
   for (int i=0; i<79; i++)
   {
     hists[i]->SetBinContent(NBINS,hists[i]->GetBinContent(NBINS)+hists[i]->GetBinContent(NBINS+1));
-    cout << HistName[i] << " = " << hists[i]->Integral() << endl;
+    //cout << HistName[i] << " = " << hists[i]->Integral() << endl;
     //hists[i]->Write();
   }
-  for (int i=0; i<429; i++)
+  for (int i=0; i<561; i++)
   {
     ChargedHist[i]->SetBinContent(NBINS,ChargedHist[i]->GetBinContent(NBINS)+ChargedHist[i]->GetBinContent(NBINS+1));
-    cout << ChargedHist[i]->GetName() << " = " << ChargedHist[i]->Integral() << endl;
+    //cout << ChargedHist[i]->GetName() << " = " << ChargedHist[i]->Integral() << endl;
     //hists[i]->Write();
+  }
+
+  for (int i=0; i<198; i++)
+  {
+    ChargedHistQCD[i]->SetBinContent(NBINS,ChargedHistQCD[i]->GetBinContent(NBINS)+ChargedHistQCD[i]->GetBinContent(NBINS+1));
+  }
+
+  for (int i=0; i<3300; i++)
+  {
+    ChargedHistPDF[i]->SetBinContent(NBINS,ChargedHistPDF[i]->GetBinContent(NBINS)+ChargedHistPDF[i]->GetBinContent(NBINS+1));
   }
 
   histo_sm->SetBinContent(NBINS,histo_sm->GetBinContent(NBINS)+histo_sm->GetBinContent(NBINS+1));
   for (int i=0; i<6; i++)
     {
-      histo_EWK_CMS_QCDScaleBounding[i]->SetBinContent(NBINS,histo_EWK_CMS_QCDScaleBounding[i]->GetBinContent(NBINS)+histo_EWK_CMS_QCDScaleBounding[i]->GetBinContent(NBINS+1));
+      histo_diboson_EWK_CMS_QCDScaleBounding[i]->SetBinContent(NBINS,histo_diboson_EWK_CMS_QCDScaleBounding[i]->GetBinContent(NBINS)+histo_diboson_EWK_CMS_QCDScaleBounding[i]->GetBinContent(NBINS+1));
+      histo_VVjjQCD_EWK_CMS_QCDScaleBounding[i]->SetBinContent(NBINS,histo_VVjjQCD_EWK_CMS_QCDScaleBounding[i]->GetBinContent(NBINS)+histo_VVjjQCD_EWK_CMS_QCDScaleBounding[i]->GetBinContent(NBINS+1));
     }
   for (int i=0; i<99; i++)
     {
-      histo_EWK_CMS_PDFScaleBounding[i]->SetBinContent(NBINS,histo_EWK_CMS_PDFScaleBounding[i]->GetBinContent(NBINS)+histo_EWK_CMS_PDFScaleBounding[i]->GetBinContent(NBINS+1));
+      histo_diboson_EWK_CMS_PDFScaleBounding[i]->SetBinContent(NBINS,histo_diboson_EWK_CMS_PDFScaleBounding[i]->GetBinContent(NBINS)+histo_diboson_EWK_CMS_PDFScaleBounding[i]->GetBinContent(NBINS+1));
+      histo_VVjjQCD_EWK_CMS_PDFScaleBounding[i]->SetBinContent(NBINS,histo_VVjjQCD_EWK_CMS_PDFScaleBounding[i]->GetBinContent(NBINS)+histo_VVjjQCD_EWK_CMS_PDFScaleBounding[i]->GetBinContent(NBINS+1));
     }
   for (int j=0;j<718;j++){
     histo_aqgc[j]->SetBinContent(NBINS,histo_aqgc[j]->GetBinContent(NBINS)+histo_aqgc[j]->GetBinContent(NBINS+1));
@@ -822,22 +938,69 @@ void model(const char *samplefilename,
       double systQCDScale=0;
       for (int i = 0; i<6; i++)
 	{
-	  if(TMath::Abs(histo_EWK_CMS_QCDScaleBounding[i]->GetBinContent(bin)-histo_sm->GetBinContent(bin)) > systQCDScale) systQCDScale = TMath::Abs(histo_EWK_CMS_QCDScaleBounding[i]->GetBinContent(bin)-histo_sm->GetBinContent(bin));
+	  if(TMath::Abs(histo_diboson_EWK_CMS_QCDScaleBounding[i]->GetBinContent(bin)-histo_sm->GetBinContent(bin)) > systQCDScale) systQCDScale = TMath::Abs(histo_diboson_EWK_CMS_QCDScaleBounding[i]->GetBinContent(bin)-histo_sm->GetBinContent(bin));
 	}
       std::cout << "bin number " << bin << " " << 1 + systQCDScale/histo_sm->GetBinContent(bin) << std::endl; 
+      histo_diboson_EWK_CMS_QCDScaleBounding_Up  ->SetBinContent(bin,hists[1]->GetBinContent(bin) + 1 + systQCDScale/histo_sm->GetBinContent(bin));
+      histo_diboson_EWK_CMS_QCDScaleBounding_Down->SetBinContent(bin,hists[1]->GetBinContent(bin) - 1 + systQCDScale/histo_sm->GetBinContent(bin));
+      systQCDScale=0;
+      for (int i = 0; i<6; i++)
+	{
+	  if(TMath::Abs(histo_VVjjQCD_EWK_CMS_QCDScaleBounding[i]->GetBinContent(bin)-histo_sm->GetBinContent(bin)) > systQCDScale) systQCDScale = TMath::Abs(histo_VVjjQCD_EWK_CMS_QCDScaleBounding[i]->GetBinContent(bin)-histo_sm->GetBinContent(bin));
+	}
+      histo_VVjjQCD_EWK_CMS_QCDScaleBounding_Up  ->SetBinContent(bin,hists[14]->GetBinContent(bin) +1 + systQCDScale/histo_sm->GetBinContent(bin));
+      histo_VVjjQCD_EWK_CMS_QCDScaleBounding_Down->SetBinContent(bin,hists[14]->GetBinContent(bin) -1 + systQCDScale/histo_sm->GetBinContent(bin));
+      std::cout << "bin number " << bin << " " << 1 + systQCDScale/histo_sm->GetBinContent(bin) << std::endl; 
+      HistCount = 0; 
+      int CountCHhist=0;
+      for (int i=0; i<3; i++)
+        for (int j=0; j<11; j++)
+	  {
+	  systQCDScale=0;
+	  for (int i = 0; i<6; i++)
+	    {
+	     if(TMath::Abs(ChargedHistQCD[HistCount]->GetBinContent(bin)-ChargedHist[CountCHhist*17]->GetBinContent(bin)) > systQCDScale) systQCDScale = TMath::Abs(ChargedHistQCD[HistCount]->GetBinContent(bin)-ChargedHist[CountCHhist*17]->GetBinContent(bin));
+	     HistCount++;
+	    };
+	  ChargedHist[13+CountCHhist*17]->SetBinContent(bin, ChargedHist[CountCHhist*17]->GetBinContent(bin) + 1 + systQCDScale/ChargedHist[CountCHhist*17]->GetBinContent(bin));
+	  ChargedHist[14+CountCHhist*17]->SetBinContent(bin, ChargedHist[CountCHhist*17]->GetBinContent(bin) - 1 + systQCDScale/ChargedHist[CountCHhist*17]->GetBinContent(bin));
+	  CountCHhist++;
+	  }
     }
 
   std::cout << "EWK PDF uncertainties" << std::endl;
   for(int bin=1; bin<NBINS+1; bin++)
     {
-      double systPDFScale=0;
+      double systPDFScale_1=0, systPDFScale_2=0;
       for (int i = 0; i<99; i++)
 	{
-	  systPDFScale = systPDFScale + (histo_EWK_CMS_PDFScaleBounding[i]->GetBinContent(bin)-histo_sm->GetBinContent(bin))*(histo_EWK_CMS_PDFScaleBounding[i]->GetBinContent(bin)-histo_sm->GetBinContent(bin));
-	  //cout << systPDFScale << "\t" << histo_EWK_CMS_PDFScaleBounding[i]->GetBinContent(bin) << "\t" << histo_sm->GetBinContent(bin) << endl;
+	  systPDFScale_1 = systPDFScale_1 + (histo_diboson_EWK_CMS_PDFScaleBounding[i]->GetBinContent(bin)-histo_sm->GetBinContent(bin))*(histo_diboson_EWK_CMS_PDFScaleBounding[i]->GetBinContent(bin)-histo_sm->GetBinContent(bin));
+	  systPDFScale_2 = systPDFScale_2 + (histo_VVjjQCD_EWK_CMS_PDFScaleBounding[i]->GetBinContent(bin)-histo_sm->GetBinContent(bin))*(histo_VVjjQCD_EWK_CMS_PDFScaleBounding[i]->GetBinContent(bin)-histo_sm->GetBinContent(bin));
 	}
-      systPDFScale = sqrt(systPDFScale/99.);
-      std::cout << "bin number " << bin << " " << 1 + systPDFScale/histo_sm->GetBinContent(bin) << "\t" << systPDFScale << "\t" << histo_sm->GetBinContent(bin) << std::endl; 
+      systPDFScale_1 = sqrt(systPDFScale_1/99.);
+      systPDFScale_2 = sqrt(systPDFScale_2/99.);
+      std::cout << "bin number " << bin << " " << 1 + systPDFScale_1/histo_sm->GetBinContent(bin)  << std::endl; 
+      std::cout << "bin number " << bin << " " << 1 + systPDFScale_2/histo_sm->GetBinContent(bin)  << std::endl; 
+      histo_diboson_EWK_CMS_PDFScaleBounding_Up->SetBinContent(bin, hists[1]->GetBinContent(bin) +  1 + systPDFScale_1/histo_sm->GetBinContent(bin) );
+      histo_diboson_EWK_CMS_PDFScaleBounding_Down->SetBinContent(bin, hists[1]->GetBinContent(bin) -  1 + systPDFScale_1/histo_sm->GetBinContent(bin) );
+      histo_VVjjQCD_EWK_CMS_PDFScaleBounding_Up->SetBinContent(bin, hists[14]->GetBinContent(bin) +  1 + systPDFScale_2/histo_sm->GetBinContent(bin) );
+      histo_VVjjQCD_EWK_CMS_PDFScaleBounding_Down->SetBinContent(bin, hists[14]->GetBinContent(bin) -  1 + systPDFScale_2/histo_sm->GetBinContent(bin) );
+      HistCount = 0; 
+      int CountCHhist=0;
+      for (int i=0; i<3; i++)
+        for (int j=0; j<11; j++)
+	  {
+	  systPDFScale=0;
+	  for (int i = 0; i<100; i++)
+	    {
+	  systPDFScale = systPDFScale + (ChargedHistPDF[i]->GetBinContent(bin)-ChargedHist[CountCHhist*17]->GetBinContent(bin))*(ChargedHistPDF[i]->GetBinContent(bin)-ChargedHist[CountCHhist*17]->GetBinContent(bin));
+	     HistCount++;
+	    };
+	    systPDFScale =  sqrt(systPDFScale/99.);
+	  ChargedHist[15+CountCHhist*17]->SetBinContent(bin, ChargedHist[CountCHhist*17]->GetBinContent(bin) + 1 + systPDFScale/ChargedHist[CountCHhist*17]->GetBinContent(bin));
+	  ChargedHist[16+CountCHhist*17]->SetBinContent(bin, ChargedHist[CountCHhist*17]->GetBinContent(bin) - 1 + systPDFScale/ChargedHist[CountCHhist*17]->GetBinContent(bin));
+	  CountCHhist++;
+	  }
     }
 
 
@@ -1028,10 +1191,12 @@ void model(const char *samplefilename,
   // Write all histograms... 
   for (int i=0; i<79; i++)
   {
+    cout << HistName[i] << " = " << hists[i]->Integral() << endl;
     hists[i]->Write();
   }
-  for (int i=0; i<429; i++)
+  for (int i=0; i<561; i++)
   {
+    cout << ChargedHist[i]->GetName() << " = " << ChargedHist[i]->Integral() << endl;
     ChargedHist[i]->Write();
   }
 
@@ -1074,6 +1239,15 @@ void model(const char *samplefilename,
   wjetdown4->SetTitle("shape5_W+jetsDown");
   wjetdown4->Write();
 
+
+histo_VVjjQCD_EWK_CMS_QCDScaleBounding_Up->Write();
+histo_VVjjQCD_EWK_CMS_QCDScaleBounding_Down->Write();
+histo_VVjjQCD_EWK_CMS_PDFScaleBounding_Up->Write();
+histo_VVjjQCD_EWK_CMS_PDFScaleBounding_Down->Write();
+histo_diboson_EWK_CMS_QCDScaleBounding_Up->Write();
+histo_diboson_EWK_CMS_QCDScaleBounding_Down->Write();
+histo_diboson_EWK_CMS_PDFScaleBounding_Up->Write();
+histo_diboson_EWK_CMS_PDFScaleBounding_Down->Write();
 
 
     //-------------------------------------------------------------------------------------

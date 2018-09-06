@@ -919,7 +919,7 @@ void model(const char *samplefilename,
   	      HistCount = 0;
   	      for (int i=0; i<3; i++)
 	        for (int j=0; j<11; j++)
-		  for (int k=0; k<13; k++)
+		  for (int k=0; k<17; k++)
 		  { 
 		    //TString name = HiggsSampleName[i]+MassPoint[j];
 		    TString OrigName = s->name()+"_CMS_scale_jDown";
