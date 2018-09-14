@@ -58,6 +58,7 @@ top	/store/user/rasharma/SecondStep/WWTree_CommonNtuple_For1and2Lepton_MuonPtSca
 top	/store/user/rasharma/SecondStep/WWTree_CommonNtuple_For1and2Lepton_MuonPtScale_2018_07_24_10h36/HaddedFiles/TTZToQQ.root	0.5297	1	749367.0	199113.0	592	1
 CH_WZToLL_M1000		/store/user/rasharma/SecondStep/WWTree_CommonNtuple_For1and2Lepton_MuonPtScale_2018_07_24_10h36/HaddedFiles/WWTree_ChargedHiggsToWZToLLQQ_M1000_13TeV.root	0.007685	1	89354.0	0.0	910	0
 CH_WZToLL_M1500		/store/user/rasharma/SecondStep/WWTree_CommonNtuple_For1and2Lepton_MuonPtScale_2018_07_24_10h36/HaddedFiles/WWTree_ChargedHiggsToWZToLLQQ_M1500_13TeV.root	0.00204	1	99968.0	0.0	910	0
+CH_WZToLL_M2000		/store/user/rasharma/SecondStep/WWTree_CommonNtuple_For1and2Lepton_MuonPtScale_2018_07_24_10h36/HaddedFiles/WWTree_ChargedHiggsToWZToLLQQ_M2000_13TeV.root	0.000635	1	99959.0 0.0	910	0
 CH_WZToLL_M200		/store/user/rasharma/SecondStep/WWTree_CommonNtuple_For1and2Lepton_MuonPtScale_2018_07_24_10h36/HaddedFiles/WWTree_ChargedHiggsToWZToLLQQ_M200_13TeV.root	0.195011	1	99997.0	0.0	910	0
 CH_WZToLL_M300		/store/user/rasharma/SecondStep/WWTree_CommonNtuple_For1and2Lepton_MuonPtScale_2018_07_24_10h36/HaddedFiles/WWTree_ChargedHiggsToWZToLLQQ_M300_13TeV.root	0.107954	1	99998.0	0.0	910	0
 CH_WZToLL_M400		/store/user/rasharma/SecondStep/WWTree_CommonNtuple_For1and2Lepton_MuonPtScale_2018_07_24_10h36/HaddedFiles/WWTree_ChargedHiggsToWZToLLQQ_M400_13TeV.root	0.065514	1	99994.0	0.0	910	0
