@@ -220,10 +220,11 @@ void model(const char *samplefilename,
   //============================================================
   //  VARIABLE LOOP
   //============================================================
-  int NBINS = 8;
+  int NBINS = 4;
   double MINRange = 600;
   double MAXRange = 2500;
-  double massLEdges[9]={600, 700, 800, 900, 1000, 1200, 1500, 2000, 2500};
+  double massLEdges[5] = {600, 1075, 1550, 2025, 2500};
+  //double massLEdges[9]={600, 700, 800, 900, 1000, 1200, 1500, 2000, 2500};
 
 
   TH1 *hists[79];
