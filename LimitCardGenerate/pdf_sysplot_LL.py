@@ -245,7 +245,7 @@ c1.Clear()
 
 c1, pad1, pad2 = Utils.createCanvasPads();
 
-NominalHist =fileIn.Get("DCH_WW_M2000");
+NominalHist =fileIn.Get("CH_WZToLL_M800");
 NominalHist.SetMarkerColor(1);
 NominalHist.SetMarkerSize(1);
 NominalHist.SetLineColor(1);
@@ -254,13 +254,13 @@ NominalHist.SetTitle("")
 NominalHist.SetStats(0)
 NominalHist.GetXaxis().SetTitle("M_{WW} (GeV)")
 
-lUp = fileIn.Get("DCH_WW_M2000_pdf_qqbarUp");
+lUp = fileIn.Get("CH_WZToLL_M800_pdf_qqbarUp");
 lUp.SetMarkerColor(2);
 lUp.SetMarkerSize(1);
 lUp.SetLineColor(2);
 lUp.SetFillStyle(0);
 lUp.SetStats(0);
-lDown = fileIn.Get("DCH_WW_M2000_pdf_qqbarDown");
+lDown = fileIn.Get("CH_WZToLL_M800_pdf_qqbarDown");
 lDown.SetMarkerColor(3);
 lDown.SetMarkerSize(1);
 lDown.SetLineColor(4);
@@ -297,13 +297,13 @@ l.SetLineWidth(1);
 l.Draw();
 
 
-c1.SaveAs("DCH_WW_M2000_PDFScale.png")
-c1.SaveAs("DCH_WW_M2000_PDFScale.pdf")
+c1.SaveAs("CH_WZToLL_M800_PDFScale.png")
+c1.SaveAs("CH_WZToLL_M800_PDFScale.pdf")
 c1.Clear()
 
 c1, pad1, pad2 = Utils.createCanvasPads();
 
-NominalHist =fileIn.Get("DCH_WW_M1000");
+NominalHist =fileIn.Get("CH_WZToLL_M900");
 NominalHist.SetMarkerColor(1);
 NominalHist.SetMarkerSize(1);
 NominalHist.SetLineColor(1);
@@ -312,13 +312,13 @@ NominalHist.SetTitle("")
 NominalHist.SetStats(0)
 NominalHist.GetXaxis().SetTitle("M_{WW} (GeV)")
 
-lUp = fileIn.Get("DCH_WW_M1000_pdf_qqbarUp");
+lUp = fileIn.Get("CH_WZToLL_M900_pdf_qqbarUp");
 lUp.SetMarkerColor(2);
 lUp.SetMarkerSize(1);
 lUp.SetLineColor(2);
 lUp.SetFillStyle(0);
 lUp.SetStats(0);
-lDown = fileIn.Get("DCH_WW_M1000_pdf_qqbarDown");
+lDown = fileIn.Get("CH_WZToLL_M900_pdf_qqbarDown");
 lDown.SetMarkerColor(3);
 lDown.SetMarkerSize(1);
 lDown.SetLineColor(4);
@@ -328,7 +328,7 @@ lDown.SetStats(0);
 NominalHist.SetTitle("")
 c1.cd()
 pad1.cd()
-#NominalHist.SetMaximum(140.0);
+NominalHist.SetMaximum(30.0);
 NominalHist.Draw();
 lUp.Draw("same hist")
 lDown.Draw("same hist")
@@ -355,14 +355,14 @@ l.SetLineWidth(1);
 l.Draw();
 
 
-c1.SaveAs("DCH_WW_M1000_PDFScale.png")
-c1.SaveAs("DCH_WW_M1000_PDFScale.pdf")
+c1.SaveAs("CH_WZToLL_M900_PDFScale.png")
+c1.SaveAs("CH_WZToLL_M900_PDFScale.pdf")
 c1.Clear()
 
 
 c1, pad1, pad2 = Utils.createCanvasPads();
 
-NominalHist =fileIn.Get("DCH_WW_M2000");
+NominalHist =fileIn.Get("CH_WZToLL_M800");
 NominalHist.SetMarkerColor(1);
 NominalHist.SetMarkerSize(1);
 NominalHist.SetLineColor(1);
@@ -371,13 +371,13 @@ NominalHist.SetTitle("")
 NominalHist.SetStats(0)
 NominalHist.GetXaxis().SetTitle("M_{WW} (GeV)")
 
-lUp = fileIn.Get("DCH_WW_M2000_Higgs_QCDScaleUp");
+lUp = fileIn.Get("CH_WZToLL_M800_Higgs_QCDScaleUp");
 lUp.SetMarkerColor(2);
 lUp.SetMarkerSize(1);
 lUp.SetLineColor(2);
 lUp.SetFillStyle(0);
 lUp.SetStats(0);
-lDown = fileIn.Get("DCH_WW_M2000_Higgs_QCDScaleDown");
+lDown = fileIn.Get("CH_WZToLL_M800_Higgs_QCDScaleDown");
 lDown.SetMarkerColor(3);
 lDown.SetMarkerSize(1);
 lDown.SetLineColor(4);
@@ -414,13 +414,13 @@ l.SetLineWidth(1);
 l.Draw();
 
 
-c1.SaveAs("DCH_WW_M2000_QCDScale.png")
-c1.SaveAs("DCH_WW_M2000_QCDScale.pdf")
+c1.SaveAs("CH_WZToLL_M800_QCDScale.png")
+c1.SaveAs("CH_WZToLL_M800_QCDScale.pdf")
 c1.Clear()
 
 c1, pad1, pad2 = Utils.createCanvasPads();
 
-NominalHist =fileIn.Get("DCH_WW_M1000");
+NominalHist =fileIn.Get("CH_WZToLL_M900");
 NominalHist.SetMarkerColor(1);
 NominalHist.SetMarkerSize(1);
 NominalHist.SetLineColor(1);
@@ -429,13 +429,13 @@ NominalHist.SetTitle("")
 NominalHist.SetStats(0)
 NominalHist.GetXaxis().SetTitle("M_{WW} (GeV)")
 
-lUp = fileIn.Get("DCH_WW_M1000_Higgs_QCDScaleUp");
+lUp = fileIn.Get("CH_WZToLL_M900_Higgs_QCDScaleUp");
 lUp.SetMarkerColor(2);
 lUp.SetMarkerSize(1);
 lUp.SetLineColor(2);
 lUp.SetFillStyle(0);
 lUp.SetStats(0);
-lDown = fileIn.Get("DCH_WW_M1000_Higgs_QCDScaleDown");
+lDown = fileIn.Get("CH_WZToLL_M900_Higgs_QCDScaleDown");
 lDown.SetMarkerColor(3);
 lDown.SetMarkerSize(1);
 lDown.SetLineColor(4);
@@ -472,7 +472,7 @@ l.SetLineWidth(1);
 l.Draw();
 
 
-c1.SaveAs("DCH_WW_M1000_QCDScale.png")
-c1.SaveAs("DCH_WW_M1000_QCDScale.pdf")
+c1.SaveAs("CH_WZToLL_M900_QCDScale.png")
+c1.SaveAs("CH_WZToLL_M900_QCDScale.pdf")
 c1.Clear()
 

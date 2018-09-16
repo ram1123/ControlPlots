@@ -219,10 +219,11 @@ void model(const char *samplefilename,
   //============================================================
   //  VARIABLE LOOP
   //============================================================
-  int NBINS = 8;
+  int NBINS = 4;
   double MINRange = 600;
   double MAXRange = 2500;
-  double massLEdges[9]={600, 700, 800, 900, 1000, 1200, 1500, 2000, 2500};
+  double massLEdges[5] = {600, 1075, 1550, 2025, 2500};
+  //double massLEdges[9]={600, 700, 800, 900, 1000, 1200, 1500, 2000, 2500};
 
 
 
@@ -253,8 +254,6 @@ void model(const char *samplefilename,
   TString Syst[17] = {"", "_CMS_scale_lUp", "_CMS_scale_lDown", "_CMS_scale_jUp", "_CMS_scale_jDown", "_CMS_res_metUp", "_CMS_res_metDown", "_CMS_puUp", "_CMS_puDown",       "_CMS_btagHFUp", "_CMS_btagHFDown", "_CMS_btagLFUp", "_CMS_btagLFDown", "_Higgs_QCDScaleUp", "_Higgs_QCDScaleDown", "_pdf_qqbarUp", "_pdf_qqbarDown" };
 
   
-  TH1 *histo_sm = new TH1D("SM", "SM", NBINS, massLEdges);
-  histo_sm->Sumw2();
   TH1 *histo_aqgc[718];
   for(int j=0;j<718;j++)
     {
@@ -281,8 +280,8 @@ void model(const char *samplefilename,
       histo_VVjjQCD_EWK_CMS_QCDScaleBounding[i] = new TH1D(name, name, NBINS,massLEdges);
       histo_VVjjQCD_EWK_CMS_QCDScaleBounding[i]->Sumw2();
     }
-  TH1D* histo_diboson_EWK_CMS_PDFScaleBounding[100];
-  TH1D* histo_VVjjQCD_EWK_CMS_PDFScaleBounding[100];
+ TH1D* histo_diboson_EWK_CMS_PDFScaleBounding[100];
+ TH1D* histo_VVjjQCD_EWK_CMS_PDFScaleBounding[100];
   for(int i = 0; i<100; i++)
     {
       stringstream ss;
@@ -297,30 +296,30 @@ void model(const char *samplefilename,
       histo_VVjjQCD_EWK_CMS_PDFScaleBounding[i]->Sumw2();
     }
 
-  TH1D* histo_VVjjQCD_EWK_CMS_QCDScaleBounding_Up = new TH1D("VVjjQCD_VVjjQCD_QCDScaleUp","", NBINS,massLEdges);
-  histo_VVjjQCD_EWK_CMS_QCDScaleBounding_Up->Sumw2();
+ TH1D* histo_VVjjQCD_EWK_CMS_QCDScaleBounding_Up = new TH1D("VVjjQCD_VVjjQCD_QCDScaleUp","", NBINS,massLEdges);
+ histo_VVjjQCD_EWK_CMS_QCDScaleBounding_Up->Sumw2();
 
-  TH1D* histo_VVjjQCD_EWK_CMS_QCDScaleBounding_Down = new TH1D("VVjjQCD_VVjjQCD_QCDScaleDown","", NBINS,massLEdges);
-  histo_VVjjQCD_EWK_CMS_QCDScaleBounding_Down->Sumw2();
-   
-  TH1D* histo_VVjjQCD_EWK_CMS_PDFScaleBounding_Up = new TH1D("VVjjQCD_pdf_ggbarUp","", NBINS,massLEdges);
-  histo_VVjjQCD_EWK_CMS_PDFScaleBounding_Up->Sumw2();
+ TH1D* histo_VVjjQCD_EWK_CMS_QCDScaleBounding_Down = new TH1D("VVjjQCD_VVjjQCD_QCDScaleDown","", NBINS,massLEdges);
+ histo_VVjjQCD_EWK_CMS_QCDScaleBounding_Down->Sumw2();
+  
+ TH1D* histo_VVjjQCD_EWK_CMS_PDFScaleBounding_Up = new TH1D("VVjjQCD_pdf_ggbarUp","", NBINS,massLEdges);
+ histo_VVjjQCD_EWK_CMS_PDFScaleBounding_Up->Sumw2();
 
-  TH1D* histo_VVjjQCD_EWK_CMS_PDFScaleBounding_Down = new TH1D("VVjjQCD_pdf_ggbarDown","", NBINS,massLEdges);
-  histo_VVjjQCD_EWK_CMS_PDFScaleBounding_Down->Sumw2();
-   
+ TH1D* histo_VVjjQCD_EWK_CMS_PDFScaleBounding_Down = new TH1D("VVjjQCD_pdf_ggbarDown","", NBINS,massLEdges);
+ histo_VVjjQCD_EWK_CMS_PDFScaleBounding_Down->Sumw2();
+  
 
-  TH1D* histo_diboson_EWK_CMS_QCDScaleBounding_Up = new TH1D("diboson_diboson_QCDScaleUp","", NBINS,massLEdges);
-  histo_diboson_EWK_CMS_QCDScaleBounding_Up->Sumw2();
+ TH1D* histo_diboson_EWK_CMS_QCDScaleBounding_Up = new TH1D("diboson_diboson_QCDScaleUp","", NBINS,massLEdges);
+ histo_diboson_EWK_CMS_QCDScaleBounding_Up->Sumw2();
 
-  TH1D* histo_diboson_EWK_CMS_QCDScaleBounding_Down = new TH1D("diboson_diboson_QCDScaleDown","", NBINS,massLEdges);
-  histo_diboson_EWK_CMS_QCDScaleBounding_Down->Sumw2();
-   
-  TH1D* histo_diboson_EWK_CMS_PDFScaleBounding_Up = new TH1D("diboson_pdf_qqbarUp","", NBINS,massLEdges);
-  histo_diboson_EWK_CMS_PDFScaleBounding_Up->Sumw2();
+ TH1D* histo_diboson_EWK_CMS_QCDScaleBounding_Down = new TH1D("diboson_diboson_QCDScaleDown","", NBINS,massLEdges);
+ histo_diboson_EWK_CMS_QCDScaleBounding_Down->Sumw2();
+  
+ TH1D* histo_diboson_EWK_CMS_PDFScaleBounding_Up = new TH1D("diboson_pdf_qqbarUp","", NBINS,massLEdges);
+ histo_diboson_EWK_CMS_PDFScaleBounding_Up->Sumw2();
 
-  TH1D* histo_diboson_EWK_CMS_PDFScaleBounding_Down = new TH1D("diboson_pdf_qqbarDown","", NBINS,massLEdges);
-  histo_diboson_EWK_CMS_PDFScaleBounding_Down->Sumw2();
+ TH1D* histo_diboson_EWK_CMS_PDFScaleBounding_Down = new TH1D("diboson_pdf_qqbarDown","", NBINS,massLEdges);
+ histo_diboson_EWK_CMS_PDFScaleBounding_Down->Sumw2();
   
 
   // histo for JES, JER, UP, Btag, LEP up/down uncertanities
@@ -332,14 +331,14 @@ void model(const char *samplefilename,
 
   int HistCount = 0;
   for (int i=0; i<3; i++)
-    for (int j=0; j<11; j++)
-      for (int k=0; k<17; k++)
+     for (int j=0; j<11; j++)
+        for (int k=0; k<17; k++)
 	{
-	  TString name = HiggsSampleName[i]+MassPoint[j]+Syst[k];
-	  cout<< "Hist name will be : " << HistCount << "\t" << name << endl;
-	  ChargedHist[HistCount] = new TH1D(name , name, NBINS,massLEdges); 
-	  ChargedHist[HistCount]->Sumw2();
-	  HistCount++;
+	   TString name = HiggsSampleName[i]+MassPoint[j]+Syst[k];
+	   cout<< "Hist name will be : " << HistCount << "\t" << name << endl;
+	   ChargedHist[HistCount] = new TH1D(name , name, NBINS,massLEdges); 
+	   ChargedHist[HistCount]->Sumw2();
+	   HistCount++;
 	}
   HistCount = 0;
   for (int i=0; i<3; i++)
@@ -688,7 +687,6 @@ void model(const char *samplefilename,
 	      // To get QCD scale bounding we need to add QCD scale for all signal and bkg. But except for WV_EWK and Diboson others are taken care of using background estimation. For top there is not QCD scale bounding present in MC.
 	      if(s->name().EqualTo("WV_EWK")||s->name().EqualTo("Diboson"))
 	  	{
-	    	  histo_sm->Fill(mass_llj_PuppiAK8,(xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
 		  if(s->name().EqualTo("WV_EWK"))
 		    {
 	     	      histo_diboson_EWK_CMS_QCDScaleBounding[0]->Fill(mass_llj_PuppiAK8,((LHEWeight[1]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
@@ -739,11 +737,11 @@ void model(const char *samplefilename,
 	  	    }
 	      if(s->name().EqualTo("aQGC"))
 	  	{
-	    	  for (int j=0;j<718;j++)
+		  for (int j=0;j<718;j++)
 		    {
-	      	      histo_aqgc[j]->Fill(mass_llj_PuppiAK8,((LHEWeight[j+446]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
-	    	    }
-	  	}
+		      histo_aqgc[j]->Fill(mass_llj_PuppiAK8,((LHEWeight[j+446]/LHEWeight[0])*xsec*otherscale*totalEventWeight_2Lep*btag0Wgt)/(1.0*(nmc-2*nneg)));
+		    }
+		}
 	    }
         }
 	  
@@ -893,27 +891,26 @@ void model(const char *samplefilename,
   for (int i=0; i<79; i++)
   {
     hists[i]->SetBinContent(NBINS,hists[i]->GetBinContent(NBINS)+hists[i]->GetBinContent(NBINS+1));
-    //cout << HistName[i] << " = " << hists[i]->Integral() << endl;
+    cout << HistName[i] << " = " << hists[i]->Integral() << endl;
     //hists[i]->Write();
   }
   for (int i=0; i<561; i++)
   {
     ChargedHist[i]->SetBinContent(NBINS,ChargedHist[i]->GetBinContent(NBINS)+ChargedHist[i]->GetBinContent(NBINS+1));
-    //cout << ChargedHist[i]->GetName() << " = " << ChargedHist[i]->Integral() << endl;
+    cout << ChargedHist[i]->GetName() << " = " << ChargedHist[i]->Integral() << endl;
     //hists[i]->Write();
   }
 
   for (int i=0; i<198; i++)
   {
     ChargedHistQCD[i]->SetBinContent(NBINS,ChargedHistQCD[i]->GetBinContent(NBINS)+ChargedHistQCD[i]->GetBinContent(NBINS+1));
-  }
+   }
 
   for (int i=0; i<3300; i++)
   {
     ChargedHistPDF[i]->SetBinContent(NBINS,ChargedHistPDF[i]->GetBinContent(NBINS)+ChargedHistPDF[i]->GetBinContent(NBINS+1));
   }
 
-  histo_sm->SetBinContent(NBINS,histo_sm->GetBinContent(NBINS)+histo_sm->GetBinContent(NBINS+1));
   for (int i=0; i<6; i++)
     {
       histo_diboson_EWK_CMS_QCDScaleBounding[i]->SetBinContent(NBINS,histo_diboson_EWK_CMS_QCDScaleBounding[i]->GetBinContent(NBINS)+histo_diboson_EWK_CMS_QCDScaleBounding[i]->GetBinContent(NBINS+1));
@@ -928,7 +925,6 @@ void model(const char *samplefilename,
     histo_aqgc[j]->SetBinContent(NBINS,histo_aqgc[j]->GetBinContent(NBINS)+histo_aqgc[j]->GetBinContent(NBINS+1));
     //std::cout << "aqgc integral " << histo_aqgc[j]->Integral() << std::endl;
   }
-  //std::cout << "SM integral " << histo_sm->Integral() << std::endl;
 
   //ok now we calculate the uncertainty
   std::cout << "EWK Scale uncertainties" << std::endl;
@@ -953,26 +949,28 @@ void model(const char *samplefilename,
       HistCount = 0; 
       int CountCHhist=0;
       for (int i=0; i<3; i++)
-        for (int j=0; j<11; j++)
-	  {
-	  systQCDScale=0;
-	  for (int i = 0; i<6; i++)
+        {
+	  for (int j=0; j<11; j++)
 	    {
-	     if(TMath::Abs(ChargedHistQCD[HistCount]->GetBinContent(bin)-ChargedHist[CountCHhist*17]->GetBinContent(bin)) > systQCDScale) systQCDScale = TMath::Abs(ChargedHistQCD[HistCount]->GetBinContent(bin)-ChargedHist[CountCHhist*17]->GetBinContent(bin));
-	     HistCount++;
-	    };
-	  if (ChargedHist[CountCHhist*17]->GetBinContent(bin) + systQCDScale < 0.0)
-	     ChargedHist[13+CountCHhist*17]->SetBinContent(bin, 0.0);
-	  else
-	     ChargedHist[13+CountCHhist*17]->SetBinContent(bin, ChargedHist[CountCHhist*17]->GetBinContent(bin) + systQCDScale);
-	  if (ChargedHist[CountCHhist*17]->GetBinContent(bin) - systQCDScale < 0.0)
-	     ChargedHist[14+CountCHhist*17]->SetBinContent(bin, 0.0);
-	  else
-	     ChargedHist[14+CountCHhist*17]->SetBinContent(bin, ChargedHist[CountCHhist*17]->GetBinContent(bin) - systQCDScale);
-	  CountCHhist++;
-	  }
+	      systQCDScale=0;
+	      for (int k = 0; k<6; k++)
+		{
+		  if(TMath::Abs(ChargedHistQCD[HistCount]->GetBinContent(bin)-ChargedHist[CountCHhist*17]->GetBinContent(bin)) > systQCDScale) systQCDScale = TMath::Abs(ChargedHistQCD[HistCount]->GetBinContent(bin)-ChargedHist[CountCHhist*17]->GetBinContent(bin));
+		  HistCount++;
+		}
+	      if (ChargedHist[CountCHhist*17]->GetBinContent(bin) + systQCDScale < 0.0)
+	         ChargedHist[13+CountCHhist*17]->SetBinContent(bin, 0.0);
+	      else
+	         ChargedHist[13+CountCHhist*17]->SetBinContent(bin, ChargedHist[CountCHhist*17]->GetBinContent(bin) + systQCDScale);
+	      if (ChargedHist[CountCHhist*17]->GetBinContent(bin) - systQCDScale < 0.0)
+	         ChargedHist[14+CountCHhist*17]->SetBinContent(bin, 0.0);
+	      else
+	         ChargedHist[14+CountCHhist*17]->SetBinContent(bin, ChargedHist[CountCHhist*17]->GetBinContent(bin) - systQCDScale);
+	      CountCHhist++;
+	    }
+	}
     }
-
+  
   std::cout << "EWK PDF uncertainties" << std::endl;
   for(int bin=1; bin<NBINS+1; bin++)
     {
@@ -993,24 +991,24 @@ void model(const char *samplefilename,
       HistCount = 0; 
       int CountCHhist=0;
       for (int i=0; i<3; i++)
-        for (int j=0; j<11; j++)
+        for (int k=0; k<11; k++)
 	  {
-	  double systPDFScale=0;
-	  for (int i = 0; i<100; i++)
-	    {
-	     systPDFScale = systPDFScale + (ChargedHistPDF[i]->GetBinContent(bin)-ChargedHist[CountCHhist*17]->GetBinContent(bin))*(ChargedHistPDF[i]->GetBinContent(bin)-ChargedHist[CountCHhist*17]->GetBinContent(bin));
-	     HistCount++;
-	    };
-	    systPDFScale =  sqrt(systPDFScale/99.);
-	  if (ChargedHist[CountCHhist*17]->GetBinContent(bin) + systPDFScale < 0.0)
-	     ChargedHist[15+CountCHhist*17]->SetBinContent(bin, 0.0);
-	  else
-	     ChargedHist[15+CountCHhist*17]->SetBinContent(bin, ChargedHist[CountCHhist*17]->GetBinContent(bin) + systPDFScale);
-	  if (ChargedHist[CountCHhist*17]->GetBinContent(bin) - systPDFScale <0.0)
-	     ChargedHist[16+CountCHhist*17]->SetBinContent(bin, 0.0);
-	  else
-	     ChargedHist[16+CountCHhist*17]->SetBinContent(bin, ChargedHist[CountCHhist*17]->GetBinContent(bin) - systPDFScale);
-	  CountCHhist++;
+	    double systPDFScale=0;
+	    for (int j = 0; j<100; j++)
+	      {
+	       systPDFScale = systPDFScale + (ChargedHistPDF[HistCount]->GetBinContent(bin)-ChargedHist[CountCHhist*17]->GetBinContent(bin))*(ChargedHistPDF[HistCount]->GetBinContent(bin)-ChargedHist[CountCHhist*17]->GetBinContent(bin));
+	       HistCount++;
+	      };
+	      systPDFScale =  sqrt(systPDFScale/99.);
+	    if (ChargedHist[CountCHhist*17]->GetBinContent(bin) + systPDFScale < 0.0)
+	       ChargedHist[15+CountCHhist*17]->SetBinContent(bin, 0.0);
+	    else
+	       ChargedHist[15+CountCHhist*17]->SetBinContent(bin, ChargedHist[CountCHhist*17]->GetBinContent(bin) + systPDFScale);
+	    if (ChargedHist[CountCHhist*17]->GetBinContent(bin) - systPDFScale <0.0)
+	       ChargedHist[16+CountCHhist*17]->SetBinContent(bin, 0.0);
+	    else
+	       ChargedHist[16+CountCHhist*17]->SetBinContent(bin, ChargedHist[CountCHhist*17]->GetBinContent(bin) - systPDFScale);
+	    CountCHhist++;
 	  }
     }
 

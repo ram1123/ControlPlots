@@ -67,7 +67,6 @@ public:
     tree_ = 0;
     //cout << "sample = " << name_ << endl;
     //TFile *f = new TFile (sinfo.treefilename, "READ"); if (!f) { cerr << "Couldn't find file " << sinfo.treefilename << endl; return; }
-    //TFile *f =  TFile::Open(sinfo.treefilename, "READ"); if (!f) { cerr << "Couldn't find file " << sinfo.treefilename << endl; return; }
     TFile *f =  TFile::Open("root://cmsxrootd.fnal.gov/"+sinfo.treefilename, "READ"); if (!f) { cerr << "Couldn't find file " << sinfo.treefilename << endl; return; }
     tree_ =  (TTree *)f->Get("otree"); if (!tree_) { cerr << "Couldn't find tree otree in file " << sinfo.treefilename << endl; return; }
   }
@@ -253,8 +252,6 @@ void model(const char *samplefilename,
   TString Syst[17] = {"", "_CMS_scale_lUp", "_CMS_scale_lDown", "_CMS_scale_jUp", "_CMS_scale_jDown", "_CMS_res_metUp", "_CMS_res_metDown", "_CMS_puUp", "_CMS_puDown",       "_CMS_btagHFUp", "_CMS_btagHFDown", "_CMS_btagLFUp", "_CMS_btagLFDown", "_Higgs_QCDScaleUp", "_Higgs_QCDScaleDown", "_pdf_qqbarUp", "_pdf_qqbarDown" };
 
   
-  TH1 *histo_sm = new TH1D("SM", "SM", NBINS, massLEdges);
-  histo_sm->Sumw2();
   TH1 *histo_aqgc[718];
   for(int j=0;j<718;j++)
     {
@@ -444,8 +441,6 @@ void model(const char *samplefilename,
     mytree->SetBranchStatus("PuppiAK8_jet_mass_so_corr",1);
     mytree->SetBranchAddress("PuppiAK8_jet_mass_so_corr",&PuppiAK8_jet_mass_so_corr);
 
-    //mytree->SetBranchStatus("v_pt",1);
-    //mytree->SetBranchAddress("v_pt",&v_pt);
 
     mytree->SetBranchStatus("vbf_maxpt_jj_m",1);
     mytree->SetBranchAddress("vbf_maxpt_jj_m",&vbf_maxpt_jj_m);
@@ -575,7 +570,7 @@ void model(const char *samplefilename,
       if(!(type==0||type==1)) continue;
       
       if (1)	//----------------	Nominal, PU up, PU down
-	{
+        {
 	  if ( (l_pt2<0 && l_pt1>50) && (((type==0)&&(abs(l_eta1)<2.4))||((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566)))) &&
 	       (((type==0)&&(pfMET_Corr>50)) || ((type==1)&&(pfMET_Corr>80))) &&
 	       ((ungroomed_PuppiAK8_jet_pt>200)&&(abs(ungroomed_PuppiAK8_jet_eta)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55)) &&
@@ -588,7 +583,7 @@ void model(const char *samplefilename,
 	       (BosonCentrality_type0>1.0) &&
 	       ((abs(ZeppenfeldWL_type0)/abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta))<0.3) &&
 	       ((abs(ZeppenfeldWH)/abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta))<0.3)
-	       )
+	      )
 	    {
 
 	      if(s->name().EqualTo("data"))	 hists[0]->Fill(mass_lvj_type0_PuppiAK8);
@@ -727,8 +722,8 @@ void model(const char *samplefilename,
 	      // To get QCD scale bounding we need to add QCD scale for all signal and bkg. But except for WV_EWK and Diboson others are taken care of using background estimation. For top there is not QCD scale bounding present in MC.
 	      if(s->name().EqualTo("WV_EWK")||s->name().EqualTo("Diboson"))
 	  	{
-		  histo_sm->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-		  if(s->name().EqualTo("WV_EWK")){
+		  if(s->name().EqualTo("WV_EWK"))
+		    {
 		    histo_diboson_EWK_CMS_QCDScaleBounding[0]->Fill(mass_lvj_type0_PuppiAK8,((LHEWeight[1]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 		    histo_diboson_EWK_CMS_QCDScaleBounding[1]->Fill(mass_lvj_type0_PuppiAK8,((LHEWeight[2]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 		    histo_diboson_EWK_CMS_QCDScaleBounding[2]->Fill(mass_lvj_type0_PuppiAK8,((LHEWeight[3]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
@@ -736,8 +731,9 @@ void model(const char *samplefilename,
 		    histo_diboson_EWK_CMS_QCDScaleBounding[4]->Fill(mass_lvj_type0_PuppiAK8,((LHEWeight[6]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 		    histo_diboson_EWK_CMS_QCDScaleBounding[5]->Fill(mass_lvj_type0_PuppiAK8,((LHEWeight[8]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 		    for(int npdf=0; npdf<100; npdf++) histo_diboson_EWK_CMS_PDFScaleBounding[npdf]->Fill(mass_lvj_type0_PuppiAK8,((LHEWeight[9+npdf]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-		  }
-		  if(s->name().EqualTo("Diboson")){
+		    }
+		  if(s->name().EqualTo("Diboson"))
+		    {
 		    histo_VVjjQCD_EWK_CMS_QCDScaleBounding[0]->Fill(mass_lvj_type0_PuppiAK8,((LHEWeight[1]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 		    histo_VVjjQCD_EWK_CMS_QCDScaleBounding[1]->Fill(mass_lvj_type0_PuppiAK8,((LHEWeight[2]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 		    histo_VVjjQCD_EWK_CMS_QCDScaleBounding[2]->Fill(mass_lvj_type0_PuppiAK8,((LHEWeight[3]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
@@ -745,8 +741,8 @@ void model(const char *samplefilename,
 		    histo_VVjjQCD_EWK_CMS_QCDScaleBounding[4]->Fill(mass_lvj_type0_PuppiAK8,((LHEWeight[6]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 		    histo_VVjjQCD_EWK_CMS_QCDScaleBounding[5]->Fill(mass_lvj_type0_PuppiAK8,((LHEWeight[8]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 		    for(int npdf=0; npdf<100; npdf++) histo_VVjjQCD_EWK_CMS_PDFScaleBounding[npdf]->Fill(mass_lvj_type0_PuppiAK8,((LHEWeight[9+npdf]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-		  }
-		}
+		    }
+		 }
 	      HistCount = 0;
 	      int LHEWgt[6] = {1, 2, 3, 4, 6, 8};
 	      for (int i=0; i<3; i++)
@@ -773,13 +769,13 @@ void model(const char *samplefilename,
 		      TString name = HiggsSampleName[i]+MassPoint[j]+"_CMS_PDFScale";
 		      if (OrigName.EqualTo(name)) ChargedHistPDF[HistCount]->Fill(mass_lvj_type0_PuppiAK8,((LHEWeight[9+k]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 		      HistCount++;
-		    }  
+		    }
 	      if(s->name().EqualTo("aQGC"))
 	  	{
-		  for (int j=0;j<718;j++){
-		    histo_aqgc[j]->Fill(mass_lvj_type0_PuppiAK8,((LHEWeight[j+446]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-		  }
-		  
+		  for (int j=0;j<718;j++)
+		    {
+		      histo_aqgc[j]->Fill(mass_lvj_type0_PuppiAK8,((LHEWeight[j+446]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+		    }
 		}
 	    }
 	}
@@ -1039,7 +1035,6 @@ void model(const char *samplefilename,
     ChargedHistPDF[i]->SetBinContent(NBINS,ChargedHistPDF[i]->GetBinContent(NBINS)+ChargedHistPDF[i]->GetBinContent(NBINS+1));
   }
 
-  histo_sm->SetBinContent(NBINS,histo_sm->GetBinContent(NBINS)+histo_sm->GetBinContent(NBINS+1));
   for (int i=0; i<6; i++)
     {
       histo_diboson_EWK_CMS_QCDScaleBounding[i]->SetBinContent(NBINS,histo_diboson_EWK_CMS_QCDScaleBounding[i]->GetBinContent(NBINS)+histo_diboson_EWK_CMS_QCDScaleBounding[i]->GetBinContent(NBINS+1));
@@ -1054,7 +1049,6 @@ void model(const char *samplefilename,
     histo_aqgc[j]->SetBinContent(NBINS,histo_aqgc[j]->GetBinContent(NBINS)+histo_aqgc[j]->GetBinContent(NBINS+1));
     //std::cout << "aqgc integral " << histo_aqgc[j]->Integral() << std::endl;
   }
-  //std::cout << "SM integral " << histo_sm->Integral() << std::endl;
 
   //ok now we calculate the uncertainty
   std::cout << "EWK Scale uncertainties" << std::endl;
@@ -1079,14 +1073,14 @@ void model(const char *samplefilename,
       HistCount = 0; 
       int CountCHhist=0;
       for (int i=0; i<3; i++)
-	{
+        {
 	  for (int j=0; j<11; j++)
 	    {
 	      systQCDScale=0;
 	      for (int k = 0; k<6; k++)
 		{
 		  //std::cout << "Let's gop " << ChargedHistQCD[HistCount]->GetName() << " " << ChargedHist[CountCHhist*17]->GetName() << std::endl;
-		  //std::cout << "Let's gop " << ChargedHistQCD[HistCount]->GetBinContent(bin) << " " << ChargedHist[CountCHhist*17]->GetBinContent(bin) << std::endl;
+		  ////std::cout << "Let's gop " << ChargedHistQCD[HistCount]->GetBinContent(bin) << " " << ChargedHist[CountCHhist*17]->GetBinContent(bin) << std::endl;
 		  if(TMath::Abs(ChargedHistQCD[HistCount]->GetBinContent(bin)-ChargedHist[CountCHhist*17]->GetBinContent(bin)) > systQCDScale) systQCDScale = TMath::Abs(ChargedHistQCD[HistCount]->GetBinContent(bin)-ChargedHist[CountCHhist*17]->GetBinContent(bin));
 		  HistCount++;
 		}
