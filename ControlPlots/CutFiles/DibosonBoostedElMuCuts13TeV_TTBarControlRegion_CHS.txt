@@ -1,0 +1,15 @@
+#  Name                     Cut string
+#"type=ele(1),muon(0)
+"mu"			"(type==0||type==1)"
+"1 lepton"              "(l_pt2<0 && l_pt1>50 && (((type==0)&&(abs(l_eta1)<2.4)) || ((type==1)&&((abs(l_eta1)<2.5)&&!(abs(l_eta1)>1.4442 && abs(l_eta1)<1.566)))))"
+"pfMETpuppi>30"         "(((type==0)&&(pfMET_Corr>50)) || ((type==1)&&(pfMET_Corr>80)))"
+"Good FatJet"           "((ungroomed_PuppiAK8_jet_pt>200)&&(abs(ungroomed_PuppiAK8_jet_eta)<2.4)&&(PuppiAK8_jet_tau2tau1<0.55))"
+"m_{J}<65 && m_{J}>105" "(PuppiAK8_jet_mass_so_corr>65 && PuppiAK8_jet_mass_so_corr<105)"
+">=0 Medium b-tag AK4"	"(nBTagJet_medium>0)"
+"VBF Mjj > 800"         "(vbf_maxpt_jj_m>800)"
+"VBF jet deta > 4.0"	"(abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta)>4.0)"
+"VBF jet pts > 30"     	"((vbf_maxpt_j1_pt>30) && (vbf_maxpt_j2_pt>30))"
+"mass cut"                "(mass_lvj_type0_PuppiAK8>600)"
+"Zeppenfeld<x"           "((abs(ZeppenfeldWL_type0)/abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta))<0.3)"
+"Zeppenfeldh<x"           "((abs(ZeppenfeldWH)/abs(vbf_maxpt_j2_eta-vbf_maxpt_j1_eta))<0.3)"
+"Centrality"              "(BosonCentrality_type0>1.0)"

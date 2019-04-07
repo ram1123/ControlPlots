@@ -1,0 +1,22 @@
+# name           file_location  xspb/lumipb  otherscale nMCevents       nMCNegEvents    colorcode       stackit
+data	/store/user/rasharma/SecondStep/Run_2017/Frameworkupdate/WWTree_2019_04_05_07h46/HaddedFiles/SingleMuon.root	35867.06	1	1	0	1	0
+VV	/store/user/rasharma/SecondStep/Run_2017/Frameworkupdate/WWTree_2019_04_05_07h46/HaddedFiles/ZZ_TuneCP5.root	16.523	1	1785793	0	868	1
+VV	/store/user/rasharma/SecondStep/Run_2017/Frameworkupdate/WWTree_2019_04_05_07h46/HaddedFiles/WW_TuneCP5.root	63.21	1	7762158	0	868	1
+VV	/store/user/rasharma/SecondStep/Run_2017/Frameworkupdate/WWTree_2019_04_05_07h46/HaddedFiles/WZ_TuneCP5.root	47.13	1	3923650	0	868	1
+W+jets	/store/user/rasharma/SecondStep/Run_2017/Frameworkupdate/WWTree_2019_04_05_07h46/HaddedFiles/WJetsToLNu_HT_800To1200.root	6.655	1	18727198	73126	924	1
+W+jets	/store/user/rasharma/SecondStep/Run_2017/Frameworkupdate/WWTree_2019_04_05_07h46/HaddedFiles/WJetsToLNu_HT_400To600.root	59.18	1	13712324	30238	924	1
+W+jets	/store/user/rasharma/SecondStep/Run_2017/Frameworkupdate/WWTree_2019_04_05_07h46/HaddedFiles/WJetsToLNu_HT_2500ToInf.root	0.0389136	1	17484444	352151	924	1
+W+jets	/store/user/rasharma/SecondStep/Run_2017/Frameworkupdate/WWTree_2019_04_05_07h46/HaddedFiles/WJetsToLNu_HT_600To800.root	14.58	1	21660946	63239	924	1
+W+jets	/store/user/rasharma/SecondStep/Run_2017/Frameworkupdate/WWTree_2019_04_05_07h46/HaddedFiles/WJetsToLNu_HT_100To200.root	1627.45	1	15837045	12903	924	1
+W+jets	/store/user/rasharma/SecondStep/Run_2017/Frameworkupdate/WWTree_2019_04_05_07h46/HaddedFiles/WJetsToLNu_HT_200To400.root	435.24	1	21227432	29119	924	1
+W+jets	/store/user/rasharma/SecondStep/Run_2017/Frameworkupdate/WWTree_2019_04_05_07h46/HaddedFiles/WJetsToLNu_HT_1200To2500.root	1.60809	1	20244623	133275	924	1
+Z+jets	/store/user/rasharma/SecondStep/Run_2017/Frameworkupdate/WWTree_2019_04_05_07h46/HaddedFiles/DYJetsToLL_M_50.root	5765.4	1	41150385	88592	4	1
+top	/store/user/rasharma/SecondStep/Run_2017/Frameworkupdate/WWTree_2019_04_05_07h46/HaddedFiles/TTToSemiLepton.root	364.3	1	41051491	166037	592	1
+top	/store/user/rasharma/SecondStep/Run_2017/Frameworkupdate/WWTree_2019_04_05_07h46/HaddedFiles/ST_s_channel.root	11.36	1	8296365	1559427	592	1
+top	/store/user/rasharma/SecondStep/Run_2017/Frameworkupdate/WWTree_2019_04_05_07h46/HaddedFiles/ST_t_channel_top_4f.root	136.02	1	5698903	0	592	1
+top	/store/user/rasharma/SecondStep/Run_2017/Frameworkupdate/WWTree_2019_04_05_07h46/HaddedFiles/ST_t_channel_antitop.root	80.95	1	2242450	0	592	1
+QCD	/store/user/rasharma/SecondStep/Run_2017/Frameworkupdate/WWTree_2019_04_05_07h46/HaddedFiles/QCD_HT500to700.root	32100	1	49809739	73908	420	1
+QCD	/store/user/rasharma/SecondStep/Run_2017/Frameworkupdate/WWTree_2019_04_05_07h46/HaddedFiles/QCD_HT700to1000.root	6831	1	47679765	102836	420	1
+QCD	/store/user/rasharma/SecondStep/Run_2017/Frameworkupdate/WWTree_2019_04_05_07h46/HaddedFiles/QCD_HT1500to2000.root	119.9	1	11615205	62821	420	1
+QCD	/store/user/rasharma/SecondStep/Run_2017/Frameworkupdate/WWTree_2019_04_05_07h46/HaddedFiles/QCD_HT1000to1500.root	1207	1	16882838	56038	420	1
+QCD	/store/user/rasharma/SecondStep/Run_2017/Frameworkupdate/WWTree_2019_04_05_07h46/HaddedFiles/QCD_HT2000toInf.root	25.24	1	4604505	44920	420	1
