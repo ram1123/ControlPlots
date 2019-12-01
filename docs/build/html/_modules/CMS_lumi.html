@@ -1,0 +1,353 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>CMS_lumi &mdash; plotting macro 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'0.0.1',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> plotting macro
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../example.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">plotting macro</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Module code</a> &raquo;</li>
+        
+      <li>CMS_lumi</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for CMS_lumi</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">ROOT</span> <span class="k">as</span> <span class="nn">rt</span>
+
+<span class="c1"># CMS_lumi</span>
+<span class="c1">#   Initiated by: Gautier Hamel de Monchenault (Saclay)</span>
+<span class="c1">#   Translated in Python by: Joshua Hardenbrook (Princeton)</span>
+<span class="c1">#</span>
+
+<span class="n">cmsText</span>     <span class="o">=</span> <span class="s2">&quot;CMS&quot;</span><span class="p">;</span>
+<span class="n">cmsTextFont</span>   <span class="o">=</span> <span class="mi">61</span>  
+
+<span class="n">writeExtraText</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">extraText</span>   <span class="o">=</span> <span class="s2">&quot;Very Preliminary&quot;</span>
+<span class="n">extraTextFont</span> <span class="o">=</span> <span class="mi">52</span> 
+
+<span class="n">lumiTextSize</span>     <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">lumiTextOffset</span>   <span class="o">=</span> <span class="mf">0.2</span>
+
+<span class="n">cmsTextSize</span>      <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">cmsTextOffset</span>    <span class="o">=</span> <span class="mf">0.1</span>
+
+<span class="n">relPosX</span>    <span class="o">=</span> <span class="mf">0.045</span>
+<span class="n">relPosY</span>    <span class="o">=</span> <span class="mf">0.035</span>
+<span class="n">relExtraDY</span> <span class="o">=</span> <span class="mf">1.2</span>
+
+<span class="n">extraOverCmsTextSize</span>  <span class="o">=</span> <span class="mf">0.76</span>
+
+<span class="n">lumi_13TeV</span> <span class="o">=</span> <span class="s2">&quot;20.1 fb^{-1}&quot;</span>
+<span class="n">lumi_8TeV</span>  <span class="o">=</span> <span class="s2">&quot;19.7 fb^{-1}&quot;</span> 
+<span class="n">lumi_7TeV</span>  <span class="o">=</span> <span class="s2">&quot;5.1 fb^{-1}&quot;</span>
+
+<span class="n">drawLogo</span>      <span class="o">=</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="CMS_lumi"><a class="viewcode-back" href="../CMS_lumi.html#CMS_lumi.CMS_lumi">[docs]</a><span class="k">def</span> <span class="nf">CMS_lumi</span><span class="p">(</span><span class="n">pad</span><span class="p">,</span>  <span class="n">iPeriod</span><span class="p">,</span>  <span class="n">iPosX</span> <span class="p">):</span>
+    <span class="n">outOfFrame</span>    <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">iPosX</span><span class="o">/</span><span class="mi">10</span><span class="o">==</span><span class="mi">0</span> <span class="p">):</span> <span class="n">outOfFrame</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="n">alignY_</span><span class="o">=</span><span class="mi">3</span>
+    <span class="n">alignX_</span><span class="o">=</span><span class="mi">2</span>
+    <span class="k">if</span><span class="p">(</span> <span class="n">iPosX</span><span class="o">/</span><span class="mi">10</span><span class="o">==</span><span class="mi">0</span> <span class="p">):</span> <span class="n">alignX_</span><span class="o">=</span><span class="mi">1</span>
+    <span class="k">if</span><span class="p">(</span> <span class="n">iPosX</span><span class="o">==</span><span class="mi">0</span>    <span class="p">):</span> <span class="n">alignY_</span><span class="o">=</span><span class="mi">1</span>
+    <span class="k">if</span><span class="p">(</span> <span class="n">iPosX</span><span class="o">/</span><span class="mi">10</span><span class="o">==</span><span class="mi">1</span> <span class="p">):</span> <span class="n">alignX_</span><span class="o">=</span><span class="mi">1</span>
+    <span class="k">if</span><span class="p">(</span> <span class="n">iPosX</span><span class="o">/</span><span class="mi">10</span><span class="o">==</span><span class="mi">2</span> <span class="p">):</span> <span class="n">alignX_</span><span class="o">=</span><span class="mi">2</span>
+    <span class="k">if</span><span class="p">(</span> <span class="n">iPosX</span><span class="o">/</span><span class="mi">10</span><span class="o">==</span><span class="mi">3</span> <span class="p">):</span> <span class="n">alignX_</span><span class="o">=</span><span class="mi">2</span>
+    <span class="n">align_</span> <span class="o">=</span> <span class="mi">10</span><span class="o">*</span><span class="n">alignX_</span> <span class="o">+</span> <span class="n">alignY_</span>
+
+    <span class="n">H</span> <span class="o">=</span> <span class="n">pad</span><span class="o">.</span><span class="n">GetWh</span><span class="p">()</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="n">pad</span><span class="o">.</span><span class="n">GetWw</span><span class="p">()</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="n">pad</span><span class="o">.</span><span class="n">GetLeftMargin</span><span class="p">()</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">pad</span><span class="o">.</span><span class="n">GetTopMargin</span><span class="p">()</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">pad</span><span class="o">.</span><span class="n">GetRightMargin</span><span class="p">()</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">pad</span><span class="o">.</span><span class="n">GetBottomMargin</span><span class="p">()</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="mf">0.025</span>
+
+    <span class="n">pad</span><span class="o">.</span><span class="n">cd</span><span class="p">()</span>
+
+    <span class="n">lumiText</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">if</span><span class="p">(</span> <span class="n">iPeriod</span><span class="o">==</span><span class="mi">1</span> <span class="p">):</span>
+        <span class="n">lumiText</span> <span class="o">+=</span> <span class="n">lumi_7TeV</span>
+        <span class="n">lumiText</span> <span class="o">+=</span> <span class="s2">&quot; (7 TeV)&quot;</span>
+    <span class="k">elif</span> <span class="p">(</span> <span class="n">iPeriod</span><span class="o">==</span><span class="mi">2</span> <span class="p">):</span>
+        <span class="n">lumiText</span> <span class="o">+=</span> <span class="n">lumi_8TeV</span>
+        <span class="n">lumiText</span> <span class="o">+=</span> <span class="s2">&quot; (8 TeV)&quot;</span>
+
+    <span class="k">elif</span><span class="p">(</span> <span class="n">iPeriod</span><span class="o">==</span><span class="mi">3</span> <span class="p">):</span>      
+        <span class="n">lumiText</span> <span class="o">=</span> <span class="n">lumi_8TeV</span> 
+        <span class="n">lumiText</span> <span class="o">+=</span> <span class="s2">&quot; (8 TeV)&quot;</span>
+        <span class="n">lumiText</span> <span class="o">+=</span> <span class="s2">&quot; + &quot;</span>
+        <span class="n">lumiText</span> <span class="o">+=</span> <span class="n">lumi_7TeV</span>
+        <span class="n">lumiText</span> <span class="o">+=</span> <span class="s2">&quot; (7 TeV)&quot;</span>
+    <span class="k">elif</span> <span class="p">(</span> <span class="n">iPeriod</span><span class="o">==</span><span class="mi">4</span> <span class="p">):</span>
+        <span class="n">lumiText</span> <span class="o">+=</span> <span class="n">lumi_13TeV</span>
+        <span class="n">lumiText</span> <span class="o">+=</span> <span class="s2">&quot; (13 TeV)&quot;</span>
+    <span class="k">elif</span> <span class="p">(</span> <span class="n">iPeriod</span><span class="o">==</span><span class="mi">7</span> <span class="p">):</span>
+        <span class="k">if</span><span class="p">(</span> <span class="n">outOfFrame</span> <span class="p">):</span><span class="n">lumiText</span> <span class="o">+=</span> <span class="s2">&quot;#scale[0.85]{&quot;</span>
+        <span class="n">lumiText</span> <span class="o">+=</span> <span class="n">lumi_13TeV</span> 
+        <span class="n">lumiText</span> <span class="o">+=</span> <span class="s2">&quot; (13 TeV)&quot;</span>
+        <span class="n">lumiText</span> <span class="o">+=</span> <span class="s2">&quot; + &quot;</span>
+        <span class="n">lumiText</span> <span class="o">+=</span> <span class="n">lumi_8TeV</span> 
+        <span class="n">lumiText</span> <span class="o">+=</span> <span class="s2">&quot; (8 TeV)&quot;</span>
+        <span class="n">lumiText</span> <span class="o">+=</span> <span class="s2">&quot; + &quot;</span>
+        <span class="n">lumiText</span> <span class="o">+=</span> <span class="n">lumi_7TeV</span>
+        <span class="n">lumiText</span> <span class="o">+=</span> <span class="s2">&quot; (7 TeV)&quot;</span>
+        <span class="k">if</span><span class="p">(</span> <span class="n">outOfFrame</span><span class="p">):</span> <span class="n">lumiText</span> <span class="o">+=</span> <span class="s2">&quot;}&quot;</span>
+    <span class="k">elif</span> <span class="p">(</span> <span class="n">iPeriod</span><span class="o">==</span><span class="mi">12</span> <span class="p">):</span>
+        <span class="n">lumiText</span> <span class="o">+=</span> <span class="s2">&quot;8 TeV&quot;</span>
+            
+    <span class="nb">print</span> <span class="n">lumiText</span>
+
+    <span class="n">latex</span> <span class="o">=</span> <span class="n">rt</span><span class="o">.</span><span class="n">TLatex</span><span class="p">()</span>
+    <span class="n">latex</span><span class="o">.</span><span class="n">SetNDC</span><span class="p">()</span>
+    <span class="n">latex</span><span class="o">.</span><span class="n">SetTextAngle</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">latex</span><span class="o">.</span><span class="n">SetTextColor</span><span class="p">(</span><span class="n">rt</span><span class="o">.</span><span class="n">kBlack</span><span class="p">)</span>    
+    
+    <span class="n">extraTextSize</span> <span class="o">=</span> <span class="n">extraOverCmsTextSize</span><span class="o">*</span><span class="n">cmsTextSize</span>
+    
+    <span class="n">latex</span><span class="o">.</span><span class="n">SetTextFont</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+    <span class="n">latex</span><span class="o">.</span><span class="n">SetTextAlign</span><span class="p">(</span><span class="mi">31</span><span class="p">)</span> 
+    <span class="n">latex</span><span class="o">.</span><span class="n">SetTextSize</span><span class="p">(</span><span class="n">lumiTextSize</span><span class="o">*</span><span class="n">t</span><span class="p">)</span>    
+
+    <span class="n">latex</span><span class="o">.</span><span class="n">DrawLatex</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">r</span><span class="p">,</span><span class="mi">1</span><span class="o">-</span><span class="n">t</span><span class="o">+</span><span class="n">lumiTextOffset</span><span class="o">*</span><span class="n">t</span><span class="p">,</span><span class="n">lumiText</span><span class="p">)</span>
+
+    <span class="k">if</span><span class="p">(</span> <span class="n">outOfFrame</span> <span class="p">):</span>
+        <span class="n">latex</span><span class="o">.</span><span class="n">SetTextFont</span><span class="p">(</span><span class="n">cmsTextFont</span><span class="p">)</span>
+        <span class="n">latex</span><span class="o">.</span><span class="n">SetTextAlign</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> 
+        <span class="n">latex</span><span class="o">.</span><span class="n">SetTextSize</span><span class="p">(</span><span class="n">cmsTextSize</span><span class="o">*</span><span class="n">t</span><span class="p">)</span>    
+        <span class="n">latex</span><span class="o">.</span><span class="n">DrawLatex</span><span class="p">(</span><span class="n">l</span><span class="p">,</span><span class="mi">1</span><span class="o">-</span><span class="n">t</span><span class="o">+</span><span class="n">lumiTextOffset</span><span class="o">*</span><span class="n">t</span><span class="p">,</span><span class="n">cmsText</span><span class="p">)</span>
+  
+    <span class="n">pad</span><span class="o">.</span><span class="n">cd</span><span class="p">()</span>
+
+    <span class="n">posX_</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span><span class="p">(</span> <span class="n">iPosX</span><span class="o">%</span><span class="mi">10</span><span class="o">&lt;=</span><span class="mi">1</span> <span class="p">):</span>
+        <span class="n">posX_</span> <span class="o">=</span>   <span class="n">l</span> <span class="o">+</span> <span class="n">relPosX</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">l</span><span class="o">-</span><span class="n">r</span><span class="p">)</span>
+    <span class="k">elif</span><span class="p">(</span> <span class="n">iPosX</span><span class="o">%</span><span class="mi">10</span><span class="o">==</span><span class="mi">2</span> <span class="p">):</span>
+        <span class="n">posX_</span> <span class="o">=</span>  <span class="n">l</span> <span class="o">+</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">l</span><span class="o">-</span><span class="n">r</span><span class="p">)</span>
+    <span class="k">elif</span><span class="p">(</span> <span class="n">iPosX</span><span class="o">%</span><span class="mi">10</span><span class="o">==</span><span class="mi">3</span> <span class="p">):</span>
+        <span class="n">posX_</span> <span class="o">=</span>  <span class="mf">0.92</span><span class="o">-</span><span class="n">r</span> <span class="o">-</span> <span class="n">relPosX</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">l</span><span class="o">-</span><span class="n">r</span><span class="p">)</span>
+
+    <span class="n">posY_</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="n">t</span> <span class="o">-</span> <span class="n">relPosY</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">t</span><span class="o">-</span><span class="n">b</span><span class="p">)</span>
+
+    <span class="k">if</span><span class="p">(</span> <span class="ow">not</span> <span class="n">outOfFrame</span> <span class="p">):</span>
+        <span class="k">if</span><span class="p">(</span> <span class="n">drawLogo</span> <span class="p">):</span>
+            <span class="n">posX_</span> <span class="o">=</span>   <span class="n">l</span> <span class="o">+</span> <span class="mf">0.045</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">l</span><span class="o">-</span><span class="n">r</span><span class="p">)</span><span class="o">*</span><span class="n">W</span><span class="o">/</span><span class="n">H</span>
+            <span class="n">posY_</span> <span class="o">=</span> <span class="mi">1</span><span class="o">-</span><span class="n">t</span> <span class="o">-</span> <span class="mf">0.045</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">t</span><span class="o">-</span><span class="n">b</span><span class="p">)</span>
+            <span class="n">xl_0</span> <span class="o">=</span> <span class="n">posX_</span>
+            <span class="n">yl_0</span> <span class="o">=</span> <span class="n">posY_</span> <span class="o">-</span> <span class="mf">0.15</span>
+            <span class="n">xl_1</span> <span class="o">=</span> <span class="n">posX_</span> <span class="o">+</span> <span class="mf">0.15</span><span class="o">*</span><span class="n">H</span><span class="o">/</span><span class="n">W</span>
+            <span class="n">yl_1</span> <span class="o">=</span> <span class="n">posY_</span>
+            <span class="n">CMS_logo</span> <span class="o">=</span> <span class="n">rt</span><span class="o">.</span><span class="n">TASImage</span><span class="p">(</span><span class="s2">&quot;CMS-BW-label.png&quot;</span><span class="p">)</span>
+            <span class="n">pad_logo</span> <span class="o">=</span>  <span class="n">rt</span><span class="o">.</span><span class="n">TPad</span><span class="p">(</span><span class="s2">&quot;logo&quot;</span><span class="p">,</span><span class="s2">&quot;logo&quot;</span><span class="p">,</span> <span class="n">xl_0</span><span class="p">,</span> <span class="n">yl_0</span><span class="p">,</span> <span class="n">xl_1</span><span class="p">,</span> <span class="n">yl_1</span> <span class="p">)</span>
+            <span class="n">pad_logo</span><span class="o">.</span><span class="n">Draw</span><span class="p">()</span>
+            <span class="n">pad_logo</span><span class="o">.</span><span class="n">cd</span><span class="p">()</span>
+            <span class="n">CMS_logo</span><span class="o">.</span><span class="n">Draw</span><span class="p">(</span><span class="s2">&quot;X&quot;</span><span class="p">)</span>
+            <span class="n">pad_logo</span><span class="o">.</span><span class="n">Modified</span><span class="p">()</span>
+            <span class="n">pad</span><span class="o">.</span><span class="n">cd</span><span class="p">()</span>          
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">latex</span><span class="o">.</span><span class="n">SetTextFont</span><span class="p">(</span><span class="n">cmsTextFont</span><span class="p">)</span>
+            <span class="n">latex</span><span class="o">.</span><span class="n">SetTextSize</span><span class="p">(</span><span class="n">cmsTextSize</span><span class="o">*</span><span class="n">t</span><span class="p">)</span>
+            <span class="n">latex</span><span class="o">.</span><span class="n">SetTextAlign</span><span class="p">(</span><span class="n">align_</span><span class="p">)</span>
+            <span class="n">latex</span><span class="o">.</span><span class="n">DrawLatex</span><span class="p">(</span><span class="n">posX_</span><span class="p">,</span> <span class="n">posY_</span><span class="p">,</span> <span class="n">cmsText</span><span class="p">)</span>
+            <span class="k">if</span><span class="p">(</span> <span class="n">writeExtraText</span> <span class="p">)</span> <span class="p">:</span>
+                <span class="n">latex</span><span class="o">.</span><span class="n">SetTextFont</span><span class="p">(</span><span class="n">extraTextFont</span><span class="p">)</span>
+                <span class="n">latex</span><span class="o">.</span><span class="n">SetTextAlign</span><span class="p">(</span><span class="n">align_</span><span class="p">)</span>
+                <span class="n">latex</span><span class="o">.</span><span class="n">SetTextSize</span><span class="p">(</span><span class="n">extraTextSize</span><span class="o">*</span><span class="n">t</span><span class="p">)</span>
+                <span class="n">latex</span><span class="o">.</span><span class="n">DrawLatex</span><span class="p">(</span><span class="n">posX_</span><span class="p">,</span> <span class="n">posY_</span><span class="o">-</span> <span class="n">relExtraDY</span><span class="o">*</span><span class="n">cmsTextSize</span><span class="o">*</span><span class="n">t</span><span class="p">,</span> <span class="n">extraText</span><span class="p">)</span>
+    <span class="k">elif</span><span class="p">(</span> <span class="n">writeExtraText</span> <span class="p">):</span>
+        <span class="k">if</span><span class="p">(</span> <span class="n">iPosX</span><span class="o">==</span><span class="mi">0</span><span class="p">):</span>
+            <span class="n">posX_</span> <span class="o">=</span>   <span class="n">l</span> <span class="o">+</span>  <span class="n">relPosX</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">l</span><span class="o">-</span><span class="n">r</span><span class="p">)</span>
+            <span class="n">posY_</span> <span class="o">=</span>   <span class="mi">1</span><span class="o">-</span><span class="n">t</span><span class="o">+</span><span class="n">lumiTextOffset</span><span class="o">*</span><span class="n">t</span>
+
+        <span class="n">latex</span><span class="o">.</span><span class="n">SetTextFont</span><span class="p">(</span><span class="n">extraTextFont</span><span class="p">)</span>
+        <span class="n">latex</span><span class="o">.</span><span class="n">SetTextSize</span><span class="p">(</span><span class="n">extraTextSize</span><span class="o">*</span><span class="n">t</span><span class="p">)</span>
+        <span class="n">latex</span><span class="o">.</span><span class="n">SetTextAlign</span><span class="p">(</span><span class="n">align_</span><span class="p">)</span>
+        <span class="n">latex</span><span class="o">.</span><span class="n">DrawLatex</span><span class="p">(</span><span class="n">posX_</span><span class="p">,</span> <span class="n">posY_</span><span class="p">,</span> <span class="n">extraText</span><span class="p">)</span>      
+
+    <span class="n">pad</span><span class="o">.</span><span class="n">Update</span><span class="p">()</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Ram Krishna Sharma
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

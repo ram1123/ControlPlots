@@ -1,5 +1,7 @@
 */OutDir/*
 screenlog.0
+.DS_Store
+*.pyc
 *.tex
 *.png
 *.log

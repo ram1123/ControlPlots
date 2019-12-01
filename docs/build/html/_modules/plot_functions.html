@@ -1,0 +1,700 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>plot_functions &mdash; plotting macro 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript">
+          var DOCUMENTATION_OPTIONS = {
+              URL_ROOT:'../',
+              VERSION:'0.0.1',
+              LANGUAGE:'None',
+              COLLAPSE_INDEX:false,
+              FILE_SUFFIX:'.html',
+              HAS_SOURCE:  true,
+              SOURCELINK_SUFFIX: '.txt'
+          };
+      </script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> plotting macro
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../example.html">Examples</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">plotting macro</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Module code</a> &raquo;</li>
+        
+      <li>plot_functions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for plot_functions</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="kn">import</span> <span class="nn">ROOT</span> <span class="k">as</span> <span class="nn">ROOT</span>
+<span class="kn">import</span> <span class="nn">CMS_lumi</span><span class="o">,</span> <span class="nn">tdrstyle</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+
+
+<span class="c1">#############	Define Legend, Canvas, 	##########################</span>
+
+<div class="viewcode-block" id="getLegends"><a class="viewcode-back" href="../plot_functions.html#plot_functions.getLegends">[docs]</a><span class="k">def</span> <span class="nf">getLegends</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span><span class="n">ncol</span><span class="p">,</span><span class="n">nvar</span><span class="p">,</span><span class="n">fontsize</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">pos</span> <span class="o">==</span> <span class="s2">&quot;tr&quot;</span><span class="p">:</span>
+    	<span class="n">legend</span> <span class="o">=</span> <span class="n">ROOT</span><span class="o">.</span><span class="n">TLegend</span><span class="p">(</span><span class="o">.</span><span class="mi">70</span><span class="o">-</span><span class="p">(</span><span class="mf">0.15</span><span class="o">*</span><span class="p">(</span><span class="n">ncol</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="mf">0.80</span><span class="o">-</span><span class="p">(</span><span class="mf">0.02</span><span class="o">*</span><span class="p">(</span><span class="n">nvar</span><span class="o">/</span><span class="n">ncol</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="p">,</span><span class="o">.</span><span class="mi">95</span> <span class="p">,</span><span class="o">.</span><span class="mi">920</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">pos</span> <span class="o">==</span> <span class="s2">&quot;tl&quot;</span><span class="p">:</span>
+    	<span class="n">legend</span> <span class="o">=</span> <span class="n">ROOT</span><span class="o">.</span><span class="n">TLegend</span><span class="p">(</span><span class="mf">0.11</span><span class="p">,</span> <span class="mf">0.85</span><span class="o">-</span><span class="p">(</span><span class="mf">0.02</span><span class="o">*</span><span class="p">(</span><span class="n">nvar</span><span class="o">/</span><span class="n">ncol</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="p">,</span><span class="o">.</span><span class="mi">80</span><span class="o">+</span><span class="p">(</span><span class="mf">0.15</span><span class="o">*</span><span class="p">(</span><span class="n">ncol</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="p">,</span><span class="o">.</span><span class="mi">920</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">pos</span> <span class="o">==</span> <span class="s2">&quot;tc&quot;</span><span class="p">:</span>
+    	<span class="n">legend</span> <span class="o">=</span> <span class="n">ROOT</span><span class="o">.</span><span class="n">TLegend</span><span class="p">(</span><span class="mf">0.30</span><span class="p">,</span> <span class="mf">0.80</span><span class="o">-</span><span class="p">(</span><span class="mf">0.02</span><span class="o">*</span><span class="p">(</span><span class="n">nvar</span><span class="o">/</span><span class="n">ncol</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="p">,</span><span class="o">.</span><span class="mi">80</span> <span class="p">,</span><span class="o">.</span><span class="mi">920</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">pos</span> <span class="o">==</span> <span class="s2">&quot;bl&quot;</span><span class="p">:</span>
+    	<span class="n">legend</span> <span class="o">=</span> <span class="n">ROOT</span><span class="o">.</span><span class="n">TLegend</span><span class="p">(</span><span class="mf">0.11</span><span class="p">,</span> <span class="mf">0.25</span><span class="o">+</span><span class="p">(</span><span class="mf">0.02</span><span class="o">*</span><span class="p">(</span><span class="n">nvar</span><span class="o">/</span><span class="n">ncol</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="p">,</span><span class="o">.</span><span class="mi">60</span><span class="o">+</span><span class="p">(</span><span class="mf">0.15</span><span class="o">*</span><span class="p">(</span><span class="n">ncol</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="p">,</span><span class="o">.</span><span class="mi">130</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">pos</span> <span class="o">==</span> <span class="s2">&quot;bc&quot;</span><span class="p">:</span>
+    	<span class="n">legend</span> <span class="o">=</span> <span class="n">ROOT</span><span class="o">.</span><span class="n">TLegend</span><span class="p">(</span><span class="mf">0.30</span><span class="p">,</span> <span class="mf">0.25</span><span class="o">+</span><span class="p">(</span><span class="mf">0.02</span><span class="o">*</span><span class="p">(</span><span class="n">nvar</span><span class="o">/</span><span class="n">ncol</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="p">,</span><span class="o">.</span><span class="mi">80</span> <span class="p">,</span><span class="o">.</span><span class="mi">130</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">pos</span> <span class="o">==</span> <span class="s2">&quot;br&quot;</span><span class="p">:</span>
+    	<span class="n">legend</span> <span class="o">=</span> <span class="n">ROOT</span><span class="o">.</span><span class="n">TLegend</span><span class="p">(</span><span class="o">.</span><span class="mi">45</span><span class="o">-</span><span class="p">(</span><span class="mf">0.15</span><span class="o">*</span><span class="p">(</span><span class="n">ncol</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="mf">0.25</span><span class="o">+</span><span class="p">(</span><span class="mf">0.02</span><span class="o">*</span><span class="p">(</span><span class="n">nvar</span><span class="o">/</span><span class="n">ncol</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="p">,</span><span class="o">.</span><span class="mi">95</span> <span class="p">,</span><span class="o">.</span><span class="mi">130</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+    	<span class="nb">print</span> <span class="s2">&quot;Invalid default position: Switching to default legend position top-right&quot;</span>
+    	<span class="n">legend</span> <span class="o">=</span> <span class="n">ROOT</span><span class="o">.</span><span class="n">TLegend</span><span class="p">(</span><span class="o">.</span><span class="mi">85</span><span class="o">-</span><span class="p">(</span><span class="mf">0.15</span><span class="o">*</span><span class="p">(</span><span class="n">ncol</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="mf">0.88</span><span class="o">-</span><span class="p">(</span><span class="mf">0.02</span><span class="o">*</span><span class="p">(</span><span class="n">nvar</span><span class="o">/</span><span class="n">ncol</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="p">,</span><span class="o">.</span><span class="mi">50</span> <span class="p">,</span><span class="o">.</span><span class="mi">950</span><span class="p">)</span>
+    <span class="n">legend</span><span class="o">.</span><span class="n">SetFillColor</span><span class="p">(</span><span class="n">ROOT</span><span class="o">.</span><span class="n">kWhite</span><span class="p">)</span>
+    <span class="n">legend</span><span class="o">.</span><span class="n">SetFillStyle</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">legend</span><span class="o">.</span><span class="n">SetTextSize</span><span class="p">(</span><span class="n">fontsize</span><span class="p">)</span>
+    <span class="n">legend</span><span class="o">.</span><span class="n">SetNColumns</span><span class="p">(</span><span class="n">ncol</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">legend</span></div>
+
+<div class="viewcode-block" id="getCanvas"><a class="viewcode-back" href="../plot_functions.html#plot_functions.getCanvas">[docs]</a><span class="k">def</span> <span class="nf">getCanvas</span><span class="p">():</span>
+    <span class="n">H_ref</span> <span class="o">=</span> <span class="mi">600</span><span class="p">;</span> 
+    <span class="n">W_ref</span> <span class="o">=</span> <span class="mi">600</span><span class="p">;</span> 
+    <span class="n">W</span> <span class="o">=</span> <span class="n">W_ref</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">H_ref</span>
+
+    <span class="n">T</span> <span class="o">=</span> <span class="mf">0.08</span><span class="o">*</span><span class="n">H_ref</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="mf">0.12</span><span class="o">*</span><span class="n">H_ref</span> 
+    <span class="n">L</span> <span class="o">=</span> <span class="mf">0.18</span><span class="o">*</span><span class="n">W_ref</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="mf">0.01</span><span class="o">*</span><span class="n">W_ref</span>
+
+    <span class="n">canvas</span> <span class="o">=</span> <span class="n">ROOT</span><span class="o">.</span><span class="n">TCanvas</span><span class="p">(</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span><span class="s2">&quot;c2&quot;</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="mi">50</span><span class="p">,</span><span class="n">W</span><span class="p">,</span><span class="n">H</span><span class="p">)</span>
+    <span class="n">canvas</span><span class="o">.</span><span class="n">SetFillColor</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">canvas</span><span class="o">.</span><span class="n">SetBorderMode</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">canvas</span><span class="o">.</span><span class="n">SetFrameFillStyle</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">canvas</span><span class="o">.</span><span class="n">SetFrameBorderMode</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">canvas</span><span class="o">.</span><span class="n">SetLeftMargin</span><span class="p">(</span> <span class="n">L</span><span class="o">/</span><span class="n">W</span> <span class="o">*</span><span class="mf">0.6</span> <span class="p">)</span>
+    <span class="n">canvas</span><span class="o">.</span><span class="n">SetRightMargin</span><span class="p">(</span> <span class="n">R</span><span class="o">/</span><span class="n">W</span><span class="o">*</span><span class="mi">5</span> <span class="p">)</span>
+    <span class="n">canvas</span><span class="o">.</span><span class="n">SetTopMargin</span><span class="p">(</span> <span class="n">T</span><span class="o">/</span><span class="n">H</span> <span class="p">)</span>
+    <span class="n">canvas</span><span class="o">.</span><span class="n">SetBottomMargin</span><span class="p">(</span> <span class="n">B</span><span class="o">/</span><span class="n">H</span> <span class="p">)</span>
+    <span class="n">canvas</span><span class="o">.</span><span class="n">SetTickx</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">canvas</span><span class="o">.</span><span class="n">SetTicky</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> 
+    <span class="k">return</span> <span class="n">canvas</span></div>
+
+<div class="viewcode-block" id="setHistAttributes"><a class="viewcode-back" href="../plot_functions.html#plot_functions.setHistAttributes">[docs]</a><span class="k">def</span> <span class="nf">setHistAttributes</span> <span class="p">(</span><span class="n">hist</span><span class="p">,</span> <span class="n">plot_info</span><span class="p">,</span> <span class="n">line_color</span><span class="p">,</span> <span class="n">fill_color</span><span class="p">):</span>
+    <span class="c1">#hist.SetFillColor(fill_color)</span>
+    <span class="n">hist</span><span class="o">.</span><span class="n">SetLineColor</span><span class="p">(</span><span class="n">line_color</span><span class="p">)</span>
+    <span class="n">hist</span><span class="o">.</span><span class="n">SetMarkerColor</span><span class="p">(</span><span class="n">line_color</span><span class="p">)</span>
+    <span class="c1">#colorArray = [1, 632, 416, 600, 400, 616, 432, 920, 800, 880, 820, 840, 860, 900, 940, 960, 980, 640, 660, 680, 700, 720, 740, 760]</span>
+    <span class="c1">#stl=1</span>
+    <span class="c1">#if(line_color==1):</span>
+    <span class="c1">#	stl=1</span>
+    <span class="c1">#if(line_color==632):</span>
+    <span class="c1">#	stl=2</span>
+    <span class="c1">#if(line_color==416):</span>
+    <span class="c1">#	stl=3</span>
+    <span class="c1">#if(line_color==600):</span>
+    <span class="c1">#	stl=4</span>
+    <span class="c1">#hist.SetMarkerStyle(stl)</span>
+    <span class="c1">#hist.SetMarkerSize(1.5)</span>
+    <span class="c1">#hist.SetLineWidth(2)</span>
+    <span class="n">hist</span><span class="o">.</span><span class="n">SetTitleOffset</span><span class="p">(</span><span class="mf">1.3</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">)</span>
+    <span class="n">hist</span><span class="o">.</span><span class="n">SetTitleOffset</span><span class="p">(</span><span class="mf">1.3</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;rebin&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">hist</span><span class="p">)</span> <span class="o">!=</span> <span class="s2">&quot;&lt;class &#39;__main__.TH2F&#39;&gt;&quot;</span><span class="p">:</span>
+            <span class="n">hist</span><span class="o">.</span><span class="n">Rebin</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;rebin&quot;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span> <span class="s1">&#39;Rebin only defined for 1D hist. Use --rebin2D instead.&#39;</span>
+    <span class="k">if</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;xmin&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;xmax&quot;</span><span class="p">]:</span>
+        <span class="n">hist</span><span class="o">.</span><span class="n">GetXaxis</span><span class="p">()</span><span class="o">.</span><span class="n">SetRangeUser</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;xmin&quot;</span><span class="p">],</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;xmax&quot;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;ymin&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;ymax&quot;</span><span class="p">]:</span>
+        <span class="c1">#hist.GetYaxis().SetRangeUser(plot_info[&quot;ymin&quot;], plot_info[&quot;ymax&quot;])</span>
+	<span class="c1">#hist.SetMinimum(plot_info[&quot;ymin&quot;])</span>
+	<span class="n">hist</span><span class="o">.</span><span class="n">SetMaximum</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;ymax&quot;</span><span class="p">])</span></div>
+	<span class="c1">#hist.SetMaximum(30)</span>
+
+    <span class="c1">#hist.GetYaxis().SetTitle(plot_info[&quot;ylabel&quot;])</span>
+
+<div class="viewcode-block" id="createRatio"><a class="viewcode-back" href="../plot_functions.html#plot_functions.createRatio">[docs]</a><span class="k">def</span> <span class="nf">createRatio</span><span class="p">(</span><span class="n">h1</span><span class="p">,</span> <span class="n">h2</span><span class="p">,</span><span class="n">col</span><span class="p">):</span>	<span class="c1"># h1/h2</span>
+    <span class="n">h3</span> <span class="o">=</span> <span class="n">h1</span><span class="o">.</span><span class="n">Clone</span><span class="p">(</span><span class="s2">&quot;h3&quot;</span><span class="p">)</span>
+    <span class="n">h3</span><span class="o">.</span><span class="n">SetLineColor</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+    <span class="n">h3</span><span class="o">.</span><span class="n">SetMarkerColor</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+    <span class="n">h3</span><span class="o">.</span><span class="n">SetMarkerStyle</span><span class="p">(</span><span class="mi">21</span><span class="p">)</span>
+    <span class="n">h3</span><span class="o">.</span><span class="n">SetTitle</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">h3</span><span class="o">.</span><span class="n">SetMinimum</span><span class="p">(</span><span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">h3</span><span class="o">.</span><span class="n">SetMaximum</span><span class="p">(</span><span class="mf">1.10</span><span class="p">)</span>
+    <span class="c1"># Set up plot for markers and errors</span>
+    <span class="c1">#h3.Sumw2()</span>
+    <span class="n">h3</span><span class="o">.</span><span class="n">SetStats</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">h3</span><span class="o">.</span><span class="n">Divide</span><span class="p">(</span><span class="n">h2</span><span class="p">)</span>
+
+    <span class="c1"># Adjust y-axis settings</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">h3</span><span class="o">.</span><span class="n">GetYaxis</span><span class="p">()</span>
+    <span class="n">y</span><span class="o">.</span><span class="n">SetTitle</span><span class="p">(</span><span class="s2">&quot;ratio (SM/aQGC)&quot;</span><span class="p">)</span>
+    <span class="n">y</span><span class="o">.</span><span class="n">SetNdivisions</span><span class="p">(</span><span class="mi">505</span><span class="p">)</span>
+    <span class="n">y</span><span class="o">.</span><span class="n">SetTitleSize</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">y</span><span class="o">.</span><span class="n">SetTitleFont</span><span class="p">(</span><span class="mi">43</span><span class="p">)</span>
+    <span class="n">y</span><span class="o">.</span><span class="n">SetTitleOffset</span><span class="p">(</span><span class="mf">1.55</span><span class="p">)</span>
+    <span class="n">y</span><span class="o">.</span><span class="n">SetLabelFont</span><span class="p">(</span><span class="mi">43</span><span class="p">)</span>
+    <span class="n">y</span><span class="o">.</span><span class="n">SetLabelSize</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+
+    <span class="c1"># Adjust x-axis settings</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">h3</span><span class="o">.</span><span class="n">GetXaxis</span><span class="p">()</span>
+    <span class="n">x</span><span class="o">.</span><span class="n">SetTitle</span><span class="p">(</span><span class="s2">&quot;mT (WW) GeV&quot;</span><span class="p">)</span>
+    <span class="n">x</span><span class="o">.</span><span class="n">SetTitleSize</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">x</span><span class="o">.</span><span class="n">SetTitleFont</span><span class="p">(</span><span class="mi">43</span><span class="p">)</span>
+    <span class="n">x</span><span class="o">.</span><span class="n">SetTitleOffset</span><span class="p">(</span><span class="mf">4.0</span><span class="p">)</span>
+    <span class="n">x</span><span class="o">.</span><span class="n">SetLabelFont</span><span class="p">(</span><span class="mi">43</span><span class="p">)</span>
+    <span class="n">x</span><span class="o">.</span><span class="n">SetLabelSize</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">h3</span></div>
+
+<div class="viewcode-block" id="createCanvasPads"><a class="viewcode-back" href="../plot_functions.html#plot_functions.createCanvasPads">[docs]</a><span class="k">def</span> <span class="nf">createCanvasPads</span><span class="p">():</span>	<span class="c1"># Create Canvas having two pads</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">TCanvas</span><span class="p">(</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;canvas&quot;</span><span class="p">,</span> <span class="mi">600</span><span class="p">,</span> <span class="mi">700</span><span class="p">)</span>
+    <span class="c1"># Upper histogram plot is pad1</span>
+    <span class="n">pad1</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">TPad</span><span class="p">(</span><span class="s2">&quot;pad1&quot;</span><span class="p">,</span> <span class="s2">&quot;pad1&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+    <span class="n">pad1</span><span class="o">.</span><span class="n">SetBottomMargin</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># joins upper and lower plot</span>
+    <span class="n">pad1</span><span class="o">.</span><span class="n">SetLeftMargin</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">pad1</span><span class="o">.</span><span class="n">SetRightMargin</span><span class="p">(</span><span class="mf">0.03</span><span class="p">)</span>
+    <span class="n">pad1</span><span class="o">.</span><span class="n">SetLogy</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">pad1</span><span class="o">.</span><span class="n">SetGridx</span><span class="p">()</span>
+    <span class="n">pad1</span><span class="o">.</span><span class="n">SetTickx</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">pad1</span><span class="o">.</span><span class="n">SetTicky</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">pad1</span><span class="o">.</span><span class="n">Draw</span><span class="p">()</span>
+    <span class="c1"># Lower ratio plot is pad2</span>
+    <span class="n">c</span><span class="o">.</span><span class="n">cd</span><span class="p">()</span>  <span class="c1"># returns to main canvas before defining pad2</span>
+    <span class="n">pad2</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">TPad</span><span class="p">(</span><span class="s2">&quot;pad2&quot;</span><span class="p">,</span> <span class="s2">&quot;pad2&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.00</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">)</span>
+    <span class="c1">#pad2.SetLogy(1)</span>
+    <span class="n">pad2</span><span class="o">.</span><span class="n">SetTopMargin</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># joins upper and lower plot</span>
+    <span class="n">pad2</span><span class="o">.</span><span class="n">SetBottomMargin</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span>
+    <span class="n">pad2</span><span class="o">.</span><span class="n">SetLeftMargin</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">pad2</span><span class="o">.</span><span class="n">SetRightMargin</span><span class="p">(</span><span class="mf">0.03</span><span class="p">)</span>
+    <span class="n">pad2</span><span class="o">.</span><span class="n">SetGridx</span><span class="p">()</span>
+    <span class="n">pad2</span><span class="o">.</span><span class="n">SetTickx</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">pad2</span><span class="o">.</span><span class="n">SetTicky</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">pad2</span><span class="o">.</span><span class="n">Draw</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">c</span><span class="p">,</span> <span class="n">pad1</span><span class="p">,</span> <span class="n">pad2</span></div>
+<span class="c1"># i == File Number, j == variable number, k == color number</span>
+<div class="viewcode-block" id="getHistFromFile"><a class="viewcode-back" href="../plot_functions.html#plot_functions.getHistFromFile">[docs]</a><span class="k">def</span> <span class="nf">getHistFromFile</span> <span class="p">(</span><span class="n">plot_info</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">k</span><span class="p">):</span>	
+    <span class="nb">print</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">===&gt; weight = &quot;</span><span class="p">,</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">],</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+    <span class="n">file</span> <span class="o">=</span> <span class="n">ROOT</span><span class="o">.</span><span class="n">TFile</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;file_name&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+    <span class="nb">print</span> <span class="s2">&quot;File Name: &quot;</span><span class="p">,</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;file_name&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">file</span><span class="p">:</span>
+        <span class="nb">print</span> <span class="s1">&#39;Failed to open </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;file_name&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;tree_var&quot;</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+    	<span class="nb">print</span> <span class="s1">&#39;Branch name is blank. Please check!!!&#39;</span>
+	<span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">tree</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">Get</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;tree_folder&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;tree_name&quot;</span><span class="p">])</span>
+    <span class="n">hist</span> <span class="o">=</span> <span class="n">ROOT</span><span class="o">.</span><span class="n">TH1F</span><span class="p">(</span><span class="s2">&quot;hist&quot;</span><span class="p">,</span> <span class="s2">&quot;Test&quot;</span><span class="p">,</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;nbin&quot;</span><span class="p">],</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;xmin&quot;</span><span class="p">],</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;xmax&quot;</span><span class="p">])</span>    
+    <span class="c1">#tree.Draw(plot_info[&quot;tree_var&quot;][j] + &quot;&gt;&gt;hist&quot;,plot_info[&quot;weight1&quot;])</span>
+    <span class="k">if</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+    	<span class="n">tree</span><span class="o">.</span><span class="n">Draw</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;tree_var&quot;</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;&gt;&gt;hist&quot;</span><span class="p">,</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;cut&quot;</span><span class="p">],</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+	<span class="c1">#if j == 0:</span>
+	<span class="c1">#	cut = &quot;AK4_jj_DeltaEta_gen&quot;</span>
+	<span class="c1">#	#cut = &quot;&quot;</span>
+	<span class="c1">#	tree.Draw(plot_info[&quot;tree_var&quot;][j] + &quot;&gt;&gt;hist&quot;,cut)</span>
+	<span class="c1">#if j == 1:</span>
+	<span class="c1">#	cut = &quot;vbf_maxpt_jj_Deta&lt;1.0&quot;</span>
+	<span class="c1">#	tree.Draw(plot_info[&quot;tree_var&quot;][j] + &quot;&gt;&gt;hist&quot;,cut)</span>
+    <span class="k">else</span><span class="p">:</span>
+	<span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">event</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
+		<span class="k">if</span> <span class="n">n</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+			<span class="k">break</span>
+		<span class="c1">#indices1 = [i for i, s in enumerate(event.LHEWeightIDs) if aQGC_par in s]</span>
+		<span class="nb">print</span> <span class="s2">&quot;Weight Details: ID = &quot;</span><span class="p">,</span><span class="n">event</span><span class="o">.</span><span class="n">LHEWeightIDs</span><span class="p">[</span><span class="mi">491</span><span class="p">],</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">Weight = &quot;</span><span class="p">,</span><span class="n">event</span><span class="o">.</span><span class="n">LHEWeights</span><span class="p">[</span><span class="mi">491</span><span class="p">]</span>
+    	<span class="n">tree</span><span class="o">.</span><span class="n">Draw</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;tree_var&quot;</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;&gt;&gt;hist&quot;</span><span class="p">,</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot;*(&quot;</span><span class="o">+</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;cut&quot;</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot;)&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+	<span class="nb">print</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot;*(&quot;</span><span class="o">+</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;cut&quot;</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot;)&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">hist</span><span class="p">:</span>
+        <span class="nb">print</span> <span class="s1">&#39;Failed to get hist from file&#39;</span>
+        <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">colorArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">632</span><span class="p">,</span> <span class="mi">416</span><span class="p">,</span> <span class="mi">600</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">616</span><span class="p">,</span> <span class="mi">432</span><span class="p">,</span> <span class="mi">920</span><span class="p">,</span> <span class="mi">800</span><span class="p">,</span> <span class="mi">880</span><span class="p">,</span> <span class="mi">820</span><span class="p">,</span> <span class="mi">840</span><span class="p">,</span> <span class="mi">860</span><span class="p">,</span> <span class="mi">900</span><span class="p">,</span> <span class="mi">940</span><span class="p">,</span> <span class="mi">960</span><span class="p">,</span> <span class="mi">980</span><span class="p">,</span> <span class="mi">640</span><span class="p">,</span> <span class="mi">660</span><span class="p">,</span> <span class="mi">680</span><span class="p">,</span> <span class="mi">700</span><span class="p">,</span> <span class="mi">720</span><span class="p">,</span> <span class="mi">740</span><span class="p">,</span> <span class="mi">760</span><span class="p">]</span>
+    <span class="n">setHistAttributes</span><span class="p">(</span><span class="n">hist</span><span class="p">,</span> <span class="n">plot_info</span><span class="p">,</span> <span class="n">colorArray</span><span class="p">[</span><span class="n">k</span><span class="p">],</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">hist</span><span class="o">.</span><span class="n">SetDirectory</span><span class="p">(</span><span class="n">ROOT</span><span class="o">.</span><span class="n">gROOT</span><span class="p">)</span> <span class="c1"># detach &quot;hist&quot; from the file</span>
+    <span class="k">return</span> <span class="n">hist</span></div>
+
+<div class="viewcode-block" id="getHistFromFileaQGC"><a class="viewcode-back" href="../plot_functions.html#plot_functions.getHistFromFileaQGC">[docs]</a><span class="k">def</span> <span class="nf">getHistFromFileaQGC</span><span class="p">(</span><span class="n">plot_info</span><span class="p">,</span> <span class="n">key1</span><span class="p">,</span> <span class="n">ColNum</span><span class="p">):</span>
+    <span class="n">file1</span> <span class="o">=</span> <span class="n">ROOT</span><span class="o">.</span><span class="n">TFile</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;file_name&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">file1</span><span class="p">:</span>
+        <span class="nb">print</span> <span class="s1">&#39;Failed to open </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;file_name&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">tree1</span> <span class="o">=</span> <span class="n">file1</span><span class="o">.</span><span class="n">Get</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;tree_folder&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;tree_name&quot;</span><span class="p">])</span>
+    <span class="n">hist1</span> <span class="o">=</span> <span class="n">ROOT</span><span class="o">.</span><span class="n">TH1F</span><span class="p">(</span><span class="s2">&quot;hist1&quot;</span><span class="p">,</span> <span class="s2">&quot;Test&quot;</span><span class="p">,</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;nbin&quot;</span><span class="p">],</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;xmin&quot;</span><span class="p">],</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;xmax&quot;</span><span class="p">])</span>    
+    <span class="k">if</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;cut&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+    	<span class="n">tree1</span><span class="o">.</span><span class="n">Draw</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;tree_var&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;&gt;&gt;hist1&quot;</span><span class="p">,</span><span class="s2">&quot;LHEWeights[&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">key1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;]&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="mi">50000</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+    	<span class="n">tree1</span><span class="o">.</span><span class="n">Draw</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;tree_var&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;&gt;&gt;hist1&quot;</span><span class="p">,</span><span class="s2">&quot;LHEWeights[&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">key1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;]&quot;</span><span class="o">+</span><span class="s2">&quot;*(&quot;</span><span class="o">+</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;cut&quot;</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot;)&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="mi">50000</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="s2">&quot;Number of events = &quot;</span><span class="p">,</span><span class="n">hist1</span><span class="o">.</span><span class="n">GetEntries</span><span class="p">()</span>
+    <span class="nb">print</span> <span class="s2">&quot;Integral of hist = &quot;</span><span class="p">,</span><span class="n">hist1</span><span class="o">.</span><span class="n">Integral</span><span class="p">()</span>
+    <span class="c1">#hist1.Scale(1/hist1.Integral())</span>
+    <span class="c1">#colorArray = [&quot;ROOT.kBlack&quot;, &quot;ROOT.kGray&quot;, &quot;ROOT.KRed&quot;, &quot;ROOT.kGreen&quot;, &quot;ROOT.kBlue&quot;, &quot;ROOT.kYellow&quot;, &quot;ROOT.kMagenta&quot;, &quot;ROOT.kCyan&quot;, &quot;ROOT.Orange&quot;, &quot;ROOT.kViolet&quot;, &quot;ROOT.kSpring&quot;, &quot;ROOT.kTeal&quot;, &quot;ROOT.kAzure&quot;, &quot;ROOT.kPink&quot;]</span>
+    <span class="c1">#colorArray = [ROOT.kBlack, ROOT.kGray, ROOT.KRed, ROOT.kGreen, ROOT.kBlue, ROOT.kYellow, ROOT.kMagenta, ROOT.kCyan, ROOT.Orange, ROOT.kViolet, ROOT.kSpring, ROOT.kTeal, ROOT.kAzure, ROOT.kPink]</span>
+    <span class="n">colorArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">920</span><span class="p">,</span> <span class="mi">632</span><span class="p">,</span> <span class="mi">416</span><span class="p">,</span> <span class="mi">600</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">616</span><span class="p">,</span> <span class="mi">432</span><span class="p">,</span> <span class="mi">800</span><span class="p">,</span> <span class="mi">880</span><span class="p">,</span> <span class="mi">820</span><span class="p">,</span> <span class="mi">840</span><span class="p">,</span> <span class="mi">860</span><span class="p">,</span> <span class="mi">900</span><span class="p">,</span> <span class="mi">940</span><span class="p">,</span> <span class="mi">960</span><span class="p">]</span>
+    <span class="n">setHistAttributes</span><span class="p">(</span><span class="n">hist1</span><span class="p">,</span> <span class="n">plot_info</span><span class="p">,</span> <span class="n">colorArray</span><span class="p">[</span><span class="n">ColNum</span><span class="p">],</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">hist1</span><span class="o">.</span><span class="n">SetDirectory</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>	<span class="c1"># detatch hist1 from the file</span>
+    <span class="k">return</span> <span class="n">hist1</span><span class="p">;</span></div>
+
+<span class="c1">##################################################################</span>
+
+<span class="c1">################	aQGC Specific Function	##################</span>
+<div class="viewcode-block" id="PrintaQGC_parameters"><a class="viewcode-back" href="../plot_functions.html#plot_functions.PrintaQGC_parameters">[docs]</a><span class="k">def</span> <span class="nf">PrintaQGC_parameters</span><span class="p">(</span><span class="n">plot_info</span><span class="p">,</span> <span class="n">aQGC_par</span><span class="p">):</span>
+    	<span class="n">file</span> <span class="o">=</span> <span class="n">ROOT</span><span class="o">.</span><span class="n">TFile</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;file_name&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+    	<span class="k">if</span> <span class="ow">not</span> <span class="n">file</span><span class="p">:</span>
+    	    <span class="nb">print</span> <span class="s1">&#39;Failed to open </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;file_name&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    	    <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    	<span class="n">tree</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">Get</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;tree_folder&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;tree_name&quot;</span><span class="p">])</span>
+	<span class="n">FT0_key</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="n">FT0_val</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">event</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
+		<span class="k">if</span> <span class="n">n</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+			<span class="k">break</span>
+		<span class="n">indices1</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">LHEWeightIDs</span><span class="p">)</span> <span class="k">if</span> <span class="n">aQGC_par</span> <span class="ow">in</span> <span class="n">s</span><span class="p">]</span>
+	
+		<span class="c1">#for i in range(0,len(indices1), len(indices1)/6):</span>
+		<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">indices1</span><span class="p">)):</span>
+			<span class="nb">print</span> <span class="n">indices1</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">event</span><span class="o">.</span><span class="n">LHEWeightIDs</span><span class="p">[</span><span class="n">indices1</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span></div>
+
+<div class="viewcode-block" id="getaQGC_parameters"><a class="viewcode-back" href="../plot_functions.html#plot_functions.getaQGC_parameters">[docs]</a><span class="k">def</span> <span class="nf">getaQGC_parameters</span><span class="p">(</span><span class="n">plot_info</span><span class="p">,</span> <span class="n">aQGC_par</span><span class="p">):</span>
+    	<span class="n">file</span> <span class="o">=</span> <span class="n">ROOT</span><span class="o">.</span><span class="n">TFile</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;file_name&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+    	<span class="k">if</span> <span class="ow">not</span> <span class="n">file</span><span class="p">:</span>
+    	    <span class="nb">print</span> <span class="s1">&#39;Failed to open </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;file_name&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    	    <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    	<span class="n">tree</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">Get</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;tree_folder&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;tree_name&quot;</span><span class="p">])</span>
+	<span class="n">FT0_key</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="n">FT0_val</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="k">for</span> <span class="n">n</span><span class="p">,</span> <span class="n">event</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tree</span><span class="p">):</span>
+		<span class="k">if</span> <span class="n">n</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+			<span class="k">break</span>
+		<span class="n">indices1</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">LHEWeightIDs</span><span class="p">)</span> <span class="k">if</span> <span class="n">aQGC_par</span> <span class="ow">in</span> <span class="n">s</span><span class="p">]</span>
+	
+		<span class="c1">#for i in range(0,len(indices1), len(indices1)/6):</span>
+		<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">indices1</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">indices1</span><span class="p">)):</span>
+			<span class="n">FT0_key</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">indices1</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+			<span class="n">FT0_val</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">LHEWeightIDs</span><span class="p">[</span><span class="n">indices1</span><span class="p">[</span><span class="n">i</span><span class="p">]])</span>
+		<span class="n">indices1s</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">LHEWeightIDs</span><span class="p">)</span> <span class="k">if</span> <span class="n">aQGC_par</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_m&quot;</span><span class="p">,</span><span class="s2">&quot;_0p0&quot;</span><span class="p">)</span> <span class="ow">in</span> <span class="n">s</span><span class="p">]</span>
+		<span class="n">FT0_key</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">indices1s</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+		<span class="n">FT0_val</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">LHEWeightIDs</span><span class="p">[</span><span class="n">indices1s</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">+</span><span class="s2">&quot; (SM)&quot;</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">FT0_key</span><span class="p">,</span><span class="n">FT0_val</span></div>
+
+<div class="viewcode-block" id="aQGC_plotting"><a class="viewcode-back" href="../plot_functions.html#plot_functions.aQGC_plotting">[docs]</a><span class="k">def</span> <span class="nf">aQGC_plotting</span> <span class="p">(</span><span class="n">plot_info</span><span class="p">,</span> <span class="n">aQGC_key</span><span class="p">,</span> <span class="n">aQGC_val</span><span class="p">,</span> <span class="n">outputNameString</span><span class="p">,</span> <span class="n">skip</span><span class="p">):</span>
+    <span class="nb">print</span> <span class="s2">&quot;size of aQGC parameter: &quot;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">aQGC_key</span><span class="p">)</span>
+    <span class="nb">print</span> <span class="s2">&quot;==&gt; Key: &quot;</span><span class="p">,</span><span class="n">aQGC_key</span>
+    <span class="nb">print</span> <span class="s2">&quot;==&gt; Val: &quot;</span><span class="p">,</span><span class="n">aQGC_val</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">aQGC_key</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span> <span class="s1">&#39;Error: No aQGC parameter for this input root file&#39;</span>
+        <span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    	
+    <span class="n">c2</span> <span class="o">=</span> <span class="n">getCanvas</span><span class="p">()</span>
+    <span class="n">setTDRStyle</span><span class="p">(</span><span class="n">c2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="s2">&quot;No&quot;</span><span class="p">)</span> 
+    <span class="n">legend</span> <span class="o">=</span> <span class="n">getLegends</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;legPos&quot;</span><span class="p">],</span><span class="mi">2</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">aQGC_key</span><span class="p">)</span><span class="o">/</span><span class="n">skip</span><span class="p">,</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;legFontSize&quot;</span><span class="p">])</span>
+
+    <span class="n">hist1</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">new_aQGC_val</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">aQGC_key</span><span class="p">),</span><span class="n">skip</span><span class="p">):</span>
+	<span class="nb">print</span> <span class="s2">&quot;Working on hist number : &quot;</span><span class="p">,</span><span class="n">i</span>
+    	<span class="n">hist1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">getHistFromFileaQGC</span><span class="p">(</span><span class="n">plot_info</span><span class="p">,</span> <span class="n">aQGC_key</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="p">,</span><span class="n">i</span><span class="o">/</span><span class="n">skip</span><span class="p">))</span>   
+	<span class="n">new_aQGC_val</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">aQGC_val</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">list1</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">hist1</span><span class="p">):</span>
+    	<span class="c1">#print a,list1</span>
+    	<span class="n">list1</span><span class="o">.</span><span class="n">GetXaxis</span><span class="p">()</span><span class="o">.</span><span class="n">SetTitle</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;xlabel&quot;</span><span class="p">])</span>
+    	<span class="k">if</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;ylabel&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+    	    <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;ylabel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Events / </span><span class="si">%s</span><span class="s2"> GeV&quot;</span> <span class="o">%</span> <span class="nb">int</span><span class="p">(</span><span class="n">list1</span><span class="o">.</span><span class="n">GetBinWidth</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+    	<span class="n">list1</span><span class="o">.</span><span class="n">GetYaxis</span><span class="p">()</span><span class="o">.</span><span class="n">SetTitle</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;ylabel&quot;</span><span class="p">])</span>
+	<span class="k">if</span> <span class="n">new_aQGC_val</span><span class="p">[</span><span class="n">a</span><span class="p">]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;SM&quot;</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+    		<span class="n">legend</span><span class="o">.</span><span class="n">AddEntry</span><span class="p">(</span><span class="n">list1</span><span class="p">,</span> <span class="n">new_aQGC_val</span><span class="p">[</span><span class="n">a</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_m&quot;</span><span class="p">,</span><span class="s2">&quot; = -&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;p&quot;</span><span class="p">,</span><span class="s2">&quot;.&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_0&quot;</span><span class="p">,</span><span class="s2">&quot; = 0&quot;</span><span class="p">),</span><span class="s2">&quot;lpe&quot;</span><span class="p">)</span>
+	<span class="k">else</span><span class="p">:</span>
+    		<span class="n">legend</span><span class="o">.</span><span class="n">AddEntry</span><span class="p">(</span><span class="n">list1</span><span class="p">,</span> <span class="s2">&quot;SM&quot;</span><span class="p">,</span> <span class="s2">&quot;lpe&quot;</span><span class="p">)</span>
+	<span class="k">if</span> <span class="n">i</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+		<span class="n">list1</span><span class="o">.</span><span class="n">Draw</span><span class="p">()</span>
+	<span class="k">else</span><span class="p">:</span>
+		<span class="n">list1</span><span class="o">.</span><span class="n">Draw</span><span class="p">(</span><span class="s2">&quot;sames&quot;</span><span class="p">)</span>
+
+    <span class="n">legend</span><span class="o">.</span><span class="n">Draw</span><span class="p">(</span><span class="s2">&quot;same&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;logy&quot;</span><span class="p">]:</span>
+        <span class="n">c2</span><span class="o">.</span><span class="n">SetLogy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;logx&quot;</span><span class="p">]:</span>
+        <span class="n">c2</span><span class="o">.</span><span class="n">SetLogx</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;grid&quot;</span><span class="p">]:</span>
+    	<span class="n">c2</span><span class="o">.</span><span class="n">SetGrid</span><span class="p">()</span>
+    <span class="c1">#setTDRStyle(c2, 1, 13, plot_info[&quot;printCMS&quot;]) </span>
+    <span class="n">setTDRStyle</span><span class="p">(</span><span class="n">c2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="s2">&quot;No&quot;</span><span class="p">)</span> 
+    <span class="n">hist1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">GetXaxis</span><span class="p">()</span><span class="o">.</span><span class="n">SetTitle</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;xlabel&quot;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;ylabel&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;ylabel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Events / </span><span class="si">%s</span><span class="s2"> GeV&quot;</span> <span class="o">%</span> <span class="nb">int</span><span class="p">(</span><span class="n">hist1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">GetBinWidth</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">hist1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">GetYaxis</span><span class="p">()</span><span class="o">.</span><span class="n">SetTitle</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;ylabel&quot;</span><span class="p">])</span>
+    <span class="n">c2</span><span class="o">.</span><span class="n">SaveAs</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">outputNameString</span><span class="p">)</span><span class="o">+</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;output_file&quot;</span><span class="p">])</span></div>
+
+
+<span class="c1">##################################################################</span>
+	
+	
+
+<div class="viewcode-block" id="CompHistFromTwoBranchSameFile"><a class="viewcode-back" href="../plot_functions.html#plot_functions.CompHistFromTwoBranchSameFile">[docs]</a><span class="k">def</span> <span class="nf">CompHistFromTwoBranchSameFile</span> <span class="p">(</span><span class="n">plot_info</span><span class="p">):</span>
+    <span class="n">c1</span> <span class="o">=</span> <span class="n">getCanvas</span><span class="p">()</span>
+    <span class="n">setTDRStyle</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="s2">&quot;No&quot;</span><span class="p">)</span> 
+    <span class="n">legend</span> <span class="o">=</span> <span class="n">getLegends</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;legPos&quot;</span><span class="p">],</span><span class="mi">2</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;tree_var&quot;</span><span class="p">]),</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;legFontSize&quot;</span><span class="p">])</span>
+
+    <span class="n">hist1</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">new_aQGC_val</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;tree_var&quot;</span><span class="p">])):</span>
+	<span class="nb">print</span> <span class="s2">&quot;Working on hist number : &quot;</span><span class="p">,</span><span class="n">i</span>
+    	<span class="n">hist1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">getHistFromFile</span><span class="p">(</span><span class="n">plot_info</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">i</span><span class="p">))</span>
+	<span class="nb">print</span> <span class="s2">&quot;=======</span><span class="se">\n</span><span class="s2">&quot;</span>
+	<span class="c1"># below pattern is for the legend...</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;leg&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
+		<span class="n">new_aQGC_val</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;leg&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+	<span class="k">else</span><span class="p">:</span>
+		<span class="n">new_aQGC_val</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;tree_var&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">maximumY</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">list1</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">hist1</span><span class="p">):</span>
+    	<span class="n">list1</span><span class="o">.</span><span class="n">Sumw2</span><span class="p">()</span>
+    	<span class="n">list1</span><span class="o">.</span><span class="n">GetXaxis</span><span class="p">()</span><span class="o">.</span><span class="n">SetTitle</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;xlabel&quot;</span><span class="p">])</span>
+    	<span class="k">if</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;ylabel&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+    	    <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;ylabel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Events / </span><span class="si">%s</span><span class="s2"> GeV&quot;</span> <span class="o">%</span> <span class="nb">int</span><span class="p">(</span><span class="n">list1</span><span class="o">.</span><span class="n">GetBinWidth</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+    	<span class="n">list1</span><span class="o">.</span><span class="n">GetYaxis</span><span class="p">()</span><span class="o">.</span><span class="n">SetTitle</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;ylabel&quot;</span><span class="p">])</span>
+    	<span class="n">list1</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">list1</span><span class="o">.</span><span class="n">Integral</span><span class="p">())</span>
+    	<span class="n">legend</span><span class="o">.</span><span class="n">AddEntry</span><span class="p">(</span><span class="n">list1</span><span class="p">,</span> <span class="n">new_aQGC_val</span><span class="p">[</span><span class="n">a</span><span class="p">],</span><span class="s2">&quot;lpe&quot;</span><span class="p">)</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">list1</span><span class="o">.</span><span class="n">GetMaximum</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">maximumY</span> <span class="p">):</span>
+		<span class="n">maximumY</span><span class="o">=</span><span class="n">list1</span><span class="o">.</span><span class="n">GetMaximum</span><span class="p">()</span><span class="o">*</span><span class="mf">1.5</span>
+	<span class="n">list1</span><span class="o">.</span><span class="n">SetMaximum</span><span class="p">(</span><span class="n">maximumY</span><span class="p">)</span>
+	<span class="k">if</span> <span class="n">i</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+		<span class="n">list1</span><span class="o">.</span><span class="n">Draw</span><span class="p">()</span>
+	<span class="k">else</span><span class="p">:</span>
+		<span class="n">list1</span><span class="o">.</span><span class="n">Draw</span><span class="p">(</span><span class="s2">&quot;sames&quot;</span><span class="p">)</span>
+    <span class="n">legend</span><span class="o">.</span><span class="n">Draw</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;logy&quot;</span><span class="p">]:</span>
+        <span class="n">c1</span><span class="o">.</span><span class="n">SetLogy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;logx&quot;</span><span class="p">]:</span>
+        <span class="n">c1</span><span class="o">.</span><span class="n">SetLogx</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;grid&quot;</span><span class="p">]:</span>
+    	<span class="n">c1</span><span class="o">.</span><span class="n">SetGrid</span><span class="p">()</span>
+    <span class="n">c1</span><span class="o">.</span><span class="n">SaveAs</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;output_file&quot;</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="CompHistFromTwoFile"><a class="viewcode-back" href="../plot_functions.html#plot_functions.CompHistFromTwoFile">[docs]</a><span class="k">def</span> <span class="nf">CompHistFromTwoFile</span> <span class="p">(</span><span class="n">plot_info</span><span class="p">):</span>
+    <span class="n">c1</span> <span class="o">=</span> <span class="n">getCanvas</span><span class="p">()</span>
+    <span class="n">setTDRStyle</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="s2">&quot;No&quot;</span><span class="p">)</span> 
+    <span class="n">legend</span> <span class="o">=</span> <span class="n">getLegends</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;legPos&quot;</span><span class="p">],</span><span class="mi">1</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;file_name&quot;</span><span class="p">]),</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;legFontSize&quot;</span><span class="p">])</span>
+    <span class="n">hist</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;file_name&quot;</span><span class="p">])):</span>
+    	<span class="nb">print</span> <span class="s2">&quot;working on file number : &quot;</span><span class="p">,</span><span class="n">i</span>
+	<span class="c1"># Below if condition is for specific perpose</span>
+	<span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+		<span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+	<span class="nb">print</span> <span class="s2">&quot;weight = &quot;</span><span class="p">,</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;weight&quot;</span><span class="p">],</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+	<span class="n">hist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">getHistFromFile</span><span class="p">(</span><span class="n">plot_info</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">a</span><span class="p">,</span><span class="n">list1</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">hist</span><span class="p">):</span>
+    	<span class="n">list1</span><span class="o">.</span><span class="n">Sumw2</span><span class="p">()</span>
+	<span class="n">list1</span><span class="o">.</span><span class="n">GetXaxis</span><span class="p">()</span><span class="o">.</span><span class="n">SetTitle</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;xlabel&quot;</span><span class="p">])</span>
+	<span class="k">if</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;ylabel&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+		<span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;ylabel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Events / </span><span class="si">%s</span><span class="s2"> GeV&quot;</span> <span class="o">%</span> <span class="nb">int</span><span class="p">(</span><span class="n">list1</span><span class="o">.</span><span class="n">GetBinWidth</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+	<span class="n">list1</span><span class="o">.</span><span class="n">GetYaxis</span><span class="p">()</span><span class="o">.</span><span class="n">SetTitle</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;ylabel&quot;</span><span class="p">])</span>
+	<span class="n">list1</span><span class="o">.</span><span class="n">Scale</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="n">list1</span><span class="o">.</span><span class="n">Integral</span><span class="p">())</span>
+	<span class="c1">#list1.Scale((36.0*174.0)/list1.Integral())</span>
+	<span class="c1">#print &quot;Print Bin Number = &quot;,list1.GetXaxis().FindBin(1100)</span>
+	<span class="c1">#print &quot;HISTO: &quot;,list1</span>
+	<span class="nb">print</span> <span class="s2">&quot;Total Integral = &quot;</span><span class="p">,</span><span class="n">list1</span><span class="o">.</span><span class="n">Integral</span><span class="p">()</span>
+	<span class="c1">#list1.Fit(&quot;gaus&quot;)</span>
+	<span class="c1">#print &quot;Integral (2000,6000) = &quot;,list1.Integral(list1.GetXaxis().FindBin(2000),list1.GetXaxis().FindBin(6000))</span>
+	<span class="n">legend</span><span class="o">.</span><span class="n">AddEntry</span><span class="p">(</span><span class="n">list1</span><span class="p">,</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;leg&quot;</span><span class="p">][</span><span class="n">a</span><span class="p">],</span><span class="s2">&quot;lpe&quot;</span><span class="p">)</span>
+	<span class="k">if</span> <span class="n">i</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+		<span class="n">list1</span><span class="o">.</span><span class="n">Draw</span><span class="p">()</span>
+	<span class="k">else</span><span class="p">:</span>
+		<span class="n">list1</span><span class="o">.</span><span class="n">Draw</span><span class="p">(</span><span class="s2">&quot;sames&quot;</span><span class="p">)</span>
+    <span class="n">legend</span><span class="o">.</span><span class="n">Draw</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;logy&quot;</span><span class="p">]:</span>
+        <span class="n">c1</span><span class="o">.</span><span class="n">SetLogy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;logx&quot;</span><span class="p">]:</span>
+        <span class="n">c1</span><span class="o">.</span><span class="n">SetLogx</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;grid&quot;</span><span class="p">]:</span>
+    	<span class="n">c1</span><span class="o">.</span><span class="n">SetGrid</span><span class="p">()</span>
+    <span class="n">c1</span><span class="o">.</span><span class="n">SaveAs</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;output_file&quot;</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="addHistToStack"><a class="viewcode-back" href="../plot_functions.html#plot_functions.addHistToStack">[docs]</a><span class="k">def</span> <span class="nf">addHistToStack</span> <span class="p">(</span><span class="n">hist_stack</span><span class="p">,</span> <span class="n">plot_info</span><span class="p">,</span> <span class="n">hist_opts</span><span class="p">,</span> <span class="n">line_color</span><span class="p">,</span> <span class="n">fill_color</span><span class="p">):</span>
+    <span class="n">hist</span> <span class="o">=</span> <span class="n">getHistFromFile</span><span class="p">(</span><span class="n">plot_info</span><span class="p">)</span>
+    <span class="n">setHistAttributes</span><span class="p">(</span><span class="n">hist</span><span class="p">,</span> <span class="n">plot_info</span><span class="p">,</span> <span class="n">line_color</span><span class="p">,</span> <span class="n">fill_color</span><span class="p">)</span>
+    <span class="n">hist_stack</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">hist</span><span class="p">,</span> <span class="n">hist_opts</span><span class="p">)</span></div>
+<div class="viewcode-block" id="makePlot"><a class="viewcode-back" href="../plot_functions.html#plot_functions.makePlot">[docs]</a><span class="k">def</span> <span class="nf">makePlot</span> <span class="p">(</span><span class="n">hist</span><span class="p">,</span> <span class="n">hist_opts</span><span class="p">,</span> <span class="n">plot_info</span><span class="p">):</span>
+    <span class="c1">#legend = ROOT.TLegend(.5 ,.65 ,.885 ,.875)</span>
+    <span class="n">canvas</span> <span class="o">=</span> <span class="n">getCanvas</span><span class="p">()</span>
+    <span class="n">setTDRStyle</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;printCMS&quot;</span><span class="p">])</span> 
+    <span class="k">if</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;logy&quot;</span><span class="p">]:</span>
+        <span class="n">canvas</span><span class="o">.</span><span class="n">SetLogy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;logx&quot;</span><span class="p">]:</span>
+        <span class="n">canvas</span><span class="o">.</span><span class="n">SetLogx</span><span class="p">()</span>
+    <span class="c1">#draw the lumi text on the canvas</span>
+    <span class="n">hist</span><span class="o">.</span><span class="n">Draw</span><span class="p">(</span><span class="n">hist_opts</span><span class="p">)</span>
+    <span class="n">setTDRStyle</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;printCMS&quot;</span><span class="p">])</span> 
+    <span class="n">hist</span><span class="o">.</span><span class="n">GetXaxis</span><span class="p">()</span><span class="o">.</span><span class="n">SetTitle</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;xlabel&quot;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;ylabel&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;ylabel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Events / </span><span class="si">%s</span><span class="s2"> GeV&quot;</span> <span class="o">%</span> <span class="nb">int</span><span class="p">(</span><span class="n">hist</span><span class="o">.</span><span class="n">GetBinWidth</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+    <span class="c1">#hist.GetYaxis().SetTitle(plot_info[&quot;ylabel&quot;])</span>
+    <span class="c1">#hist.SetTitleOffset(1.3, &quot;y&quot;)</span>
+    <span class="c1">#hist.SetTitleOffset(1.1, &quot;x&quot;)</span>
+    <span class="n">canvas</span><span class="o">.</span><span class="n">cd</span><span class="p">()</span>
+    <span class="n">canvas</span><span class="o">.</span><span class="n">Update</span><span class="p">()</span>
+    <span class="n">canvas</span><span class="o">.</span><span class="n">RedrawAxis</span><span class="p">()</span>
+    <span class="c1">#frame = canvas.GetFrame()</span>
+    <span class="c1">#frame.Draw()</span>
+    <span class="c1">#legend.SetFillColor(ROOT.kWhite)</span>
+    <span class="c1">#legend.AddEntry(hist, legendName)</span>
+
+    <span class="c1">#legend.Draw(&quot;same&quot;)</span>
+    <span class="n">canvas</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;output_file&quot;</span><span class="p">])</span> </div>
+<div class="viewcode-block" id="makeStackPlots"><a class="viewcode-back" href="../plot_functions.html#plot_functions.makeStackPlots">[docs]</a><span class="k">def</span> <span class="nf">makeStackPlots</span> <span class="p">(</span><span class="n">stacked</span><span class="p">,</span> <span class="n">unstacked</span><span class="p">,</span> <span class="n">hist_opts</span><span class="p">,</span> <span class="n">plot_info</span><span class="p">):</span>
+    <span class="c1">#legend = ROOT.TLegend(.5 ,.65 ,.885 ,.875)</span>
+    <span class="n">canvas</span> <span class="o">=</span> <span class="n">getCanvas</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;logy&quot;</span><span class="p">]:</span>
+        <span class="n">canvas</span><span class="o">.</span><span class="n">SetLogy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;logx&quot;</span><span class="p">]:</span>
+        <span class="n">canvas</span><span class="o">.</span><span class="n">SetLogx</span><span class="p">()</span>
+    <span class="c1">#draw the lumi text on the canvas</span>
+    <span class="n">hist1</span><span class="o">.</span><span class="n">Draw</span><span class="p">(</span><span class="n">hist_opts</span><span class="p">)</span>
+    <span class="n">hist1</span><span class="o">.</span><span class="n">GetXaxis</span><span class="p">()</span><span class="o">.</span><span class="n">SetTitle</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;xlabel&quot;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;ylabel&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+        <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;ylabel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Events / </span><span class="si">%s</span><span class="s2"> GeV&quot;</span> <span class="o">%</span> <span class="nb">int</span><span class="p">(</span><span class="n">hist</span><span class="o">.</span><span class="n">GetBinWidth</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">hist1</span><span class="o">.</span><span class="n">GetYaxis</span><span class="p">()</span><span class="o">.</span><span class="n">SetTitle</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;ylabel&quot;</span><span class="p">])</span>
+    <span class="n">hist1</span><span class="o">.</span><span class="n">SetTitleOffset</span><span class="p">(</span><span class="mf">1.3</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">)</span>
+    <span class="n">hist</span><span class="o">.</span><span class="n">SetTitleOffset</span><span class="p">(</span><span class="mf">1.1</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">)</span>
+    <span class="n">setTDRStyle</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;printCMS&quot;</span><span class="p">])</span> 
+    <span class="n">canvas</span><span class="o">.</span><span class="n">cd</span><span class="p">()</span>
+    <span class="n">canvas</span><span class="o">.</span><span class="n">Update</span><span class="p">()</span>
+    <span class="n">canvas</span><span class="o">.</span><span class="n">RedrawAxis</span><span class="p">()</span>
+    <span class="c1">#frame = canvas.GetFrame()</span>
+    <span class="c1">#frame.Draw()</span>
+    <span class="c1">#legend.SetFillColor(ROOT.kWhite)</span>
+    <span class="c1">#legend.AddEntry(hist, legendName)</span>
+
+    <span class="c1">#legend.Draw(&quot;same&quot;)</span>
+    <span class="n">canvas</span><span class="o">.</span><span class="n">Print</span><span class="p">(</span><span class="n">plot_info</span><span class="p">[</span><span class="s2">&quot;output_file&quot;</span><span class="p">])</span> </div>
+
+<div class="viewcode-block" id="setTDRStyle"><a class="viewcode-back" href="../plot_functions.html#plot_functions.setTDRStyle">[docs]</a><span class="k">def</span> <span class="nf">setTDRStyle</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="n">luminosity</span><span class="p">,</span> <span class="n">energy</span><span class="p">,</span> <span class="n">printCMS</span><span class="p">):</span>
+    <span class="n">tdrstyle</span><span class="o">.</span><span class="n">setTDRStyle</span><span class="p">()</span> 
+    <span class="k">if</span> <span class="n">printCMS</span> <span class="o">==</span> <span class="s2">&quot;right&quot;</span> <span class="ow">or</span> <span class="n">printCMS</span> <span class="o">==</span> <span class="s2">&quot;left&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">energy</span> <span class="o">==</span> <span class="mi">13</span><span class="p">:</span>
+            <span class="n">CMS_lumi</span><span class="o">.</span><span class="n">lumi_13TeV</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> fb^{-1}&quot;</span> <span class="o">%</span> <span class="n">luminosity</span>
+            <span class="k">if</span> <span class="n">printCMS</span> <span class="o">==</span> <span class="s2">&quot;left&quot;</span><span class="p">:</span>
+                <span class="n">iPos</span> <span class="o">=</span> <span class="mi">11</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">iPos</span> <span class="o">=</span> <span class="mi">13</span>
+            <span class="n">CMS_lumi</span><span class="o">.</span><span class="n">writeExtraText</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="n">CMS_lumi</span><span class="o">.</span><span class="n">extraText</span> <span class="o">=</span> <span class="s2">&quot;Preliminary&quot;</span>
+            <span class="n">CMS_lumi</span><span class="o">.</span><span class="n">CMS_lumi</span><span class="p">(</span><span class="n">canvas</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">iPos</span><span class="p">)</span></div>
+<div class="viewcode-block" id="getBasicParser"><a class="viewcode-back" href="../plot_functions.html#plot_functions.getBasicParser">[docs]</a><span class="k">def</span> <span class="nf">getBasicParser</span><span class="p">():</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+    <span class="c1">#parser.add_argument(&#39;-n&#39;, &#39;--file_name&#39;, type=str, required=True, </span>
+    <span class="c1">#                    help=&quot;Name of root file in which histogram is stored.&quot;)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="s1">&#39;--output_file&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Name of produced plot file (type pdf/png/jpg etc.).&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-t&#39;</span><span class="p">,</span> <span class="s1">&#39;--tree_name&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;otree&quot;</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Name of root tree&quot;</span><span class="p">)</span>  
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-f&#39;</span><span class="p">,</span> <span class="s1">&#39;--tree_folder&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Folder where tree is stored&quot;</span><span class="p">)</span>  
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-v&#39;</span><span class="p">,</span> <span class="s1">&#39;--tree_var&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;LHE_mWW&quot;</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Variable name in root tree&quot;</span><span class="p">)</span>  
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--cut&#39;</span><span class="p">,</span>  <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;cut to be applied&quot;</span><span class="p">)</span>  
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--xlabel&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;Invariant mass of WW&quot;</span><span class="p">,</span> 
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;x axis label&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--ylabel&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> 
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;y axis label&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--leg&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> 
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Histo/Rootfile legend name&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--legPos&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;bc&quot;</span><span class="p">,</span> 
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Legend Position: tr, tl, tc, br, bc, bl&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--legFontSize&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.04</span><span class="p">,</span> 
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Legend font size&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--weight&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> 
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Weight corresponding to variable&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--xmin&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> 
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;minimum x value&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--xmax&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">600</span><span class="p">,</span> 
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;maximum x value&quot;</span><span class="p">)</span>   
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--ymin&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> 
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;minimum y value&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--ymax&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> 
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;maximum y value&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--nbin&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> 
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Number of bins to group together (1D only)&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--rebin&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> 
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Number of bins to group together (1D only)&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--logy&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Set y axis to logarithmic scale&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--logx&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span> 
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Set x axis to logarithmic scale&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--grid&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span> 
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Set grid for x-y axis&quot;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--printCMS&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;left&quot;</span><span class="p">,</span><span class="n">required</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                        <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;left&quot;</span><span class="p">,</span><span class="s2">&quot;right&quot;</span><span class="p">],</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;print &#39;CMS preliminary&#39; </span>
+<span class="s2">                        in left (or right) upper corner&quot;&quot;&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">parser</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Ram Krishna Sharma
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
