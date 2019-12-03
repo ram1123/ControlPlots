@@ -427,7 +427,10 @@ def CompHistFromTwoBranchSameFile (plot_info):
     c1.SaveAs(plot_info["output_file"])
 
 def CompHistFromTwoFileWithRatio(plot_info):
-    """This function compares histogram from different TFiles.
+    """This function compares histogram from different TFiles and make the distribution along with the ratio plot.
+
+    Return:
+       This function plots the distribution on canvas and save it in png format.
     """
     c1, p1, p2 = createCanvasWithTwoPads()
     c1.cd()
