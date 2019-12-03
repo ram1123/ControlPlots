@@ -7,8 +7,25 @@ import argparse
 #############	Define Legend, Canvas, 	##########################
 
 def getLegends(pos,ncol,nvar,fontsize):
+    """This function sets the legend box size
+
+    Args:
+       pos (string): This  
+       
+       ncol (int): Number of columns
+       
+       nvar (int): Number of variables
+       
+       fontsize (float): Fontsize in legendbox
+
+    Return:
+       This function returns the pointer to the created legend.
+
+    Todo:
+       Add a method for increasing size of legend box.
+    """
     if pos == "tr":
-    	legend = ROOT.TLegend(.70-(0.15*(ncol-1)), 0.80-(0.02*(nvar/ncol-1)) ,.95 ,.920)
+    	legend = ROOT.TLegend(.60-(0.15*(ncol-1)), 0.80-(0.02*(nvar/ncol-1)) ,.95 ,.920)
     elif pos == "tl":
     	legend = ROOT.TLegend(0.11, 0.85-(0.02*(nvar/ncol-1)) ,.80+(0.15*(ncol-1)) ,.920)
     elif pos == "tc":
@@ -29,6 +46,11 @@ def getLegends(pos,ncol,nvar,fontsize):
     return legend
 
 def getCanvas():
+    """This returns the pointer to TCanvas.
+
+    Return:
+       pointer to TCanvas.
+    """
     H_ref = 600; 
     W_ref = 600; 
     W = W_ref
@@ -53,6 +75,20 @@ def getCanvas():
     return canvas
 
 def setHistAttributes (hist, plot_info, line_color, fill_color):
+    """This function sets all the attributes of TH1.
+
+    Parameters:
+       hist (TH1): Input histogram for which one need to set the attributes.
+
+       plot_info (args): This is pointer to argparser.
+
+       line_color (int): Line color of histogram.
+
+       fill_color (int): Fill color of histogram.
+
+    Return:
+       This does not return anything. It just sets the attributes to the pointed histogram.
+    """
     #hist.SetFillColor(fill_color)
     hist.SetLineColor(line_color)
     hist.SetMarkerColor(line_color)
@@ -86,14 +122,26 @@ def setHistAttributes (hist, plot_info, line_color, fill_color):
 
     #hist.GetYaxis().SetTitle(plot_info["ylabel"])
 
-def createRatio(h1, h2,col):	# h1/h2
+def createRatio(h1, h2, col, ratio_title="ratio (SM/aQGC)"):	# h1/h2
+    """This takes two histogram of type TH1 as input and gives another TH1 that contains ratio of two histogram.
+
+    Parameters:
+       h1 (TH1): First input histogram.
+
+       h2 (TH1): Second input histogram.
+
+       col (TH1): Color of output histogram that contains ratio of two input histogram.
+
+    Return:
+       This returns another TH1 that contains the ratio of two input histogram having color as specified by variable "col".
+    """
     h3 = h1.Clone("h3")
     h3.SetLineColor(col)
     h3.SetMarkerColor(col)
     h3.SetMarkerStyle(21)
     h3.SetTitle("")
     h3.SetMinimum(0.0)
-    h3.SetMaximum(1.10)
+    h3.SetMaximum(2.00)
     # Set up plot for markers and errors
     #h3.Sumw2()
     h3.SetStats(0)
@@ -101,7 +149,7 @@ def createRatio(h1, h2,col):	# h1/h2
 
     # Adjust y-axis settings
     y = h3.GetYaxis()
-    y.SetTitle("ratio (SM/aQGC)")
+    y.SetTitle(ratio_title)
     y.SetNdivisions(505)
     y.SetTitleSize(20)
     y.SetTitleFont(43)
@@ -120,10 +168,17 @@ def createRatio(h1, h2,col):	# h1/h2
 
     return h3
 
-def createCanvasPads():	# Create Canvas having two pads
-    c = r.TCanvas("c", "canvas", 600, 700)
+def createCanvasWithTwoPads():	# Create Canvas having two pads
+    """This function creates a canvas having two padhs. This is helpful when
+    one wants to plot two or more distributions on same canvas having ratio
+    plots.
+
+    Return:
+       This returns a canvas and two pads.
+    """
+    c = ROOT.TCanvas("c", "canvas", 600, 700)
     # Upper histogram plot is pad1
-    pad1 = r.TPad("pad1", "pad1", 0.0, 0.3, 1.0, 1.0)
+    pad1 = ROOT.TPad("pad1", "pad1", 0.0, 0.3, 1.0, 1.0)
     pad1.SetBottomMargin(0)  # joins upper and lower plot
     pad1.SetLeftMargin(0.1)
     pad1.SetRightMargin(0.03)
@@ -134,7 +189,7 @@ def createCanvasPads():	# Create Canvas having two pads
     pad1.Draw()
     # Lower ratio plot is pad2
     c.cd()  # returns to main canvas before defining pad2
-    pad2 = r.TPad("pad2", "pad2", 0.0, 0.00, 1.0, 0.3)
+    pad2 = ROOT.TPad("pad2", "pad2", 0.0, 0.00, 1.0, 0.3)
     #pad2.SetLogy(1)
     pad2.SetTopMargin(0)  # joins upper and lower plot
     pad2.SetBottomMargin(0.25)
@@ -146,8 +201,23 @@ def createCanvasPads():	# Create Canvas having two pads
     pad2.Draw()
 
     return c, pad1, pad2
+
 # i == File Number, j == variable number, k == color number
 def getHistFromFile (plot_info,i,j,k):	
+    """This function fetches a histogram from a TFile.
+
+    Parameters:
+       plot_info (args): This is pointer to argparser.
+       
+       i (int): This is the file number. If we have more than one file then it points to file number.
+       
+       j (int): Variable number.
+       
+       k (int): Color of histogram.
+
+    Return:
+       This returns the pointer to the grabbed TH1.
+    """
     print "\n===> weight = ",plot_info["weight"],"\n\n"
     file = ROOT.TFile(plot_info["file_name"][i])
     print "File Name: ",plot_info["file_name"][i]
@@ -160,23 +230,13 @@ def getHistFromFile (plot_info,i,j,k):
     tree = file.Get(plot_info["tree_folder"] + plot_info["tree_name"])
     hist = ROOT.TH1F("hist", "Test", plot_info["nbin"], plot_info["xmin"], plot_info["xmax"])    
     #tree.Draw(plot_info["tree_var"][j] + ">>hist",plot_info["weight1"])
-    if plot_info["weight"] == "":
+    if plot_info["weight"][i] == "":
+        print "DEBUG: 1: plot_info[\"weight\"][",i,"] = ",plot_info["weight"][i]
     	tree.Draw(plot_info["tree_var"][j] + ">>hist",plot_info["cut"],"")
-	#if j == 0:
-	#	cut = "AK4_jj_DeltaEta_gen"
-	#	#cut = ""
-	#	tree.Draw(plot_info["tree_var"][j] + ">>hist",cut)
-	#if j == 1:
-	#	cut = "vbf_maxpt_jj_Deta<1.0"
-	#	tree.Draw(plot_info["tree_var"][j] + ">>hist",cut)
     else:
-	for n, event in enumerate(tree):
-		if n>0:
-			break
-		#indices1 = [i for i, s in enumerate(event.LHEWeightIDs) if aQGC_par in s]
-		print "Weight Details: ID = ",event.LHEWeightIDs[491],"\tWeight = ",event.LHEWeights[491]
-    	tree.Draw(plot_info["tree_var"][j] + ">>hist",plot_info["weight"][0]+"*("+plot_info["cut"]+")","")
-	print plot_info["weight"][0]+"*("+plot_info["cut"]+")"
+        print "DEBUG: 2: plot_info[\"weight\"][",i,"] = ",plot_info["weight"][i]
+    	tree.Draw(plot_info["tree_var"][j] + ">>hist",str(plot_info["weight"][i]),"")
+    	#tree.Draw(plot_info["tree_var"][j] + ">>hist",plot_info["weight"]+"*("+plot_info["cut"]+")","")
     if not hist:
         print 'Failed to get hist from file'
         exit(0)
@@ -186,6 +246,18 @@ def getHistFromFile (plot_info,i,j,k):
     return hist
 
 def getHistFromFileaQGC(plot_info, key1, ColNum):
+    """This grabs histogram from TFile. But, this is specially for the aQGC plotting.
+
+    Parameters:
+       plot_info (args): This is pointer to argparser.
+
+       key1 (int): It contains the position of LHE weights.
+
+       ColNum (int): This chosses the color of aQGC histogram.
+
+    Return:
+       This return the generated histogram.
+    """
     file1 = ROOT.TFile(plot_info["file_name"][0])
     if not file1:
         print 'Failed to open %s' % plot_info["file_name"][0]
@@ -210,43 +282,56 @@ def getHistFromFileaQGC(plot_info, key1, ColNum):
 
 ################	aQGC Specific Function	##################
 def PrintaQGC_parameters(plot_info, aQGC_par):
-    	file = ROOT.TFile(plot_info["file_name"][0])
-    	if not file:
-    	    print 'Failed to open %s' % plot_info["file_name"][0]
-    	    exit(0)
-    	tree = file.Get(plot_info["tree_folder"] + plot_info["tree_name"])
-	FT0_key = []
-	FT0_val = []
-	for n, event in enumerate(tree):
-		if n>0:
-			break
-		indices1 = [i for i, s in enumerate(event.LHEWeightIDs) if aQGC_par in s]
-	
-		#for i in range(0,len(indices1), len(indices1)/6):
-		for i in range(0,len(indices1)):
-			print indices1[i],"\t",event.LHEWeightIDs[indices1[i]]
+    """This function is mainly for the debugging purpose.
+    This function prints the aQGC parameter.
+    """
+    file = ROOT.TFile(plot_info["file_name"][0])
+    if not file:
+        print 'Failed to open %s' % plot_info["file_name"][0]
+        exit(0)
+    tree = file.Get(plot_info["tree_folder"] + plot_info["tree_name"])
+    FT0_key = []
+    FT0_val = []
+    for n, event in enumerate(tree):
+    	if n>0:
+	    break
+    	indices1 = [i for i, s in enumerate(event.LHEWeightIDs) if aQGC_par in s]
+
+    	#for i in range(0,len(indices1), len(indices1)/6):
+    	for i in range(0,len(indices1)):
+    	    print indices1[i],"\t",event.LHEWeightIDs[indices1[i]]
 
 def getaQGC_parameters(plot_info, aQGC_par):
-    	file = ROOT.TFile(plot_info["file_name"][0])
-    	if not file:
-    	    print 'Failed to open %s' % plot_info["file_name"][0]
-    	    exit(0)
-    	tree = file.Get(plot_info["tree_folder"] + plot_info["tree_name"])
-	FT0_key = []
-	FT0_val = []
-	for n, event in enumerate(tree):
-		if n>0:
-			break
-		indices1 = [i for i, s in enumerate(event.LHEWeightIDs) if aQGC_par in s]
-	
-		#for i in range(0,len(indices1), len(indices1)/6):
-		for i in range(len(indices1)/2,len(indices1)):
-			FT0_key.append(indices1[i])
-			FT0_val.append(event.LHEWeightIDs[indices1[i]])
-		indices1s = [i for i, s in enumerate(event.LHEWeightIDs) if aQGC_par.replace("_m","_0p0") in s]
-		FT0_key.append(indices1s[0])
-		FT0_val.append(event.LHEWeightIDs[indices1s[0]]+" (SM)")
-	return FT0_key,FT0_val
+    """The function `getaQGC_parameters` fetches the aQGC parameters for the specified parameter.
+
+    Parameters:
+       plot_info (args): This is pointer to argparser.
+       
+       aQGC_par (string): Name of aQGC parameters.
+    
+    Return:
+       This returns two array one having aQGC parameters and their values.
+    """
+    file = ROOT.TFile(plot_info["file_name"][0])
+    if not file:
+        print 'Failed to open %s' % plot_info["file_name"][0]
+        exit(0)
+    tree = file.Get(plot_info["tree_folder"] + plot_info["tree_name"])
+    FT0_key = []
+    FT0_val = []
+    for n, event in enumerate(tree):
+    	if n>0:
+    		break
+    	indices1 = [i for i, s in enumerate(event.LHEWeightIDs) if aQGC_par in s]
+    
+    	#for i in range(0,len(indices1), len(indices1)/6):
+    	for i in range(len(indices1)/2,len(indices1)):
+    		FT0_key.append(indices1[i])
+    		FT0_val.append(event.LHEWeightIDs[indices1[i]])
+    	indices1s = [i for i, s in enumerate(event.LHEWeightIDs) if aQGC_par.replace("_m","_0p0") in s]
+    	FT0_key.append(indices1s[0])
+    	FT0_val.append(event.LHEWeightIDs[indices1s[0]]+" (SM)")
+    return FT0_key,FT0_val
 
 def aQGC_plotting (plot_info, aQGC_key, aQGC_val, outputNameString, skip):
     print "size of aQGC parameter: ",len(aQGC_key)
@@ -298,10 +383,9 @@ def aQGC_plotting (plot_info, aQGC_key, aQGC_val, outputNameString, skip):
 
 
 ##################################################################
-	
-	
-
 def CompHistFromTwoBranchSameFile (plot_info):
+    """This function compares two distributions that it grabs from the same TFile.
+    """
     c1 = getCanvas()
     setTDRStyle(c1, 1, 13, "No") 
     legend = getLegends(plot_info["legPos"],2,len(plot_info["tree_var"]),plot_info["legFontSize"])
@@ -342,16 +426,75 @@ def CompHistFromTwoBranchSameFile (plot_info):
     	c1.SetGrid()
     c1.SaveAs(plot_info["output_file"])
 
+def CompHistFromTwoFileWithRatio(plot_info):
+    """This function compares histogram from different TFiles.
+    """
+    c1, p1, p2 = createCanvasWithTwoPads()
+    c1.cd()
+    p1.cd()
+    #c1 = getCanvas()
+    setTDRStyle(c1, 1, 13, "No") 
+    legend = getLegends(plot_info["legPos"],1,len(plot_info["file_name"]),plot_info["legFontSize"])
+    hist = []
+    for i in range(0,len(plot_info["file_name"])):
+        print "working on file number : ",i
+        print "File name : ",plot_info["file_name"][i]
+        print "weight = ",plot_info["weight"],"\n\n"
+        hist.append(getHistFromFile(plot_info,i,0,i))
+
+    RatioHist = []
+    for a,list1 in enumerate(hist):
+        list1.Sumw2()
+        list1.GetXaxis().SetTitle(plot_info["xlabel"])
+        if plot_info["ylabel"] == "":
+            plot_info["ylabel"] = "Events / %s GeV" % int(list1.GetBinWidth(1))
+        list1.GetYaxis().SetTitle(plot_info["ylabel"])
+        list1.Scale(1.0/list1.Integral())
+        #list1.Scale((36.0*174.0)/list1.Integral())
+        #print "Print Bin Number = ",list1.GetXaxis().FindBin(1100)
+        #print "HISTO: ",list1
+        print "Total Integral = ",list1.Integral()
+        #list1.Fit("gaus")
+        #print "Integral (2000,6000) = ",list1.Integral(list1.GetXaxis().FindBin(2000),list1.GetXaxis().FindBin(6000))
+        if a==0:
+            ReferenceHist = list1
+        else:
+            RatioHist.append(createRatio(list1,ReferenceHist,a))
+        legend.AddEntry(list1,plot_info["leg"][a],"lpe")
+        #p1.cd()
+        if a==0:
+            list1.Draw()
+        else:
+            list1.Draw("sames")
+    legend.Draw()
+    for countrk,countrkName in enumerate(list1):
+        print "RAM = ",countrk, countrkName
+    if plot_info["logy"]:
+        c1.SetLogy()
+    if plot_info["logx"]:
+        c1.SetLogx()
+    if plot_info["grid"]:
+    	c1.SetGrid()
+    p2.cd()
+    for countrk, countrk1 in enumerate(RatioHist):
+        if countrk==0:
+            countrk1.Draw()
+        else:
+            countrk1.Draw("sames")
+    c1.SaveAs(plot_info["output_file"])
+
+
 def CompHistFromTwoFile (plot_info):
+    """This function compares histogram from different TFiles.
+    """
     c1 = getCanvas()
     setTDRStyle(c1, 1, 13, "No") 
     legend = getLegends(plot_info["legPos"],1,len(plot_info["file_name"]),plot_info["legFontSize"])
     hist = []
     for i in range(0,len(plot_info["file_name"])):
     	print "working on file number : ",i
-	# Below if condition is for specific perpose
-	if i == 1:
-		plot_info["weight"] = ""
+	print "File name : ",plot_info["file_name"][i]
+
 	print "weight = ",plot_info["weight"],"\n\n"
 	hist.append(getHistFromFile(plot_info,i,0,i))
 
@@ -383,10 +526,15 @@ def CompHistFromTwoFile (plot_info):
     c1.SaveAs(plot_info["output_file"])
 
 def addHistToStack (hist_stack, plot_info, hist_opts, line_color, fill_color):
+    """This function add histogram to the stack histogram.
+    """
     hist = getHistFromFile(plot_info)
     setHistAttributes(hist, plot_info, line_color, fill_color)
     hist_stack.Add(hist, hist_opts)
+
 def makePlot (hist, hist_opts, plot_info):
+    """THis function plots and save histogram to an output pdf file.
+    """
     #legend = ROOT.TLegend(.5 ,.65 ,.885 ,.875)
     canvas = getCanvas()
     setTDRStyle(canvas, 1, 13, plot_info["printCMS"]) 
@@ -413,7 +561,10 @@ def makePlot (hist, hist_opts, plot_info):
 
     #legend.Draw("same")
     canvas.Print(plot_info["output_file"]) 
+
 def makeStackPlots (stacked, unstacked, hist_opts, plot_info):
+    """THis function makes the stack plot and saves output stack plot to pdf file.
+    """
     #legend = ROOT.TLegend(.5 ,.65 ,.885 ,.875)
     canvas = getCanvas()
     if plot_info["logy"]:
@@ -441,6 +592,17 @@ def makeStackPlots (stacked, unstacked, hist_opts, plot_info):
     canvas.Print(plot_info["output_file"]) 
 
 def setTDRStyle(canvas, luminosity, energy, printCMS):
+    """This function ensures that we are folloing the TDR style recommendations.
+    
+    Args: 
+       - canvas (TCanvas): The pointer to the TCanvas.
+       - luminosity (float): Total integrated luminosity.
+       - energy (float): Write the energy at which the plotted data is taken.
+       - printCMS (string): Position where the text "CMS" is placed.
+
+    Return:
+       
+    """
     tdrstyle.setTDRStyle() 
     if printCMS == "right" or printCMS == "left":
         if energy == 13:
