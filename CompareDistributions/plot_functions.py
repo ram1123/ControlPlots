@@ -25,7 +25,7 @@ def getLegends(pos,ncol,nvar,fontsize):
        Add a method for increasing size of legend box.
     """
     if pos == "tr":
-    	legend = ROOT.TLegend(.60-(0.15*(ncol-1)), 0.80-(0.02*(nvar/ncol-1)) ,.95 ,.920)
+    	legend = ROOT.TLegend(.50-(0.15*(ncol-1)), 0.80-(0.02*(nvar/ncol-1)) ,.95 ,.900)
     elif pos == "tl":
     	legend = ROOT.TLegend(0.11, 0.85-(0.02*(nvar/ncol-1)) ,.80+(0.15*(ncol-1)) ,.920)
     elif pos == "tc":
@@ -122,13 +122,13 @@ def setHistAttributes (hist, plot_info, line_color, fill_color):
 
     #hist.GetYaxis().SetTitle(plot_info["ylabel"])
 
-def createRatio(h1, h2, col, ratio_title="ratio (SM/aQGC)"):	# h1/h2
+def createRatio(h1, h2, col, ratio_title="ratio (NP/SM)"):	# h1/h2
     """This takes two histogram of type TH1 as input and gives another TH1 that contains ratio of two histogram.
 
     Parameters:
        h1 (TH1): First input histogram.
 
-       h2 (TH1): Second input histogram.
+       h2 (TH1): Second input histogram. This is the reference histogram which will go to the denominator of the ratio. In general the "col" option should have the same color as histogram "h1".
 
        col (TH1): Color of output histogram that contains ratio of two input histogram.
 
@@ -165,7 +165,7 @@ def createRatio(h1, h2, col, ratio_title="ratio (SM/aQGC)"):	# h1/h2
     x.SetTitleOffset(4.0)
     x.SetLabelFont(43)
     x.SetLabelSize(15)
-
+    
     return h3
 
 def createCanvasWithTwoPads():	# Create Canvas having two pads
@@ -198,6 +198,11 @@ def createCanvasWithTwoPads():	# Create Canvas having two pads
     pad2.SetGridx()
     pad2.SetTickx(1)
     pad2.SetTicky(1)
+
+    l = ROOT.TLine(pad2.GetUxmin(),1.0,pad2.GetUxmax(),1.0);
+    l.SetLineColor(1);
+    l.SetLineStyle(3);
+    l.Draw();
     pad2.Draw()
 
     return c, pad1, pad2
@@ -462,7 +467,7 @@ def CompHistFromTwoFileWithRatio(plot_info):
         if a==0:
             ReferenceHist = list1
         else:
-            RatioHist.append(createRatio(list1,ReferenceHist,a))
+            RatioHist.append(createRatio(list1,ReferenceHist,list1.GetLineColor()))  # Set Line color as list1 histogram.
         legend.AddEntry(list1,plot_info["leg"][a],"lpe")
         #p1.cd()
         if a==0:
