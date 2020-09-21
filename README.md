@@ -1,7 +1,4 @@
-# Plotting Codes
+# Info
 
-1. Data-MC plots
+> root -l -b -q WVChannel_GetCard_WithHiggsDistributions.C
 
-2. 2-D plots
-
-3. Distribution Comparison

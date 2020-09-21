@@ -1,4 +1,5 @@
 */OutDir/*
+*.swp
 screenlog.0
 .DS_Store
 *.pyc
