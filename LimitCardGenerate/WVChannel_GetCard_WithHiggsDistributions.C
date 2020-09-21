@@ -48,16 +48,24 @@ using namespace std;
 
 double intLUMIinvpb;
 
-double fs0[91] = {-900.0, -880.0, -860.0, -840.0, -820.0, -800.0, -780.0, -760.0, -740.0, -720.0, -700.0, -680.0, -660.0, -640.0, -620.0, -600.0, -580.0, -560.0, -540.0, -520.0, -500.0, -480.0, -460.0, -440.0, -420.0, -400.0, -380.0, -360.0, -340.0, -320.0, -300.0, -280.0, -260.0, -240.0, -220.0, -200.0, -180.0, -160.0, -140.0, -120.0, -100.0, -80.0, -60.0, -40.0, -20.0, 0.0, 20.0, 40.0, 60.0, 80.0, 100.0, 120.0, 140.0, 160.0, 180.0, 200.0, 220.0, 240.0, 260.0, 280.0, 300.0, 320.0, 340.0, 360.0, 380.0, 400.0, 420.0, 440.0, 460.0, 480.0, 500.0, 520.0, 540.0, 560.0, 580.0, 600.0, 620.0, 640.0, 660.0, 680.0, 700.0, 720.0, 740.0, 760.0, 780.0, 800.0, 820.0, 840.0, 860.0, 880.0, 900.0};
-double fs1[67] = {-330.0, -320.0, -310.0, -300.0, -290.0, -280.0, -270.0, -260.0, -250.0, -240.0, -230.0, -220.0, -210.0, -200.0, -190.0, -180.0, -170.0, -160.0, -150.0, -140.0, -130.0, -120.0, -110.0, -100.0, -90.0, -80.0, -70.0, -60.0, -50.0, -40.0, -30.0, -20.0, -10.0, 0.0, 10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0, 110.0, 120.0, 130.0, 140.0, 150.0, 160.0, 170.0, 180.0, 190.0, 200.0, 210.0, 220.0, 230.0, 240.0, 250.0, 260.0, 270.0, 280.0, 290.0, 300.0, 310.0, 320.0, 330.0};
-double fm0[85] = {-42.0, -41.0, -40.0, -39.0, -38.0, -37.0, -36.0, -35.0, -34.0, -33.0, -32.0, -31.0, -30.0, -29.0, -28.0, -27.0, -26.0, -25.0, -24.0, -23.0, -22.0, -21.0, -20.0, -19.0, -18.0, -17.0, -16.0, -15.0, -14.0, -13.0, -12.0, -11.0, -10.0, -9.0, -8.0, -7.0, -6.0, -5.0, -4.0, -3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0, 19.0, 20.0, 21.0, 22.0, 23.0, 24.0, 25.0, 26.0, 27.0, 28.0, 29.0, 30.0, 31.0, 32.0, 33.0, 34.0, 35.0, 36.0, 37.0, 38.0, 39.0, 40.0, 41.0, 42.0};
-double fm1[67] = {-165.0, -160.0, -155.0, -150.0, -145.0, -140.0, -135.0, -130.0, -125.0, -120.0, -115.0, -110.0, -105.0, -100.0, -95.0, -90.0, -85.0, -80.0, -75.0, -70.0, -65.0, -60.0, -55.0, -50.0, -45.0, -40.0, -35.0, -30.0, -25.0, -20.0, -15.0, -10.0, -5.0, 0.0, 5.0, 10.0, 15.0, 20.0, 25.0, 30.0, 35.0, 40.0, 45.0, 50.0, 55.0, 60.0, 65.0, 70.0, 75.0, 80.0, 85.0, 90.0, 95.0, 100.0, 105.0, 110.0, 115.0, 120.0, 125.0, 130.0, 135.0, 140.0, 145.0, 150.0, 155.0, 160.0, 165.0};
-double fm6[84] = {-84.0, -82.0, -80.0, -78.0, -76.0, -74.0, -72.0, -70.0, -68.0, -66.0, -64.0, -62.0, -60.0, -58.0, -56.0, -54.0, -52.0, -50.0, -48.0, -46.0, -44.0, -42.0, -40.0, -38.0, -36.0, -34.0, -32.0, -30.0, -28.0, -26.0, -24.0, -22.0, -20.0, -18.0, -16.0, -14.0, -12.0, -10.0, -8.0, -6.0, -4.0, -2.0, 0.0, 2.0, 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 16.0, 18.0, 20.0, 22.0, 24.0, 26.0, 28.0, 30.0, 32.0, 34.0, 36.0, 38.0, 40.0, 42.0, 44.0, 46.0, 48.0, 50.0, 52.0, 54.0, 56.0, 58.0, 60.0, 62.0, 64.0, 66.0, 68.0, 70.0, 72.0, 74.0, 76.0, 78.0, 80.0, 82.0};
-double fm7[121] = {-300.0, -295.0, -290.0, -285.0, -280.0, -275.0, -270.0, -265.0, -260.0, -255.0, -250.0, -245.0, -240.0, -235.0, -230.0, -225.0, -220.0, -215.0, -210.0, -205.0, -200.0, -195.0, -190.0, -185.0, -180.0, -175.0, -170.0, -165.0, -160.0, -155.0, -150.0, -145.0, -140.0, -135.0, -130.0, -125.0, -120.0, -115.0, -110.0, -105.0, -100.0, -95.0, -90.0, -85.0, -80.0, -75.0, -70.0, -65.0, -60.0, -55.0, -50.0, -45.0, -40.0, -35.0, -30.0, -25.0, -20.0, -15.0, -10.0, -5.0, 0.0, 5.0, 10.0, 15.0, 20.0, 25.0, 30.0, 35.0, 40.0, 45.0, 50.0, 55.0, 60.0, 65.0, 70.0, 75.0, 80.0, 85.0, 90.0, 95.0, 100.0, 105.0, 110.0, 115.0, 120.0, 125.0, 130.0, 135.0, 140.0, 145.0, 150.0, 155.0, 160.0, 165.0, 170.0, 175.0, 180.0, 185.0, 190.0, 195.0, 200.0, 205.0, 210.0, 215.0, 220.0, 225.0, 230.0, 235.0, 240.0, 245.0, 250.0, 255.0, 260.0, 265.0, 270.0, 275.0, 280.0, 285.0, 290.0, 295.0, 300.0};
-double ft0[69] = {-6.8, -6.6, -6.4, -6.2, -6.0, -5.8, -5.6, -5.4, -5.2, -5.0, -4.8, -4.6, -4.4, -4.2, -4.0, -3.8, -3.6, -3.4, -3.2, -3.0, -2.8, -2.6, -2.4, -2.2, -2.0, -1.8, -1.6, -1.4, -1.2, -1.0, -0.8, -0.6, -0.4, -0.2, 0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0, 2.2, 2.4, 2.6, 2.8, 3.0, 3.2, 3.4, 3.6, 3.8, 4.0, 4.2, 4.4, 4.6, 4.8, 5.0, 5.2, 5.4, 5.6, 5.8, 6.0, 6.2, 6.4, 6.6, 6.8};
-double ft1[51] = {-12.5, -12.0, -11.5, -11.0, -10.5, -10.0, -9.5, -9.0, -8.5, -8.0, -7.5, -7.0, -6.5, -6.0, -5.5, -5.0, -4.5, -4.0, -3.5, -3.0, -2.5, -2.0, -1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0, 10.5, 11.0, 11.5, 12.0, 12.5};
-double ft2[83] = {-20.5, -20.0, -19.5, -19.0, -18.5, -18.0, -17.5, -17.0, -16.5, -16.0, -15.5, -15.0, -14.5, -14.0, -13.5, -13.0, -12.5, -12.0, -11.5, -11.0, -10.5, -10.0, -9.5, -9.0, -8.5, -8.0, -7.5, -7.0, -6.5, -6.0, -5.5, -5.0, -4.5, -4.0, -3.5, -3.0, -2.5, -2.0, -1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5, 10.0, 10.5, 11.0, 11.5, 12.0, 12.5, 13.0, 13.5, 14.0, 14.5, 15.0, 15.5, 16.0, 16.5, 17.0, 17.5, 18.0, 18.5, 19.0, 19.5, 20.0, 20.5};
-
+double fs0[43] = {-50.0, -45.0, -40.0, -35.0, -30.0, -20.0, -10.0, -8.0, -6.0, -5.0, -4.0, -3.0, -2.5, -2.0, -1.5, -1.2, -1.0, -0.8, -0.6, -0.4, -0.2, 0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0, 6.0, 8.0, 10.0, 20.0, 30.0, 35.0, 40.0, 45.0, 50.0};
+double fs1[33] = {-35, -33, -30, -25, -20, -15, -10, -7.5, -5.0, -4.0, -3.0, -2.5, -2.0, -1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0, 7.5, 10, 15, 20, 25, 30, 33, 35};
+double fm0[41] = {-10, -9, -8, -7, -6, -5, -4, -3, -2.0, -1.5, -1.0, -0.9, -0.8, -0.7, -0.6, -0.5, -0.4, -0.3, -0.2, -0.1, 0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.5, 2.0, 3, 4, 5, 6, 7, 8, 9, 10};
+double fm1[37] = {-30, -28, -23, -21, -18, -15, -13, -10, -5.0, -3.0, -2.5, -2.1, -1.8, -1.5, -1.2, -0.9, -0.6, -0.3, 0, 0.3, 0.6, 0.9, 1.2, 1.5, 1.8, 2.1, 2.5, 3.0, 5.0, 10, 13, 15, 18, 21, 23.0, 28, 30};
+double fm2[31] = {-60.0, -55.0, -50.0, -45.0, -40.0, -35.0, -30.0, -25.0, -20.0, -15.0, -10.0, -6.0, -3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 6.0, 10.0, 15.0, 20.0, 25.0, 30.0, 35.0, 40.0, 45.0, 50.0, 55.0, 60.0};
+double fm3[31] = {-105.0, -95.0, - 85.0, -75.0, -65.0, -55.0, -44.0, -31.0, -21.0, -13.0, -8.0, -5.0, -3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 5.0, 8.0, 13.0, 21.0, 31.0, 44.0, 55.0, 65.0, 75.0, 85.0, 95.0, 105.0};
+double fm4[37] = {-130.0,-121.0,-115.0,105.0,-95.0, -85.0, -75.0, -65.0, -55.0, -44.0, -31.0, -21.0, -13.0, -8.0, -5.0, -3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 5.0, 8.0, 13.0, 21.0, 31.0, 44.0, 55.0, 65.0, 75.0, 85.0, 95.0, 105.0, 115.0, 121.0, 130.0};
+double fm5[45] = {-200.0, -190.0, -170.0, -150.0, -130.0,-121.0,-115.0,105.0,-95.0, -85.0, -75.0, -65.0, -55.0, -44.0, -31.0, -21.0, -13.0, -8.0, -5.0, -3.0, -2.0, -1.0, 0.0, 1.0, 2.0, 3.0, 5.0, 8.0, 13.0, 21.0, 31.0, 44.0, 55.0, 65.0, 75.0, 85.0, 95.0, 105.0, 115.0, 121.0, 130.0, 150.0, 170.0, 190.0, 200.0};
+double fm6[35] = {-20.0, -18.0, -15.0,- -12.0, -10.0, -7.0, -5.0, -3.0, -2.0, -1.8, -1.6, -1.4, -1.2, -1.0, -0.7, -0.5, -0.2, 0.0, 0.2, 0.5, 0.7, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0, 3.0, 5.0, 7.0, 10.0, 12.0, 15.0, 18.0, 20.0};
+double fm7[33] = {-40, -35, -30, -25, -20, -15, -10, -5.0, -3.5, -3.0, -2.5, -2.0, -1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 5.0, 10.0, 15.0, 20.0, 25.0, 30.0, 35.0, 40.0};
+double ft0[35] = {-2.0, -1.8, -1.4, -1.2, -1.0, -0.7, -0.5, -0.3, -0.2, -0.18, -0.14, -0.12, -0.10, -0.08, -0.06, -0.04, -0.02, 0, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.18, 0.20, 0.30, 0.50, 0.7, 1.0, 1.2, 1.4, 1.8, 2.0};
+double ft1[35] = {-2.0, -1.8, -1.4, -1.2, -1.0, -0.7, -0.5, -0.3, -0.2, -0.18, -0.14, -0.12, -0.10, -0.08, -0.06, -0.04, -0.02, 0, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.18, 0.20, 0.30, 0.50, 0.7, 1.0, 1.2, 1.4, 1.8, 2.0};
+double ft2[35] = {-4.5, -3.9, -3.4, -2.9, -2.5, -1.7, -1.2, -0.9, -0.7, -0.5, -0.32, -0.26, -0.20, -0.14, -0.08, -0.04, -0.02, 0, 0.02, 0.04, 0.08, 0.14, 0.20, 0.26, 0.32, 0.5, 0.7, 0.9, 1.2, 1.7, 2.5, 2.9, 3.4, 3.9, 4.5};
+double ft5[39] = {-25.0, -22.0, -20.0, -18.0, -15.0, -12.0, -10.0, -7.0, -5.0, -3.0, -2.0, -1.8, -1.6, -1.4, -1.2, -1.0, -0.7, -0.5, -0.2, 0.0, 0.2, 0.5, 0.7, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0, 3.0, 5.0, 7.0, 10.0, 12.0, 15.0, 18.0, 20.0, 22.0, 25.0};
+double ft6[43] = {-29.0, -27.0, -25.0, -22.0, -20.0, -18.0, -15.0, -12.0, -10.0, -7.0, -5.0, -3.0, -2.0, -1.8, -1.6, -1.4, -1.2, -1.0, -0.7, -0.5, -0.2, 0.0, 0.2, 0.5, 0.7, 1.0, 1.2, 1.4, 1.6, 1.8, 2.0, 3.0, 5.0, 7.0, 10.0, 12.0, 15.0, 18.0, 20.0, 22.0, 25.0, 27.0, 29.0};
+double ft7[51] = {-70.0, -65.0, -60.0, -55.0, -50.0, -45.0, -40.0, -35.0, -30.0, -20.0, -10.0, -8.0, -6.0, -5.0, -4.0, -3.0, -2.5, -2.0, -1.5, -1.2, -1.0, -0.8, -0.6, -0.4, -0.2, 0.0, 0.2, 0.4, 0.6, 0.8, 1.0, 1.2, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0, 6.0, 8.0, 10.0, 20.0, 30.0, 35.0, 40.0, 45.0, 50.0, 55.0, 60.0, 65.0, 70.0};
+double ft8[35] = {-2.0, -1.8, -1.4, -1.2, -1.0, -0.7, -0.5, -0.3, -0.2, -0.18, -0.14, -0.12, -0.10, -0.08, -0.06, -0.04, -0.02, 0, 0.02, 0.04, 0.06, 0.08, 0.10, 0.12, 0.14, 0.18, 0.20, 0.30, 0.50, 0.7, 1.0, 1.2, 1.4, 1.8, 2.0};
+double ft9[41] = {-10.0, -9.0, -8.0, -7.0, -6.0, -5.0, -4.0, -3.0, -2.0, -1.0, -0.9, -0.8, -0.7, -0.6, -0.5, -0.4, -0.3, -0.2, -0.1, 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.5, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0};
 
 //======================================================================
 class Sample {
@@ -202,19 +210,18 @@ void model(const char *samplefilename,
   if (sdata->Tree())
     cout << "ndata =" << sdata->Tree()->GetEntries() <<endl;
 
-  TFile* wjetBkgSystFile = new TFile("WV_bkg_estimation_4Bins_50GeVLepCut.root","READ");
   
-  TH1F* wjet = (TH1F*)wjetBkgSystFile->Get("WjetFitSyst_SignalRegion_Corr_Hist_From_Data_4bins_Nominal");
-  TH1F* wjetup = (TH1F*)wjetBkgSystFile->Get("WjetFitSyst_SignalRegion_Corr_Hist_From_Data_4bins_Par0Up");
-  TH1F* wjetdown = (TH1F*)wjetBkgSystFile->Get("WjetFitSyst_SignalRegion_Corr_Hist_From_Data_4bins_Par0Down");
-  TH1F* wjetup1 = (TH1F*)wjetBkgSystFile->Get("WjetFitSyst_SignalRegion_Corr_Hist_From_Data_4bins_Par1Up");
-  TH1F* wjetdown1 = (TH1F*)wjetBkgSystFile->Get("WjetFitSyst_SignalRegion_Corr_Hist_From_Data_4bins_Par1Down");
-  TH1F* wjetup2 = (TH1F*)wjetBkgSystFile->Get("WjetFitSyst_SignalRegion_Corr_Hist_From_Data_4bins_AlternateShape_Up");
-  TH1F* wjetdown2 = (TH1F*)wjetBkgSystFile->Get("WjetFitSyst_SignalRegion_Corr_Hist_From_Data_4bins_AlternateShape_Down");
-  TH1F* wjetup3 = (TH1F*)wjetBkgSystFile->Get("AlphaSyst_Vjet_SR_4bins_Par0Up");
-  TH1F* wjetdown3 = (TH1F*)wjetBkgSystFile->Get("AlphaSyst_Vjet_SR_4bins_Par0Down");
-  TH1F* wjetup4 = (TH1F*)wjetBkgSystFile->Get("AlphaSyst_Vjet_SR_4bins_Par1Up");
-  TH1F* wjetdown4 = (TH1F*)wjetBkgSystFile->Get("AlphaSyst_Vjet_SR_4bins_Par1Down");
+  //TH1F* wjet = (TH1F*)wjetBkgSystFile->Get("WjetFitSyst_SignalRegion_Corr_Hist_From_Data_4bins_Nominal");
+  //TH1F* wjetup = (TH1F*)wjetBkgSystFile->Get("WjetFitSyst_SignalRegion_Corr_Hist_From_Data_4bins_Par0Up");
+  //TH1F* wjetdown = (TH1F*)wjetBkgSystFile->Get("WjetFitSyst_SignalRegion_Corr_Hist_From_Data_4bins_Par0Down");
+  //TH1F* wjetup1 = (TH1F*)wjetBkgSystFile->Get("WjetFitSyst_SignalRegion_Corr_Hist_From_Data_4bins_Par1Up");
+  //TH1F* wjetdown1 = (TH1F*)wjetBkgSystFile->Get("WjetFitSyst_SignalRegion_Corr_Hist_From_Data_4bins_Par1Down");
+  //TH1F* wjetup2 = (TH1F*)wjetBkgSystFile->Get("WjetFitSyst_SignalRegion_Corr_Hist_From_Data_4bins_AlternateShape_Up");
+  //TH1F* wjetdown2 = (TH1F*)wjetBkgSystFile->Get("WjetFitSyst_SignalRegion_Corr_Hist_From_Data_4bins_AlternateShape_Down");
+  //TH1F* wjetup3 = (TH1F*)wjetBkgSystFile->Get("AlphaSyst_Vjet_SR_4bins_Par0Up");
+  //TH1F* wjetdown3 = (TH1F*)wjetBkgSystFile->Get("AlphaSyst_Vjet_SR_4bins_Par0Down");
+  //TH1F* wjetup4 = (TH1F*)wjetBkgSystFile->Get("AlphaSyst_Vjet_SR_4bins_Par1Up");
+  //TH1F* wjetdown4 = (TH1F*)wjetBkgSystFile->Get("AlphaSyst_Vjet_SR_4bins_Par1Down");
   
   //============================================================
   //  VARIABLE LOOP
@@ -226,12 +233,12 @@ void model(const char *samplefilename,
   //double massLEdges[9]={600, 700, 800, 900, 1000, 1200, 1500, 2000, 2500};
 
 
-  TH1 *hists[79];
-  TH1 *ChargedHist[561];
-  TH1 *ChargedHistQCD[198];
-  TH1 *ChargedHistPDF[3300];
+  TH1 *hists[53];
+  //TH1 *ChargedHist[561];
+  //TH1 *ChargedHistQCD[198];
+  //TH1 *ChargedHistPDF[3300];
 
-  const char* HistName[79] = {	"data_obs",						// 0
+  const char* HistName[53] = {	"data_obs",						// 0
   			"diboson", "diboson_CMS_scale_lUp", "diboson_CMS_scale_lDown", "diboson_CMS_scale_jUp", "diboson_CMS_scale_jDown", "diboson_CMS_res_metUp", "diboson_CMS_res_metDown", 
 			"diboson_CMS_puUp", "diboson_CMS_puDown",	"diboson_CMS_btagHFUp", "diboson_CMS_btagHFDown", "diboson_CMS_btagLFUp", "diboson_CMS_btagLFDown", // 1	
 			"VVjjQCD", "VVjjQCD_CMS_scale_lUp", "VVjjQCD_CMS_scale_lDown", "VVjjQCD_CMS_scale_jUp", "VVjjQCD_CMS_scale_jDown", "VVjjQCD_CMS_res_metUp", "VVjjQCD_CMS_res_metDown", 
@@ -240,20 +247,20 @@ void model(const char *samplefilename,
 			"top_CMS_puUp", "top_CMS_puDown", "top_CMS_btagHFUp", "top_CMS_btagHFDown", "top_CMS_btagLFUp", "top_CMS_btagLFDown",		// 27
 			"Vjets", "Vjets_CMS_scale_lUp", "Vjets_CMS_scale_lDown", "Vjets_CMS_scale_jUp", "Vjets_CMS_scale_jDown", "Vjets_CMS_res_metUp", "Vjets_CMS_res_metDown", 
 			"Vjets_CMS_puUp", "Vjets_CMS_puDown", "Vjets_CMS_btagHFUp", "Vjets_CMS_btagHFDown", "Vjets_CMS_btagLFUp", "Vjets_CMS_btagLFDown",	// 40
-			"CH_WZ", "CH_WZ_CMS_scale_lUp", "CH_WZ_CMS_scale_lDown", "CH_WZ_CMS_scale_jUp", "CH_WZ_CMS_scale_jDown", "CH_WZ_CMS_res_metUp", "CH_WZ_CMS_res_metDown", 
-			"CH_WZ_CMS_puUp", "CH_WZ_CMS_puDown", "CH_WZ_CMS_btagHFUp", "CH_WZ_CMS_btagHFDown", "CH_WZ_CMS_btagLFUp", "CH_WZ_CMS_btagLFDown",	// 53
-			"DCH_WW", "DCH_WW_CMS_scale_lUp", "DCH_WW_CMS_scale_lDown", "DCH_WW_CMS_scale_jUp", "DCH_WW_CMS_scale_jDown", "DCH_WW_CMS_res_metUp", "DCH_WW_CMS_res_metDown", 
-			"DCH_WW_CMS_puUp", "DCH_WW_CMS_puDown", "DCH_WW_CMS_btagHFUp", "DCH_WW_CMS_btagHFDown", "DCH_WW_CMS_btagLFUp", "DCH_WW_CMS_btagLFDown"	// 66
+			//"CH_WZ", "CH_WZ_CMS_scale_lUp", "CH_WZ_CMS_scale_lDown", "CH_WZ_CMS_scale_jUp", "CH_WZ_CMS_scale_jDown", "CH_WZ_CMS_res_metUp", "CH_WZ_CMS_res_metDown", 
+			//"CH_WZ_CMS_puUp", "CH_WZ_CMS_puDown", "CH_WZ_CMS_btagHFUp", "CH_WZ_CMS_btagHFDown", "CH_WZ_CMS_btagLFUp", "CH_WZ_CMS_btagLFDown",	// 53
+			//"DCH_WW", "DCH_WW_CMS_scale_lUp", "DCH_WW_CMS_scale_lDown", "DCH_WW_CMS_scale_jUp", "DCH_WW_CMS_scale_jDown", "DCH_WW_CMS_res_metUp", "DCH_WW_CMS_res_metDown", 
+			//"DCH_WW_CMS_puUp", "DCH_WW_CMS_puDown", "DCH_WW_CMS_btagHFUp", "DCH_WW_CMS_btagHFDown", "DCH_WW_CMS_btagLFUp", "DCH_WW_CMS_btagLFDown"	// 66
 			};
   
 
-  TString HiggsSampleName[3] = { "CH_WZToLL", "CH_WZToLNu", "DCH_WW"};
-  TString MassPoint[11] = { "_M200", "_M300", "_M400", "_M500", "_M600", "_M700", "_M800", "_M900", "_M1000", "_M1500", "_M2000"};
-  TString Syst[17] = {"", "_CMS_scale_lUp", "_CMS_scale_lDown", "_CMS_scale_jUp", "_CMS_scale_jDown", "_CMS_res_metUp", "_CMS_res_metDown", "_CMS_puUp", "_CMS_puDown",       "_CMS_btagHFUp", "_CMS_btagHFDown", "_CMS_btagLFUp", "_CMS_btagLFDown", "_Higgs_QCDScaleUp", "_Higgs_QCDScaleDown", "_pdf_qqbarUp", "_pdf_qqbarDown" };
+  //TString HiggsSampleName[3] = { "CH_WZToLL", "CH_WZToLNu", "DCH_WW"};
+  //TString MassPoint[11] = { "_M200", "_M300", "_M400", "_M500", "_M600", "_M700", "_M800", "_M900", "_M1000", "_M1500", "_M2000"};
+  //TString Syst[17] = {"", "_CMS_scale_lUp", "_CMS_scale_lDown", "_CMS_scale_jUp", "_CMS_scale_jDown", "_CMS_res_metUp", "_CMS_res_metDown", "_CMS_puUp", "_CMS_puDown",       "_CMS_btagHFUp", "_CMS_btagHFDown", "_CMS_btagLFUp", "_CMS_btagLFDown", "_Higgs_QCDScaleUp", "_Higgs_QCDScaleDown", "_pdf_qqbarUp", "_pdf_qqbarDown" };
 
   
-  TH1 *histo_aqgc[718];
-  for(int j=0;j<718;j++)
+  TH1 *histo_aqgc[680];
+  for(int j=0;j<680;j++)
     {
       stringstream ss;
       ss << j;
@@ -321,45 +328,45 @@ void model(const char *samplefilename,
   
 
   // histo for JES, JER, UP, Btag, LEP up/down uncertanities
-  for (int i=0; i<79; i++)
+  for (int i=0; i<53; i++)
   {
     hists[i] = new TH1D(HistName[i],HistName[i], NBINS,massLEdges);
     hists[i]->Sumw2();
   }
 
   int HistCount = 0;
-  for (int i=0; i<3; i++)
-     for (int j=0; j<11; j++)
-        for (int k=0; k<17; k++)
-	{
-	   TString name = HiggsSampleName[i]+MassPoint[j]+Syst[k];
-	   cout<< "Hist name will be : " << HistCount << "\t" << name << endl;
-	   ChargedHist[HistCount] = new TH1D(name , name, NBINS,massLEdges); 
-	   ChargedHist[HistCount]->Sumw2();
-	   HistCount++;
-	}
-  HistCount = 0;
-  for (int i=0; i<3; i++)
-    for (int j=0; j<11; j++)
-      for (int k=0; k<6; k++)
-	{
-	  TString name = HiggsSampleName[i]+MassPoint[j]+"_CMS_QCDScale";
-	  cout<< "Hist name will be : " << HistCount << "\t" << name << endl;
-	  ChargedHistQCD[HistCount] = new TH1D(name , name, NBINS, massLEdges); 
-	  ChargedHistQCD[HistCount]->Sumw2();
-	  HistCount++;
-	}
-  HistCount = 0;
-  for (int i=0; i<3; i++)
-    for (int j=0; j<11; j++)
-      for (int k=0; k<100; k++)
-	{
-	  TString name = HiggsSampleName[i]+MassPoint[j]+"_CMS_PDFScale";
-	  cout<< "Hist name will be : " << HistCount << "\t" << name << endl;
-	  ChargedHistPDF[HistCount] = new TH1D(name , name, NBINS,massLEdges); 
-	  ChargedHistPDF[HistCount]->Sumw2();
-	  HistCount++;
-	}
+  //for (int i=0; i<3; i++)
+  //   for (int j=0; j<11; j++)
+  //      for (int k=0; k<17; k++)
+	//{
+	//   TString name = HiggsSampleName[i]+MassPoint[j]+Syst[k];
+	//   cout<< "Hist name will be : " << HistCount << "\t" << name << endl;
+	//   ChargedHist[HistCount] = new TH1D(name , name, NBINS,massLEdges); 
+	//   ChargedHist[HistCount]->Sumw2();
+	//   HistCount++;
+	//}
+  //HistCount = 0;
+  //for (int i=0; i<3; i++)
+  //  for (int j=0; j<11; j++)
+  //    for (int k=0; k<6; k++)
+	//{
+	//  TString name = HiggsSampleName[i]+MassPoint[j]+"_CMS_QCDScale";
+	//  cout<< "Hist name will be : " << HistCount << "\t" << name << endl;
+	//  ChargedHistQCD[HistCount] = new TH1D(name , name, NBINS, massLEdges); 
+	//  ChargedHistQCD[HistCount]->Sumw2();
+	//  HistCount++;
+	//}
+  //HistCount = 0;
+  //for (int i=0; i<3; i++)
+  //  for (int j=0; j<11; j++)
+  //    for (int k=0; k<100; k++)
+	//{
+	//  TString name = HiggsSampleName[i]+MassPoint[j]+"_CMS_PDFScale";
+	//  cout<< "Hist name will be : " << HistCount << "\t" << name << endl;
+	//  ChargedHistPDF[HistCount] = new TH1D(name , name, NBINS,massLEdges); 
+	//  ChargedHistPDF[HistCount]->Sumw2();
+	//  HistCount++;
+	//}
   HistCount = 0;
   //============================================================
   // DRAW THE VARIABLE FOR ALL SAMPLES, CREATE HISTOS
@@ -596,14 +603,14 @@ void model(const char *samplefilename,
   	      HistCount = 0;
   	      for (int i=0; i<3; i++)
 	        for (int j=0; j<11; j++)
-		  for (int k=0; k<17; k++)
-		    { 
-		      //TString name = HiggsSampleName[i]+MassPoint[j];
-		      TString OrigName = s->name();
-		      TString name = HiggsSampleName[i]+MassPoint[j]+Syst[k];
-		      if (OrigName.EqualTo(name)) ChargedHist[HistCount]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-		      HistCount++;
-		    }
+		  //for (int k=0; k<17; k++)
+		  //  { 
+		  //    //TString name = HiggsSampleName[i]+MassPoint[j];
+		  //    TString OrigName = s->name();
+		  //    TString name = HiggsSampleName[i]+MassPoint[j]+Syst[k];
+		  //    if (OrigName.EqualTo(name)) ChargedHist[HistCount]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+		  //    HistCount++;
+		  //  }
 	      
 	      //------	PU UP
 	      if(s->name().EqualTo("WV_EWK"))	 hists[8]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_up*btag0Wgt)/(1.0*(nmc-2*nneg)));
@@ -613,16 +620,16 @@ void model(const char *samplefilename,
 	      if(s->name().EqualTo("CH_WZ"))	 hists[60]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_up*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("DCH_WW"))	 hists[73]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_up*btag0Wgt)/(1.0*(nmc-2*nneg)));
   	      HistCount = 0;
-  	      for (int i=0; i<3; i++)
-	        for (int j=0; j<11; j++)
-		  for (int k=0; k<17; k++)
-		    { 
-		      //TString name = HiggsSampleName[i]+MassPoint[j];
-		      TString OrigName = s->name()+"_CMS_puUp";
-		      TString name = HiggsSampleName[i]+MassPoint[j]+Syst[k];
-		      if (OrigName.EqualTo(name)) ChargedHist[HistCount]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_up*btag0Wgt)/(1.0*(nmc-2*nneg)));
-		      HistCount++;
-		    }
+  	  //    for (int i=0; i<3; i++)
+	    //    for (int j=0; j<11; j++)
+		  //for (int k=0; k<17; k++)
+		  //  { 
+		  //    //TString name = HiggsSampleName[i]+MassPoint[j];
+		  //    TString OrigName = s->name()+"_CMS_puUp";
+		  //    TString name = HiggsSampleName[i]+MassPoint[j]+Syst[k];
+		  //    if (OrigName.EqualTo(name)) ChargedHist[HistCount]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_up*btag0Wgt)/(1.0*(nmc-2*nneg)));
+		  //    HistCount++;
+		  //  }
 	      
 	      //------	PU Down
 	      if(s->name().EqualTo("WV_EWK"))	 hists[9]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_down*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
@@ -632,16 +639,16 @@ void model(const char *samplefilename,
 	      if(s->name().EqualTo("CH_WZ"))	 hists[61]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_down*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("DCH_WW"))	 hists[74]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_down*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
   	      HistCount = 0;
-  	      for (int i=0; i<3; i++)
-	        for (int j=0; j<11; j++)
-		  for (int k=0; k<17; k++)
-		    { 
-		      //TString name = HiggsSampleName[i]+MassPoint[j];
-		      TString OrigName = s->name()+"_CMS_puDown";
-		      TString name = HiggsSampleName[i]+MassPoint[j]+Syst[k];
-		      if (OrigName.EqualTo(name)) ChargedHist[HistCount]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_down*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
-		      HistCount++;
-		    }
+  	  //    for (int i=0; i<3; i++)
+	    //    for (int j=0; j<11; j++)
+		  //for (int k=0; k<17; k++)
+		  //  { 
+		  //    //TString name = HiggsSampleName[i]+MassPoint[j];
+		  //    TString OrigName = s->name()+"_CMS_puDown";
+		  //    TString name = HiggsSampleName[i]+MassPoint[j]+Syst[k];
+		  //    if (OrigName.EqualTo(name)) ChargedHist[HistCount]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight_down*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
+		  //    HistCount++;
+		  //  }
 	      
 	      //------	btag HF Up
 	      if(s->name().EqualTo("WV_EWK"))	 hists[10]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
@@ -651,16 +658,16 @@ void model(const char *samplefilename,
 	      if(s->name().EqualTo("CH_WZ"))	 hists[62]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("DCH_WW"))	 hists[75]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
   	      HistCount = 0;
-  	      for (int i=0; i<3; i++)
-	        for (int j=0; j<11; j++)
-		  for (int k=0; k<17; k++)
-		    { 
-		      //TString name = HiggsSampleName[i]+MassPoint[j];
-		      TString OrigName = s->name()+"_CMS_btagHFUp";
-		      TString name = HiggsSampleName[i]+MassPoint[j]+Syst[k];
-		      if (OrigName.EqualTo(name)) ChargedHist[HistCount]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
-		      HistCount++;
-		    }
+  	  //    for (int i=0; i<3; i++)
+	    //    for (int j=0; j<11; j++)
+		  //for (int k=0; k<17; k++)
+		  //  { 
+		  //    //TString name = HiggsSampleName[i]+MassPoint[j];
+		  //    TString OrigName = s->name()+"_CMS_btagHFUp";
+		  //    TString name = HiggsSampleName[i]+MassPoint[j]+Syst[k];
+		  //    if (OrigName.EqualTo(name)) ChargedHist[HistCount]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpHF)/(1.0*(nmc-2*nneg)));
+		  //    HistCount++;
+		  //  }
 
 	      //------	btag HF Down
 	      if(s->name().EqualTo("WV_EWK"))	 hists[11]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownHF)/(1.0*(nmc-2*nneg)));
@@ -670,16 +677,16 @@ void model(const char *samplefilename,
 	      if(s->name().EqualTo("CH_WZ"))	 hists[63]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownHF)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("DCH_WW"))	 hists[76]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownHF)/(1.0*(nmc-2*nneg)));
   	      HistCount = 0;
-  	      for (int i=0; i<3; i++)
-	        for (int j=0; j<11; j++)
-		  for (int k=0; k<17; k++)
-		    { 
-		      //TString name = HiggsSampleName[i]+MassPoint[j];
-		      TString OrigName = s->name()+"_CMS_btagHFDown";
-		      TString name = HiggsSampleName[i]+MassPoint[j]+Syst[k];
-		      if (OrigName.EqualTo(name)) ChargedHist[HistCount]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownHF)/(1.0*(nmc-2*nneg)));
-		      HistCount++;
-		    }
+  	  //    for (int i=0; i<3; i++)
+	    //    for (int j=0; j<11; j++)
+		  //for (int k=0; k<17; k++)
+		  //  { 
+		  //    //TString name = HiggsSampleName[i]+MassPoint[j];
+		  //    TString OrigName = s->name()+"_CMS_btagHFDown";
+		  //    TString name = HiggsSampleName[i]+MassPoint[j]+Syst[k];
+		  //    if (OrigName.EqualTo(name)) ChargedHist[HistCount]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownHF)/(1.0*(nmc-2*nneg)));
+		  //    HistCount++;
+		  //  }
 	      
 	      //------	btag LF Up
 	      if(s->name().EqualTo("WV_EWK"))	 hists[12]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpLF)/(1.0*(nmc-2*nneg)));
@@ -689,16 +696,16 @@ void model(const char *samplefilename,
 	      if(s->name().EqualTo("CH_WZ"))	 hists[64]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpLF)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("DCH_WW"))	 hists[77]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpLF)/(1.0*(nmc-2*nneg)));
   	      HistCount = 0;
-  	      for (int i=0; i<3; i++)
-	        for (int j=0; j<11; j++)
-		  for (int k=0; k<17; k++)
-		    { 
-		      //TString name = HiggsSampleName[i]+MassPoint[j];
-		      TString OrigName = s->name()+"_CMS_btagLFUp";
-		      TString name = HiggsSampleName[i]+MassPoint[j]+Syst[k];
-		      if (OrigName.EqualTo(name)) ChargedHist[HistCount]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpLF)/(1.0*(nmc-2*nneg)));
-		      HistCount++;
-		    }
+  	  //    for (int i=0; i<3; i++)
+	    //    for (int j=0; j<11; j++)
+		  //for (int k=0; k<17; k++)
+		  //  { 
+		  //    //TString name = HiggsSampleName[i]+MassPoint[j];
+		  //    TString OrigName = s->name()+"_CMS_btagLFUp";
+		  //    TString name = HiggsSampleName[i]+MassPoint[j]+Syst[k];
+		  //    if (OrigName.EqualTo(name)) ChargedHist[HistCount]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtUpLF)/(1.0*(nmc-2*nneg)));
+		  //    HistCount++;
+		  //  }
 
 	      //------	btag LF Down
 	      if(s->name().EqualTo("WV_EWK"))	 hists[13]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownLF)/(1.0*(nmc-2*nneg)));
@@ -708,16 +715,16 @@ void model(const char *samplefilename,
 	      if(s->name().EqualTo("CH_WZ"))	 hists[65]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownLF)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("DCH_WW"))	 hists[78]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownLF)/(1.0*(nmc-2*nneg)));
   	      HistCount = 0;
-  	      for (int i=0; i<3; i++)
-	        for (int j=0; j<11; j++)
-		  for (int k=0; k<17; k++)
-		    { 
-		      //TString name = HiggsSampleName[i]+MassPoint[j];
-		      TString OrigName = s->name()+"_CMS_btagLFDown";
-		      TString name = HiggsSampleName[i]+MassPoint[j]+Syst[k];
-		      if (OrigName.EqualTo(name)) ChargedHist[HistCount]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownLF)/(1.0*(nmc-2*nneg)));
-		      HistCount++;
-		    }
+  	  //    for (int i=0; i<3; i++)
+	    //    for (int j=0; j<11; j++)
+		  //for (int k=0; k<17; k++)
+		  //  { 
+		  //    //TString name = HiggsSampleName[i]+MassPoint[j];
+		  //    TString OrigName = s->name()+"_CMS_btagLFDown";
+		  //    TString name = HiggsSampleName[i]+MassPoint[j]+Syst[k];
+		  //    if (OrigName.EqualTo(name)) ChargedHist[HistCount]->Fill(mass_lvj_type0_PuppiAK8,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0WgtDownLF)/(1.0*(nmc-2*nneg)));
+		  //    HistCount++;
+		  //  }
 	      
 	      // To get QCD scale bounding we need to add QCD scale for all signal and bkg. But except for WV_EWK and Diboson others are taken care of using background estimation. For top there is not QCD scale bounding present in MC.
 	      if(s->name().EqualTo("WV_EWK")||s->name().EqualTo("Diboson"))
@@ -745,34 +752,34 @@ void model(const char *samplefilename,
 		 }
 	      HistCount = 0;
 	      int LHEWgt[6] = {1, 2, 3, 4, 6, 8};
-	      for (int i=0; i<3; i++)
-	        for (int j=0; j<11; j++)
-		  for (int k=0; k<6; k++)
-		    { 
-		      //TString name = HiggsSampleName[i]+MassPoint[j];
-		      TString OrigName = s->name()+"_CMS_QCDScale";
-		      TString name = HiggsSampleName[i]+MassPoint[j]+"_CMS_QCDScale";
-		      if (OrigName.EqualTo(name)) 
-			{
-			  //std::cout << (LHEWeight[LHEWgt[k]]/LHEWeight[0]) << std::endl;
-			  ChargedHistQCD[HistCount]->Fill(mass_lvj_type0_PuppiAK8,((LHEWeight[LHEWgt[k]]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-			}
-		      HistCount++;
-		    }
-  	      HistCount = 0;
-  	      for (int i=0; i<3; i++)
-	        for (int j=0; j<11; j++)
-		  for (int k=0; k<100; k++)
-		    { 
-		      //TString name = HiggsSampleName[i]+MassPoint[j];
-		      TString OrigName = s->name()+"_CMS_PDFScale";
-		      TString name = HiggsSampleName[i]+MassPoint[j]+"_CMS_PDFScale";
-		      if (OrigName.EqualTo(name)) ChargedHistPDF[HistCount]->Fill(mass_lvj_type0_PuppiAK8,((LHEWeight[9+k]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-		      HistCount++;
-		    }
+	   //   for (int i=0; i<3; i++)
+	   //     for (int j=0; j<11; j++)
+		 // for (int k=0; k<6; k++)
+		 //   { 
+		 //     //TString name = HiggsSampleName[i]+MassPoint[j];
+		 //     TString OrigName = s->name()+"_CMS_QCDScale";
+		 //     TString name = HiggsSampleName[i]+MassPoint[j]+"_CMS_QCDScale";
+		 //     if (OrigName.EqualTo(name)) 
+		 // {
+		 //   //std::cout << (LHEWeight[LHEWgt[k]]/LHEWeight[0]) << std::endl;
+		 //   ChargedHistQCD[HistCount]->Fill(mass_lvj_type0_PuppiAK8,((LHEWeight[LHEWgt[k]]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+		 // }
+		 //     HistCount++;
+		 //   }
+  	 //     HistCount = 0;
+  	  //    for (int i=0; i<3; i++)
+	    //    for (int j=0; j<11; j++)
+		  //for (int k=0; k<100; k++)
+		  //  { 
+		  //    //TString name = HiggsSampleName[i]+MassPoint[j];
+		  //    TString OrigName = s->name()+"_CMS_PDFScale";
+		  //    TString name = HiggsSampleName[i]+MassPoint[j]+"_CMS_PDFScale";
+		  //    if (OrigName.EqualTo(name)) ChargedHistPDF[HistCount]->Fill(mass_lvj_type0_PuppiAK8,((LHEWeight[9+k]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+		  //    HistCount++;
+		  //  }
 	      if(s->name().EqualTo("aQGC"))
 	  	{
-		  for (int j=0;j<718;j++)
+		  for (int j=0;j<680;j++)
 		    {
 		      histo_aqgc[j]->Fill(mass_lvj_type0_PuppiAK8,((LHEWeight[j+446]/LHEWeight[0])*xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 		    }
@@ -805,16 +812,16 @@ void model(const char *samplefilename,
 		if(s->name().EqualTo("CH_WZ"))	 hists[54]->Fill(mass_lvj_type0_LEP_Up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 		if(s->name().EqualTo("DCH_WW"))	 hists[67]->Fill(mass_lvj_type0_LEP_Up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 		HistCount = 0;
-		for (int i=0; i<3; i++)
-		  for (int j=0; j<11; j++)
-		    for (int k=0; k<17; k++)
-		      { 
-			//TString name = HiggsSampleName[i]+MassPoint[j];
-			TString OrigName = s->name()+"_CMS_scale_lUp";
-			TString name = HiggsSampleName[i]+MassPoint[j]+Syst[k];
-			if (OrigName.EqualTo(name)) ChargedHist[HistCount]->Fill(mass_lvj_type0_LEP_Up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-			HistCount++;
-		  }
+		//for (int i=0; i<3; i++)
+		  //for (int j=0; j<11; j++)
+		  //  for (int k=0; k<17; k++)
+		  //    { 
+			////TString name = HiggsSampleName[i]+MassPoint[j];
+			//TString OrigName = s->name()+"_CMS_scale_lUp";
+			//TString name = HiggsSampleName[i]+MassPoint[j]+Syst[k];
+			//if (OrigName.EqualTo(name)) ChargedHist[HistCount]->Fill(mass_lvj_type0_LEP_Up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+			//HistCount++;
+		  //}
 	      }
 	    }
 	  
@@ -843,16 +850,16 @@ void model(const char *samplefilename,
 	      if(s->name().EqualTo("CH_WZ"))	 hists[55]->Fill(mass_lvj_type0_LEP_Down,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	      if(s->name().EqualTo("DCH_WW"))	 hists[68]->Fill(mass_lvj_type0_LEP_Down,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
   	      HistCount = 0;
-  	      for (int i=0; i<3; i++)
-	        for (int j=0; j<11; j++)
-		  for (int k=0; k<17; k++)
-		  { 
-		    //TString name = HiggsSampleName[i]+MassPoint[j];
-		    TString OrigName = s->name()+"_CMS_scale_lDown";
-		    TString name = HiggsSampleName[i]+MassPoint[j]+Syst[k];
-		    if (OrigName.EqualTo(name)) ChargedHist[HistCount]->Fill(mass_lvj_type0_LEP_Down,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-		    HistCount++;
-		  }
+  	      //for (int i=0; i<3; i++)
+	        //for (int j=0; j<11; j++)
+		  //for (int k=0; k<17; k++)
+		  //{ 
+		  //  //TString name = HiggsSampleName[i]+MassPoint[j];
+		  //  TString OrigName = s->name()+"_CMS_scale_lDown";
+		  //  TString name = HiggsSampleName[i]+MassPoint[j]+Syst[k];
+		  //  if (OrigName.EqualTo(name)) ChargedHist[HistCount]->Fill(mass_lvj_type0_LEP_Down,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+		  //  HistCount++;
+		  //}
           }
       }
 
@@ -880,16 +887,16 @@ void model(const char *samplefilename,
 	   if(s->name().EqualTo("CH_WZ"))	 hists[56]->Fill(mass_lvj_type0_PuppiAK8_jes_up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	   if(s->name().EqualTo("DCH_WW"))	 hists[69]->Fill(mass_lvj_type0_PuppiAK8_jes_up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
   	      HistCount = 0;
-  	      for (int i=0; i<3; i++)
-	        for (int j=0; j<11; j++)
-		  for (int k=0; k<17; k++)
-		  { 
-		    //TString name = HiggsSampleName[i]+MassPoint[j];
-		    TString OrigName = s->name()+"_CMS_scale_jUp";
-		    TString name = HiggsSampleName[i]+MassPoint[j]+Syst[k];
-		    if (OrigName.EqualTo(name)) ChargedHist[HistCount]->Fill(mass_lvj_type0_PuppiAK8_jes_up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-		    HistCount++;
-		  }
+  	      //for (int i=0; i<3; i++)
+	        //for (int j=0; j<11; j++)
+		  //for (int k=0; k<17; k++)
+		  //{ 
+		  //  //TString name = HiggsSampleName[i]+MassPoint[j];
+		  //  TString OrigName = s->name()+"_CMS_scale_jUp";
+		  //  TString name = HiggsSampleName[i]+MassPoint[j]+Syst[k];
+		  //  if (OrigName.EqualTo(name)) ChargedHist[HistCount]->Fill(mass_lvj_type0_PuppiAK8_jes_up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+		  //  HistCount++;
+		  //}
 	   }
 	}
 
@@ -917,16 +924,16 @@ void model(const char *samplefilename,
 	   if(s->name().EqualTo("CH_WZ"))	 hists[57]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	   if(s->name().EqualTo("DCH_WW"))	 hists[70]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
   	      HistCount = 0;
-  	      for (int i=0; i<3; i++)
-	        for (int j=0; j<11; j++)
-		  for (int k=0; k<17; k++)
-		  { 
-		    //TString name = HiggsSampleName[i]+MassPoint[j];
-		    TString OrigName = s->name()+"_CMS_scale_jDown";
-		    TString name = HiggsSampleName[i]+MassPoint[j]+Syst[k];
-		    if (OrigName.EqualTo(name)) ChargedHist[HistCount]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-		    HistCount++;
-		  }
+  	      //for (int i=0; i<3; i++)
+	        //for (int j=0; j<11; j++)
+		  //for (int k=0; k<17; k++)
+		  //{ 
+		  //  //TString name = HiggsSampleName[i]+MassPoint[j];
+		  //  TString OrigName = s->name()+"_CMS_scale_jDown";
+		  //  TString name = HiggsSampleName[i]+MassPoint[j]+Syst[k];
+		  //  if (OrigName.EqualTo(name)) ChargedHist[HistCount]->Fill(mass_lvj_type0_PuppiAK8_jes_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+		  //  HistCount++;
+		  //}
 	   }
 	}
 
@@ -956,16 +963,16 @@ void model(const char *samplefilename,
 	   if(s->name().EqualTo("CH_WZ"))	 hists[58]->Fill(mass_lvj_type0_PuppiAK8_jer_up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	   if(s->name().EqualTo("DCH_WW"))	 hists[71]->Fill(mass_lvj_type0_PuppiAK8_jer_up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
   	      HistCount = 0;
-  	      for (int i=0; i<3; i++)
-	        for (int j=0; j<11; j++)
-		  for (int k=0; k<17; k++)
-		  { 
-		    //TString name = HiggsSampleName[i]+MassPoint[j];
-		    TString OrigName = s->name()+"_CMS_res_metUp";
-		    TString name = HiggsSampleName[i]+MassPoint[j]+Syst[k];
-		    if (OrigName.EqualTo(name)) ChargedHist[HistCount]->Fill(mass_lvj_type0_PuppiAK8_jer_up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-		    HistCount++;
-		  }
+  	      //for (int i=0; i<3; i++)
+	        //for (int j=0; j<11; j++)
+		  //for (int k=0; k<17; k++)
+		  //{ 
+		  //  //TString name = HiggsSampleName[i]+MassPoint[j];
+		  //  TString OrigName = s->name()+"_CMS_res_metUp";
+		  //  TString name = HiggsSampleName[i]+MassPoint[j]+Syst[k];
+		  //  if (OrigName.EqualTo(name)) ChargedHist[HistCount]->Fill(mass_lvj_type0_PuppiAK8_jer_up,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+		  //  HistCount++;
+		  //}
           }
 	}
 
@@ -994,16 +1001,16 @@ void model(const char *samplefilename,
 	   if(s->name().EqualTo("CH_WZ"))	 hists[59]->Fill(mass_lvj_type0_PuppiAK8_jer_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
 	   if(s->name().EqualTo("DCH_WW"))	 hists[72]->Fill(mass_lvj_type0_PuppiAK8_jer_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
   	      HistCount = 0;
-  	      for (int i=0; i<3; i++)
-	        for (int j=0; j<11; j++)
-		  for (int k=0; k<17; k++)
-		  { 
-		    //TString name = HiggsSampleName[i]+MassPoint[j];
-		    TString OrigName = s->name()+"_CMS_res_metDown";
-		    TString name = HiggsSampleName[i]+MassPoint[j]+Syst[k];
-		    if (OrigName.EqualTo(name)) ChargedHist[HistCount]->Fill(mass_lvj_type0_PuppiAK8_jer_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
-		    HistCount++;
-		  }
+  	      //for (int i=0; i<3; i++)
+	        //for (int j=0; j<11; j++)
+		  //for (int k=0; k<17; k++)
+		  //{ 
+		  //  //TString name = HiggsSampleName[i]+MassPoint[j];
+		  //  TString OrigName = s->name()+"_CMS_res_metDown";
+		  //  TString name = HiggsSampleName[i]+MassPoint[j]+Syst[k];
+		  //  if (OrigName.EqualTo(name)) ChargedHist[HistCount]->Fill(mass_lvj_type0_PuppiAK8_jer_dn,(xsec*otherscale*genWeight*trig_eff_Weight*id_eff_Weight*pu_Weight*btag0Wgt)/(1.0*(nmc-2*nneg)));
+		  //  HistCount++;
+		  //}
 	  }
 	}
       }
@@ -1012,28 +1019,28 @@ void model(const char *samplefilename,
   
   
   // include overflow bin in last bin for all histograms
-  for (int i=0; i<79; i++)
+  for (int i=0; i<53; i++)
   {
     hists[i]->SetBinContent(NBINS,hists[i]->GetBinContent(NBINS)+hists[i]->GetBinContent(NBINS+1));
     cout << HistName[i] << " = " << hists[i]->Integral() << endl;
     //hists[i]->Write();
   }
-  for (int i=0; i<561; i++)
-  {
-    ChargedHist[i]->SetBinContent(NBINS,ChargedHist[i]->GetBinContent(NBINS)+ChargedHist[i]->GetBinContent(NBINS+1));
-    cout << ChargedHist[i]->GetName() << " = " << ChargedHist[i]->Integral() << endl;
-    //hists[i]->Write();
-  }
+  //for (int i=0; i<561; i++)
+  //{
+  //  ChargedHist[i]->SetBinContent(NBINS,ChargedHist[i]->GetBinContent(NBINS)+ChargedHist[i]->GetBinContent(NBINS+1));
+  //  cout << ChargedHist[i]->GetName() << " = " << ChargedHist[i]->Integral() << endl;
+  //  //hists[i]->Write();
+  //}
 
-  for (int i=0; i<198; i++)
-  {
-    ChargedHistQCD[i]->SetBinContent(NBINS,ChargedHistQCD[i]->GetBinContent(NBINS)+ChargedHistQCD[i]->GetBinContent(NBINS+1));
-  }
+  //for (int i=0; i<198; i++)
+  //{
+  //  ChargedHistQCD[i]->SetBinContent(NBINS,ChargedHistQCD[i]->GetBinContent(NBINS)+ChargedHistQCD[i]->GetBinContent(NBINS+1));
+  //}
 
-  for (int i=0; i<3300; i++)
-  {
-    ChargedHistPDF[i]->SetBinContent(NBINS,ChargedHistPDF[i]->GetBinContent(NBINS)+ChargedHistPDF[i]->GetBinContent(NBINS+1));
-  }
+  //for (int i=0; i<3300; i++)
+  //{
+  //  ChargedHistPDF[i]->SetBinContent(NBINS,ChargedHistPDF[i]->GetBinContent(NBINS)+ChargedHistPDF[i]->GetBinContent(NBINS+1));
+  //}
 
   for (int i=0; i<6; i++)
     {
@@ -1045,7 +1052,7 @@ void model(const char *samplefilename,
       histo_diboson_EWK_CMS_PDFScaleBounding[i]->SetBinContent(NBINS,histo_diboson_EWK_CMS_PDFScaleBounding[i]->GetBinContent(NBINS)+histo_diboson_EWK_CMS_PDFScaleBounding[i]->GetBinContent(NBINS+1));
       histo_VVjjQCD_EWK_CMS_PDFScaleBounding[i]->SetBinContent(NBINS,histo_VVjjQCD_EWK_CMS_PDFScaleBounding[i]->GetBinContent(NBINS)+histo_VVjjQCD_EWK_CMS_PDFScaleBounding[i]->GetBinContent(NBINS+1));
     }
-  for (int j=0;j<718;j++){
+  for (int j=0;j<680;j++){
     histo_aqgc[j]->SetBinContent(NBINS,histo_aqgc[j]->GetBinContent(NBINS)+histo_aqgc[j]->GetBinContent(NBINS+1));
     //std::cout << "aqgc integral " << histo_aqgc[j]->Integral() << std::endl;
   }
@@ -1072,23 +1079,23 @@ void model(const char *samplefilename,
       std::cout << "bin number " << bin << " " << 1 + systQCDScale/hists[14]->GetBinContent(bin) << std::endl; 
       HistCount = 0; 
       int CountCHhist=0;
-      for (int i=0; i<3; i++)
-        {
-	  for (int j=0; j<11; j++)
-	    {
-	      systQCDScale=0;
-	      for (int k = 0; k<6; k++)
-		{
-		  //std::cout << "Let's gop " << ChargedHistQCD[HistCount]->GetName() << " " << ChargedHist[CountCHhist*17]->GetName() << std::endl;
-		  ////std::cout << "Let's gop " << ChargedHistQCD[HistCount]->GetBinContent(bin) << " " << ChargedHist[CountCHhist*17]->GetBinContent(bin) << std::endl;
-		  if(TMath::Abs(ChargedHistQCD[HistCount]->GetBinContent(bin)-ChargedHist[CountCHhist*17]->GetBinContent(bin)) > systQCDScale) systQCDScale = TMath::Abs(ChargedHistQCD[HistCount]->GetBinContent(bin)-ChargedHist[CountCHhist*17]->GetBinContent(bin));
-		  HistCount++;
-		}
-	      ChargedHist[13+CountCHhist*17]->SetBinContent(bin, ChargedHist[CountCHhist*17]->GetBinContent(bin) + systQCDScale);
-	      ChargedHist[14+CountCHhist*17]->SetBinContent(bin, ChargedHist[CountCHhist*17]->GetBinContent(bin) - systQCDScale);
-	      CountCHhist++;
-	    }
-	}
+//      for (int i=0; i<3; i++)
+//        {
+//	  for (int j=0; j<11; j++)
+//	    {
+//	      systQCDScale=0;
+//	      for (int k = 0; k<6; k++)
+//		{
+//		  //std::cout << "Let's gop " << ChargedHistQCD[HistCount]->GetName() << " " << ChargedHist[CountCHhist*17]->GetName() << std::endl;
+//		  ////std::cout << "Let's gop " << ChargedHistQCD[HistCount]->GetBinContent(bin) << " " << ChargedHist[CountCHhist*17]->GetBinContent(bin) << std::endl;
+//		  if(TMath::Abs(ChargedHistQCD[HistCount]->GetBinContent(bin)-ChargedHist[CountCHhist*17]->GetBinContent(bin)) > systQCDScale) systQCDScale = TMath::Abs(ChargedHistQCD[HistCount]->GetBinContent(bin)-ChargedHist[CountCHhist*17]->GetBinContent(bin));
+//		  HistCount++;
+//		}
+//	      ChargedHist[13+CountCHhist*17]->SetBinContent(bin, ChargedHist[CountCHhist*17]->GetBinContent(bin) + systQCDScale);
+//	      ChargedHist[14+CountCHhist*17]->SetBinContent(bin, ChargedHist[CountCHhist*17]->GetBinContent(bin) - systQCDScale);
+//	      CountCHhist++;
+//	    }
+//	}
     }
   
   std::cout << "EWK PDF uncertainties" << std::endl;
@@ -1110,22 +1117,22 @@ void model(const char *samplefilename,
       histo_VVjjQCD_EWK_CMS_PDFScaleBounding_Down->SetBinContent(bin, hists[14]->GetBinContent(bin) - systPDFScale_2);
       HistCount = 0; 
       int CountCHhist=0;
-      for (int i=0; i<3; i++)
-	{
-	  for (int k=0; k<11; k++)
-	    {
-	      double systPDFScale=0;
-	      for (int j = 0; j<100; j++)
-		{
-		  systPDFScale = systPDFScale + (ChargedHistPDF[HistCount]->GetBinContent(bin)-ChargedHist[CountCHhist*17]->GetBinContent(bin))*(ChargedHistPDF[HistCount]->GetBinContent(bin)-ChargedHist[CountCHhist*17]->GetBinContent(bin));
-		  HistCount++;
-		}
-	      systPDFScale =  sqrt(systPDFScale/99.);
-	      ChargedHist[15+CountCHhist*17]->SetBinContent(bin, ChargedHist[CountCHhist*17]->GetBinContent(bin) + systPDFScale);
-	      ChargedHist[16+CountCHhist*17]->SetBinContent(bin, ChargedHist[CountCHhist*17]->GetBinContent(bin) - systPDFScale);
-	      CountCHhist++;
-	    }
-	}
+      //for (int i=0; i<3; i++)
+	//{
+	 // for (int k=0; k<11; k++)
+	 //   {
+	 //     double systPDFScale=0;
+	 //     for (int j = 0; j<100; j++)
+	 // {
+	 //   systPDFScale = systPDFScale + (ChargedHistPDF[HistCount]->GetBinContent(bin)-ChargedHist[CountCHhist*17]->GetBinContent(bin))*(ChargedHistPDF[HistCount]->GetBinContent(bin)-ChargedHist[CountCHhist*17]->GetBinContent(bin));
+	 //   HistCount++;
+	 // }
+	 //     systPDFScale =  sqrt(systPDFScale/99.);
+	 //     ChargedHist[15+CountCHhist*17]->SetBinContent(bin, ChargedHist[CountCHhist*17]->GetBinContent(bin) + systPDFScale);
+	 //     ChargedHist[16+CountCHhist*17]->SetBinContent(bin, ChargedHist[CountCHhist*17]->GetBinContent(bin) - systPDFScale);
+	 //     CountCHhist++;
+	 //   }
+	//}
     }
   
 
@@ -1160,7 +1167,7 @@ void model(const char *samplefilename,
       TH1D  *hft1  = new TH1D(hist_name, hist_name, 50,ft1[0]-0.25,ft1[50]-0.25);
       TH1D  *hft2  = new TH1D(hist_name, hist_name, 82,ft2[0]-0.25,ft2[82]-0.25);
       
-      for(int j = 446; j<(718+446); j++)
+      for(int j = 446; j<(680+446); j++)
 	{
 	  if(j<(536))
 	    {
@@ -1314,53 +1321,53 @@ void model(const char *samplefilename,
 
 
   // Write all histograms... 
-  for (int i=0; i<79; i++)
+  for (int i=0; i<53; i++)
   {
     hists[i]->Write();
   }
-  for (int i=0; i<561; i++)
-  {
-    ChargedHist[i]->Write();
-  }
+  //for (int i=0; i<561; i++)
+  //{
+  //  ChargedHist[i]->Write();
+  //}
 
-  wjet->SetName("W1+jets");
-  wjet->SetTitle("W1+jets");
-  //wjet->SetLineColor(TColor::GetColor(222,90,106));
-  //wjet->SetFillColor(TColor::GetColor(222,90,106));
-  wjet->SetLineColor(TColor::GetColor(248,206,104));
-  wjet->SetFillColor(TColor::GetColor(248,206,104));	
-  wjet->SetLineWidth(0);
-  wjet->Write();
-  wjetup->SetName("shape_W+jetsUp");
-  wjetup->SetTitle("shape_W+jetsUp");
-  wjetup->Write();
-  wjetdown->SetName("shape_W+jetsDown");
-  wjetdown->SetTitle("shape_W+jetsDown");
-  wjetdown->Write();
-  wjetup1->SetName("shape2_W+jetsUp");
-  wjetup1->SetTitle("shape2_W+jetsUp");
-  wjetup1->Write();
-  wjetdown1->SetName("shape2_W+jetsDown");
-  wjetdown1->SetTitle("shape2_W+jetsDown");
-  wjetdown1->Write();
-  wjetup2->SetName("shape3_W+jetsUp");
-  wjetup2->SetTitle("shape3_W+jetsUp");
-  wjetup2->Write();
-  wjetdown2->SetName("shape3_W+jetsDown");
-  wjetdown2->SetTitle("shape3_W+jetsDown");
-  wjetdown2->Write();
-  wjetup3->SetName("shape4_W+jetsUp");
-  wjetup3->SetTitle("shape4_W+jetsUp");
-  wjetup3->Write();
-  wjetdown3->SetName("shape4_W+jetsDown");
-  wjetdown3->SetTitle("shape4_W+jetsDown");
-  wjetdown3->Write();
-  wjetup4->SetName("shape5_W+jetsUp");
-  wjetup4->SetTitle("shape5_W+jetsUp");
-  wjetup4->Write();
-  wjetdown4->SetName("shape5_W+jetsDown");
-  wjetdown4->SetTitle("shape5_W+jetsDown");
-  wjetdown4->Write();
+  //wjet->SetName("W1+jets");
+  //wjet->SetTitle("W1+jets");
+  ////wjet->SetLineColor(TColor::GetColor(222,90,106));
+  ////wjet->SetFillColor(TColor::GetColor(222,90,106));
+  //wjet->SetLineColor(TColor::GetColor(248,206,104));
+  //wjet->SetFillColor(TColor::GetColor(248,206,104));	
+  //wjet->SetLineWidth(0);
+  //wjet->Write();
+  //wjetup->SetName("shape_W+jetsUp");
+  //wjetup->SetTitle("shape_W+jetsUp");
+  //wjetup->Write();
+  //wjetdown->SetName("shape_W+jetsDown");
+  //wjetdown->SetTitle("shape_W+jetsDown");
+  //wjetdown->Write();
+  //wjetup1->SetName("shape2_W+jetsUp");
+  //wjetup1->SetTitle("shape2_W+jetsUp");
+  //wjetup1->Write();
+  //wjetdown1->SetName("shape2_W+jetsDown");
+  //wjetdown1->SetTitle("shape2_W+jetsDown");
+  //wjetdown1->Write();
+  //wjetup2->SetName("shape3_W+jetsUp");
+  //wjetup2->SetTitle("shape3_W+jetsUp");
+  //wjetup2->Write();
+  //wjetdown2->SetName("shape3_W+jetsDown");
+  //wjetdown2->SetTitle("shape3_W+jetsDown");
+  //wjetdown2->Write();
+  //wjetup3->SetName("shape4_W+jetsUp");
+  //wjetup3->SetTitle("shape4_W+jetsUp");
+  //wjetup3->Write();
+  //wjetdown3->SetName("shape4_W+jetsDown");
+  //wjetdown3->SetTitle("shape4_W+jetsDown");
+  //wjetdown3->Write();
+  //wjetup4->SetName("shape5_W+jetsUp");
+  //wjetup4->SetTitle("shape5_W+jetsUp");
+  //wjetup4->Write();
+  //wjetdown4->SetName("shape5_W+jetsDown");
+  //wjetdown4->SetTitle("shape5_W+jetsDown");
+  //wjetdown4->Write();
 
 
 histo_VVjjQCD_EWK_CMS_QCDScaleBounding_Up->Write();
@@ -1434,7 +1441,7 @@ histo_diboson_EWK_CMS_PDFScaleBounding_Down->Write();
 void WVChannel_GetCard_WithHiggsDistributions()
 {
   int start_s=clock(); 
-  model("DibosonBoostedElMuSamples13TeV_2019_03_29_03h24.txt",
+  model("files2016_WV.txt",
 	"ch1_splitted_TF1_WV");
 
   int stop_s=clock();
