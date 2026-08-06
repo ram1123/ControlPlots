@@ -1,0 +1,13 @@
+#  Name                     Cut string
+##########################################
+"lepton pt"	"((pTL1>25)&&(pTL2>25))"
+# HZZ2l2qNu_cutOppositeChargeFlag == 0 means it is opposite charge
+##"Opposite charge"	"(HZZ2l2qNu_cutOppositeChargeFlag==0)"
+"No b-tag"	"(HZZ2l2qNu_nMediumBtagJets==0)"
+"MET_pt" "(pT_MET>100)"
+"Mll"	"(massZ1>76&&massZ1<106)"
+"pTZ1"	"(pTZ1>55)"
+##"HZZ2l2nu_minDPhi_METAK4" "HZZ2l2nu_minDPhi_METAK4>0.5"
+"VBF category"	"(HZZ2l2nu_ifVBF==1)"
+"single lepton trigger"    "Triggers_HZZ2l2nu_SingleLep == 1"
+"pass emu selection"	"passZZ2l2nu_emuCR_Selection==1"

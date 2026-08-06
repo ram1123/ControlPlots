@@ -1,0 +1,68 @@
+# name           file_location  xspb/lumipb  otherscale nMCevents       nMCNegEvents    colorcode       stackit
+data    /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/data/data_2018_noDuplicates.root        59583        1       1       0       1       0
+Triboson /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/WWZ_4F.root    0.1707 1   248000.0    1   34  1
+Triboson /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/ZZZ.root	0.01476 1   250000.0    1   38  1
+Triboson /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/WZZ.root	0.05709	1	300000.0	1	39	1
+WJets   /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/WJetsToLNu_HT-70To100.root   1283.0  1   66220256.0    1   9   1
+WJets  /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/WJetsToLNu_HT-100To200.root  1244.0  1   51408967.0  1   41  1
+WJets  /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/WJetsToLNu_HT-200To400.root  337.8   1   58225632.0  1   42  1
+WJets  /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/WJetsToLNu_HT-400To600.root  44.93   1   7444030.0   1   43  1
+WJets  /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/WJetsToLNu_HT-600To800.root  11.19   1   7718765.0   1   44  1
+WJets /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/WJetsToLNu_HT-800To1200.root 4.926   1   7306187.0   1   45  1
+WJets  /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/WJetsToLNu_HT-1200To2500.root  1.152   1   6481518.0   1   46  1
+WJets  /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/WJetsToLNu_HT-2500ToInf.root	0.02646   1   2097648.0   1   48  1
+Dibosons   /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/WWTo2L2Nu.root    11.09   1   9994000.0   1   47  1
+Dibosons    /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/WZTo2Q2L.root 6.419   1   28576996.0  1   31  1
+Dibosons     /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/WZTo3LNu.root 5.257	1    9821283.0   1   43  1
+Dibosons  /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/ZZTo2L2Nu.root 0.9738  1   56886000.0  1   35  1
+#Dibosons   /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/ZZTo2Q2L.root  3.676   1   29357938.0  1   36  1
+gg  /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/GluGluToWWToENEN.root    0.0368  1   4904000.0  1   20  1
+gg  /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/GluGluToWWToENMN.root    0.0368  1   4928000.0  1   21  1
+gg  /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/GluGluToWWToMNMN.root    0.0368  1   4986000.0  1   22  1
+gg  /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/GluGluToContinToZZTo2e2nu.root    0.01719  1   500000.0  1   23  1
+gg  /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/GluGluToContinToZZTo2mu2nu.root    0.01719  1   500000.0  1   24  1
+Top	/eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/ST_s-channel_4f_leptonDecays.root	3.549	1	19365999.0	1	4	1
+Top /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/ST_t-channel_top_4f_InclusiveDecays.root   119.7   1   178336000.0  1   25  1
+Top /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/ST_t-channel_antitop_4f_InclusiveDecays.root   67.93   1   95627000.0  1   4  1
+Top  /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/ST_tW_top_5f_NoFullyHadronicDecays.root  34.91   1   11270430.0  1   4  1
+Top /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/ST_tW_antitop_5f_NoFullyHadronicDecays.root  34.91   1   10949620.0  1  29  1
+Top /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/tZq_ll_4f_ckm_NLO.root   0.07561 1    11916000.0  1 27  1
+Top	/eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/TTWJetsToLNu.root	0.2163	1	10450000.0	1	6	1
+Top   /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/TTTo2L2Nu.root    88.29   1   145020000.0   1   7   1
+Top /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/TTZToLLNuNu.root  0.2439  1   19608000.0  1   8   1
+DYJets  /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/drellyan_inclusive_M50.root   5765.4    1     195510810.0     1       2       1 
+#
+#
+#
+#Triboson /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/WWZ_4F.root    0.1650 1   248000.0    1   34  1
+##Triboson /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/ZZZ.root	0.01398 1   250000.0    1   38  1
+#Triboson /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/WZZ.root	0.05565	1	300000.0	1	39	1
+#WJets   /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/WJetsToLNu_HT-70To100.root   1283.0  1   66220256.0    1   9   1
+#WJets  /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/WJetsToLNu_HT-100To200.root  1345.0  1   51408967.0  1   41  1
+#WJets  /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/WJetsToLNu_HT-200To400.root  359.7   1   58225632.0  1   42  1
+##WJets  /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/WJetsToLNu_HT-600To800.root  12.05   1   7718765.0   1   44  1
+#WJets /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/WJetsToLNu_HT-800To1200.root 5.501   1   7306187.0   1   45  1
+###WJets  /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/WJetsToLNu_HT-1200To2500.root  1.329   1   6481518.0   1   46  1
+#WJets  /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/WJetsToLNu_HT-2500ToInf.root      0.03216   1   2097648.0   1   48  1
+#Dibosons   /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/WWTo2L2Nu.root    11.09   1   9994000.0   1   47  1
+#Dibosons    /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/WZTo2Q2L.root 6.411   1   28576996.0  1   31  1
+#Dibosons     /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/WZTo3LNu.root 5.257	1    9821283.0   1   43  1
+#Dibosons  /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/ZZTo2L2Nu.root 0.9738  1   56886000.0  1   35  1
+#Dibosons   /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/ZZTo2Q2L.root  3.676   1   29357938.0  1   36  1
+#Dibosons /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/GluGluToWWToENEN.root    36.8  1   4904000.0  1   20  1
+#Dibosons /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/GluGluToWWToENMN.root    36.8  1   4928000.0  1   21  1
+#Dibosons /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/GluGluToWWToMNMN.root    36.8  1   4986000.0  1   22  1
+#Dibosons /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/GluGluToContinToZZTo2e2nu.root    17.19  1   500000.0  1   23  1
+#Dibosons /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/GluGluToContinToZZTo2mu2nu.root    17.19  1   500000.0  1   24  1
+#Top	/eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/ST_s-channel_4f_leptonDecays.root	3.549	1	19365999.0	1	4	1
+#Top	/eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/ST_tW_top_5f_inclusiveDecays.root	34.91 1	7956000.0	1	5	1
+#Top	/eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/TTWJetsToLNu.root	0.2043	1	10450000.0	1	6	1
+#Top   /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/TTTo2L2Nu.root    88.29   1   145020000.0   1   7   1
+#Top /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/TTZToLLNuNu.root  0.2529  1   19608000.0  1   8   1
+#Top /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/ST_t-channel_top_4f_InclusiveDecays.root 119.7   1   178336000.0  1   25  1
+#Top /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/ST_t-channel_antitop_4f_InclusiveDecays.root 67.93   1   95627000.0  1   26  1
+#Top /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/tZq_ll_4f_ckm_NLO.root   0.07561 1    11916000.0  27  1
+#Top /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/ST_tW_top_5f_NoFullyHadronicDecays.root  34.91   1   11270430.0  28  1
+#Top /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/ST_tW_antitop_5f_NoFullyHadronicDecays.root  34.91   1   10949620.0  29  1
+#DYJets  /eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/drellyan_inclusive_M50.root   5765.4    1     195510810.0     1       2       1 
+#DYJets	/eos/user/a/avijay/Mergedrootfiles_hzz_new/file_110125/drellyan_inclusive_M10to50.root  18610   1   99177236.0	1	7	1

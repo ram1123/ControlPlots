@@ -85,7 +85,7 @@ void Tokenize(const std::string& str,
     pos = src.find_first_of(delimiters, lastPos);
 
   }
-  //cout << "tokens.size() = " << tokens.size() <<endl;
+  //cout << "tokens.size() = " << tokens.size() <<std::endl;
 }                                                            // Tokenize
 
 //======================================================================
@@ -105,27 +105,27 @@ std::string stripDirsAndSuffix(const std::string& input)
 
 //======================================================================
 
-void expandGlob(const string& globstr,
-		vector<string>& outpaths)
+void expandGlob(const std::string& globstr,
+		std::vector<std::string>& outpaths)
 {
   glob_t globbuf;
 
   int stat = glob (globstr.c_str(), GLOB_MARK, NULL, &globbuf);
   if (stat) {
     switch (stat) {
-    case GLOB_NOMATCH: cerr << "No file matching glob pattern "; break;
-    case GLOB_NOSPACE: cerr << "glob ran out of memory "; break;
-    case GLOB_ABORTED: cerr << "glob read error "; break;
-    default: cerr << "unknown glob error stat=" << stat << " "; break;
+    case GLOB_NOMATCH: std::cerr << "No file matching glob pattern "; break;
+    case GLOB_NOSPACE: std::cerr << "glob ran out of memory "; break;
+    case GLOB_ABORTED: std::cerr << "glob read error "; break;
+    default: std::cerr << "unknown glob error stat=" << stat << " "; break;
     }
-    cerr << globstr << endl;
+    std::cerr << globstr << std::endl;
     exit(-1);
   }
-      
-  for (size_t i=0; i<globbuf.gl_pathc; i++)
-    outpaths.push_back(string(globbuf.gl_pathv[i]));
 
-  if (globbuf.gl_pathc) 
+  for (size_t i=0; i<globbuf.gl_pathc; i++)
+    outpaths.push_back(std::string(globbuf.gl_pathv[i]));
+
+  if (globbuf.gl_pathc)
     globfree(&globbuf);
 }
 

@@ -1,0 +1,14 @@
+#  Name                     Cut string
+##########################################
+"muon/eletcron channel"  "((HZZ2l2qNu_isELE == 0)||(HZZ2l2qNu_isELE == 1))"
+"lepton pt"	"((pTL1>40)&&(pTL2>24))"
+# HZZ2l2qNu_cutOppositeChargeFlag == 0 means it is opposite charge
+"Opposite charge"	"(HZZ2l2qNu_cutOppositeChargeFlag==0)"
+"No b-tag"	"(HZZ2l2qNu_nMediumBtagJets==0)"
+"MET_pt" "(PuppiMET_pt>100)"
+"Mll"	"(massZ1<76||massZ1>106)"
+"pTZ1"	"(pTZ1>55)"
+##"HZZ2l2nu_minDPhi_METAK4" "HZZ2l2nu_minDPhi_METAK4>0.5"
+"VBF category"	"(HZZ2l2nu_ifVBF==1)"
+"single lepton trigger"    "Triggers_HZZ2l2nu_SingleLep == 1"
+"pass 2l2nu selection"	"passZZ2l2nuSelection==1"

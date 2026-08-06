@@ -11,10 +11,11 @@
 <!-- /TOC -->
 # Set-up instructions
 
-	cmsrel CMSSW_9_0_1
-	cd CMSSW_9_0_1/src
+    ```bash
 	git clone git@github.com:osWW-VBS/ControlPlots.git
 	cd ControlPlots
+	source /cvmfs/sft.cern.ch/lcg/views/dev4cuda/latest/x86_64-el9-gcc11-opt/setup.sh
+	```
 
 * Prepare "InData" and "OutDir" directories; e.g.,
 
